@@ -1,5 +1,7 @@
 package Libraries;
 
+import utilities.*;
+
 public class KeyWord {
 
 	Keyword_CRM KC = new Keyword_CRM();
@@ -14,6 +16,15 @@ public class KeyWord {
 	Keyword_FixedLine KF = new Keyword_FixedLine();
 	Keyword_DB KDB = new Keyword_DB();
 	Keyword_OSM KO = new Keyword_OSM();
+	
+	Dialers KDialers = new Dialers();
+	SetCapabilities KSetCapabilities = new SetCapabilities();
+	MobileRTBCheck KRTB = new MobileRTBCheck();
+	Charging KCharging = new Charging();
+	Notification KNotification = new Notification();
+	Handset KHandset = new Handset();
+	USSD KUSSD = new USSD();
+	Siebel KSiebel = new Siebel();
 
 	// ------------------Keyword CRM -------------------//
 	public String Siebel_Login() {
@@ -331,4 +342,114 @@ public class KeyWord {
 		return KDB.DBDisconnection();
 	}
 	// ---------------------Keyword CRM/BRM DB------------------------//
+	
+	// ---------------------Mobile Usages------------------------//
+		public String Dialer() {
+			return KDialers.Dialer();
+		}
+
+		public String CheckUnBarringCall() {
+			return KDialers.CheckUnBarringCall();
+		}
+
+		public String CheckBarringCall() {
+			return KDialers.CheckBarringCall();
+		}
+
+		public String smsSender() {
+			return KDialers.smsSender();
+		}
+
+		public String BalanceCheckDialer() {
+			return KDialers.BalanceCheckDialer();
+		}
+
+		public String RechargeDialer() {
+			return KDialers.RechargeDialer();
+		}
+
+		public String setMessengerCapabilities() {
+			return KSetCapabilities.setMessengerCapabilities();
+		}
+
+		public String SetCallCapabilities() {
+			return KSetCapabilities.setDialerCapabilities();
+		}
+
+		public String PrevCheckBalance() {
+			return KRTB.PrevCheckBalance();
+		}
+
+		public String PostCheckBalance() {
+			return KRTB.PostCheckBalance();
+		}
+
+		public String LocalCallCharging() {
+			return KCharging.LocalCallCharging();
+		}
+
+		public String LocalSMSCharging() {
+			return KCharging.LocalSMSCharging();
+		}
+
+		public String InternationalCallCharging() {
+			return KCharging.InternationalCallCharging();
+		}
+
+		public String InternationalSMSCharging() {
+			return KCharging.InternationalSMSCharging();
+		}
+
+		public String BalanceCheck() {
+			return KNotification.BalanceCheck();
+		}
+
+		public String FlexBalanceCheck() {
+			return KNotification.FlexBalanceCheck();
+		}
+
+		public String ProductInfoNotification() {
+			return KNotification.ProductInfoNotification();
+		}
+
+		public String ConfigureSMSC() {
+			return KHandset.ConfigureSMSC();
+		}
+
+		public String RestartMobile() {
+			return KHandset.RestartMobile();
+		}
+
+		public String VerifyRecharge() {
+			return KUSSD.VerifyRecharge();
+		}
+
+		public String USSDJourney() {
+			return KUSSD.USSDJourney();
+		}
+
+		public String InvokeUSSDMenu() {
+			return KUSSD.InvokeUSSDMenu();
+		}
+
+		public String USSDCleaner() {
+			return KUSSD.USSDCleaner();
+		}
+
+		public String PunchRechargePIN() {
+			return KUSSD.PunchRechargePIN();
+		}
+
+		public String VerifyProductActivationPrepaid() {
+			return KUSSD.VerifyProductActivationPrepaid();
+		}
+
+		public String SearchAsset() {
+			return KSiebel.SearchAsset();
+		}
+
+		public String CheckOrder() {
+			return KSiebel.CheckOrder();
+		}
+		// ---------------------Mobile Usages------------------------//
 }

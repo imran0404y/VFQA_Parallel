@@ -120,7 +120,7 @@ public class Keyword_CRM extends Driver {
 			Browser.WebButton.waittillvisible("VQ_Logout");
 			Browser.WebButton.click("VQ_Logout");
 			cDriver.get().close();
-
+			cDriver.get().quit();
 			CO.ToWait();
 
 			if (Continue.get()) {

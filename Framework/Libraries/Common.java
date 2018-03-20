@@ -541,6 +541,7 @@ public class Common extends Driver {
 			Browser.WebButton.click("InstalledAssert_Go");
 
 			Result.takescreenshot("");
+			waitforload();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -569,7 +570,10 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public void InstalledAssertChange(String Text) {
 		try {
-			if (Browser.WebButton.exist("Installed_Assert_Menu")) {
+			if (Browser.WebButton.exist("Prod_Serv_Menu")) {
+				scroll("Prod_Serv_Menu", "WebButton");
+				Browser.WebButton.click("Prod_Serv_Menu");
+			} else if (Browser.WebButton.exist("Installed_Assert_Menu")) {
 				scroll("Installed_Assert_Menu", "WebButton");
 				Browser.WebButton.click("Installed_Assert_Menu");
 			} else if (Browser.WebButton.exist("ServicePoi_Menu")) {
@@ -579,8 +583,8 @@ public class Common extends Driver {
 				scroll("CreditAlert_Menu", "WebButton");
 				Browser.WebButton.click("CreditAlert_Menu");
 			} else {
-				scroll("Prod_Serv_Menu", "WebButton");
-				Browser.WebButton.click("Prod_Serv_Menu");
+				Result.fUpdateLog("No Objts identified in InstalledAssertChange");
+				Continue.set(false);
 			}
 			waitforload();
 			String[] objprop = Utlities.FindObject("Menu_Selection", "WebButton");

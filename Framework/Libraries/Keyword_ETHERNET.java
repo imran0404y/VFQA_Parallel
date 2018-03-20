@@ -583,6 +583,7 @@ public class Keyword_ETHERNET extends Driver {
 			Test_OutPut += KC.OrderSubmission().split("@@")[1];
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -670,6 +671,7 @@ public class Keyword_ETHERNET extends Driver {
 				Result.takescreenshot("Account Created Account NO : " + Account_No);
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -885,6 +887,7 @@ public class Keyword_ETHERNET extends Driver {
 			}
 		} catch (Exception e) {
 			Status = "FAIL";
+			Continue.set(false);
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
@@ -1106,6 +1109,7 @@ public class Keyword_ETHERNET extends Driver {
 			}
 		} catch (Exception e) {
 			Status = "FAIL";
+			Continue.set(false);
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
@@ -1327,6 +1331,7 @@ public class Keyword_ETHERNET extends Driver {
 			}
 		} catch (Exception e) {
 			Status = "FAIL";
+			Continue.set(false);
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
@@ -1423,6 +1428,7 @@ public class Keyword_ETHERNET extends Driver {
 			}
 		} catch (Exception e) {
 			Status = "FAIL";
+			Continue.set(false);
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
@@ -1505,6 +1511,7 @@ public class Keyword_ETHERNET extends Driver {
 
 		} catch (Exception e) {
 			Status = "FAIL";
+			Continue.set(false);
 			Result.takescreenshot("Exception occurred");
 			Test_OutPut += "Exception occurred" + ",";
 			Result.fUpdateLog("Exception occurred *** " + e.getMessage());

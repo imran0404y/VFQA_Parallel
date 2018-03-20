@@ -556,6 +556,7 @@ public class Keyword_IPLC extends Driver {
 			Test_OutPut += KC.OrderSubmission().split("@@")[1];
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -643,6 +644,7 @@ public class Keyword_IPLC extends Driver {
 				Result.takescreenshot("Account Created Account NO : " + Account_No);
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -867,6 +869,7 @@ public class Keyword_IPLC extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -1088,6 +1091,7 @@ public class Keyword_IPLC extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -1309,6 +1313,7 @@ public class Keyword_IPLC extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -1405,6 +1410,7 @@ public class Keyword_IPLC extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
@@ -1487,6 +1493,7 @@ public class Keyword_IPLC extends Driver {
 			}
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Result.takescreenshot("Exception occurred");
 			Test_OutPut += "Exception occurred" + ",";

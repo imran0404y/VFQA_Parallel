@@ -631,6 +631,7 @@ public class Keyword_Guided extends Driver
 			}
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -849,6 +850,7 @@ public class Keyword_Guided extends Driver
 			}
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Result.takescreenshot("Exception occurred");
 			Test_OutPut += "Exception occurred" + ",";
@@ -1027,6 +1029,7 @@ public class Keyword_Guided extends Driver
 				Status = "FAIL";
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Result.takescreenshot("Exception occurred");
 			Test_OutPut += "Exception occurred" + ",";

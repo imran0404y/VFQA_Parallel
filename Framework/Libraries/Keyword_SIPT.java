@@ -272,6 +272,7 @@ public class Keyword_SIPT extends Driver {
 			}
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -334,35 +335,8 @@ public class Keyword_SIPT extends Driver {
 				Result.fUpdateLog("Alert Handled");
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 		}
 	}
-
-	/*---------------------------------------------------------------------------------------------------------
-	 * Method Name			: Number_Selection
-	 * Use 					: To Select a specific Number from Number Popup
-	 * Designed By			: Vinodhini Raviprasad
-	 * Last Modified Date 	: 29-October-2017
-	--------------------------------------------------------------------------------------------------------
-	
-	public void Number_Selection(String MSISDN) {
-		try {
-			Browser.WebButton.waittillvisible("Reserved_Ok");
-			Browser.WebButton.waitTillEnabled("Reserved_Ok");
-			CO.waitforload();
-			int Row_Count = Browser.WebTable.getRowCount("Number_Selection");
-			int Col = CO.PopupHeader("Number_Selection", "Number");
-			if (Row_Count > 1) {
-				for (int R = 2; R <= Row_Count; R++)
-					if ((Browser.WebTable.getCellData("Number_Selection", R, Col)).equals(MSISDN)) {
-						Browser.WebTable.click("Number_Selection", R, Col + 1);
-						Result.takescreenshot("Number Selection " + MSISDN);
-						Browser.WebButton.click("Reserved_Ok");
-						break;
-					}
-			} else
-				Continue.set(false);
-		} catch (Exception e) {
-		}
-	}*/
 
 }

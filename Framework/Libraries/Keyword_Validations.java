@@ -60,6 +60,7 @@ public class Keyword_Validations extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Exception occurred" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";

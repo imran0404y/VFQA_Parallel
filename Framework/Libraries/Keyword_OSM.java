@@ -62,6 +62,7 @@ public class Keyword_OSM extends Driver {
 				Status = "FAIL";
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
@@ -304,6 +305,7 @@ public class Keyword_OSM extends Driver {
 				Status = "FAIL";
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));

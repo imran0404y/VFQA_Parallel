@@ -21,6 +21,7 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -48,6 +49,7 @@ public class Common extends Driver {
 	 * Last Modified Date 	: 24-Aug-2017
 	--------------------------------------------------------------------------------------------------------*/
 	public void waitforload() {
+		cDriver.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		Method.waitForPageToLoad(cDriver.get(), 2);
 	}
 
@@ -71,7 +73,14 @@ public class Common extends Driver {
 	 * Last Modified Date 	: 24-Aug-2017
 	--------------------------------------------------------------------------------------------------------*/
 	public void waitmoreforload() {
-		Method.waitForPageToLoad(cDriver.get(), 30);
+		try {
+			cDriver.get().manage().timeouts().implicitlyWait(240, TimeUnit.SECONDS);
+			Thread.sleep(10000);
+			Method.waitForPageToLoad(cDriver.get(), 30);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+		}
 
 	}
 
@@ -82,6 +91,7 @@ public class Common extends Driver {
 			i = i * 60 * 1000;
 			Thread.sleep(i);
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -125,6 +135,7 @@ public class Common extends Driver {
 			if (time > 40)
 				Continue.set(false);
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -141,8 +152,9 @@ public class Common extends Driver {
 			WebElement scr1 = cDriver.get().findElement(By.xpath(objprop[0]));
 			((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
 			Thread.sleep(1500);
-		} catch (Exception E) {
+		} catch (Exception e) {
 			Continue.set(false);
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -383,7 +395,7 @@ public class Common extends Driver {
 				}
 			}
 		} catch (Exception e) {
-
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -444,6 +456,7 @@ public class Common extends Driver {
 				Account_Search(Reference);
 
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -487,6 +500,7 @@ public class Common extends Driver {
 				Continue.set(false);
 
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -545,6 +559,7 @@ public class Common extends Driver {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -558,6 +573,7 @@ public class Common extends Driver {
 			Text_Select("button", "Now");
 			Text_Select("button", "Done");
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -597,6 +613,7 @@ public class Common extends Driver {
 				Continue.set(false);
 			waitforload();
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -640,6 +657,7 @@ public class Common extends Driver {
 
 			}
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -666,6 +684,7 @@ public class Common extends Driver {
 		}
 
 		catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -716,6 +735,7 @@ public class Common extends Driver {
 
 			}
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -755,6 +775,7 @@ public class Common extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -778,6 +799,7 @@ public class Common extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -801,6 +823,7 @@ public class Common extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -994,6 +1017,7 @@ public class Common extends Driver {
 			Result.fUpdateLog("Installed Assert");
 
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -1058,6 +1082,7 @@ public class Common extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -1189,7 +1214,7 @@ public class Common extends Driver {
 			soapConnection.close();
 
 		} catch (Exception e) {
-			Result.fUpdateLog("Exception occurred *** " + e.getMessage());
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 
 		}
@@ -1262,6 +1287,7 @@ public class Common extends Driver {
 			}
 			return billingcycle;
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			return "";
 		}
 	}
@@ -1380,7 +1406,7 @@ public class Common extends Driver {
 
 		} catch (Exception e) {
 			Utlities.StoreValue("Order_Creation_Date", OrderDate.get());
-
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -1440,6 +1466,7 @@ public class Common extends Driver {
 			Browser.WebButton.click("Popup_Go");
 			waitforload();
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 
@@ -1515,6 +1542,7 @@ public class Common extends Driver {
 			} else
 				Driver.Continue.set(false);
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -1586,6 +1614,7 @@ public class Common extends Driver {
 			} else
 				Continue.set(false);
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -1624,6 +1653,7 @@ public class Common extends Driver {
 			}
 
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 	}
@@ -1732,6 +1762,7 @@ public class Common extends Driver {
 		} catch (Exception e) {
 			Driver.Continue.set(false);
 			Result.fUpdateLog("Failed to Upload");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 
 	}
@@ -1899,6 +1930,7 @@ public class Common extends Driver {
 			}
 		} catch (Exception e) {
 			Result.fUpdateLog("Exception Occcurred in Global Search");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Continue.set(false);
 		}
 	}
@@ -1940,6 +1972,7 @@ public class Common extends Driver {
 			}
 			return true;
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			return false;
 		}
 	}
@@ -1982,6 +2015,7 @@ public class Common extends Driver {
 				return false;
 			}
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			return false;
 		}
 
@@ -2019,6 +2053,7 @@ public class Common extends Driver {
 			}
 			return true;
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Continue.set(false);
 			return false;
 		}
@@ -2063,6 +2098,7 @@ public class Common extends Driver {
 			}
 		} catch (Exception e) {
 			Result.fUpdateLog("Exception Occcurred in Account 360");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Continue.set(false);
 		}
 	}
@@ -2102,6 +2138,7 @@ public class Common extends Driver {
 				ORconn.close();
 			}
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 			Continue.set(false);
 		}
@@ -2184,6 +2221,7 @@ public class Common extends Driver {
 			Continue.set(false);
 			Result.takescreenshot("Failed to Query Credit Alert Account");
 			Result.fUpdateLog("Failed to Query Credit Alert Account");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -2215,6 +2253,7 @@ public class Common extends Driver {
 			Continue.set(false);
 			Result.takescreenshot("Failed to Query Credit Alert Account");
 			Result.fUpdateLog("Failed to Query Credit Alert Account");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -2257,6 +2296,7 @@ public class Common extends Driver {
 			Browser.WebTable.clickL("Order_Table", Tgt_Row, Col);
 		} catch (Exception e) {
 			Continue.set(false);
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -2305,6 +2345,7 @@ public class Common extends Driver {
 			Browser.WebTable.clickL("Order_Table", Tgt_Row, Col);
 		} catch (Exception e) {
 			Continue.set(false);
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -2368,6 +2409,7 @@ public class Common extends Driver {
 			Browser.WebTable.clickL("Order_Table", Tgt_Row1, Col);
 		} catch (Exception e) {
 			Continue.set(false);
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -2477,6 +2519,7 @@ public class Common extends Driver {
 		} catch (Exception e) {
 			Continue.set(false);
 			Result.fUpdateLog("Exception occured during Postpaid to Prepaid transition");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 

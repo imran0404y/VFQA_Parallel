@@ -33,21 +33,18 @@ public class Method extends Driver {
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			JavascriptExecutor js = (JavascriptExecutor) cDriver.get();
 			String command = "return document.readyState";
-			String jquercommand = "return jQuery.active";
 			// Check the readyState before doing any waits
-			if (!js.executeScript(jquercommand).toString().equalsIgnoreCase("0")
-					& !js.executeScript(command).toString().equals("complete")) {
+			if (js.executeScript(command).toString().equals("complete")) {
 				return;
-			} else
-				for (int i = 0; i < timeOutInSeconds; i++) {
-					if (js.executeScript(command).toString().equals("complete")
-							& js.executeScript(jquercommand).toString().equalsIgnoreCase("0")) {
-						break;
-					}
-					Thread.sleep(1000);
+			}
+			for (int i = 0; i < timeOutInSeconds; i++) {
+				if (js.executeScript(command).toString().equals("complete")) {
+					break;
 				}
+				Thread.sleep(1000);
+			}
 		} catch (Exception e) {
-			Result.fUpdateLog("Object does't Exists waitForPageToLoad : "+ExceptionUtils.getStackTrace(e));
+			Result.fUpdateLog("Object does't Exists waitForPageToLoad : " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
@@ -534,7 +531,7 @@ public class Method extends Driver {
 	public static void waittillobjvisible(String[] identify) {
 		String vis = "false";
 		int countval = 1;
-		while (countval < 3) {
+		while (countval < 5) {
 			int i = 0;
 			for (i = 0; i < identify.length;) {
 				try {

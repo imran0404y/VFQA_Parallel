@@ -351,6 +351,7 @@ public class Keyword_FixedLine extends Driver {
 
 		} catch (Exception e) {
 			Status = "FAIL";
+			Continue.set(false);
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
@@ -518,7 +519,7 @@ public class Keyword_FixedLine extends Driver {
 			}
 
 		} catch (Exception e) {
-
+			Continue.set(false);
 			Result.takescreenshot("Exception occurred");
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
@@ -682,6 +683,7 @@ public class Keyword_FixedLine extends Driver {
 
 		} catch (Exception e) {
 			Status = "FAIL";
+			Continue.set(false);
 			Result.takescreenshot("Exception occurred");
 			Test_OutPut += "Exception occurred" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
@@ -722,6 +724,7 @@ public class Keyword_FixedLine extends Driver {
 			}
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Result.takescreenshot("Exception occurred");
 			Test_OutPut += "Exception occurred" + ",";

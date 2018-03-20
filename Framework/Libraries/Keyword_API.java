@@ -38,6 +38,7 @@ public class Keyword_API extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Failed at URL Fetch" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";
@@ -134,6 +135,7 @@ public class Keyword_API extends Driver {
 					Status = "FAIL";
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
@@ -238,6 +240,7 @@ public class Keyword_API extends Driver {
 					Status = "FAIL";
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
@@ -346,6 +349,7 @@ public class Keyword_API extends Driver {
 				}
 			}
 		} catch (Exception e) {
+			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));

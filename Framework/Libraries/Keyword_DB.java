@@ -37,6 +37,7 @@ public class Keyword_DB extends Driver {
 			Test_OutPut += "Connected to DB: " + Host + ",";
 			Status = "PASS";
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Unable to connect to DB: " + Host + ServiceName + ",";
 			Result.fUpdateLog("Unable to connect to DB *** " + e.getMessage());
 			Status = "FAIL";
@@ -55,6 +56,7 @@ public class Keyword_DB extends Driver {
 			Test_OutPut += "DB disconnected successfully" + ",";
 			Status = "PASS";
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Failed to disconnect DB" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";
@@ -93,6 +95,7 @@ public class Keyword_DB extends Driver {
 				Status = "PASS";
 
 			} catch (Exception e) {
+				Continue.set(false);
 				Test_OutPut += "Failed to BillPoID" + ",";
 				Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 				Status = "FAIL";

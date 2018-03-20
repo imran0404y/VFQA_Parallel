@@ -49,6 +49,7 @@ public class Keyword_Putty extends Driver {
 			Test_OutPut += "Session Connected to: " + str_Host + ",";
 			Status = "PASS";
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Session Connection Failed at Host: " + str_Host + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";
@@ -69,6 +70,7 @@ public class Keyword_Putty extends Driver {
 			Test_OutPut += "Session disconnected successfully" + ",";
 			Status = "PASS";
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Failed to disconnect session" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";
@@ -163,6 +165,7 @@ public class Keyword_Putty extends Driver {
 			}
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Failed to disconnect session" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";
@@ -313,6 +316,7 @@ public class Keyword_Putty extends Driver {
 			}
 
 		} catch (Exception e) {
+			Continue.set(false);
 			Test_OutPut += "Failed to disconnect session" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";
@@ -378,6 +382,7 @@ public class Keyword_Putty extends Driver {
 				}
 
 			} catch (Exception e) {
+				Continue.set(false);
 				Test_OutPut += "Failed to disconnect session" + ",";
 				Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 				Status = "FAIL";

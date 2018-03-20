@@ -198,6 +198,10 @@ public class KeyWord {
 	public String Change_PrimaryNumber() {
 		return KC.Change_PrimaryNumber();
 	}
+	
+	public String LanguageChange(){
+		return KC.LanguageChange();
+	}
 	// ------------------Keyword CRM -------------------//
 
 	// ------------------Keyword Guided -------------------//

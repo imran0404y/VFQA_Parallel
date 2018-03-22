@@ -493,7 +493,7 @@ public class Common extends Driver {
 
 				// Comment for QA6
 				if (Browser.WebLink.exist("Acc_Portal")) {
-					
+
 					Browser.WebLink.click("Acc_Portal");
 				}
 				Result.fUpdateLog("Account Search is done Successfully ");
@@ -898,51 +898,53 @@ public class Common extends Driver {
 				}
 			}
 			if (Pay_Type.equalsIgnoreCase("Postpaid")) {
-			int k = 1;
-			boolean a = true;
-			do {
-				k++;
-				waitforload();
-				Result.fUpdateLog("Billing Profile Page Loading.....");
-				if (Browser.WebButton.waitTillEnabled("Bill_Valid_Name")) {
-					a = false;
-				} else if (k < 20) {
-					a = false;
-				}
-			} while (a);
-
-			waitforload();
-			Browser.WebButton.click("UnbilledUsage_Button");
-			Result.takescreenshot("Unbilled Usage");
-			TabNavigator("Real Time Balance");
-			k = 1;
-			a = true;
-			do {
-				k++;
-				waitforload();
-				Result.fUpdateLog("Real Time Balance Page Loading.....");
-				if (Browser.WebButton.waitTillEnabled("RTB_Valid_Name")) {
-					a = false;
-				} else if (k < 20) {
-					a = false;
-				}
-			} while (a);
-
-			scroll("RTB_Valid_Name", "WebButton");
-			Result.takescreenshot("Real Time Balance");
-			int Rowcount = Browser.WebTable.getRowCount("RTB_Table");
-			if (Rowcount >= 2) {
-				for (int i = 1; i <= Rowcount; i++) {
-
-					if (Browser.WebTable.getCellData("RTB_Table", Rowcount, 3).equalsIgnoreCase(MSISDN)) {
-						Browser.WebTable.click("RTB_Table", Rowcount, 2);
-						waitforload();
-						break;
+				int k = 1;
+				boolean a = true;
+				do {
+					k++;
+					waitforload();
+					Result.fUpdateLog("Billing Profile Page Loading.....");
+					if (Browser.WebButton.waitTillEnabled("Bill_Valid_Name")) {
+						a = false;
+					} else if (k < 20) {
+						a = false;
 					}
+				} while (a);
 
+				waitforload();
+				Browser.WebButton.click("UnbilledUsage_Button");
+				waitforload();
+				waitforload();
+				Result.takescreenshot("Unbilled Usage");
+				TabNavigator("Real Time Balance");
+				k = 1;
+				a = true;
+				do {
+					k++;
+					waitforload();
+					Result.fUpdateLog("Real Time Balance Page Loading.....");
+					if (Browser.WebButton.waitTillEnabled("RTB_Valid_Name")) {
+						a = false;
+					} else if (k < 20) {
+						a = false;
+					}
+				} while (a);
+
+				scroll("RTB_Valid_Name", "WebButton");
+				Result.takescreenshot("Real Time Balance");
+				int Rowcount = Browser.WebTable.getRowCount("RTB_Table");
+				if (Rowcount >= 2) {
+					for (int i = 2; i <= Rowcount; i++) {
+
+						if (Browser.WebTable.getCellData("RTB_Table", Rowcount, 2).equalsIgnoreCase(MSISDN)) {
+							Browser.WebTable.click("RTB_Table", Rowcount, 2);
+							waitforload();
+							break;
+						}
+
+					}
 				}
-			}
-			}else if (Pay_Type.equalsIgnoreCase("Prepaid")) {
+			} else if (Pay_Type.equalsIgnoreCase("Prepaid")) {
 				do {
 					scroll("RTB_Check_Button", "WebButton");
 					waitforload();
@@ -2518,7 +2520,7 @@ public class Common extends Driver {
 				}
 				waitforload();
 			}
-			
+
 		} catch (Exception e) {
 			Continue.set(false);
 			Result.fUpdateLog("Exception occured during Postpaid to Prepaid transition");

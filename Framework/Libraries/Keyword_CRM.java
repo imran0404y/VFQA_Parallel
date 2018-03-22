@@ -7998,7 +7998,7 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			RowCount = Browser.WebTable.getRowCount("Bill_Prof");
 			Col = CO.Actual_Cell("Bill_Prof", "Billing Profile Status");
-			Browser.WebTable.click("Bill_Prof", RowCount, Col);
+			Browser.WebTable.clickA("Bill_Prof", RowCount, Col);
 			CO.waitforload();
 			String BillStatus = Browser.WebTable.getCellData_title("Bill_Prof", RowCount, Col);
 			if (RowCount == 2 & BillStatus.contains("Active")) {

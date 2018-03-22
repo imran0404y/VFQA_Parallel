@@ -31,6 +31,7 @@ public class Method extends Driver {
 	public static void waitForPageToLoad(WebDriver driver, int timeOutInSeconds) {
 		try {
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			Thread.sleep(2000);
 			JavascriptExecutor js = (JavascriptExecutor) cDriver.get();
 			String command = "return document.readyState";
 			// Check the readyState before doing any waits

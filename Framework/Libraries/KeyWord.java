@@ -16,7 +16,9 @@ public class KeyWord {
 	Keyword_FixedLine KF = new Keyword_FixedLine();
 	Keyword_DB KDB = new Keyword_DB();
 	Keyword_OSM KO = new Keyword_OSM();
-	
+	Keyword_PEARL KPL = new Keyword_PEARL();
+	Keyword_DAPN KD = new Keyword_DAPN();
+
 	Dialers KDialers = new Dialers();
 	SetCapabilities KSetCapabilities = new SetCapabilities();
 	MobileRTBCheck KRTB = new MobileRTBCheck();
@@ -38,11 +40,11 @@ public class KeyWord {
 	public String ContactCreation() {
 		return KC.ContactCreation();
 	}
-	
+
 	public String AccountCreation() {
 		return KC.AccountCreation();
 	}
-	
+
 	public String AddressCreation() {
 		return KC.AddressCreation();
 	}
@@ -102,7 +104,7 @@ public class KeyWord {
 	public String RealTimeBalance_Screen() {
 		return KC.RealTimeBalance_Screen();
 	}
-	
+
 	public String ModifySmartLimit() {
 		return KC.ModifySmartLimit();
 	}
@@ -110,7 +112,7 @@ public class KeyWord {
 	public String ModifySmartLimit_Acc360() {
 		return KC.ModifySmartLimit_Acc360();
 	}
-	
+
 	public String BillPayment() {
 		return KC.BillPayment();
 	}
@@ -158,7 +160,7 @@ public class KeyWord {
 	public String TransferOfOwnership_E2C() {
 		return KC.TransferOfOwnership_E2C();
 	}
-	
+
 	public String ServicePoint() {
 		return KC.ServicePoint();
 	}
@@ -194,12 +196,12 @@ public class KeyWord {
 	public String CollectionExit() {
 		return KC.CollectionExit();
 	}
-	
+
 	public String Change_PrimaryNumber() {
 		return KC.Change_PrimaryNumber();
 	}
-	
-	public String LanguageChange(){
+
+	public String LanguageChange() {
 		return KC.LanguageChange();
 	}
 	// ------------------Keyword CRM -------------------//
@@ -278,6 +280,12 @@ public class KeyWord {
 	}
 
 	// ---------------------Keyword LEASEDLINE------------------------//
+	// ---------------------Keyword_DAPN------------------------//
+
+	public String PlanSelection_DAPN() {
+		return KD.PlanSelection_DAPN();
+	}
+	// ---------------------Keyword_DAPN------------------------//
 
 	// ---------------------Keyword Putty------------------------//
 
@@ -302,7 +310,7 @@ public class KeyWord {
 	}
 	// ---------------------Keyword Putty------------------------//
 
-	// ---------------------Keyword_OSM------------------------//
+	// ---------------------Keyword_FixedLine------------------------//
 
 	public String PlanSelection_FL() {
 		return KF.PlanSelection_FL();
@@ -330,6 +338,11 @@ public class KeyWord {
 	public String OSM_SearchFL() {
 		return KO.OSM_SearchFL();
 	}
+	
+	public String OSM_Pearl_data() {
+		return KO.OSM_Pearl_data();
+	}
+
 
 	// ---------------------Keyword_OSM------------------------//
 
@@ -346,114 +359,124 @@ public class KeyWord {
 		return KDB.DBDisconnection();
 	}
 	// ---------------------Keyword CRM/BRM DB------------------------//
-	
+
+	// ---------------------Keyword_PEARL------------------------//
+	public String PlanSelection_Pearl() {
+		return KPL.PlanSelection_Pearl();
+	}
+
+	public String PlanSelection_Data_Pearl() {
+		return KPL.PlanSelection_Data_Pearl();
+	}
+	// ---------------------Keyword_PEARL------------------------//
+
 	// ---------------------Mobile Usages------------------------//
-		public String Dialer() {
-			return KDialers.Dialer();
-		}
+	public String Dialer() {
+		return KDialers.Dialer();
+	}
 
-		public String CheckUnBarringCall() {
-			return KDialers.CheckUnBarringCall();
-		}
+	public String CheckUnBarringCall() {
+		return KDialers.CheckUnBarringCall();
+	}
 
-		public String CheckBarringCall() {
-			return KDialers.CheckBarringCall();
-		}
+	public String CheckBarringCall() {
+		return KDialers.CheckBarringCall();
+	}
 
-		public String smsSender() {
-			return KDialers.smsSender();
-		}
+	public String smsSender() {
+		return KDialers.smsSender();
+	}
 
-		public String BalanceCheckDialer() {
-			return KDialers.BalanceCheckDialer();
-		}
+	public String BalanceCheckDialer() {
+		return KDialers.BalanceCheckDialer();
+	}
 
-		public String RechargeDialer() {
-			return KDialers.RechargeDialer();
-		}
+	public String RechargeDialer() {
+		return KDialers.RechargeDialer();
+	}
 
-		public String setMessengerCapabilities() {
-			return KSetCapabilities.setMessengerCapabilities();
-		}
+	public String setMessengerCapabilities() {
+		return KSetCapabilities.setMessengerCapabilities();
+	}
 
-		public String SetCallCapabilities() {
-			return KSetCapabilities.setDialerCapabilities();
-		}
+	public String SetCallCapabilities() {
+		return KSetCapabilities.setDialerCapabilities();
+	}
 
-		public String PrevCheckBalance() {
-			return KRTB.PrevCheckBalance();
-		}
+	public String PrevCheckBalance() {
+		return KRTB.PrevCheckBalance();
+	}
 
-		public String PostCheckBalance() {
-			return KRTB.PostCheckBalance();
-		}
+	public String PostCheckBalance() {
+		return KRTB.PostCheckBalance();
+	}
 
-		public String LocalCallCharging() {
-			return KCharging.LocalCallCharging();
-		}
+	public String LocalCallCharging() {
+		return KCharging.LocalCallCharging();
+	}
 
-		public String LocalSMSCharging() {
-			return KCharging.LocalSMSCharging();
-		}
+	public String LocalSMSCharging() {
+		return KCharging.LocalSMSCharging();
+	}
 
-		public String InternationalCallCharging() {
-			return KCharging.InternationalCallCharging();
-		}
+	public String InternationalCallCharging() {
+		return KCharging.InternationalCallCharging();
+	}
 
-		public String InternationalSMSCharging() {
-			return KCharging.InternationalSMSCharging();
-		}
+	public String InternationalSMSCharging() {
+		return KCharging.InternationalSMSCharging();
+	}
 
-		public String BalanceCheck() {
-			return KNotification.BalanceCheck();
-		}
+	public String BalanceCheck() {
+		return KNotification.BalanceCheck();
+	}
 
-		public String FlexBalanceCheck() {
-			return KNotification.FlexBalanceCheck();
-		}
+	public String FlexBalanceCheck() {
+		return KNotification.FlexBalanceCheck();
+	}
 
-		public String ProductInfoNotification() {
-			return KNotification.ProductInfoNotification();
-		}
+	public String ProductInfoNotification() {
+		return KNotification.ProductInfoNotification();
+	}
 
-		public String ConfigureSMSC() {
-			return KHandset.ConfigureSMSC();
-		}
+	public String ConfigureSMSC() {
+		return KHandset.ConfigureSMSC();
+	}
 
-		public String RestartMobile() {
-			return KHandset.RestartMobile();
-		}
+	public String RestartMobile() {
+		return KHandset.RestartMobile();
+	}
 
-		public String VerifyRecharge() {
-			return KUSSD.VerifyRecharge();
-		}
+	public String VerifyRecharge() {
+		return KUSSD.VerifyRecharge();
+	}
 
-		public String USSDJourney() {
-			return KUSSD.USSDJourney();
-		}
+	public String USSDJourney() {
+		return KUSSD.USSDJourney();
+	}
 
-		public String InvokeUSSDMenu() {
-			return KUSSD.InvokeUSSDMenu();
-		}
+	public String InvokeUSSDMenu() {
+		return KUSSD.InvokeUSSDMenu();
+	}
 
-		public String USSDCleaner() {
-			return KUSSD.USSDCleaner();
-		}
+	public String USSDCleaner() {
+		return KUSSD.USSDCleaner();
+	}
 
-		public String PunchRechargePIN() {
-			return KUSSD.PunchRechargePIN();
-		}
+	public String PunchRechargePIN() {
+		return KUSSD.PunchRechargePIN();
+	}
 
-		public String VerifyProductActivationPrepaid() {
-			return KUSSD.VerifyProductActivationPrepaid();
-		}
+	public String VerifyProductActivationPrepaid() {
+		return KUSSD.VerifyProductActivationPrepaid();
+	}
 
-		public String SearchAsset() {
-			return KSiebel.SearchAsset();
-		}
+	public String SearchAsset() {
+		return KSiebel.SearchAsset();
+	}
 
-		public String CheckOrder() {
-			return KSiebel.CheckOrder();
-		}
-		// ---------------------Mobile Usages------------------------//
+	public String CheckOrder() {
+		return KSiebel.CheckOrder();
+	}
+	// ---------------------Mobile Usages------------------------//
 }

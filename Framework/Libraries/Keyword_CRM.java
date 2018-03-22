@@ -20,7 +20,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.common.base.CharMatcher;
 
 public class Keyword_CRM extends Driver {
-	public static ThreadLocal<String> Billprofile_No = new ThreadLocal<String>();
 	Common CO = new Common();
 	Random R = new Random();
 	Keyword_Validations KV = new Keyword_Validations();
@@ -91,8 +90,7 @@ public class Keyword_CRM extends Driver {
 			Test_OutPut += "Exception occurred" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";
-			// System.out.println(e);
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 		Result.fUpdateLog("------Siebel Login Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
@@ -260,7 +258,7 @@ public class Keyword_CRM extends Driver {
 				 * Browser.WebLink.click("Con_Link");
 				 */
 				int Col = CO.Select_Cell("Contact", "Last_Name");
-				Browser.WebTable.click("Contact", 2, Col);
+				Browser.WebTable.clickA("Contact", 2, Col);
 
 				// Handles Alerts
 				if (CO.isAlertExist())
@@ -1329,6 +1327,7 @@ public class Keyword_CRM extends Driver {
 				}
 
 				Account_No = Browser.WebEdit.gettext("Account_No");
+				Acc_Number.set(Account_No);
 				Random R = new Random();
 				if (!(getdata("CR_Type").equals(""))) {
 					Browser.WebEdit.Set("CR_Number", getdata("CR_Number"));
@@ -3889,8 +3888,8 @@ public class Keyword_CRM extends Driver {
 				Test_OutPut += "Please change the Primary MSISDN and ReExecute it" + ",";
 			} else {
 				CO.Assert_Search(MSISDN, "Active");
-				Col_Nam = CO.Select_Cell("Acc_Installed_Assert", "Billing Profile");
-				Bil_Profile = Browser.WebTable.getCellData("Acc_Installed_Assert", Row, Col_Nam);
+				Col_Nam = CO.Select_Cell("Installed_Assert", "Billing Profile");
+				Bil_Profile = Browser.WebTable.getCellData("Installed_Assert", Row, Col_Nam);
 
 				CO.TabNavigator("Profiles");
 
@@ -5225,7 +5224,10 @@ public class Keyword_CRM extends Driver {
 						CO.waitforload();
 						TOS_BillingProfileCreation(Ac_No, "Prepaid", "Prepaid");
 						Bil_Profile = Billprofile_No.get();
+						Test_OutPut += "MSISDN : " + MSD[k] + ",";
 						CO.PlanChangeTOO(MSD[k], GetData, Bil_Profile);
+						String Order_no1 = CO.Order_ID();
+						Test_OutPut += "Migration Order_no : " + Order_no1 + ",";
 						Browser.WebButton.waittillvisible("Validate");
 						CO.waitforload();
 						Test_OutPut += OrderSubmission().split("@@")[1];
@@ -8253,7 +8255,17 @@ public class Keyword_CRM extends Driver {
 						Browser.WebTable.click("Acc_Installed_Assert", i, Col_P + 1);
 						break;
 					}
-				Browser.WebButton.click("Assert_Modify");
+				do {
+					Browser.WebButton.click("Assert_Modify");
+					String x = Browser.WebEdit.gettext("Due_Date");
+					if (!x.contains("/")) {
+						Browser.WebButton.click("Date_Cancel");
+						CO.waitforload();
+						Browser.WebButton.click("Assert_Modify");
+					}
+					CO.waitforload();
+				} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
+
 
 			} else
 				CO.InstalledAssertChange("Modify");
@@ -8275,15 +8287,17 @@ public class Keyword_CRM extends Driver {
 			}
 			Result.takescreenshot("");
 			CO.waitforload();
+			Order_no = CO.Order_ID();
+			Utlities.StoreValue("Order_no", Order_no);
+			Test_OutPut += "Order_no : " + Order_no + ",";
+			
 			Test_OutPut += OrderSubmission().split("@@")[1];
 			CO.waitforload();
 
 			// fetching Order_no
-			Order_no = CO.Order_ID();
-			Utlities.StoreValue("Order_no", Order_no);
-			Test_OutPut += "Order_no : " + Order_no + ",";
+			
 
-			// CO.RTBScreen(MSISDN, "Active");
+			CO.RTBScreen(MSISDN, "Active");
 			CO.waitforload();
 
 			CO.ToWait();
@@ -8450,6 +8464,224 @@ public class Keyword_CRM extends Driver {
 			e.printStackTrace();
 		}
 		Result.fUpdateLog("------Language Change - Siebel - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Activities
+	 * Arguments			: None
+	 * Use 					: Creating or Closing a specific activity in Siebel
+	 * Designed By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 15-Mar-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String Activities() {
+		String Test_OutPut = "", Status = "";
+		String Channel, Priority, Comment, A_Language, Topic, Type, Sub_Topic, Interaction_Type, ContactRole, MSISDN;// Language
+																														// =
+																														// "",
+																														// GetData,
+		int Col, Row = 2;
+		Result.fUpdateLog("------ Activities Creation / Closure - Siebel ---------");
+		try {
+
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}
+
+			if (!(getdata("Activity_Channel").equals(""))) {
+				Channel = getdata("Activity_Channel");
+			} else {
+				Channel = "Appointment";// pulldata("GetData");
+			}
+
+			if (!(getdata("Priority").equals(""))) {
+				Priority = getdata("Priority");
+			} else {
+				Priority = pulldata("Priority");
+			}
+
+			if (!(getdata("Comment").equals(""))) {
+				Comment = getdata("Comment");
+			} else {
+				Comment = pulldata("Comment");
+			}
+
+			if (!(getdata("A_Language").equals(""))) {
+				A_Language = getdata("A_Language");
+			} else {
+				A_Language = pulldata("A_Language");
+			}
+
+			if (!(getdata("Topic").equals(""))) {
+				Topic = getdata("Topic");
+			} else {
+				Topic = pulldata("Topic");
+			}
+
+			if (!(getdata("Type").equals(""))) {
+				Type = getdata("Type");
+			} else {
+				Type = pulldata("Type");
+			}
+
+			if (!(getdata("Sub_Topic").equals(""))) {
+				Sub_Topic = getdata("Sub_Topic");
+			} else {
+				Sub_Topic = pulldata("Sub_Topic");
+			}
+
+			if (!(getdata("Interaction_Type").equals(""))) {
+				Interaction_Type = getdata("Interaction_Type");
+			} else {
+				Interaction_Type = pulldata("Interaction_Type");
+			}
+
+			if (!(getdata("ContactRole").equals(""))) {
+				ContactRole = getdata("ContactRole");
+			} else {
+				ContactRole = pulldata("ContactRole");
+			}
+			CO.waitmoreforload();
+
+			CO.AssertSearch(MSISDN, "Active");
+
+			if (Browser.WebLink.exist("Acc_Portal")) {
+				CO.waitforload();
+				Browser.WebLink.click("Acc_Portal");
+			}
+
+			CO.Text_Select("a", "Activities");
+			CO.waitforload();
+			int RowCount = Browser.WebTable.getRowCount("Activities");
+
+			if (TestCaseN.get().toLowerCase().contains("create")) {
+
+				Result.takescreenshot("Creating New Activity");
+				Result.fUpdateLog("Creating New Activity");
+
+				Browser.WebButton.click("NewActivity");
+				CO.waitforload();
+				int RowCount1 = Browser.WebTable.getRowCount("Activities");
+
+				if ((RowCount + 1) == RowCount1) {
+					Result.takescreenshot("Adding New Activity");
+					Result.fUpdateLog("Adding New Activity");
+					Col = CO.Select_Cell("Activities", "Channel");
+					Browser.WebTable.SetDataE("Activities", Row, Col, "Channel", Channel);
+
+					Col = CO.Select_Cell("Activities", "Due");
+					Browser.WebTable.Popup("Activities", Row, Col);
+
+					CO.scroll("Date_Now", "WebButton");
+					Browser.WebButton.click("Date_Now");
+					CO.scroll("Date_Done", "WebButton");
+					Browser.WebButton.click("Date_Done");
+					CO.waitforload();
+
+					Col = CO.Select_Cell("Activities", "Status");
+					Browser.WebTable.SetDataE("Activities", Row, Col, "Status", "Open");
+					CO.waitforload();
+
+					Col = CO.Select_Cell("Activities", "Priority");
+					Browser.WebTable.SetDataE("Activities", Row, Col, "Priority", Priority);
+
+					Col = CO.Select_Cell("Activities", "Comments");
+					Browser.WebTable.CommentE("Activities", Row, Col, "Comment", Comment);
+
+					Col = CO.Select_Cell("Activities", "Language");
+					Browser.WebTable.SetDataE("Activities", Row, Col, "VFQA_Language", A_Language);
+
+					Col = CO.Select_Cell("Activities", "MSISDN");
+					Browser.WebTable.Popup("Activities", Row, Col);
+					Browser.WebButton.click("Service_OK");
+
+					Col = CO.Select_Cell("Activities", "Topic");
+					Browser.WebTable.SetDataE("Activities", Row, Col, "Topic", Topic);
+
+					Col = CO.Actual_Cell("Activities", "Type");
+					Browser.WebTable.SetDataE("Activities", Row, Col, "Type", Type);
+
+					Col = CO.Select_Cell("Activities", "Sub-Topic");
+					Browser.WebTable.SetDataE("Activities", Row, Col, "Sub-Topic", Sub_Topic);
+
+					Col = CO.Select_Cell("Activities", "Interaction Type");
+					Browser.WebTable.SetData("Activities", Row, Col, "Interaction_Type", Interaction_Type);
+
+					Col = CO.Select_Cell("Activities", "Contact Role");
+					Browser.WebTable.SetData("Activities", Row, Col, "ContactRole", ContactRole);
+
+					Browser.WebButton.click("Activity_Popup1");
+					CO.isAlertExist();
+					Browser.WebButton.click("Activity_Popup2");
+					CO.isAlertExist();
+					Col = CO.Select_Cell("Activities", "Activity #");
+					String ActivityId = Browser.WebTable.getCellData("Activities", Row, Col);
+					// Activity #
+					Result.takescreenshot("Activity Created in Open Status with Activity Id " + ActivityId);
+					Result.fUpdateLog("Activity Created in Open Status with Activity Id " + ActivityId);
+				} else {
+					Continue.set(false);
+					Result.takescreenshot("Activity is not Created");
+					Result.fUpdateLog("Activity is not Created");
+				}
+			} else {
+				Result.takescreenshot("Closing All Open Activities");
+				Result.fUpdateLog("Closing All Open Activities");
+
+				Browser.WebButton.click("Activity_Query");
+				CO.waitforload();
+
+				Col = CO.Select_Cell("Activities", "Status");
+				Browser.WebTable.SetDataE("Activities", Row, Col, "Status", "Open");
+				Result.takescreenshot("Query - Open Activities");
+				Result.fUpdateLog("Query - Open Activities");
+				Browser.WebButton.click("Activity_GO");
+				CO.waitforload();
+
+				int RowCount1 = Browser.WebTable.getRowCount("Activities");
+
+				if (RowCount1 >= 2) {
+
+					for (int R = 2; R <= RowCount1; R++) {
+
+						Browser.WebTable.SetData("Activities", R, Col, "Status", "Close");
+
+						Col = CO.Select_Cell("Activities", "Activity #");
+						String ActivityId = Browser.WebTable.getCellData("Activities", R, Col);
+
+						Result.takescreenshot("Closing Activity " + ActivityId);
+						Result.fUpdateLog("Closing Activity " + ActivityId);
+
+						Col = CO.Select_Cell("Activities", "Status");
+					}
+				} else {
+					Continue.set(false);
+					Result.takescreenshot("No Activity is in Open Status to close please check the data");
+					Result.fUpdateLog("No Activity is in Open Status to close please check the data");
+				}
+			}
+
+			if (Continue.get()) {
+				Test_OutPut += "Activities Creation / Closure - Siebel is done Successfully " + ",";
+				Result.fUpdateLog("Activities Creation / Closure  - Siebel is  done successfully");
+				Status = "PASS";
+			} else {
+				Test_OutPut += "Activities Creation / Closure - Siebel Failed" + ",";
+				Result.takescreenshot("Activities Creation / Closure - Siebel Failed");
+				Result.fUpdateLog("Activities Creation / Closure - Siebel Failed");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Status = "FAIL";
+			Continue.set(false);
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Activities Creation / Closure - Siebel - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 

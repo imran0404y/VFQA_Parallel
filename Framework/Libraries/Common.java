@@ -49,8 +49,8 @@ public class Common extends Driver {
 	 * Last Modified Date 	: 24-Aug-2017
 	--------------------------------------------------------------------------------------------------------*/
 	public void waitforload() {
-		cDriver.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		Method.waitForPageToLoad(cDriver.get(), 2);
+		cDriver.get().manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+		Method.waitForPageToLoad(cDriver.get(), 5);
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -273,6 +273,7 @@ public class Common extends Driver {
 		((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
 		waitforload();
 		cDriver.get().findElement(By.xpath(cellXpath)).click();
+		waitforload();
 	}// div option button span
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -488,11 +489,11 @@ public class Common extends Driver {
 			Row = Browser.WebTable.getRowCount("Account");
 			if (Row == 2) {
 				Browser.WebButton.click("Account360");
-				waitforload();
+				waitmoreforload();
 
 				// Comment for QA6
 				if (Browser.WebLink.exist("Acc_Portal")) {
-					waitforload();
+					
 					Browser.WebLink.click("Acc_Portal");
 				}
 				Result.fUpdateLog("Account Search is done Successfully ");
@@ -512,7 +513,10 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public void Assert_Search(String MSISDN, String Status) {
 		try {
+			waitforload();
 			Result.fUpdateLog("MSISDN : " + MSISDN);
+			Title_Select("a", "Home");
+			waitforload();
 			waitforload();
 			int Row = 2, Col;
 			Browser.WebLink.waittillvisible("VQ_Assert");
@@ -540,10 +544,10 @@ public class Common extends Driver {
 			else
 				Continue.set(false);
 			// Comment for QA6
-			/*if (Browser.WebLink.exist("Acc_Portal")) {
-				waitforload();
-				Browser.WebLink.click("Acc_Portal");
-			}*/
+			/*
+			 * if (Browser.WebLink.exist("Acc_Portal")) { waitforload();
+			 * Browser.WebLink.click("Acc_Portal"); }
+			 */
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			Result.takescreenshot("");
 
@@ -838,7 +842,7 @@ public class Common extends Driver {
 		try {
 			waitforload();
 			int Row = 2, Col, flag = 1, Count = 1;
-
+			String Pay_Type = null;
 			Title_Select("a", "Home");
 			waitforload();
 			Browser.WebLink.waittillvisible("VQ_Assert");
@@ -861,10 +865,10 @@ public class Common extends Driver {
 			else
 				Continue.set(false);
 			// To be commented for QA6
-			/*if (Browser.WebLink.exist("Acc_Portal")) {
-				waitforload();
-				Browser.WebLink.click("Acc_Portal");
-			}*/
+			/*
+			 * if (Browser.WebLink.exist("Acc_Portal")) { waitforload();
+			 * Browser.WebLink.click("Acc_Portal"); }
+			 */
 
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			InstalledAssertChange("New Query                   [Alt+Q]");
@@ -883,17 +887,17 @@ public class Common extends Driver {
 			waitforload();
 			int Row_Count = Browser.WebTable.getRowCount("Bill_Prof");
 			int Col_Val = Select_Cell("Bill_Prof", "Name");
-			// int Col2 = Select_Cell("Bill_Prof", "Payment Type");
+			int Col2 = Select_Cell("Bill_Prof", "Payment Type");
 			for (int i = 2; i <= Row_Count; i++) {
 				String BillPro = Browser.WebTable.getCellData("Bill_Prof", i, Col_Val);
 				if (BillPro.equals(BP)) {
-					// Pay_Type = Browser.WebTable.getCellData("Bill_Prof", i, Col2);
-					Browser.WebTable.click("Bill_Prof", i, Col_Val);
+					Pay_Type = Browser.WebTable.getCellData("Bill_Prof", i, Col2);
+					Browser.WebTable.clickA("Bill_Prof", i, Col_Val);
 
 					break;
 				}
 			}
-			// if (Pay_Type.equalsIgnoreCase("Postpaid")) {
+			if (Pay_Type.equalsIgnoreCase("Postpaid")) {
 			int k = 1;
 			boolean a = true;
 			do {
@@ -906,15 +910,15 @@ public class Common extends Driver {
 					a = false;
 				}
 			} while (a);
-			
+
 			waitforload();
 			Browser.WebButton.click("UnbilledUsage_Button");
 			Result.takescreenshot("Unbilled Usage");
+			TabNavigator("Real Time Balance");
 			k = 1;
 			a = true;
 			do {
 				k++;
-				TabNavigator("Real Time Balance");
 				waitforload();
 				Result.fUpdateLog("Real Time Balance Page Loading.....");
 				if (Browser.WebButton.waitTillEnabled("RTB_Valid_Name")) {
@@ -923,38 +927,34 @@ public class Common extends Driver {
 					a = false;
 				}
 			} while (a);
-			
+
 			scroll("RTB_Valid_Name", "WebButton");
 			Result.takescreenshot("Real Time Balance");
-			int Rowcount=Browser.WebTable.getRowCount("RTB_Table");
-			if(Rowcount>=2)
-			{
-			 for(int i=1;i<=Rowcount;i++)	
-			 {
-				
-				if(Browser.WebTable.getCellData("RTB_Table",Rowcount,3).equalsIgnoreCase(MSISDN))
-				{
-					Browser.WebTable.click("RTB_Table",Rowcount,2);
-					waitforload();
-					break;				
-				}
-				 
-			 }
-			}
-			
+			int Rowcount = Browser.WebTable.getRowCount("RTB_Table");
+			if (Rowcount >= 2) {
+				for (int i = 1; i <= Rowcount; i++) {
 
-			/*
-			 * } else if (Pay_Type.equalsIgnoreCase("Prepaid")) {
-			 * 
-			 * do { scroll("RTB_Check_Button", "WebButton"); waitforload(); } while
-			 * (!Browser.WebButton.waitTillEnabled("RTB_Check_Button")); waitforload();
-			 * Browser.WebButton.click("RTB_Check_Button");
-			 * Browser.WebButton.waittillvisible("RTB_Valid_Name"); scroll("RTB_Valid_Name",
-			 * "WebButton"); Result.takescreenshot("Real Time Balance");
-			 * 
-			 * }
-			 */
-			// Text_Select("a", "Unbilled Usage");
+					if (Browser.WebTable.getCellData("RTB_Table", Rowcount, 3).equalsIgnoreCase(MSISDN)) {
+						Browser.WebTable.click("RTB_Table", Rowcount, 2);
+						waitforload();
+						break;
+					}
+
+				}
+			}
+			}else if (Pay_Type.equalsIgnoreCase("Prepaid")) {
+				do {
+					scroll("RTB_Check_Button", "WebButton");
+					waitforload();
+				} while (!Browser.WebButton.waitTillEnabled("RTB_Check_Button"));
+				waitforload();
+				scroll("RTB_Check_Button", "WebButton");
+				Result.takescreenshot("Aggregate Usage");
+				Browser.WebButton.click("RTB_Check_Button");
+				Browser.WebButton.waittillvisible("RTB_Valid_Name");
+				scroll("RTB_Valid_Name", "WebButton");
+				Result.takescreenshot("Real Time Balance");
+			}
 
 			do {
 				String y = cDriver.get().findElement(By.xpath("//div[.='Real Time Balance']/..//span[2]")).getText();
@@ -976,8 +976,9 @@ public class Common extends Driver {
 			waitforload();
 
 		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			throw new Exception(e);
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -1008,11 +1009,11 @@ public class Common extends Driver {
 			else
 				Continue.set(false);
 			// to be commented for QA6
-			/*if (Browser.WebLink.exist("Acc_Portal")) {
-
-				waitforload();
-				Browser.WebLink.click("Acc_Portal");
-			}*/
+			/*
+			 * if (Browser.WebLink.exist("Acc_Portal")) {
+			 * 
+			 * waitforload(); Browser.WebLink.click("Acc_Portal"); }
+			 */
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			Result.fUpdateLog("Installed Assert");
 
@@ -1475,18 +1476,21 @@ public class Common extends Driver {
 	public void Popup_Click(String objname, int rownum, int columnnum) {
 
 		String[] objprop = Utlities.FindObject(objname, "WebTable");
-		/*String cellXpath1X = objprop[0] + "//tr[" + rownum + "]//td[" + (columnnum + 1) + "]";
-		WebElement scr2 = cDriver.get().findElement(By.xpath(cellXpath1X));
-		((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr2);*/
+		/*
+		 * String cellXpath1X = objprop[0] + "//tr[" + rownum + "]//td[" + (columnnum +
+		 * 1) + "]"; WebElement scr2 = cDriver.get().findElement(By.xpath(cellXpath1X));
+		 * ((RemoteWebDriver)
+		 * cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr2);
+		 */
 
 		String cellXpathX = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]";
 		WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpathX));
 		((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
 		cDriver.get().findElement(By.xpath(cellXpathX)).click();
-		
+
 		Actions action = new Actions(cDriver.get());
 		action.sendKeys(Keys.TAB).build().perform();
-		
+
 		cDriver.get().findElement(By.xpath(cellXpathX)).click();
 		String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]//span";
 		WebElement scr = cDriver.get().findElement(By.xpath(cellXpath));
@@ -1494,7 +1498,6 @@ public class Common extends Driver {
 		cDriver.get().findElement(By.xpath(cellXpath)).click();
 
 	}
-
 
 	public void Popup_Click1(String objname, int rownum, int columnnum) {
 
@@ -1531,7 +1534,7 @@ public class Common extends Driver {
 			int Col = PopupHeader(objname, Name);
 			Browser.WebButton.click("PopupQuery");
 			waitforload();
-			if ((Row_Count > 1) & (Browser.WebTable.getRowCount(objname) == 2)) {
+			if ((Browser.WebTable.getRowCount(objname) == 2)) {
 				Browser.WebTable.SetData(objname, 2, Col, Name, MSISDN);
 				Row_Count = Browser.WebTable.getRowCount(objname);
 				if (Row_Count > 1) {
@@ -2423,47 +2426,43 @@ public class Common extends Driver {
 	public void PlanChangeTOO(String MSISDN, String GetData, String PrepaidBillingNO) {
 		String New_PlanName = "Prepaid Red Promotion", Billprofile_No = PrepaidBillingNO;
 		try {
-			int Col_S,Row_Count,Col;
+			int Row_Count, Col;
+			waitforload();
+			waitforload();
 			Browser.WebLink.click("Acc_Summary");
 			waitforload();
-			//Result.fUpdateLog("------Account Summary Tab------");
+			// Result.fUpdateLog("------Account Summary Tab------");
 			Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
-			
-			if(Row_Count>3) {
-			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
-			Result.takescreenshot("");
 
-			waitforload();
-			InstalledAssertChange("New Query                   [Alt+Q]");
-			waitforload();
-			Col = Select_Cell("Installed_Assert", "Service ID");
-			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
-			Browser.WebButton.click("InstalledAssert_Go");
+			if (Row_Count > 3) {
+				Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
+				Result.takescreenshot("");
+
+				waitforload();
+				InstalledAssertChange("New Query                   [Alt+Q]");
+				waitforload();
+				Col = Select_Cell("Installed_Assert", "Service ID");
+				Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
+				Browser.WebButton.click("InstalledAssert_Go");
 			}
 			waitforload();
-			Text_Select("a",GetData);
+			Text_Select("a", GetData);
 			waitforload();
+			Plan_selection(GetData, MSISDN);
 			waitforload();
-			Col = Actual_Cell("Acc_Installed_Assert", "Product");
-			Col_S = Actual_Cell("Acc_Installed_Assert", "Service ID");
-			Row_Count = Browser.WebTable.getRowCount("Acc_Installed_Assert");
-			for (int i = 2; i <= Row_Count; i++) {
-				String LData = Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col);
-				
-				if ((LData.equalsIgnoreCase(GetData)==false) ) {
-					
-						Browser.WebTable.click("Acc_Installed_Assert",i, Col_S);
-						waitforload();
-						Browser.WebButton.click("Menu_Query");
-						waitforload();
-						Text_Select("a", "Upgrade Promotion");
-						waitforload();
-						break;
-					} 
+			int j = 1;
+			boolean a = true;
+			do {
+				j++;
+				Result.fUpdateLog("PopupQuery_Search Page Loading.....");
+				waitforload();
+				Result.fUpdateLog("Account Summary Page Loading.....");
+				if (Browser.WebEdit.waitTillEnabled("PopupQuery_Search")) {
+					a = false;
+				} else if (j < 20) {
+					a = false;
 				}
-
-			
-			waitmoreforload();
+			} while (a);
 			Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
 			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
 			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
@@ -2473,25 +2472,29 @@ public class Common extends Driver {
 			if (Browser.WebTable.getRowCount("Promotion_Upgrades") >= 2) {
 				scroll("Upgrade_OK", "WebButton");
 				Browser.WebButton.click("Upgrade_OK");
+				int i = 1;
+				a = true;
+				do {
+					i++;
+					Result.fUpdateLog("LI_New Page Loading.....");
+					if (Browser.WebButton.waitTillEnabled("LI_New")) {
+						a = false;
+					} else if (i < 20) {
+						a = false;
+					}
+				} while (a);
+
 			} else {
 				Continue.set(false);
-				
 			}
-
-			int Col_P, Row_Count1= Browser.WebTable.getRowCount("Line_Items");
-			
-			if (Row_Count1 <= 4) {
-				Browser.WebButton.waittillvisible("Expand");
-				Browser.WebButton.click("Expand");
-			}
-			LineItems_Data();
-
+			waitforload();
 			if (Billprofile_No != null) {
 				Webtable_Value("Billing Profile", Billprofile_No);
 			}
 			Result.takescreenshot("");
 			scroll("Line_Items", "WebTable");
-			Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
+			int Col_P, Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
+
 			Col = Select_Cell("Line_Items", "Product");
 			Col_P = Actual_Cell("Line_Items", "Action");
 			int Col_bp = Actual_Cell("Line_Items", "Billing Profile");
@@ -2514,8 +2517,8 @@ public class Common extends Driver {
 					}
 				}
 				waitforload();
-
 			}
+			
 		} catch (Exception e) {
 			Continue.set(false);
 			Result.fUpdateLog("Exception occured during Postpaid to Prepaid transition");
@@ -2523,5 +2526,58 @@ public class Common extends Driver {
 		}
 	}
 
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Customise
+	 * Use 					: To Navigate to the Customised Page of a specific Addon
+	 * Argument				: Text - Addon Name 
+	 * Designed By			: Vinodhini
+	 * Last Modified Date 	: 18-March-2018
+	 *--------------------------------------------------------------------------------------------------------*/
+	public void Customise(String Text) {
+		Radio_Select(Text);
+		waitforload();
+		List<WebElement> elements = cDriver.get().findElements(
+				By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[@class='siebui-ecfg-feature-group']"));
+		int Size = elements.size();
+		System.out.println(Size);
+		boolean flag = false;
+		waitforload();
+		Result.takescreenshot("Initiating Customisation ");
+		Result.fUpdateLog("Initiating Customisation");
+		for (int i = 1; i <= Size; i++) {
+			List<WebElement> cellXpath = cDriver.get()
+					.findElements(By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[" + i
+							+ "]//div[1]//table//div[1]//div[1]//input"));
+			List<WebElement> Customise = cDriver.get()
+					.findElements(By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[" + i
+							+ "]//div[1]//table//div[1]//div[1]//div[@class='div-table-col siebui-ecfg-customize']"));
+			waitforload();
+			for (int t = 1; t < cellXpath.size(); t++) {
+				if (cellXpath.get(t).getAttribute("value").equals(Text)) {
+					{
+						flag = true;
+						if (Customise.size() == 1) {
+							Customise.get(0).click();
+							waitforload();
+							Result.takescreenshot("Customising the Addon " + Text);
+							Result.fUpdateLog("Customising the Addon " + Text);
+							break;
+						} else {
+							Result.takescreenshot("Unable to figure out the customise button of Addon --- " + Text);
+							Result.fUpdateLog("Unable to figure out the customise button of Addon --- " + Text);
+							Continue.set(false);
+							break;
+						}
+					}
+				}
+			}
+
+			if (flag) {
+				break;
+			}
+
+		}
+
+	}
 
 }

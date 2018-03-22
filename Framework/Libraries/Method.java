@@ -749,5 +749,7 @@ public class Method extends Driver {
 	public static void Scroll(WebElement element){
 		 JavascriptExecutor jse = (JavascriptExecutor) cDriver.get();
 		 jse.executeScript("arguments[0].scrollIntoView();", element);
+		 cDriver.get().manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		 
 	}
 }

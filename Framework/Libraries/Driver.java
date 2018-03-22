@@ -91,6 +91,8 @@ public class Driver {
 	public static HashMap<String, String> LineItemData = new HashMap<String, String>();
 	public static HashMap<String, String> DunningSchedule = new HashMap<String, String>();
 	public static HashMap<String, String> BillSchedule = new HashMap<String, String>();
+	public static ThreadLocal<String> Billprofile_No = new ThreadLocal<String>();
+	public static ThreadLocal<String> Acc_Number = new ThreadLocal<String>();
 
 	public static DateFormat For = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 	public static Calendar cal = Calendar.getInstance();

@@ -26,10 +26,10 @@ public class Browser extends Driver {
 			Thread.sleep(200);
 			Method.setTD(objprop, objvalue);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " - to set Value: " + objvalue);
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - to set Value: " + objvalue);
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action SetText on Obj: " + objname + " - Value: " + objvalue);
+				Result.fUpdateLog(Batchs.get() + " :: Action SetText on Obj: " + objname + " - Value: " + objvalue);
 			}
 		}
 
@@ -44,10 +44,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clearTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to Click");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to Click");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action Click on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
 			}
 		}
 
@@ -56,10 +56,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clearTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to Clear");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to Clear");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action Clear on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Clear on Obj: " + objname);
 			}
 		}
 
@@ -83,10 +83,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.waittillobjvisible(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: "+ objname + " - is not Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - is not Visible");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action at Obj: " + objname+ " - is Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Action at Obj: " + objname + " - is Visible");
 			}
 		}
 
@@ -105,10 +105,10 @@ public class Browser extends Driver {
 			((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
 			if (cDriver.get().findElement(By.xpath(cellXpath)).isDisplayed()
 					& ((cDriver.get().findElement(By.xpath(cellXpath)).getAttribute("readonly")).equals("readonly"))) {
-				Result.fUpdateLog(Batchs.get()+" :: Action at Obj: "+ objname + " - is Disabled");
+				Result.fUpdateLog(Batchs.get() + " :: Action at Obj: " + objname + " - is Disabled");
 				return true;
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: "+ objname + " - is not Disabled");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - is not Disabled");
 				return false;
 			}
 		}
@@ -127,10 +127,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to click");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to click");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action Click on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
 			}
 		}
 
@@ -139,10 +139,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.waittillobjvisible(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: "+ objname + " - is not Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - is not Visible");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action at Obj: " + objname+ " - is Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Action at Obj: " + objname + " - is Visible");
 			}
 		}
 
@@ -172,10 +172,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to click");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to click");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action Click on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
 			}
 		}
 
@@ -184,10 +184,10 @@ public class Browser extends Driver {
 			String cellXpath = objprop[0] + "//div[" + R + "]//div[1]/a";
 			cDriver.get().findElement(By.xpath(cellXpath)).click();
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to clickL");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to clickL");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action ClickL on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action ClickL on Obj: " + objname);
 			}
 		}
 
@@ -202,10 +202,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.waittillobjvisible(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: "+ objname + " - is not Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - is not Visible");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action at Obj: " + objname+ " - is Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Action at Obj: " + objname + " - is Visible");
 			}
 		}
 
@@ -229,10 +229,11 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.setdropvalue(objprop, objvalue);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " - to set drop Value: " + objvalue);
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - to set drop Value: " + objvalue);
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action SetDropValue on Obj: " + objname + " - Value: " + objvalue);
+				Result.fUpdateLog(
+						Batchs.get() + " :: Action SetDropValue on Obj: " + objname + " - Value: " + objvalue);
 			}
 		}
 
@@ -244,10 +245,10 @@ public class Browser extends Driver {
 			Thread.sleep(100);
 			Method.selectTD(objprop, objvalue);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " - to select Value: " + objvalue);
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - to select Value: " + objvalue);
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action select on Obj: " + objname + " - Value: " + objvalue);
+				Result.fUpdateLog(Batchs.get() + " :: Action select on Obj: " + objname + " - Value: " + objvalue);
 			}
 		}
 
@@ -256,10 +257,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to click");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to click");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action Click on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
 			}
 		}
 
@@ -268,10 +269,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clearTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to Clear");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to Clear");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action Clear on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Clear on Obj: " + objname);
 			}
 		}
 
@@ -298,10 +299,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.waittillobjvisible(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: "+ objname + " - is not Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - is not Visible");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action at Obj: " + objname+ " - is Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Action at Obj: " + objname + " - is Visible");
 			}
 		}
 	}
@@ -319,10 +320,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to click");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to click");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action Click on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
 			}
 		}
 
@@ -331,10 +332,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.waittillobjvisible(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: "+ objname + " - is not Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - is not Visible");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action at Obj: " + objname+ " - is Visible");
+				Result.fUpdateLog(Batchs.get() + " :: Action at Obj: " + objname + " - is Visible");
 			}
 		}
 
@@ -355,10 +356,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.selectTD(objprop, objvalue);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " - to select Value: " + objvalue);
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - to select Value: " + objvalue);
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action select on Obj: " + objname + " - Value: " + objvalue);
+				Result.fUpdateLog(Batchs.get() + " :: Action select on Obj: " + objname + " - Value: " + objvalue);
 			}
 		}
 	}
@@ -376,10 +377,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to click");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to click");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action Click on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
 			}
 		}
 
@@ -403,10 +404,10 @@ public class Browser extends Driver {
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to Check box");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to Check box");
 				throw new Exception();
 			} else {
-				Result.fUpdateLog(Batchs.get()+" :: Action CheckBox on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action CheckBox on Obj: " + objname);
 			}
 		}
 	}
@@ -445,10 +446,10 @@ public class Browser extends Driver {
 				String cellXpath = objprop[0] + "//tr";
 				List<org.openqa.selenium.WebElement> rows = cDriver.get().findElements(By.xpath(cellXpath));
 				int rowcount = rows.size();
-				Result.fUpdateLog(Batchs.get()+" :: Action getRowCount on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action getRowCount on Obj: " + objname);
 				return rowcount;
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to getRowCount");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to getRowCount");
 				throw new Exception();
 			}
 
@@ -480,10 +481,10 @@ public class Browser extends Driver {
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]" + "//td[" + columnnum + "]";
 				Thread.sleep(100);
 				String celldata = cDriver.get().findElement(By.xpath(cellXpath)).getText();
-				Result.fUpdateLog(Batchs.get()+" :: Action getCellData on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action getCellData on Obj: " + objname);
 				return celldata;
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to getCellData");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to getCellData");
 				throw new Exception();
 			}
 
@@ -495,10 +496,10 @@ public class Browser extends Driver {
 
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]" + "//td[" + columnnum + "]";
 				String celldata = cDriver.get().findElement(By.xpath(cellXpath)).getAttribute("title");
-				Result.fUpdateLog(Batchs.get()+" :: Action getCellData_title on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action getCellData_title on Obj: " + objname);
 				return celldata;
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to getCellData_title");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to getCellData_title");
 				throw new Exception();
 			}
 
@@ -515,10 +516,10 @@ public class Browser extends Driver {
 					celldata = cDriver.get().findElement(By.xpath(cellXpath)).getText();
 					System.out.println(celldata);
 				}
-				Result.fUpdateLog(Batchs.get()+" :: Action CellData on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action CellData on Obj: " + objname);
 				return celldata;
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to CellData");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to CellData");
 				throw new Exception();
 			}
 
@@ -544,6 +545,42 @@ public class Browser extends Driver {
 		}
 
 		/*------------------------------------------------------------------------------------------------------
+		* Function Name: CommentE
+		* Use : Sets the Specified value to the Comment cell
+		* Designed By: Vinodhini
+		* Last Modified Date : 13-January-2017
+		--------------------------------------------------------------------------------------------------------*/
+		public static void CommentE(String objname, int rownum, int columnnum, String obj, String Val)
+				throws Exception {
+			try {
+				String[] objprop = Utlities.FindObject(objname, "WebTable");
+				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]";
+				cDriver.get().findElement(By.xpath(cellXpath)).click();
+				String cellXpath1 = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]//textarea[@name='" + obj
+						+ "']";
+				Thread.sleep(200);
+				cDriver.get().findElement(By.xpath(cellXpath1)).clear();
+				Thread.sleep(200);
+				String vis = "false";
+				int countval = 1;
+				while (vis == "false" || countval < 10000)
+					if (cDriver.get().findElement(By.xpath(cellXpath1)).isDisplayed()) {
+						cDriver.get().findElement(By.xpath(cellXpath1)).sendKeys(Val);
+						vis = "true";
+						countval = 10000;
+					} else {
+						countval++;
+						Thread.sleep(10);
+					}
+				Result.fUpdateLog(Batchs.get() + " :: Action SetDataE on Obj: " + objname);
+			} catch (Exception e) {
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to SetDataE");
+				throw new Exception();
+			}
+
+		}
+
+		/*------------------------------------------------------------------------------------------------------
 		* Function Name: click
 		* Use :	Clicks the given row and column of the webtable
 		* Designed By: AG
@@ -554,9 +591,21 @@ public class Browser extends Driver {
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]/td[" + columnnum + "]";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
-				Result.fUpdateLog(Batchs.get()+" :: Action Click on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to click");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to click");
+				throw new Exception();
+			}
+		}
+
+		public static void clickA(String objname, int rownum, int columnnum) throws Exception {
+			try {
+				String[] objprop = Utlities.FindObject(objname, "WebTable");
+				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]//a";
+				cDriver.get().findElement(By.xpath(cellXpath)).click();
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
+			} catch (Exception e) {
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to click");
 				throw new Exception();
 			}
 		}
@@ -574,9 +623,9 @@ public class Browser extends Driver {
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
 				String cellXpath1 = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]//a";
 				cDriver.get().findElement(By.xpath(cellXpath1)).click();
-				Result.fUpdateLog(Batchs.get()+" :: Action Click on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Click on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to clickL");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to clickL");
 				throw new Exception();
 			}
 		}
@@ -594,10 +643,10 @@ public class Browser extends Driver {
 				String cellXpath = objprop[0] + "//tr[1]//td";
 				List<org.openqa.selenium.WebElement> cols = cDriver.get().findElements(By.xpath(cellXpath));
 				int colcount = cols.size();
-				Result.fUpdateLog(Batchs.get()+" :: Action getColCount on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action getColCount on Obj: " + objname);
 				return colcount;
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to getColCount");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to getColCount");
 				throw new Exception();
 			}
 		}
@@ -613,10 +662,10 @@ public class Browser extends Driver {
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//th[" + columnnum + "]";
 				String celldata = cDriver.get().findElement(By.xpath(cellXpath)).getText();
-				Result.fUpdateLog(Batchs.get()+" :: Action getColumnname on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action getColumnname on Obj: " + objname);
 				return celldata;
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to getColumnname");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to getColumnname");
 				throw new Exception();
 			}
 		}
@@ -645,9 +694,9 @@ public class Browser extends Driver {
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				cDriver.get().findElement(By.xpath(objprop[0])).click();
 				// cDriver.get().findElement(By.xpath(objprop[0])).click();
-				Result.fUpdateLog(Batchs.get()+" :: Action clickT on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action clickT on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to clickT");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to clickT");
 				throw new Exception();
 			}
 		}
@@ -680,9 +729,9 @@ public class Browser extends Driver {
 						countval++;
 						Thread.sleep(10);
 					}
-				Result.fUpdateLog(Batchs.get()+" :: Action SetDataE on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action SetDataE on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to SetDataE");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to SetDataE");
 				throw new Exception();
 			}
 
@@ -718,9 +767,9 @@ public class Browser extends Driver {
 						countval++;
 						Thread.sleep(10);
 					}
-				Result.fUpdateLog(Batchs.get()+" :: Action SetData on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action SetData on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to SetData");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to SetData");
 				throw new Exception();
 			}
 
@@ -740,9 +789,9 @@ public class Browser extends Driver {
 				String cellXpath1 = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]//option[@value='" + val
 						+ "']";
 				cDriver.get().findElement(By.xpath(cellXpath1)).click();
-				Result.fUpdateLog(Batchs.get()+" :: Action Check on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Check on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to Check");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to Check");
 				throw new Exception();
 			}
 
@@ -755,9 +804,9 @@ public class Browser extends Driver {
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
 
 				// cDriver.get().findElement(By.xpath(cellXpath)).
-				Result.fUpdateLog(Batchs.get()+" :: Action Link on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Link on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to Link");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to Link");
 				throw new Exception();
 			}
 		}
@@ -769,9 +818,9 @@ public class Browser extends Driver {
 				cDriver.get().findElement(By.xpath(cellXpathX)).click();
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]/div/div";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
-				Result.fUpdateLog(Batchs.get()+" :: Action Expand on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Expand on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to Expand");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to Expand");
 				throw new Exception();
 			}
 
@@ -784,9 +833,9 @@ public class Browser extends Driver {
 				cDriver.get().findElement(By.xpath(cellXpathX)).click();
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]//span";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
-				Result.fUpdateLog(Batchs.get()+" :: Action Popup on Obj: " + objname);
+				Result.fUpdateLog(Batchs.get() + " :: Action Popup on Obj: " + objname);
 			} catch (Exception e) {
-				Result.fUpdateLog(Batchs.get()+" :: Failed at Obj: " + objname + " to Popup");
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to Popup");
 				throw new Exception();
 			}
 		}

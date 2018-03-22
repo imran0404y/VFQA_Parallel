@@ -17,7 +17,7 @@ public class Keyword_OSM extends Driver {
 	public String OSM_Login() {
 
 		String Test_OutPut = "", Status = "";
-		Result.fUpdateLog("------Siebel Login Event Details------");
+		Result.fUpdateLog("------OSM Login Event Details------");
 		try {
 
 			if (!(getdata("Browser").equals(""))) {
@@ -40,9 +40,9 @@ public class Keyword_OSM extends Driver {
 			 * Browser.WebLink.waittillvisible("OSM_Link");
 			 * Browser.WebLink.click("OSM_Link");
 			 */
-			//Browser.WebEdit.click("VQ_Login_User");
+			// Browser.WebEdit.click("VQ_Login_User");
 			Browser.WebEdit.Set("OSM_Login_User", getdata("VQ_Login_User"));
-			//Browser.WebEdit.click("OSM_Login_Pswd");
+			// Browser.WebEdit.click("OSM_Login_Pswd");
 			Browser.WebEdit.Set("OSM_Login_Pswd", getdata("VQ_Login_Pswd"));
 			Browser.WebLink.click("OSM_Submit");
 			// Browser.WebLink.waittillvisible("OSM_Submit");
@@ -69,7 +69,7 @@ public class Keyword_OSM extends Driver {
 			Status = "FAIL";
 			e.printStackTrace();
 		}
-		Result.fUpdateLog("------OSM Event Details - Completed------");
+		Result.fUpdateLog("------OSM Login Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
@@ -83,7 +83,7 @@ public class Keyword_OSM extends Driver {
 		String LData;
 		try {
 			String Sales_Od = SalesOrder_No.get();
-			//String Sales_Od = "1-10518905394";
+			// String Sales_Od = "1-10518905394";
 			if (Browser.WebButton.exist("OSM_Query")) {
 				Browser.WebButton.click("OSM_Query");
 
@@ -110,7 +110,7 @@ public class Keyword_OSM extends Driver {
 			}
 
 			if (Continue.get()) {
-				
+
 				CO.waitforload();
 				Browser.WebButton.click("OSM_Worklist");
 				CO.waitforload();
@@ -167,7 +167,7 @@ public class Keyword_OSM extends Driver {
 
 					CO.waitforload();
 					CO.waitforload();
-					//Order_No = "243821";
+					// Order_No = "243821";
 					CO.waitmoreforload();
 					Browser.WebButton.click("OSM_Query");
 					CO.waitforload();
@@ -175,8 +175,7 @@ public class Keyword_OSM extends Driver {
 						Browser.WebLink.click("OSM_EditQuery");
 
 					}
-					
-					
+
 					CO.scroll("OSM_OrderNo_entry", "WebEdit");
 					CO.waitforload();
 					Browser.WebEdit.Set("OSM_OrderNo_entry", Sales_Od);
@@ -249,7 +248,7 @@ public class Keyword_OSM extends Driver {
 								// Browser.WebButton.click("OSM_Update");
 
 								CO.waitforload();
-								//Browser.WebButton.click("OSM_Query");
+								// Browser.WebButton.click("OSM_Query");
 								if (Browser.WebLink.exist("OSM_EditQuery")) {
 									Browser.WebLink.click("OSM_EditQuery");
 
@@ -312,9 +311,172 @@ public class Keyword_OSM extends Driver {
 			Status = "FAIL";
 			e.printStackTrace();
 		}
-		Result.fUpdateLog("------OSM Event Details - Completed------");
+		Result.fUpdateLog("------OSM_SearchFL Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-	
+
+	public String OSM_Pearl_data() {
+
+		String Test_OutPut = "", Status = "";
+		Result.fUpdateLog("------OSM_Pearl_DATA Event Details------");
+		int Col, Col_S, Row_Count;
+
+		String Order_No = null;
+		String LData;
+		try {
+			String Sales_Od = SalesOrder_No.get();
+
+			Browser.WebButton.click("OSM_Query");
+			if (Browser.WebLink.exist("OSM_EditQuery")) {
+				Browser.WebLink.click("OSM_EditQuery");
+
+			} else {
+				Browser.WebButton.click("OSM_Query");
+			}
+			CO.waitforload();
+			Browser.WebEdit.Set("OSM_OrderNo_entry", Sales_Od);
+			Result.fUpdateLog("Searching with Sales OrderNo " + Sales_Od);
+
+			CO.scroll("OSM_OrderNo_entry", "WebEdit");
+			Browser.WebButton.click("OSM_Query_search");
+			Result.takescreenshot("On clicking Search Button");
+			CO.waitforload();
+
+			// Browser.WebButton.click("OSM_Query");
+
+			CO.waitforload();
+			if (Browser.WebLink.exist("OSM_EditQuery")) {
+				Browser.WebLink.click("OSM_EditQuery");
+
+			} else {
+				Browser.WebButton.click("OSM_Query");
+			}
+			Browser.WebEdit.clear("OSM_OrderNo_entry");
+			Browser.WebEdit.Set("OSM_Date_Order", Sales_Od);
+			Result.fUpdateLog("Searching with Sales Date OrderNo " + Sales_Od);
+			Result.takescreenshot("Searching with Sales Date OrderNo");
+			Browser.WebButton.click("OSM_Query_search");
+			Result.takescreenshot("On clicking Search Button");
+
+			Col = CO.Actual_OSM_tabval("OSM_QueryRes", "State");
+			Col_S = CO.Actual_OSM_tabval("OSM_QueryRes", "Order ID");
+
+			CO.waitforload();
+			Row_Count = Browser.WebTable.getRowCount("OSM_QueryRes");
+
+			LData = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col);
+			if (LData.equalsIgnoreCase("Received") || LData.equalsIgnoreCase("Accepted")) {
+				Order_No = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col_S);
+			} else {
+				Continue.set(false);
+			}
+
+			if (Continue.get()) {
+
+				CO.waitforload();
+				Browser.WebButton.click("OSM_Worklist");
+				CO.waitforload();
+				Browser.WebEdit.Set("OSM_OrderId", Order_No);
+				Result.fUpdateLog("Searching with Order_No " + Order_No);
+				CO.waitforload();
+				Browser.WebButton.click("OSM_Refresh");
+				Row_Count = Browser.WebTable.getRowCount("OSM_QueryRes");
+				Browser.WebButton.click("OSM_Changestate");
+				Browser.WebTable.click("OSM_QueryRes", 2, 1);
+				if (Row_Count >= 2) {
+					if (Browser.WebButton.exist("OSM_Accepted")) {
+						Browser.WebButton.click("OSM_Accepted");
+						CO.waitforload();
+						Result.takescreenshot("");
+						Browser.WebButton.click("OSM_Pearl_Update");
+						CO.waitforload();
+						Browser.WebButton.click("OSM_Refresh");
+						CO.waitforload();
+						CO.waitforload();
+						Browser.WebEdit.Set("OSM_OrderId", Order_No);
+						CO.waitforload();
+						Browser.WebButton.click("OSM_Refresh");
+
+						Browser.WebTable.click("OSM_QueryRes", 2, 1);
+					}
+					if (Browser.WebButton.exist("OSM_Completed")) {
+						Browser.WebButton.click("OSM_Completed");
+						Result.takescreenshot("");
+						Browser.WebButton.click("OSM_Pearl_Update");
+					}
+
+					Browser.WebEdit.Set("OSM_SuccesMsg", "Manually Activity At OSM is Completed");
+					Result.takescreenshot("");
+					Browser.WebButton.click("OSM_Update");
+
+					CO.waitforload();
+					Browser.WebButton.click("OSM_Query");
+					if (Browser.WebLink.exist("OSM_EditQuery")) {
+						Browser.WebLink.click("OSM_EditQuery");
+
+					} else {
+						Browser.WebButton.click("OSM_Query");
+					}
+					Browser.WebEdit.clear("OSM_OrderNo_entry");
+					Browser.WebEdit.clear("OSM_Date_Order");
+					Browser.WebEdit.Set("OSM_OrderNo_entry", Sales_Od);
+					Result.fUpdateLog("Searching with Sales Date OrderNo " + Sales_Od);
+					Browser.WebButton.click("OSM_Query_search");
+					Result.takescreenshot("On clicking Search Button");
+					Browser.WebButton.click("OSM_Refresh");
+					int i = 10;
+					do {
+						Col = CO.Actual_OSM_tabval("OSM_QueryRes", "State");
+						LData = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col);
+						String LData1 = Browser.WebTable.getCellData("OSM_QueryRes", 3, Col);
+
+						if (LData.equalsIgnoreCase("Completed") && LData1.equalsIgnoreCase("Completed")) {
+							i = 101;
+						} else {
+							Browser.WebButton.click("OSM_Refresh");
+						}
+
+						i = i + 10;
+					} while (i < 100);
+					if (i == 100) {
+						Continue.set(false);
+					} else {
+						Result.fUpdateLog("OSM Updation Is Sucessfull ");
+					}
+
+				}
+
+			}
+			CO.scroll("OSM_Logout", "WebButton");
+			CO.waitforload();
+			CO.waitforload();
+			Browser.WebButton.click("OSM_Logout");
+			CO.ToWait();
+
+			if (Continue.get()) {
+				Utlities.StoreValue("Seibel Order No :", Sales_Od);
+				Test_OutPut += "Seibel Order No : " + Order_No + ",";
+				Utlities.StoreValue("New_Order:", Order_No);
+				Test_OutPut += "New_Order: " + Order_No + ",";
+				Result.takescreenshot("OSM Updation Is Sucessfull ");
+				Result.fUpdateLog("OSM Updation Is Sucessfull ");
+				Status = "PASS";
+			} else {
+				Test_OutPut += "OSM Updation Failed" + ",";
+				Result.takescreenshot("OSM Updation Failed");
+				Result.fUpdateLog("OSM Updation Failed");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Continue.set(false);
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			Status = "FAIL";
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------OSM_Pearl_DATA Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
 
 }

@@ -204,6 +204,10 @@ public class KeyWord {
 	public String LanguageChange() {
 		return KC.LanguageChange();
 	}
+	
+	public String CreditLimit() {
+		return KC.CreditLimit();
+	}
 	// ------------------Keyword CRM -------------------//
 
 	// ------------------Keyword Guided -------------------//

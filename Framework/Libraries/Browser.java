@@ -421,6 +421,21 @@ public class Browser extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public static class WebTable {
 		/*------------------------------------------------------------------------------------------------------
+		* Function Name: Expand
+		* Use :	To Expand the contents in specific Row
+		* Designed By: Vinodhini
+		* Last Modified Date : 15-June-2016
+		--------------------------------------------------------------------------------------------------------*/
+		public static void Expand(String objname, int rownum) throws Exception {
+			String[] objprop = Utlities.FindObject(objname, "WebTable");
+			String[] Expand = Utlities.FindObject("Expand", "WebButton");
+			String cellXpath = objprop[0] + "//tr[" + rownum + "]" + Expand[0];
+			if (cDriver.get().findElement(By.xpath(cellXpath)).isDisplayed()) {
+				cDriver.get().findElement(By.xpath(cellXpath)).click();
+			}
+		}
+
+		/*------------------------------------------------------------------------------------------------------
 		* Function Name: scroll
 		* Use :	Scrolls the particular cell in the given row and column of the webtable
 		* Designed By: Vinodhini

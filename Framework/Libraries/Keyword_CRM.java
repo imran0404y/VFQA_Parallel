@@ -8266,7 +8266,6 @@ public class Keyword_CRM extends Driver {
 					CO.waitforload();
 				} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
 
-
 			} else
 				CO.InstalledAssertChange("Modify");
 			CO.scroll("Date_Continue", "WebButton");
@@ -8290,12 +8289,11 @@ public class Keyword_CRM extends Driver {
 			Order_no = CO.Order_ID();
 			Utlities.StoreValue("Order_no", Order_no);
 			Test_OutPut += "Order_no : " + Order_no + ",";
-			
+
 			Test_OutPut += OrderSubmission().split("@@")[1];
 			CO.waitforload();
 
 			// fetching Order_no
-			
 
 			CO.RTBScreen(MSISDN, "Active");
 			CO.waitforload();
@@ -8682,6 +8680,203 @@ public class Keyword_CRM extends Driver {
 			e.printStackTrace();
 		}
 		Result.fUpdateLog("------Activities Creation / Closure - Siebel - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Credit_Limit
+	 * Arguments			: None
+	 * Use 					: Credit Limit Set
+	 * Designed By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 21-Mar-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String CreditLimit() {
+		String Test_OutPut = "", Status = "";
+		String CreditLimit, WinCashReference, GetData, MSISDN;
+		Result.fUpdateLog("------ Credit Limit Set - Siebel ---------");
+		try {
+
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}
+
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+
+			if (!(getdata("CreditLimit").equals(""))) {
+				CreditLimit = getdata("CreditLimit");
+			} else {
+				CreditLimit = pulldata("CreditLimit");
+			}
+
+			if (!(getdata("WinCashReference").equals(""))) {
+				WinCashReference = getdata("CreditLimit");
+			} else if (!(pulldata("WinCashReference").equals(""))) {
+				WinCashReference = pulldata("CreditLimit");
+			} else {
+				WinCashReference = "VFQA_Test" + R.nextInt(100) + "1" + R.nextInt(100);
+			}
+
+			// WinCashReference
+
+			CO.Assert_Search(MSISDN, "Active");
+			CO.waitforload();
+			CO.Text_Select("a", GetData);
+			CO.waitmoreforload();
+			if (Browser.WebButton.exist("Assert_Modify")) {
+
+				int Col_P, Col_SID, Inst_RowCount = Browser.WebTable.getRowCount("Acc_Installed_Assert");
+				Col_P = CO.Select_Cell("Acc_Installed_Assert", "Product");
+				Col_SID = CO.Select_Cell("Acc_Installed_Assert", "Service ID");
+				int Col_SR = CO.Actual_Cell("Acc_Installed_Assert", "Status");
+				// To Find the Record with Mobile Service Bundle and MSISDN
+				for (int i = 2; i <= Inst_RowCount; i++)
+					if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P).equalsIgnoreCase(GetData)
+							& Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_SID)
+									.equalsIgnoreCase(MSISDN)) {
+						CO.waitforload();
+						Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
+						break;
+					}
+				do {
+					Browser.WebButton.click("Assert_Modify");
+					String x = Browser.WebEdit.gettext("Due_Date");
+					if (!x.contains("/")) {
+						Browser.WebButton.click("Date_Cancel");
+						CO.waitforload();
+						Browser.WebButton.click("Assert_Modify");
+					}
+					CO.waitforload();
+				} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
+
+			} else {
+				CO.InstalledAssertChange("Modify");
+			}
+			Result.takescreenshot("Modifying Plan for Language Change");
+			Result.fUpdateLog("Modifying Plan for Language Change");
+
+			CO.scroll("Date_Continue", "WebButton");
+			Browser.WebButton.click("Date_Continue");
+			CO.waitforload();
+			CO.Text_Select("button", "Verify");
+			CO.isAlertExist();
+			CO.waitforload();
+			CO.Text_Select("button", "Done");
+
+			CO.scroll("LI_New", "WebButton");
+			int Col, RowCount = Browser.WebTable.getRowCount("Line_Items");
+			Browser.WebButton.click("LI_New");
+
+			Col = CO.Select_Cell("Line_Items", "Product");
+			Browser.WebTable.SetDataE("Line_Items", RowCount + 1, Col, "Product", "Consumer Account Level Bundle");
+			Browser.WebTable.click("Line_Items", RowCount + 1, Col + 1);
+			CO.waitforload();
+			Result.takescreenshot("Adding Consumer Account Level Bundle to the Asserts");
+			Result.fUpdateLog("Adding Consumer Account Level Bundle to the Asserts");
+			Browser.WebButton.click("Customize");
+			CO.waitforload();
+			Browser.WebLink.click("Language");
+			CO.Text_Select("Option", CreditLimit);
+			String Qty = "1";
+			Browser.WebEdit.Set("NumberReservationToken", Qty);
+			Browser.WebButton.click("AddItem");
+			CO.waitforload();
+			Result.takescreenshot("Adding Credit Limit to the Line Items");
+			Result.fUpdateLog("Adding Credit Limit to the Line Items");
+			CO.Text_Select("button", "Verify");
+			CO.isAlertExist();
+			CO.waitforload();
+			CO.Text_Select("button", "Done");
+
+			CO.waitforload();
+			// CO.scroll("Payments_ThirdLevelTab", "WebLink");
+			CO.TabNavigator("Payments");
+
+			CO.waitforload();
+			Result.takescreenshot("Proceeding Payment for Credit Limit");
+			Result.fUpdateLog("Proceeding Payment for Credit Limit");
+			Browser.WebButton.click("AddPayment");
+			CO.waitforload();
+			RowCount = Browser.WebTable.getRowCount("PaymentList");
+			if (RowCount == 2) {
+				Browser.WebEdit.Set("WinCashReference", WinCashReference);
+
+				Result.takescreenshot("Adding Payment");
+				Result.fUpdateLog("Adding Payment");
+
+				Actions a = new Actions(cDriver.get());
+				WebElement we = cDriver.get().findElement(By.xpath("//body"));
+				a.sendKeys(we, Keys.chord(Keys.CONTROL, "s")).perform();
+
+				CO.waitforload();
+				Col = CO.Select_Cell("PaymentList", "Payment Status");
+				String PaymentId, Pay_Status = Browser.WebTable.getCellData("PaymentList", RowCount, Col);
+				Col = CO.Select_Cell("PaymentList", "Payment #");
+				PaymentId = Browser.WebTable.getCellData("PaymentList", RowCount, Col);
+				if (Pay_Status.equalsIgnoreCase("authorized")) {
+					Result.takescreenshot(
+							"Payment is Authorized and is in " + Pay_Status + " for Payment Id " + PaymentId);
+					Result.fUpdateLog("Payment is Authorized and is in " + Pay_Status + " for Payment Id " + PaymentId);
+				} else {
+					Continue.set(false);
+					Result.takescreenshot(
+							"Payment is not Authorized and is in " + Pay_Status + " for Payment Id " + PaymentId);
+					Result.fUpdateLog(
+							"Payment is not Authorized and is in " + Pay_Status + " for Payment Id " + PaymentId);
+				}
+			} else {
+				Continue.set(false);
+				Result.takescreenshot("Payment Could not be added -- Check User Access");
+				Result.fUpdateLog("Payment Could not be added -- Check User Access");
+			}
+
+			CO.waitforload();
+			CO.TabNavigator("Line Items");
+			int Row_Count = Browser.WebTable.getRowCount("Line_Items");
+			if (Row_Count <= 3) {
+				for (int Row = 3; Row <= Row_Count; Row++) {
+					Browser.WebTable.Expand("Line_Items", Row_Count);
+					CO.waitforload();
+				}
+				Result.takescreenshot("Getting Line Item Data");
+				Result.fUpdateLog("Getting Line Item Data");
+			}
+
+			CO.waitforload();
+			CO.LineItems_Data();
+
+			Test_OutPut += OrderSubmission().split("@@")[1];
+
+			String Order_no = CO.Order_ID();
+			Utlities.StoreValue("Order_no", Order_no);
+			Test_OutPut += "Order_no : " + Order_no + ",";
+
+			CO.ToWait();
+			CO.GetSiebelDate();
+
+			if (Continue.get()) {
+				Test_OutPut += "Credit Limit Set - Siebel is done Successfully " + ",";
+				Result.fUpdateLog("Credit Limit Set - Siebel is  done successfully");
+				Status = "PASS";
+			} else {
+				Test_OutPut += "Credit Limit Set - Siebel Failed" + ",";
+				Result.takescreenshot("Credit Limit Set - Siebel Failed");
+				Result.fUpdateLog("Credit Limit Set - Siebel Failed");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + e.getMessage());
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Credit Limit Set - Siebel - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 

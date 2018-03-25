@@ -172,6 +172,7 @@ public class Driver {
 		StoreDB_File.set(Temp_FLD.get() + "/" + Batch + "/StoreDB.xlsx");
 		TestDataDB_File.set(Temp_FLD.get() + "/" + Batch + "/TestDataDB.xlsx");
 		Storage_FLD.set(Temp_FLD.get() + "/" + Batch);
+		browser.set("Chrome");
 		int totalUC = 0;
 		try {
 			ExecutionStarttimestr.set(SRT_Time);

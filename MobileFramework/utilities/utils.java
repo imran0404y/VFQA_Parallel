@@ -92,7 +92,8 @@ public class utils extends Driver{
 		Fillo fillo = new Fillo();
 		//Connection connection = fillo.getConnection("MobileFramework\\db\\result.xlsx");
 		Connection connection = fillo.getConnection(UCscreenfilepth.get()+"\\result.xlsx");
-		String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0'";
+		String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0' and Expiry !='Date Not Given'";
+		//String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0'";
 		Recordset recordset = connection.executeQuery(strQuery);
 		TreeMap<Date, String> expiry = new TreeMap<Date, String>();
 		while (recordset.next()) {

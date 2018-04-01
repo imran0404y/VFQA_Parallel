@@ -79,8 +79,8 @@ public class Result extends Driver {
 				logfile.createNewFile();
 			}
 
-			//File masterhtml = new File(tempref + "/MasterReport.HTML");
-			//FileUtils.copyFileToDirectory(masterhtml, tresfold);
+			// File masterhtml = new File(tempref + "/MasterReport.HTML");
+			// FileUtils.copyFileToDirectory(masterhtml, tresfold);
 			masterrephtml.set(tresfold.toString() + "\\MasterReport.HTML");
 
 		} catch (IOException e) {
@@ -156,7 +156,8 @@ public class Result extends Driver {
 				+ "<link rel=\"stylesheet\" href=\"" + "Scripts\\style.css\" type=\"text/css\">" + "<script src=\""
 				+ "Scripts\\amcharts.js\" type=\"text/javascript\"></script>" + "<style>" + "table {font-size: 12px;"
 				+ "background:#E6E6E6;" + "}" + "</style>" + "<script>" + "var chart;" + "var chartData = [{"
-				+ "Status: \"Pass\"," + "Count:" + passUC + "}, {" + "Status: \"Fail\"," + "Count:" + failUC + "}];"
+				+ "Status: \"Pass\"," + "Count:" + passUC + "}, {" + "Status: \"PartiallyPass\"," + "Count:"
+				+ partialypassUC + "}, {" + "Status: \"Fail\"," + "Count:" + failUC + "}];"
 				+ "AmCharts.ready(function () {" + "chart = new AmCharts.AmPieChart();" +
 				// "chart.addTitle(\"Execution Status\", 16);"+
 				"chart.dataProvider = chartData;" + "chart.titleField = \"Status\";" + "chart.valueField = \"Count\";"
@@ -175,8 +176,10 @@ public class Result extends Driver {
 				+ "<td width='50%' align=\"center\" colspan = 2><div id=\"chartdiv\" style=\"width:450px; height:150px;\"></div></td>"
 				+ "<td valign ='top'>" + "<table border =1 width = 100%>" + "<tr>"
 				+ "<td align=\"center\"><b>Total</b></td>" + "<td align=\"center\"><b>Pass</b></td>"
-				+ "<td align=\"center\"><b>Fail</b></td>" + "</tr>" + "<tr>" + "<td align=\"center\" id=\"tot\">"
-				+ totalUCount + "</td>" + "<td align=\"center\" id=\"totpass\">" + passUC + "</td>"
+				+ "<td width = 25% align=\"center\"><b>PartiallyPass</b></td>" + "<td align=\"center\"><b>Fail</b></td>"
+				+ "</tr>" + "<tr>" + "<td align=\"center\" id=\"tot\">" + totalUCount + "</td>"
+				+ "<td align=\"center\" id=\"totpass\">" + passUC + "</td>"
+				+ "<td width = 25% align=\"center\" id=\"totpartialypass\">" + partialypassUC + "</td>"
 				+ "<td align=\"center\" id=\"totfail\">" + failUC + "</td>" + "</tr>" + "</table><br/><br/>"
 				+ "<table border =1 width = 100%>" + " <tr>"
 				+ "<td align=\"center\" Style=\"color:GoldenRod\"><b>StartTime</b></td>"
@@ -203,14 +206,20 @@ public class Result extends Driver {
 				+ TestCaseN.get() + ".docx" + ">" + TestCaseN.get() + "</a></center></td>";
 		updatelogmsg = updatelogmsg + "<td width = 12%>" + TestCaseDes.get() + "</td>";
 		updatelogmsg = updatelogmsg + "<td width = 20%>" + TestCaseData.get() + "</td>";
+
 		if (currUCstatus.get().equals("Pass")) {
-			updatelogmsg = updatelogmsg + "<td width = 25%>" + TestOutput.get() + "</td>";
-			updatelogmsg = updatelogmsg + "<td width = 5% Style=\"color:green\"><b><center>Pass</center></b></td></tr>";
+			updatelogmsg = updatelogmsg + "<td width = 28%>" + TestOutput.get() + "</td>";
+			updatelogmsg = updatelogmsg
+					+ "<td width = 6% Style=\"color:#04D215\"><b><center>Pass</center></b></td></tr>";
+		} else if (currUCstatus.get().equals("PartiallyPass")) {
+			updatelogmsg = updatelogmsg + "<td width = 28%>" + TestOutput.get() + "</td>";
+			updatelogmsg = updatelogmsg
+					+ "<td width = 6% Style=\"color:#0D8ECF\"><b><center>PartiallyPass</center></b></td></tr>";
 		} else if (currUCstatus.get().equals("Fail")) {
-			updatelogmsg = updatelogmsg + "<td width = 25%>" + TestOutput.get() + "\n" + "Failed at " + currKW_Des.get()
+			updatelogmsg = updatelogmsg + "<td width = 28%>" + TestOutput.get() + "\n" + "Failed at " + currKW_Des.get()
 					+ "</td>";
 			updatelogmsg = updatelogmsg
-					+ "<td width = 5% Style=\\\"color:Red\\\"><b><center>Fail</center></b></td></tr>";
+					+ "<td width = 6% Style=\\\"color:#FF0F00\\\"><b><center>Fail</center></b></td></tr>";
 		}
 
 		bw.write(updatelogmsg);

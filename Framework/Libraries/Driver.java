@@ -39,6 +39,7 @@ public class Driver {
 
 	public static int passUC = 0;
 	public static int failUC = 0;
+	public static int partialypassUC = 0;
 	public static int totalUCount = 0;
 	public static ThreadLocal<String> TestOutput = new ThreadLocal<String>();
 	// public static String TestOutput;
@@ -301,8 +302,12 @@ public class Driver {
 				if (currKWstatus.get().equalsIgnoreCase("Fail")) {
 					failUC = failUC + 1;
 					currUCstatus.set("Fail");
-				} else {
+				}else if (currKWstatus.get().equalsIgnoreCase("PartiallyPass")) {
+					partialypassUC = partialypassUC + 1;
+					currUCstatus.set("PartiallyPass");
+				}else {
 					passUC = passUC + 1;
+					currUCstatus.set("Pass");
 				}
 
 				totalUCount = totalUCount + 1;

@@ -24,7 +24,7 @@ import com.jcraft.jsch.Session;
 
 public class Keyword_Putty extends Driver {
 	// private static ChannelShell channel;
-
+	Keyword_DB KD =new Keyword_DB();
 	public String LoginSSH() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------BRM Putty Login Event Details------");
@@ -92,9 +92,11 @@ public class Keyword_Putty extends Driver {
 			if (!(getdata("AccountNo").equals(""))) {
 				str_Content = getdata("AccountNo");
 			} else if (!(getdata("MultipleAccountNo").equals(""))) {
-				str_Content = getdata("MultipleAccountNo").replace("/,", "\\n");
+				str_Content = getdata("MultipleAccountNo").replace("/,", "','");
 			}
-
+			
+			String as = KD.AccPoID_BillPoID(str_Content);
+			
 			str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
 			Result.fUpdateLog(str_FileContent);
 

@@ -332,13 +332,27 @@ public class Keyword_Guided extends Driver
 			Test_OutPut += "MSISDN : " + Number + ",";
 			Utlities.StoreValue("MSISDN", Number);
 			// String Number = Driver.msisdn_exe.get(), Temp;
-			int Len = Number.length(), Col_Count = Browser.WebTable.getColCount("Unreserverd"), Col_Res = 0, Row = 2;
+			int Len = Number.length(), Col_Count = Browser.WebTable.getColCount("Unreserverd"), Col_Res = 0,Col_Cat=0, Row = 2;
+			int j=0;
+			
 			String Reserve = Number.substring(3, Len);
 			for (int i = 2; i < Col_Count; i++) {
 				Temp = CO.Col_Data(i);
-				Col_Res = i;
 				if (Temp.toLowerCase().trim().equals("service type"))
+				{
+					Col_Res = i;
+					j=j+1;
+					
+				}
+				else if(Temp.toLowerCase().trim().equals("category"))
+				{
+					Col_Cat= i;
+					j=j+1;
+				}
+				if(j==2)
+				{
 					break;
+				}
 			}
 
 			/**
@@ -374,7 +388,7 @@ public class Keyword_Guided extends Driver
 			CO.scroll("Reserved", "WebTable");
 			Browser.WebTable.SetDataE("Reserved", Row, Col_Res, "Service_Type", "Mobile");
 			Browser.WebTable.SetData("Reserved", Row, Col_Res + 1, "Category", "");
-
+			String Category =Browser.WebTable.getCellData("Reserved", Row, Col_Cat);
 			// To check whether the Number has been Reserved
 			// CO.waitforload();
 			CO.waitforobj("SP_Resrv_Continue", "WebButton");
@@ -447,6 +461,10 @@ public class Keyword_Guided extends Driver
 			CO.waitforload();
 			CO.waitmoreforload();
 			CO.waitforload();
+			if(Category.equalsIgnoreCase("start")) {
+				Browser.WebEdit.Set("Star_Number_val", "0");
+
+			}
 			CO.scroll("Generate_CAF", "WebButton");
 			Browser.WebButton.click("Generate_CAF");
 
@@ -503,10 +521,10 @@ public class Keyword_Guided extends Driver
 			CO.waitforload();
 			Row = 2;
 			int Col, col1, RowCount;
-			Col = CO.Select_Cell("Contact", "Account");
+			Col = CO.Actual_Cell("Contact", "Account");
 			Browser.WebTable.SetDataE("Contact", Row, Col, "Account", Account_Name);
 
-			col1 = CO.Select_Cell("Contact", "ID Number");
+			col1 = CO.Actual_Cell("Contact", "ID Number");
 			Browser.WebTable.SetDataE("Contact", Row, col1, "ID_Number", IDNumber);
 			/*
 			 * Col = CO.Select_Cell("Contact", "ID Type");

@@ -18,6 +18,8 @@ public class KeyWord {
 	Keyword_OSM KO = new Keyword_OSM();
 	Keyword_PEARL KPL = new Keyword_PEARL();
 	Keyword_DAPN KD = new Keyword_DAPN();
+	Keyword_PJM KJ = new Keyword_PJM();
+	
 
 	Dialers KDialers = new Dialers();
 	SetCapabilities KSetCapabilities = new SetCapabilities();
@@ -207,6 +209,18 @@ public class KeyWord {
 	
 	public String CreditLimit() {
 		return KC.CreditLimit();
+	}
+	public String MVCareBill() {
+		return KC.MVCareBill();
+	}
+	public String BillSummary() {
+		return KC.BillSummary();
+	}
+	public String HappyOffers() {
+		return KC.HappyOffers();
+	}
+	public String DueAmount() {
+		return KC.DueAmount();
 	}
 	// ------------------Keyword CRM -------------------//
 
@@ -483,4 +497,13 @@ public class KeyWord {
 		return KSiebel.CheckOrder();
 	}
 	// ---------------------Mobile Usages------------------------//
+	
+	// ---------------------PJM ------------------------//
+	public String PJM_Login() {
+		return KJ.PJM_Login();
+	}
+	public String PJM_Upload() {
+		return KJ.PJM_Upload();
+	}
+	// ---------------------PJM ------------------------//
 }

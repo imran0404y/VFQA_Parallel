@@ -94,6 +94,7 @@ public class Driver {
 	public static HashMap<String, String> BillSchedule = new HashMap<String, String>();
 	public static ThreadLocal<String> Billprofile_No = new ThreadLocal<String>();
 	public static ThreadLocal<String> Acc_Number = new ThreadLocal<String>();
+	public static ThreadLocal<String> Total_DueAmt = new ThreadLocal<String>();
 
 	public static DateFormat For = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 	public static Calendar cal = Calendar.getInstance();

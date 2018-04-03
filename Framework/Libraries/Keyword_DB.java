@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -125,13 +126,13 @@ public class Keyword_DB extends Driver {
 			try {
 				Statement statement = con.get().createStatement();
 				String queryString = "Select a.poid_id0 ,b.poid_id0 from pin.account_t a,pin.billinfo_t b where a.account_no IN ('"
-						+ AccountNo + "')and b.account_obj_id0=a.poid_id0 AND NOT b.PAYINFO_OBJ_TYPE LIKE '%prepaid%'";
+						+ AccountNo + "') and b.account_obj_id0=a.poid_id0 AND NOT b.PAYINFO_OBJ_TYPE LIKE '%prepaid%'";
 				Result.fUpdateLog(queryString);
 				ResultSet rs = statement.executeQuery(queryString);
 				while (rs.next()) {
 					Test_OutPut += "        <BillingList>\r\n" + "                <Account>" + rs.getString(1)
 							+ "</Account>\r\n" + "                <Billinfo>" + rs.getString(2) + "</Billinfo>\r\n"
-							+ "        </BillingList>";
+							+ "        </BillingList>\r\n";
 				}
 
 				Test_OutPut += "</BillRunConfiguration>\r\n" + "</BusinessConfiguration>";
@@ -148,6 +149,69 @@ public class Keyword_DB extends Driver {
 		}
 		Result.fUpdateLog("------AccPoID_BillPoID Event Details - Completed------");
 		return Test_OutPut;
+	}
+
+	public String BillPoID(String AccountNo) {
+		Continue.set(true);
+		String Test_OutPut = "";
+		if (Continue.get()) {
+			Result.fUpdateLog("------BillPoID Event Details------");
+			Test_OutPut = "";
+			try {
+				Statement statement = con.get().createStatement();
+				String queryString = "select b.poid_id0 from pin.bill_t b , pin.account_t a, pin.billinfo_t bi where b.account_obj_id0 = a.poid_id0 and b.billinfo_obj_id0 = bi.poid_id0 and "
+						+ "bi.pay_type in ('10001','15003','15004') and b.invoice_obj_id0 = 0 and b.bill_no is not null and a.account_no in ('"
+						+ AccountNo + "')";
+				Result.fUpdateLog(queryString);
+				ResultSet rs = statement.executeQuery(queryString);
+				int i = 0;
+				while (rs.next()) {
+					Test_OutPut += "0 PIN_FLD_RESULTS     ARRAY [" + i + "]\r\n"
+							+ "1    PIN_FLD_POID        POID [0] 0.0.0.1 /bill " +  rs.getString(1) + "\r\n";
+					i++;
+				}
+			} catch (Exception e) {
+				Continue.set(false);
+				Test_OutPut += "Failed to BillPoID" + ",";
+				Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+				e.printStackTrace();
+			}
+
+		} else {
+			Result.fUpdateLog("Failed at intial did not entered in BillPoID");
+			Continue.set(false);
+		}
+		Result.fUpdateLog("------BillPoID Event Details - Completed------");
+		return Test_OutPut;
+
+	}
+	
+	public ArrayList<String> ACCPoID(String AccountNo) {
+		Continue.set(true);
+		ArrayList<String> arr = new ArrayList<String>();
+		if (Continue.get()) {
+			Result.fUpdateLog("------ACCPoID Event Details------");
+			try {
+				Statement statement = con.get().createStatement();
+				String queryString = "Select a.poid_id0 from pin.account_t a where a.account_no IN ('"
+						+ AccountNo + "')";
+				Result.fUpdateLog(queryString);
+				ResultSet rs = statement.executeQuery(queryString);
+				while (rs.next()) {
+					arr.add(rs.getString(1));
+				}
+			} catch (Exception e) {
+				Continue.set(false);
+				Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+				e.printStackTrace();
+			}
+
+		} else {
+			Result.fUpdateLog("Failed at intial did not entered in ACCPoID");
+			Continue.set(false);
+		}
+		Result.fUpdateLog("------ACCPoID Event Details - Completed------");
+		return arr;
 
 	}
 }

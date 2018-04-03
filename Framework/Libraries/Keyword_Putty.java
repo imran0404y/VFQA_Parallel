@@ -24,7 +24,8 @@ import com.jcraft.jsch.Session;
 
 public class Keyword_Putty extends Driver {
 	// private static ChannelShell channel;
-	Keyword_DB KD =new Keyword_DB();
+	Keyword_DB KD = new Keyword_DB();
+
 	public String LoginSSH() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------BRM Putty Login Event Details------");
@@ -83,89 +84,84 @@ public class Keyword_Putty extends Driver {
 	public String BillGeneration_AccountLevel() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------Bill Generation Event Details------");
-		String pvt = "", str_Content = "";
+		String pvt = "", Contant = "", str_Content = "";
 		try {
 			String str_Directory = pulldata("str_Directory");
 			String str_File = pulldata("str_File");
-			String str_FileContent = "";
+			String str_FileContent = " ";
 
 			if (!(getdata("AccountNo").equals(""))) {
 				str_Content = getdata("AccountNo");
 			} else if (!(getdata("MultipleAccountNo").equals(""))) {
-				str_Content = getdata("MultipleAccountNo").replace("/,", "','");
-			}
-			
-			String as = KD.AccPoID_BillPoID(str_Content);
-			
-			str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
-			Result.fUpdateLog(str_FileContent);
-
-			str_FileContent = WriteFileToLinux(nsession.get(), str_Content, str_Directory, str_File);
-			Result.fUpdateLog(str_FileContent);
-
-			str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
-			Result.fUpdateLog(str_FileContent);
-			Test_OutPut += str_FileContent + ",";
-
-			if (!(getdata("PVT_Date").equals(""))) {
-				// "pvt -m2 010710002018 "
-				pvt = "pvt -m2 " + getdata("PVT_Date");
-			} else {
-				pvt = "pvt -m2 " + pulldata("PVT_Date");
+				str_Content = getdata("MultipleAccountNo").replace(",", "','");
 			}
 
-			List<String> commands = new ArrayList<String>();
-			commands.add("test");
-			commands.add("cd control_file_gen");
-			commands.add("./bill_control_gen.pl");
-			commands.add("cp PinBillRunControl.xml $PIN_HOME/apps/pin_billd");
-			commands.add("test");
-			commands.add(pvt);
-			commands.add("pvt");
-			commands.add("apps");
-			commands.add("cd pin_billd");
-			commands.add("cat PinBillRunControl.xml");
-			// commands.add("pin_deferred_act –verbose");
-			// commands.add("pin_cycle_fees -cycle_fees -verbose");
-			// commands.add("pin_cycle_fees -purchase -verbose");
-			// commands.add("pin_cycle_fees -cancel -verbose");
-			commands.add("pin_bill_accts -file PinBillRunControl.xml -verbose");
-			commands.add("test");
-			commands.add("pvt -m0");
-			commands.add("pvt");
+			Contant = KD.AccPoID_BillPoID(str_Content);
+			if (Continue.get()) {
+				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				Result.fUpdateLog("Reading the initial File Content: " + str_File + " : " + str_FileContent);
 
-			// commands.add("history");
+				str_FileContent = WriteFileToLinux(nsession.get(), Contant, str_Directory, str_File);
+				Result.fUpdateLog("Writing into the file: " + str_File + " : " + str_FileContent);
 
-			str_FileContent = Executecmd(nsession.get(), commands, "");
+				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				Result.fUpdateLog("Reading the File Content after update: " + str_File + " : " + str_FileContent);
+				Test_OutPut += str_FileContent + ",";
 
-			Date today = new Date();
-			String x = today.toString();
-			x = x.substring(4, 13).replace("01", "1").replace("02", "2").replace("03", "3").replace("04", "4")
-					.replace("05", "5").replace("06", "6").replace("07", "7").replace("08", "8").replace("09", "9");
-			Result.fUpdateLog(x);
+				if (!(getdata("PVT_Date").equals(""))) {
+					// "pvt -m2 010710002018 "
+					pvt = "pvt -m2 " + getdata("PVT_Date");
+				} else {
+					pvt = "pvt -m2 " + pulldata("PVT_Date");
+				}
 
-			if (str_FileContent.contains(x)) {
-				Result.fUpdateLog("PVT set as Normal");
-				Test_OutPut += "PVT set as Normal" + ",";
-				Continue.set(true);
+				List<String> commands = new ArrayList<String>();
+				commands.add("test");
+				commands.add(pvt);
+				commands.add("pvt");
+				commands.add("apps");
+				commands.add("cd pin_billd");
+				commands.add("cat PinBillRunControl.xml");
+				commands.add("pin_bill_accts -file PinBillRunControl.xml -verbose");
+				commands.add("test");
+				commands.add("pvt -m0");
+				commands.add("pvt");
+
+				str_FileContent = Executecmd(nsession.get(), commands, "");
+
+				Date today = new Date();
+				String x = today.toString();
+				x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
+						.replace("05", " 5").replace("06", " 6").replace("07", " 7").replace("08", " 8")
+						.replace("09", " 9");
+				Result.fUpdateLog(x);
+
+				if (str_FileContent.contains(x)) {
+					Result.fUpdateLog("PVT set as Normal");
+					Test_OutPut += "PVT set as Normal" + ",";
+					Continue.set(true);
+				} else {
+					Result.fUpdateLog("Fail to set PVT Normal");
+					Test_OutPut += "Fail to set PVT Normal" + ",";
+					Continue.set(false);
+				}
+
+				CopytoDoc(str_FileContent);
+
+				if (str_FileContent.contains("logout") && Continue.get()) {
+					Test_OutPut += "Commands Executed Successfully" + ",";
+					// Result.fUpdateLog(str_FileContent);
+					Status = "PASS";
+				} else {
+					Test_OutPut += "Failed to Execute the commands" + ",";
+					// Result.fUpdateLog(str_FileContent);
+					Status = "Fail";
+				}
 			} else {
-				Result.fUpdateLog("Fail to set PVT Normal");
-				Test_OutPut += "Fail to set PVT Normal" + ",";
-				Continue.set(false);
-			}
-
-			CopytoDoc(str_FileContent);
-
-			if (str_FileContent.contains("logout") && Continue.get()) {
-				Test_OutPut += "Commands Executed Successfully" + ",";
-				//Result.fUpdateLog(str_FileContent);
-				Status = "PASS";
-			} else {
-				Test_OutPut += "Failed to Execute the commands" + ",";
-				//Result.fUpdateLog(str_FileContent);
+				Test_OutPut += "Failed to get Account and bill info PoidID from DB" + ",";
+				// Result.fUpdateLog(str_FileContent);
 				Status = "Fail";
 			}
-
 		} catch (Exception e) {
 			Continue.set(false);
 			Test_OutPut += "Failed to disconnect session" + ",";
@@ -180,146 +176,153 @@ public class Keyword_Putty extends Driver {
 	public String Invoicegeneration() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------Invoice generation Event Details------");
-		String Dt = "", x = "";
+		String x = "", str_Content = "", Contant = "", Xml = "";
 		try {
 			String str_FileContent = "";
 
-			if (!(getdata("Beyond_PVT_Date").equals(""))) {
-				// ./vfq_export_invXML-BILL.pl -end 17-12-2012 10:10:10
-				Dt = "./vfq_export_invXML-BILL.pl -end " + getdata("Beyond_PVT_Date").replace("M", "");
-			} else {
-				Dt = "./vfq_export_invXML-BILL.pl -end " + pulldata("Beyond_PVT_Date").replace("M", "");
+			String str_Directory = pulldata("str_Directory");
+			String str_File = pulldata("str_File");
+
+			if (!(getdata("AccountNo").equals(""))) {
+				str_Content = getdata("AccountNo");
+			} else if (!(getdata("MultipleAccountNo").equals(""))) {
+				str_Content = getdata("MultipleAccountNo").replace(",", "','");
 			}
 
-			List<String> commands = new ArrayList<String>();
-			commands.add("test");
-			commands.add("cd control_file_gen");
-			commands.add("./pending_invoice_gen.pl");
-			commands.add("ls -lrt");
-			str_FileContent = Executecmd(nsession.get(), commands, "");
-
-			Date today = new Date();
-			x = today.toString();
-			x = x.substring(4, 13).replace("01", "1").replace("02", "2").replace("03", "3").replace("04", "4")
-					.replace("05", "5").replace("06", "6").replace("07", "7").replace("08", "8").replace("09", "9");
-			Result.fUpdateLog(x);
-
-			if (str_FileContent.contains(x)) {
-				Continue.set(true);
-				Result.fUpdateLog("The f1 directory is updated : control_file_gen");
-				Test_OutPut += "The f1 directory is updated : control_file_gen" + ",";
-
-				List<String> commands1 = new ArrayList<String>();
-				commands1.add("test");
-				commands1.add("cd control_file_gen");
-				commands1.add("cp f1 $PIN_HOME/apps/pin_inv");
-				commands1.add("apps");
-				commands1.add("cd pin_inv");
-				commands1.add("ls -lrt");
-				String str_FileContent1 = Executecmd(nsession.get(), commands1, "");
-				str_FileContent += str_FileContent1;
-
-				Date today1 = new Date();
-				x = today1.toString();
-				x = x.substring(4, 13).replace("01", "1").replace("02", "2").replace("03", "3").replace("04", "4")
-						.replace("05", "5").replace("06", "6").replace("07", "7").replace("08", "8").replace("09", "9");
-				Result.fUpdateLog(x);
-
-				if (str_FileContent1.contains(x)) {
-					Result.fUpdateLog("The f1 directory is updated : pin_inv");
-					Test_OutPut += "The f1 directory is updated : pin_inv" + ",";
-
-					List<String> commands2 = new ArrayList<String>();
-					commands2.add("apps");
-					commands2.add("cd pin_inv");
-					commands2.add("pin_inv_accts -details -file f1 -verbose");
-					String str_FileContent4 = Executecmd(nsession.get(), commands2, "");
-					str_FileContent += str_FileContent4;
-				} else {
-					Continue.set(false);
-				}
-
-			} else {
-				Continue.set(false);
-			}
-
+			Contant = KD.BillPoID(str_Content);
 			if (Continue.get()) {
-				List<String> commands3 = new ArrayList<String>();
-				commands3.add("apps");
-				commands3.add("cd vfq_exp_XML/vfq_exp_XML-Bill");
-				commands3.add(Dt);
-				commands3.add("cd invoice_processed");
-				commands3.add("ls -lrt");
-				String str_FileContent2 = Executecmd(nsession.get(), commands3, "");
+				ArrayList<String> AccPoID = KD.ACCPoID(str_Content);
+
+				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				Result.fUpdateLog("Reading the initial File Content: " + str_File + " : " + str_FileContent);
+
+				str_FileContent = WriteFileToLinux(nsession.get(), Contant, str_Directory, str_File);
+				Result.fUpdateLog("Writing into the file: " + str_File + " : " + str_FileContent);
+
+				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				Result.fUpdateLog("Reading the File Content after update: " + str_File + " : " + str_FileContent);
+				// Test_OutPut += str_FileContent + ",";
+
+				Result.fUpdateLog("The f1 directory is updated : pin_inv");
+				Test_OutPut += "The f1 directory is updated : pin_inv" + ",";
+
+				Date today9 = new Date();
+				x = today9.toString();
+				String y = today9.toString();
+				x = x.substring(0, 19).replace(":", "").replace(" ", "");
+				y = y.substring(4, 10).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
+						.replace("05", " 5").replace("06", " 6").replace("07", " 7").replace("08", " 8")
+						.replace("09", " 9");
+				Xml = "zip " + x;
+				String v = "ls -lrt|grep '" + x + "'";
+				String d = "ls -lrt|grep '" + y + "'";
+				List<String> commands2 = new ArrayList<String>();
+				commands2.add("apps");
+				commands2.add("cd pin_inv");
+				commands2.add("pin_inv_accts -verbose -detail -file f1");
+				commands2.add("pin_inv_accts -verbose -summary -file f1");
+				commands2.add("pin_inv_export -detail f1 –v");
+				commands2.add("cd invoice_dir");
+				commands2.add(d);
+				String str_FileContent2 = Executecmd(nsession.get(), commands2, "");
 				str_FileContent += str_FileContent2;
 				String xa[] = str_FileContent2.split("\n");
-				int i = xa.length - 5;
-				// String str = "-rw-rw-r-- 1 pin pin 4744 Jan 25 09:13
-				// [01;31mInvoice_1516860799.zip[00m"; //
-				String str = xa[i];
-				System.out.println(xa[i].length());
-				str_FileContent2 = xa[i].substring(66, xa[i].length() - 6);
-				// String str_FileContent2 = "Invoice_1516860799.zip";
-				Result.fUpdateLog(str_FileContent2);
+				int b = xa.length - 5;
 
 				Date today5 = new Date();
 				x = today5.toString();
-				x = x.substring(4, 13).replace("01", "1").replace("02", "2").replace("03", "3").replace("04", "4")
-						.replace("05", "5").replace("06", "6").replace("07", "7").replace("08", "8").replace("09", "9");
-				// x = "Jan 25 09:45";
-				Result.fUpdateLog(x);
+				x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
+						.replace("05", " 5").replace("06", " 6").replace("07", " 7").replace("08", " 8")
+						.replace("09", " 9");
+				String str = "";
+				for (int a = 1; a <= b; a++) {
+					for (int c = 0; c < AccPoID.size(); c++) {
+						str = xa[a];
+						System.out.println(str);
+						if (str.contains(AccPoID.get(c)) & str.contains(x)) {
+							String str_FileContent3 = xa[a].substring(47, xa[a].length() - 6);
+							Xml += " " + str_FileContent3;
+						}
+					}
+				}
+				if (Xml.contains("xml")) {
+					List<String> commands7 = new ArrayList<String>();
+					commands7.add("apps");
+					commands7.add("cd pin_inv/invoice_dir");
+					commands7.add(Xml);
+					commands7.add(v);
+					String str_FileContent5 = Executecmd(nsession.get(), commands7, "");
+					str_FileContent += str_FileContent5;
+					String xb[] = str_FileContent5.split("\n");
+					int i = xb.length - 5;
+					str = xb[i];
+					System.out.println(xb[i].length());
+					str_FileContent5 = xb[i].substring(50, xb[i].length() - 6);
+					Result.fUpdateLog(str_FileContent5);
 
-				if (str_FileContent2.contains("zip") & str.contains(x)) {
-					Continue.set(true);
-					Result.fUpdateLog("latest .zip file is updated : invoice_processed");
-					Test_OutPut += "latest .zip file is updated : invoice_processed" + ",";
-					Test_OutPut += ".Zip file Name : " + str_FileContent2 + ",";
-					InvoiceZip.set(str_FileContent2);
-					List<String> commands4 = new ArrayList<String>();
-					commands4.add("test");
-					commands4.add("pvt -m0");
-					commands4.add("pvt");
-					String str_FileContent3 = Executecmd(nsession.get(), commands4, "");
-					str_FileContent += str_FileContent3;
-
-					Date today2 = new Date();
-					x = today2.toString();
-					x = x.substring(4, 13).replace("01", "1").replace("02", "2").replace("03", "3").replace("04", "4")
-							.replace("05", "5").replace("06", "6").replace("07", "7").replace("08", "8")
-							.replace("09", "9");
+					Date today7 = new Date();
+					x = today7.toString();
+					x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3")
+							.replace("04", " 4").replace("05", " 5").replace("06", " 6").replace("07", " 7")
+							.replace("08", " 8").replace("09", " 9");
 					Result.fUpdateLog(x);
-					if (str_FileContent3.contains(x)) {
-						Result.fUpdateLog("PVT set as Normal");
-						Test_OutPut += "PVT set as Normal" + ",";
+
+					if (str_FileContent5.contains("zip") & str.contains(x)) {
 						Continue.set(true);
+						Result.fUpdateLog("latest .zip file is updated : invoice_dir");
+						Test_OutPut += "latest .zip file is updated : invoice_dir" + ",";
+						Test_OutPut += ".Zip file Name : " + str_FileContent5 + ",";
+						InvoiceZip.set(str_FileContent5);
+						List<String> commands4 = new ArrayList<String>();
+						commands4.add("test");
+						commands4.add("pvt -m0");
+						commands4.add("pvt");
+						String str_FileContent3 = Executecmd(nsession.get(), commands4, "");
+						str_FileContent += str_FileContent3;
+
+						Date today2 = new Date();
+						x = today2.toString();
+						x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3")
+								.replace("04", " 4").replace("05", " 5").replace("06", " 6").replace("07", " 7")
+								.replace("08", " 8").replace("09", " 9");
+						Result.fUpdateLog(x);
+						if (str_FileContent3.contains(x)) {
+							Result.fUpdateLog("PVT set as Normal");
+							Test_OutPut += "PVT set as Normal" + ",";
+							Continue.set(true);
+						} else {
+							Result.fUpdateLog("Fail to set PVT Normal");
+							Test_OutPut += "Fail to set PVT Normal" + ",";
+							Continue.set(false);
+						}
+
 					} else {
-						Result.fUpdateLog("Fail to set PVT Normal");
-						Test_OutPut += "Fail to set PVT Normal" + ",";
+						Result.fUpdateLog(".Zip file not generated");
+						Test_OutPut += ".Zip file not generated" + ",";
 						Continue.set(false);
 					}
-
 				} else {
-					Result.fUpdateLog(".Zip file not generated");
-					Test_OutPut += ".Zip file not generated" + ",";
+					Result.fUpdateLog(".XML not generated");
+					Test_OutPut += ".XML not generated" + ",";
 					Continue.set(false);
 				}
-			}
 
-			CopytoDoc(str_FileContent);
+				CopytoDoc(str_FileContent);
 
-			if (str_FileContent.contains("logout") && Continue.get()) {
-				Test_OutPut += "Commands Executed Successfully" + ",";
-				//Result.fUpdateLog(str_FileContent);
-				Status = "PASS";
+				if (str_FileContent.contains("logout") && Continue.get()) {
+					Test_OutPut += "Commands Executed Successfully" + ",";
+					Status = "PASS";
+				} else {
+					Test_OutPut += "Failed to Execute the commands" + ",";
+					Status = "Fail";
+				}
 			} else {
-				Test_OutPut += "Failed to Execute the commands" + ",";
-				//Result.fUpdateLog(str_FileContent);
+				Test_OutPut += "Failed to get BILL PoidID from DB" + ",";
 				Status = "Fail";
 			}
-
 		} catch (Exception e) {
 			Continue.set(false);
-			Test_OutPut += "Failed to disconnect session" + ",";
+			Test_OutPut += "Failed to Invoice generation" + ",";
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			Status = "FAIL";
 			e.printStackTrace();
@@ -359,8 +362,9 @@ public class Keyword_Putty extends Driver {
 
 				Date today = new Date();
 				String x = today.toString();
-				x = x.substring(4, 13).replace("01", "1").replace("02", "2").replace("03", "3").replace("04", "4")
-						.replace("05", "5").replace("06", "6").replace("07", "7").replace("08", "8").replace("09", "9");
+				x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
+						.replace("05", " 5").replace("06", " 6").replace("07", " 7").replace("08", " 8")
+						.replace("09", " 9");
 				Result.fUpdateLog(x);
 
 				if (str_FileContent.contains(x)) {
@@ -399,7 +403,7 @@ public class Keyword_Putty extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	public String ReadFileFromLinux(Session obj_Session, String str_FileDirectory, String str_FileName) {
+	public String ReadFileFromLinux(Session obj_Session, String str_FileDirectory, String str_FileName) throws Exception {
 		StringBuilder obj_StringBuilder = new StringBuilder();
 		try {
 			Channel obj_Channel = obj_Session.openChannel("sftp");
@@ -423,14 +427,14 @@ public class Keyword_Putty extends Driver {
 			obj_Channel.disconnect();
 			return str_FileName + " file Contains : " + obj_StringBuilder.toString();
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			return "Fail to Read the file : " + str_FileName;
+			Result.fUpdateLog("Fail to Read the file : " + ExceptionUtils.getStackTrace(ex));
+			throw new Exception();
 		}
 
 	}
 
 	public String WriteFileToLinux(Session obj_Session, String str_Content, String str_FileDirectory,
-			String str_FileName) {
+			String str_FileName) throws Exception {
 
 		try {
 			Channel obj_Channel = obj_Session.openChannel("sftp");
@@ -444,8 +448,8 @@ public class Keyword_Putty extends Driver {
 			obj_Channel.disconnect();
 			return str_FileName + " File Uploaded Successfully : " + str_Content;
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			return "Fail to Uploaded : " + str_FileName;
+			Result.fUpdateLog("Fail to Uploaded : " + ExceptionUtils.getStackTrace(ex));
+			throw new Exception();
 		}
 	}
 

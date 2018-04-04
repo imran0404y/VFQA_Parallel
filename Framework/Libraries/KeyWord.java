@@ -326,6 +326,10 @@ public class KeyWord {
 	public String Collections() {
 		return KP.Collections();
 	}
+	
+	public String GetZipFile() {
+		return KP.GetZipFile();
+	}
 	// ---------------------Keyword Putty------------------------//
 
 	// ---------------------Keyword_FixedLine------------------------//

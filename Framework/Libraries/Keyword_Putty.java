@@ -240,7 +240,7 @@ public class Keyword_Putty extends Driver {
 						str = xa[a];
 						System.out.println(str);
 						if (str.contains(AccPoID.get(c)) & str.contains(x)) {
-							String str_FileContent3 = xa[a].substring(47, xa[a].length() - 6);
+							String str_FileContent3 = xa[a].substring(42, xa[a].length() - 1);
 							Xml += " " + str_FileContent3;
 						}
 					}
@@ -257,7 +257,7 @@ public class Keyword_Putty extends Driver {
 					int i = xb.length - 5;
 					str = xb[i];
 					System.out.println(xb[i].length());
-					str_FileContent5 = xb[i].substring(50, xb[i].length() - 6);
+					str_FileContent5 = xb[i].substring(42, xb[i].length() - 1);
 					Result.fUpdateLog(str_FileContent5);
 
 					Date today7 = new Date();
@@ -403,7 +403,8 @@ public class Keyword_Putty extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	public String ReadFileFromLinux(Session obj_Session, String str_FileDirectory, String str_FileName) throws Exception {
+	public String ReadFileFromLinux(Session obj_Session, String str_FileDirectory, String str_FileName)
+			throws Exception {
 		StringBuilder obj_StringBuilder = new StringBuilder();
 		try {
 			Channel obj_Channel = obj_Session.openChannel("sftp");
@@ -538,6 +539,30 @@ public class Keyword_Putty extends Driver {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public String GetZipFile() {
+		String Test_OutPut = "", Status = "";
+		Result.fUpdateLog("------XMl Zip file form BRM Event Details------");
+		String SFTPWORKINGDIR = "/brmapp/opt/portal/7.5.0/apps/pin_inv/invoice_dir/";
+		
+		try {
+			Channel channel = nsession.get().openChannel("sftp");
+			channel.connect();
+			ChannelSftp channelSftp = (ChannelSftp) channel;
+			channelSftp.get(SFTPWORKINGDIR + InvoiceZip.get(),UCscreenfilepth.get() +"/"+ InvoiceZip.get());
+			Result.fUpdateLog("ZIP File successfully saved in Local");
+			channelSftp.exit();
+			Status = "PASS";
+		} catch (Exception e) {
+			Continue.set(false);
+			Test_OutPut += "Failed at Getting Zip File form BRM " + ",";
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			Status = "FAIL";
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------XMl Zip file form BRM Event Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
 }

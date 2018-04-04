@@ -883,7 +883,23 @@ public class Common extends Driver {
 			waitforload();
 
 			scroll("Profile_Tab", "WebButton");
-			Browser.WebButton.click("Profile_Tab");
+			scroll("Profile_Tab", "WebButton");
+			do {
+				Browser.WebButton.click("Profile_Tab");
+				waitforload();
+				if (Browser.WebLink.exist("SRP_SubTab")) {
+					Text_Select("a", "Billing Profile");
+					waitforload();
+				}
+
+				waitforload();
+				/*
+				 * if (Browser.WebEdit.waitTillEnabled("BP_Valid_Name")) { j = 0; break; }
+				 */
+
+			} while (!Browser.WebEdit.waitTillEnabled("BP_Valid_Name"));
+			Browser.WebEdit.waittillvisible("BP_Valid_Name");
+
 			waitforload();
 			int Row_Count = Browser.WebTable.getRowCount("Bill_Prof");
 			int Col_Val = Select_Cell("Bill_Prof", "Name");
@@ -2581,7 +2597,5 @@ public class Common extends Driver {
 		}
 
 	}
-
-
 
 }

@@ -1,6 +1,8 @@
 package utilities;
 
 import Libraries.*;
+
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -89,6 +91,48 @@ public class SetCapabilities extends Driver {
 			dr = new AndroidDriver(new URL("http://127.0.0.1:" + p.getProperty(DeviceName + "_Port") + "/wd/hub"),
 					capabilities);
 			Result.fUpdateLog("*** Messenger Capabilities are now Set ***");
+		} catch (Exception e) {
+			Result.fUpdateLog("Capabilites are not set due to" + e);
+		}
+	}
+	
+	public String setMCareCapabilities() {
+		String Test_OutPut = "", Status = "";
+		try {
+			if (!(getdata("DeviceName").equals(""))) {
+				DeviceName = getdata("DeviceName");
+				Result.fUpdateLog("Device Name is set to " + DeviceName);
+				setMCareCapabilities1(DeviceName);
+				Status = "PASS";
+			} else {
+				Result.fUpdateLog("Device " + DeviceName + " not found");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Result.fUpdateLog("Capabilites are not set due to" + e);
+			Status = "FAIL";
+		}
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+	
+	public static void setMCareCapabilities1(String DeviceName) throws IOException, InterruptedException {
+		System.out.println("*** Setting Up MCare Capabilities ***");
+		try {
+			String Env = utils.fetchData("Env");
+			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			Properties p = new Properties();
+			p.load(reader);
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setCapability("deviceName", p.getProperty(DeviceName + "_Name"));
+			capabilities.setCapability("udid", p.getProperty(DeviceName + "_Id"));
+			capabilities.setCapability("platformVersion", p.getProperty(DeviceName + "_Android_Version"));
+			capabilities.setCapability("platformName", "Android");
+			capabilities.setCapability("appPackage", p.getProperty("MCare_"+ Env + "_AppPackage"));
+			capabilities.setCapability("appActivity", p.getProperty("MCare_"+ Env + "_AppActivity"));
+			dr = new AndroidDriver(new URL("http://127.0.0.1:" + p.getProperty(DeviceName + "_Port") + "/wd/hub"),
+					capabilities);
+			dr.resetApp();
+			Result.fUpdateLog("*** MCare Capabilities are now Set ***");
 		} catch (Exception e) {
 			Result.fUpdateLog("Capabilites are not set due to" + e);
 		}

@@ -387,116 +387,6 @@ public class KeyWord {
 		return KPL.PlanSelection_Data_Pearl();
 	}
 	// ---------------------Keyword_PEARL------------------------//
-
-	// ---------------------Mobile Usages------------------------//
-	public String Dialer() {
-		return KDialers.Dialer();
-	}
-
-	public String CheckUnBarringCall() {
-		return KDialers.CheckUnBarringCall();
-	}
-
-	public String CheckBarringCall() {
-		return KDialers.CheckBarringCall();
-	}
-
-	public String smsSender() {
-		return KDialers.smsSender();
-	}
-
-	public String BalanceCheckDialer() {
-		return KDialers.BalanceCheckDialer();
-	}
-
-	public String RechargeDialer() {
-		return KDialers.RechargeDialer();
-	}
-
-	public String setMessengerCapabilities() {
-		return KSetCapabilities.setMessengerCapabilities();
-	}
-
-	public String SetCallCapabilities() {
-		return KSetCapabilities.setDialerCapabilities();
-	}
-
-	public String PrevCheckBalance() {
-		return KRTB.PrevCheckBalance();
-	}
-
-	public String PostCheckBalance() {
-		return KRTB.PostCheckBalance();
-	}
-
-	public String LocalCallCharging() {
-		return KCharging.LocalCallCharging();
-	}
-
-	public String LocalSMSCharging() {
-		return KCharging.LocalSMSCharging();
-	}
-
-	public String InternationalCallCharging() {
-		return KCharging.InternationalCallCharging();
-	}
-
-	public String InternationalSMSCharging() {
-		return KCharging.InternationalSMSCharging();
-	}
-
-	public String BalanceCheck() {
-		return KNotification.BalanceCheck();
-	}
-
-	public String FlexBalanceCheck() {
-		return KNotification.FlexBalanceCheck();
-	}
-
-	public String ProductInfoNotification() {
-		return KNotification.ProductInfoNotification();
-	}
-
-	public String ConfigureSMSC() {
-		return KHandset.ConfigureSMSC();
-	}
-
-	public String RestartMobile() {
-		return KHandset.RestartMobile();
-	}
-
-	public String VerifyRecharge() {
-		return KUSSD.VerifyRecharge();
-	}
-
-	public String USSDJourney() {
-		return KUSSD.USSDJourney();
-	}
-
-	public String InvokeUSSDMenu() {
-		return KUSSD.InvokeUSSDMenu();
-	}
-
-	public String USSDCleaner() {
-		return KUSSD.USSDCleaner();
-	}
-
-	public String PunchRechargePIN() {
-		return KUSSD.PunchRechargePIN();
-	}
-
-	public String VerifyProductActivationPrepaid() {
-		return KUSSD.VerifyProductActivationPrepaid();
-	}
-
-	public String SearchAsset() {
-		return KSiebel.SearchAsset();
-	}
-
-	public String CheckOrder() {
-		return KSiebel.CheckOrder();
-	}
-	// ---------------------Mobile Usages------------------------//
 	
 	// ---------------------PJM ------------------------//
 	public String PJM_Login() {
@@ -506,4 +396,144 @@ public class KeyWord {
 		return KJ.PJM_Upload();
 	}
 	// ---------------------PJM ------------------------//
+	
+	// ---------------------Keyword Mobile Usages Starts------------------------//
+		public String Dialer() {
+			return KDialers.Dialer();
+		}
+
+		public String CheckUnBarringCall() {
+			return KDialers.CheckUnBarringCall();
+		}
+
+		public String CheckBarringCall() {
+			return KDialers.CheckBarringCall();
+		}
+
+		public String smsSender() {
+			return KDialers.smsSender();
+		}
+
+		public String BalanceCheckDialer() {
+			return KDialers.BalanceCheckDialer();
+		}
+
+		public String RechargeDialer() {
+			return KDialers.RechargeDialer();
+		}
+		
+		public String BillEnquiryDialler() {
+			return KDialers.BillEnquiryDialler();
+		}
+
+		public String setMessengerCapabilities() {
+			return KSetCapabilities.setMessengerCapabilities();
+		}
+
+		public String SetCallCapabilities() {
+			return KSetCapabilities.setDialerCapabilities();
+		}
+		
+		public String setMCareCapabilities() {
+			return KSetCapabilities.setMCareCapabilities();
+		}
+
+		public String PrevCheckBalance() {
+			return KRTB.PrevCheckBalance();
+		}
+
+		public String PostCheckBalance() {
+			return KRTB.PostCheckBalance();
+		}
+
+		public String LocalCallCharging() {
+			return KCharging.LocalCallCharging();
+		}
+
+		public String LocalSMSCharging() {
+			return KCharging.LocalSMSCharging();
+		}
+
+		public String InternationalCallCharging() {
+			return KCharging.InternationalCallCharging();
+		}
+
+		public String InternationalSMSCharging() {
+			return KCharging.InternationalSMSCharging();
+		}
+
+		public String BalanceCheck() {
+			return KNotification.BalanceCheck();
+		}
+
+		public String FlexBalanceCheck() {
+			return KNotification.FlexBalanceCheck();
+		}
+
+		public String ProductInfoNotification() {
+			return KNotification.ProductInfoNotification();
+		}
+
+		public String ConfigureSMSC() {
+			return KHandset.ConfigureSMSC();
+		}
+
+		public String RestartMobile() {
+			return KHandset.RestartMobile();
+		}
+
+		public String VerifyRecharge() {
+			return KUSSD.VerifyRecharge();
+		}
+
+		public String USSDJourney() {
+			return KUSSD.USSDJourney();
+		}
+
+		public String InvokeUSSDMenu() {
+			return KUSSD.InvokeUSSDMenu();
+		}
+
+		public String USSDCleaner() {
+			return KUSSD.USSDCleaner();
+		}
+
+		public String PunchRechargePIN() {
+			return KUSSD.PunchRechargePIN();
+		}
+
+		public String VerifyProductActivationPrepaid() {
+			return KUSSD.VerifyProductActivationPrepaid();
+		}
+
+		public String SearchAsset() {
+			return KSiebel.SearchAsset();
+		}
+
+		public String CheckOrder() {
+			return KSiebel.CheckOrder();
+		}
+		
+		public String VerifyProductDeActivationPrepaid() {
+			return KUSSD.VerifyProductDeActivationPrepaid();
+		}
+		
+		// ---------------------Mobile Usages Ends------------------------//
+		
+		
+		// ---------------------MCare Keywords Starts------------------------//
+		public String installMyVodafoneApp() {
+			return MCare.installMyVodafoneApp();
+		}
+		public String verifyMCareLogin() {
+			return MCare.verifyMCareLogin();
+		}
+		public String verifyPlanNameMCare() {
+			return MCare.verifyPlanNameMCare();
+		}
+		public String billEnquiryMCare() {
+			return MCare.billEnquiryMCare();
+		}
+		
+		// ---------------------MCare Keywords Ends------------------------//
 }

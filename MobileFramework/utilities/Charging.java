@@ -66,11 +66,12 @@ public class Charging {
 	}
 
 	public String LocalCallCharging() {
+		Result.fUpdateLog("------Local call Charging -----");
 		double pre, post, charging, actual;
 		String Test_OutPut = "", Status = "", Bucket, UserBucket;
 		UserBucket = utils.fetchData("BucketID");
 		try {
-			if (UserBucket != null) {
+			if (!(UserBucket==null)){
 				Result.fUpdateLog(UserBucket + " Bucket is given by user hence will verify consumtion of this bucket.");
 				Test_OutPut += UserBucket + " Bucket is given by user hence will verify consumtion of this bucket.";
 				pre = utils.balance(UserBucket, "pre");

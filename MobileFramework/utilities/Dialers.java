@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Libraries.Driver;
 import Libraries.Result;
+import Libraries.Utlities;
 
 public class Dialers extends Driver {
 	public String MobileNumber;
@@ -116,7 +117,7 @@ public class Dialers extends Driver {
 	public String RechargeDialer() {
 		String Test_OutPut = "", Status = "", RechargePIN;
 		try {
-			System.out.println("*** Dialing Balance Check Code on Mobiles ***");
+			System.out.println("*** Dialing Recharge Code on Mobiles ***");
 			RechargePIN = utils.fetchData("RechargePIN");
 			SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
@@ -229,6 +230,56 @@ public class Dialers extends Driver {
 			Status = "FAIL";
 		}
 		Result.fUpdateLog("------OG Bar Call Event Details------");
+		return Status + "@@" + Test_OutPut + "";
+	}
+	
+	public String BillEnquiryDialler() {
+		String Text="",Test_OutPut = "", Status = "";;
+		try {
+			Result.fUpdateLog("*** Dialing Bill Enquiry Code on Mobiles ***");
+			MobileNumber = utils.fetchData("BillEnquiryCode");
+			SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
+			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).click();
+			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).sendKeys(MobileNumber);
+			Result.fUpdateLog("Dialing on Mobile Number: " + MobileNumber);
+			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/dialpad_floating_action_button")).click();
+			//Thread.sleep(5000);
+			try {
+				WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 30);
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("android:id/button1")));
+				utils.takeScreenShot();
+				Text =  SetCapabilities.dr.findElement(By.id("android:id/message")).getText();
+				Result.fUpdateLog(Text);
+				SetCapabilities.dr.findElement(By.id("android:id/button1")).click();
+				double DueNow = utils.getDueNowUSSDBillEnquiry(Text);
+				double Unbilled = utils.getUnbilledUSSDBillEnquiry(Text);
+				Test_OutPut += "Previous Month Outstanding Bill for MSISDN " + utils.fetchData("MSISDN") +" is QAR " + DueNow+"</br>";
+				Test_OutPut += "Current Month Unbilled Usage for MSISDN " + utils.fetchData("MSISDN") +" is QAR " + Unbilled+"</br>";
+				Test_OutPut += "Total Outstanding for MSISDN" + utils.fetchData("MSISDN") +" is QAR " + (DueNow+Unbilled) + "</br>";
+				double SiebelDueNow = Double.parseDouble(Utlities.FetchStoredValue("BillEnquiry_USSD", "BillEnquiry_USSD", "RTB_DueNow"));
+				double SiebelUnbilled = Double.parseDouble(Utlities.FetchStoredValue("BillEnquiry_USSD", "BillEnquiry_USSD", "RTB_UnbilledUsage"));
+				double SiebelTotal = Double.parseDouble(Utlities.FetchStoredValue("BillEnquiry_USSD", "BillEnquiry_USSD", "RTB_Total"));
+				SetCapabilities.dr.quit();
+				if((DueNow==SiebelDueNow) && (Unbilled==SiebelUnbilled) && ((DueNow+Unbilled)==SiebelTotal)) {
+				Status = "PASS";
+				}
+				else {
+					Result.fUpdateLog("There is some mismatch in RTB and USSD values");
+					Test_OutPut += "There is some mismatch in RTB and USSD values";
+					Status = "FAIL";
+				}
+				
+			} catch (Exception e) {
+				Test_OutPut += "Bill Enquiry was failed due to USSD Code is not working or No Network/SIM Found on the mobile";
+				Result.fUpdateLog(
+						"Bill Enquiry was failed due to USSD Code is not working or No Network/SIM Found on the mobile");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			Status = "FAIL";
+		}
 		return Status + "@@" + Test_OutPut + "";
 	}
 

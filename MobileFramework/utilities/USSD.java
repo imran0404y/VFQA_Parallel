@@ -47,7 +47,6 @@ public class USSD extends Driver{
 		String Test_OutPut = "", Status = "",USSDMenu;
 		Result.fUpdateLog("*** Starting USSD Menu ***");
 		try {
-			System.out.println("*** Dialing Balance Check Code on Mobiles ***");
 			USSDMenu = utils.fetchData("USSDMenu");
 			SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
@@ -124,15 +123,21 @@ public class USSD extends Driver{
 		RechargePIN = utils.fetchData("RechargePIN");
 		try {
 			SetCapabilities.dr.findElement(By.id("com.android.phone:id/input_field")).sendKeys(RechargePIN);
-			Test_OutPut+="Recharge PIN used: "+RechargePIN;
+			Test_OutPut+="Recharge PIN used: "+RechargePIN+"<br/>";
 			Result.fUpdateLog("Recharge PIN used: "+RechargePIN);
 			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("android:id/button1")).click();
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 30);
+			String Text =  SetCapabilities.dr.findElement(By.id("android:id/message")).getText();
+			Result.fUpdateLog(Text);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("android:id/button1")));
 			SetCapabilities.dr.findElement(By.id("android:id/button1")).click();
 			SetCapabilities.dr.quit();
-			Status = "PASS";
+			if (Text.contains("already been used")) {
+				Status = "FAIL";
+				Test_OutPut += "Recharge PIN has already been used.>";
+			}else {
+			Status = "PASS";}
 		}catch(Exception e) {
 			System.out.println(e);
 			Status = "FAIL";
@@ -168,6 +173,13 @@ public class USSD extends Driver{
 			Result.fUpdateLog("Failed due to Exception "+e);
 		}
 		Result.fUpdateLog("*** Exiting Verify Product Activation ***");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+	
+	public String VerifyProductDeActivationPrepaid() {
+		String Status="",Test_OutPut="";
+		Test_OutPut+="Manual Verification is required to Pass this Case. ";
+		Status = "PartiallyPass";
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 

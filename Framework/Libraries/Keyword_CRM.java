@@ -120,7 +120,7 @@ public class Keyword_CRM extends Driver {
 			Browser.WebButton.click("VQ_Logout");
 			cDriver.get().close();
 			cDriver.get().quit();
-			CO.ToWait();
+			//CO.ToWait();
 
 			if (Continue.get()) {
 				Test_OutPut += "Siebel Logout Successful";
@@ -3016,7 +3016,6 @@ public class Keyword_CRM extends Driver {
 
 	}
 
-
 	public String ModifySmartLimit_Acc360()
 
 	{
@@ -3194,7 +3193,6 @@ public class Keyword_CRM extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 
 	}
-
 
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name				: BillPayment
@@ -8911,15 +8909,15 @@ public class Keyword_CRM extends Driver {
 		Result.fUpdateLog("------Credit Limit Set - Siebel - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-
-	/*---------------------------------------------------------------------------------------------------------
-	 * Method Name			: MVCareBill
+/*
+	--------------------------------------------------------------------------------------------------------
+	 * Method Name			: MVCareBill1
 	 * Arguments			: None
 	 * Use 					: Upgrade Promotion via Account 360 View
 	 * Designed By			: SravaniReddy
 	 * Last Modified Date 	: 31-03-2018
-	--------------------------------------------------------------------------------------------------------*/
-	public String MVCareBill() {
+	--------------------------------------------------------------------------------------------------------
+	public String MVCareBill1() {
 		String Test_OutPut = "", Status = "";
 		String MSISDN;
 		int RowCount, Col;
@@ -8933,18 +8931,16 @@ public class Keyword_CRM extends Driver {
 			}
 
 			
-
-			/*
 			 * if (!(getdata("GetData").equals(""))) { GetData = getdata("GetData"); } else
 			 * { GetData = pulldata("GetData"); }
-			 */
+			 
 
 			CO.waitforload();
 			Browser.WebLink.waittillvisible("Global_Search");
 			Browser.WebLink.click("Global_Search");
 			CO.waitforload();
 
-			Browser.WebEdit.Set("Phone_Guided", "97478152212");
+			Browser.WebEdit.Set("Phone_Guided", MSISDN);
 			Result.fUpdateLog("Global Search Initiation");
 			Result.takescreenshot("Global Search Initiation");
 			Browser.WebLink.click("GS_Go");
@@ -9011,36 +9007,36 @@ public class Keyword_CRM extends Driver {
 
 			}
 			String MCA_BillAmt = Browser.WebEdit.gettext("RTB_Total");
-			Utlities.StoreValue("BillAmt", MCA_BillAmt);
+			Utlities.StoreValue("MCA_BillAmt", MCA_BillAmt);
 			Test_OutPut += "Balance: " + MCA_BillAmt + ",";
 
 			cDriver.get().navigate().back();
 			CO.waitforload();
 			Browser.WebLink.click("Acc_Portal");
-			
-			String Contact_Id= Browser.WebEdit.gettext("Site_val");
-			Contact_Id=Contact_Id.split("_")[1];
+
+			String Contact_Id = Browser.WebEdit.gettext("Site_val");
+			Contact_Id = Contact_Id.split("_")[1];
 			CO.waitforload();
-			/*Browser.WebButton.waittillvisible("Contact");
-			Browser.WebButton.click("Contact");
 			
-			int CID=CO.Actual_Cell("Contact_table", "ID Number");
-			String Contact_Id=Browser.WebTable.getCellData("Contact_table",2,CID);*/
-			
-			Utlities.StoreValue("Contact_Id", Contact_Id);
+			 * Browser.WebButton.waittillvisible("Contact");
+			 * Browser.WebButton.click("Contact");
+			 * 
+			 * int CID=CO.Actual_Cell("Contact_table", "ID Number"); String
+			 * Contact_Id=Browser.WebTable.getCellData("Contact_table",2,CID);
+			 
+
+			Utlities.StoreValue("MCA_ContactId", Contact_Id);
 			Test_OutPut += "Contact_Id: " + Contact_Id + ",";
-			
 
 			CO.ToWait();
 			CO.GetSiebelDate();
 			if (Continue.get()) {
-				Test_OutPut += "Upgrade Promotion via Account 360 view is done Successfully " + ",";
-				Result.fUpdateLog("Upgrade Promotion via Account 360 view is done Successfully ");
+				Test_OutPut += "Fetching Mcare Details" + ",";
+				Result.fUpdateLog("Fetching Mcare Details ");
 				Status = "PASS";
 			} else {
-				Test_OutPut += "Upgrade Promotion via Account 360 view Failed" + ",";
-				Result.takescreenshot("Upgrade Promotion via Account 360 view Failed");
-				Result.fUpdateLog("Upgrade Promotion via Account 360 view Failed");
+				Test_OutPut += "Unable to Fetch Mcare Details" + ",";
+				Result.fUpdateLog("Unable to Fetch Mcare Details ");
 				Status = "FAIL";
 			}
 		} catch (Exception e) {
@@ -9053,6 +9049,101 @@ public class Keyword_CRM extends Driver {
 		Result.fUpdateLog("------Mcare Event View Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+*/
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: MVCareBill
+	 * Arguments			: None
+	 * Use 					: Upgrade Promotion via Account 360 View
+	 * Designed By			: SravaniReddy
+	 * Last Modified Date 	: 31-03-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String MVCareBill() {
+
+		String Test_OutPut = "", Status = "";
+		String MSISDN, BillingProfile, MCA_Total = "";
+		int Col_P, Col, Col_pro, Row = 2;
+		String MCA_PlanName = "";
+		Result.fUpdateLog("------Fecting BP Summary Details------");
+		try {
+
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}
+
+			CO.GetSiebelDate();
+			CO.Assert_Search(MSISDN, "Active");
+			CO.waitforload();
+
+			Col_pro = CO.Actual_Cell("Installed_Assert", "Promotion");
+			Col_P = CO.Actual_Cell("Installed_Assert", "Billing Profile");
+			CO.waitforload();
+			BillingProfile = Browser.WebTable.getCellData("Installed_Assert", Row, Col_P);
+
+			int Rowcount = Browser.WebTable.getRowCount("Installed_Assert");
+			for (int i = 2; i <= Rowcount; i++) {
+				String PlanName = Browser.WebTable.getCellData("Installed_Assert", Row, Col_pro);
+				if (!PlanName.equals("")) {
+					MCA_PlanName = PlanName;
+					break;
+				}
+			}
+
+			CO.waitforload();
+			Result.takescreenshot("Bill No for the MSISDN " + MSISDN + " is " + BillingProfile);
+			String Contact_Id = Browser.WebEdit.gettext("Site_val");
+			Contact_Id = Contact_Id.split("_")[1];
+			CO.waitforload();
+
+			CO.Link_Select("Profiles");
+			CO.waitforload();
+			Browser.WebButton.click("Profile_Query");
+			Col_P = CO.Select_Cell("Bill_Prof", "Name");
+			Col = CO.Select_Cell("Bill_Prof", "Status");
+			Browser.WebTable.SetData("Bill_Prof", Row, Col_P, "Name", BillingProfile);
+			CO.waitforload();
+			CO.waitforload();
+			if (Browser.WebTable.getRowCount("Bill_Prof") >= 2) {
+				Browser.WebTable.click("Bill_Prof", Row, Col);
+				Browser.WebTable.clickL("Bill_Prof", Row, Col_P);
+			} else
+				Continue.set(false);
+
+			CO.waitforload();
+			Result.takescreenshot("BillingProfile_SummaryScreen");
+			String MCA_DueNow = Browser.WebEdit.gettext("RTB_DueNow");
+			String MCA_UnbilledUsage = Browser.WebEdit.gettext("RTB_UnbilledUsage");
+
+			MCA_Total = Browser.WebEdit.gettext("RTB_Total");
+			Total_DueAmt.set(MCA_Total);
+
+			Result.takescreenshot("Getting Outstanding Balance" + MCA_Total);
+			Utlities.StoreValue("MCA_DueNow", MCA_DueNow);
+			Test_OutPut += "MCA_DueNow: " + MCA_DueNow + ",";
+
+			Utlities.StoreValue("MCA_UnbilledUsage", MCA_UnbilledUsage);
+			Test_OutPut += "MCA_UnbilledUsage: " + MCA_UnbilledUsage + ",";
+
+			Utlities.StoreValue("MCA_Total", MCA_Total);
+			Test_OutPut += "MCA_Total: " + MCA_Total + ",";
+			Utlities.StoreValue("MCA_ContactId", Contact_Id);
+			Test_OutPut += "MCA_ContactId: " + Contact_Id + ",";
+			Utlities.StoreValue("MCA_PlanName", MCA_PlanName);
+			Test_OutPut += "MCA_PlanName : " + MCA_PlanName + ",";
+
+		} catch (Exception e) {
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			Status = "FAIL";
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Fecting BP Summary Details------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+
+	}
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name				: BillSummary
 	 * Arguments				: None
@@ -9063,8 +9154,8 @@ public class Keyword_CRM extends Driver {
 	public String BillSummary() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN, GetData,  BillingProfile, BillAmt = "",Voucher_Amt="";
-		int  Col_P, Col,  Row = 2;
+		String MSISDN, GetData, BillingProfile, BillAmt = "", Voucher_Amt = "";
+		int Col_P, Col, Row = 2;
 		Result.fUpdateLog("------BillSummary Event Details------");
 		try {
 
@@ -9084,7 +9175,7 @@ public class Keyword_CRM extends Driver {
 			} else {
 				Voucher_Amt = pulldata("Voucher_Amt");
 			}
-			
+
 			CO.GetSiebelDate();
 			CO.Assert_Search(MSISDN, "Active");
 			CO.waitforload();
@@ -9128,8 +9219,10 @@ public class Keyword_CRM extends Driver {
 			String Pay_Channel = Browser.WebTable.getCellData("Payments", Row, Col);
 			Col = CO.Select_Cell("Payments", "Payment Date");
 			String Pay_Date = Browser.WebTable.getCellData("Payments", Row, Col);
-			/*Col = CO.Select_Cell("Payments", "Payment Method");
-			String Pay_Method = Browser.WebTable.getCellData("Payments", Row, Col);*/
+			/*
+			 * Col = CO.Select_Cell("Payments", "Payment Method"); String Pay_Method =
+			 * Browser.WebTable.getCellData("Payments", Row, Col);
+			 */
 			Col = CO.Select_Cell("Payments", "Payment Amount");
 			String Pay_Amt = Browser.WebTable.getCellData("Payments", Row, Col);
 			OrderDate.get();
@@ -9141,25 +9234,24 @@ public class Keyword_CRM extends Driver {
 			String k = BillAmt.split("QR")[1];
 			String[] obj = k.split(",");
 			if (obj.length > 1)
-				k = obj[0].trim()+obj[1].trim();
-			String p=Pay_Amt.split("QR")[1];
+				k = obj[0].trim() + obj[1].trim();
+			String p = Pay_Amt.split("QR")[1];
 			String[] obj1 = p.split(",");
 			if (obj1.length > 1)
-				p = obj1[0].trim()+obj1[1].trim();
-			String q=amt.split("QR")[1];
+				p = obj1[0].trim() + obj1[1].trim();
+			String q = amt.split("QR")[1];
 			String[] obj2 = q.split(",");
 			if (obj2.length > 1)
-				q = obj2[0].trim()+obj2[1].trim();		
+				q = obj2[0].trim() + obj2[1].trim();
 			y = Double.parseDouble(k);
-			z = Double.parseDouble(p);			
+			z = Double.parseDouble(p);
 			x = Double.parseDouble(q);
 			if (Voucher_Amt.equalsIgnoreCase(p)) {
 				Result.fUpdateLog("Updated with Correct Voucher Amount");
-			}else
-			{
+			} else {
 				Continue.set(false);
 			}
-			
+
 			if (Pay_Channel.equalsIgnoreCase("USSD") && Pay_Date.equalsIgnoreCase(Dat)) {
 				Double d = y + z;
 				System.out.println(d);
@@ -9171,7 +9263,6 @@ public class Keyword_CRM extends Driver {
 
 			}
 
-	
 			CO.ToWait();
 			if (Continue.get()) {
 				Test_OutPut += "";
@@ -9195,7 +9286,6 @@ public class Keyword_CRM extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name				: HappyOffers
 	 * Arguments				: None
@@ -9206,8 +9296,8 @@ public class Keyword_CRM extends Driver {
 	public String HappyOffers() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN  ;
-		int  Col_P;
+		String MSISDN;
+		int Col_P;
 		Result.fUpdateLog("------HappyOffers Event Details------");
 		try {
 
@@ -9216,8 +9306,6 @@ public class Keyword_CRM extends Driver {
 			} else {
 				MSISDN = pulldata("MSISDN");
 			}
-
-		
 
 			// Fetching Billing Profile Name from the Provided MSISDN
 
@@ -9231,13 +9319,15 @@ public class Keyword_CRM extends Driver {
 			// To Find the Record with Mobile Service Bundle and MSISDN
 			for (int i = 2; i <= Inst_RowCount; i++)
 				if (!(Browser.WebTable.getCellData("Installed_Assert", i, Col_P).equalsIgnoreCase(""))) {
-					Browser.WebTable.clickL("Installed_Assert", i, Col_P);
+					Browser.WebTable.clickA("Installed_Assert", i, Col_P);
 					break;
 				}
-			CO.scroll("WebTable", "Campaign_History_Table");
+		//	CO.scroll("WebTable", "Campaign_History_Table");
+			//Result.takescreenshot("Campaign_History_Table");
+			CO.waitmoreforload();
+			 Browser.WebTable.waittillvisible("Campaign_History_Table");
+			//CO.scroll("WebTable", "Campaign_History_Table");
 			Result.takescreenshot("Campaign_History_Table");
-			
-			
 			int Col_Type = CO.Actual_tab_Cell("Campaign_History_Col", "Message Text");
 			int Col_Dat = CO.Actual_tab_Cell("Campaign_History_Col", "Contacted On");
 			String Camp_Des = Browser.WebTable.getCellData("Campaign_History_Table", 2, Col_Type);
@@ -9248,7 +9338,7 @@ public class Keyword_CRM extends Driver {
 			Utlities.StoreValue("Campaign Activation Date", Camp_Dat);
 			Test_OutPut += "Campaign Activation Date : " + Camp_Dat + ",";
 
-			CO.scroll("WebTable", "Response_History_Table");
+		//	CO.scroll("WebTable", "Response_History_Table");
 			Result.takescreenshot("Response_History_Table");
 			Col_Type = CO.Actual_tab_Cell("Response_History_Col", "Product Name");
 			String Prod_Name = Browser.WebTable.getCellData("Response_History_Table", 2, Col_Type);
@@ -9267,34 +9357,32 @@ public class Keyword_CRM extends Driver {
 			Utlities.StoreValue("Responded date in Response History", Res_Dat);
 			Test_OutPut += "Responded date in Response History : " + Res_Dat + ",";
 			
-			CO.scroll("WebTable", "Provision_History_Table");
-			Result.takescreenshot("Provision_History_Table");
 			
+
+			//CO.scroll("WebTable", "Provision_History_Table");
+			Result.takescreenshot("Provision_History_Table");
+
 			Col_Type = CO.Actual_tab_Cell("Provision_History_Col", "Product Name");
 			Col_Dat = CO.Actual_tab_Cell("Provision_History_Col", "Status");
 			String Offer_Des = Browser.WebTable.getCellData("Provision_History_Table", 2, Col_Type);
 			String Stat = Browser.WebTable.getCellData("Provision_History_Table", 2, Col_Dat);
-			
+
 			Utlities.StoreValue("Product Name in Provision History", Offer_Des);
 			Test_OutPut += "Product Name in Provision History : " + Offer_Des + ",";
 			Utlities.StoreValue("Status in Provision History", Stat);
 			Test_OutPut += "Status in Provision History : " + Stat + ",";
 
 			
-			
-			
-			
-			
-			CO.ToWait();
+			Siebel_Logout();
+			//CO.ToWait();
 			if (Continue.get()) {
 				Test_OutPut += "";
-				Result.takescreenshot("BillPayment is Successfull");
-				Result.fUpdateLog("BillPayment is Successfull");
-				Status = "PARTIALPASS";
+				Result.fUpdateLog("HappyOffer is Activated");
+				Status = "PartiallyPass";
 			} else {
-				Test_OutPut += "BillPayment Failed" + ",";
-				Result.takescreenshot("BillPayment Failed");
-				Result.fUpdateLog("BillPayment Failed");
+				Test_OutPut += "HappyOffer Activation is Failed" + ",";
+				Result.takescreenshot("HappyOffer Activation is Failed");
+				Result.fUpdateLog("HappyOffer Activation is Failed");
 				Status = "FAIL";
 			}
 		} catch (Exception e) {
@@ -9308,6 +9396,7 @@ public class Keyword_CRM extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 
 	}
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name				: DueAmount
 	 * Arguments				: None
@@ -9318,8 +9407,8 @@ public class Keyword_CRM extends Driver {
 	public String DueAmount() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN,  BillingProfile, MCA_Total = "";
-		int Col_P, Col,  Row = 2;
+		String MSISDN, BillingProfile, RTB_Total = "";
+		int Col_P, Col, Row = 2;
 		Result.fUpdateLog("------Fecting BP Summary Details------");
 		try {
 
@@ -9329,14 +9418,13 @@ public class Keyword_CRM extends Driver {
 				MSISDN = pulldata("MSISDN");
 			}
 
-				
 			CO.GetSiebelDate();
 			CO.Assert_Search(MSISDN, "Active");
 			CO.waitforload();
+
+			Col_P = CO.Actual_Cell("Installed_Assert", "Billing Profile");
 			CO.waitforload();
-			Col_P = CO.Actual_Cell("Acc_Installed_Assert", "Billing Profile");
-			CO.waitforload();
-			BillingProfile = Browser.WebTable.getCellData("Acc_Installed_Assert", Row, Col_P);
+			BillingProfile = Browser.WebTable.getCellData("Installed_Assert", Row, Col_P);
 			CO.waitforload();
 			Result.takescreenshot("Bill No for the MSISDN " + MSISDN + " is " + BillingProfile);
 			CO.Link_Select("Profiles");
@@ -9355,22 +9443,22 @@ public class Keyword_CRM extends Driver {
 
 			CO.waitforload();
 			Result.takescreenshot("BillingProfile_SummaryScreen");
-			String MCA_DueNow=Browser.WebEdit.gettext("RTB_DueNow");
-			String MCA_UnbilledUsage=Browser.WebEdit.gettext("RTB_UnbilledUsage");
-			
-			MCA_Total = Browser.WebEdit.gettext("RTB_Total");
-			Total_DueAmt.set(MCA_Total);
-			
-			Result.takescreenshot("Getting Outstanding Balance" + MCA_Total);
-			Utlities.StoreValue("MCA_DueNow", MCA_DueNow);
-			Test_OutPut += "MCA_DueNow: " + MCA_DueNow + ",";
-						
-			Utlities.StoreValue("MCA_UnbilledUsage", MCA_UnbilledUsage);
-			Test_OutPut += "MCA_UnbilledUsage: " + MCA_UnbilledUsage + ",";
-						
-			Utlities.StoreValue("MCA_Total", MCA_Total);
-			Test_OutPut += "MCA_Total: " + MCA_Total + ",";
-						
+			String RTB_DueNow = Browser.WebEdit.gettext("RTB_DueNow");
+			String RTB_UnbilledUsage = Browser.WebEdit.gettext("RTB_UnbilledUsage");
+
+			RTB_Total = Browser.WebEdit.gettext("RTB_Total");
+			Total_DueAmt.set(RTB_Total);
+
+			Result.takescreenshot("Getting Outstanding Balance" + RTB_Total);
+			Utlities.StoreValue("RTB_DueNow", RTB_DueNow);
+			Test_OutPut += "RTB_DueNow: " + RTB_DueNow + ",";
+
+			Utlities.StoreValue("RTB_UnbilledUsage", RTB_UnbilledUsage);
+			Test_OutPut += "RTB_UnbilledUsage: " + RTB_UnbilledUsage + ",";
+
+			Utlities.StoreValue("RTB_Total", RTB_Total);
+			Test_OutPut += "RTB_Total: " + RTB_Total + ",";
+
 		} catch (Exception e) {
 			Test_OutPut += "Exception occurred" + ",";
 			Result.takescreenshot("Exception occurred");
@@ -9381,6 +9469,5 @@ public class Keyword_CRM extends Driver {
 		Result.fUpdateLog("------Fecting BP Summary Details------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-
 
 }

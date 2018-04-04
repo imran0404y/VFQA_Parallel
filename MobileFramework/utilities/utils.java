@@ -296,5 +296,20 @@ public class utils extends Driver{
 		run.exec("adb reboot "+p.getProperty(DeviceName + "_Id"));
 	}
 	
+	public static double getDueNowUSSDBillEnquiry(String MSG) {
+		int a = MSG.indexOf("QR");
+		int b = MSG.indexOf("Your", MSG.indexOf("Your")+1);
+		String str = MSG.substring(a+3,b-2);
+		double DueNow = Double.parseDouble(str);
+		return DueNow;
+	}
+	
+	public static double getUnbilledUSSDBillEnquiry(String MSG) {
+		int index1 = MSG.indexOf("QR", MSG.indexOf("QR") + 1);
+		int index2 = MSG.indexOf(",");
+		String test  = MSG.substring(index1+3,index2);
+		double BillAmount = Double.parseDouble(test);
+		return BillAmount;
+	}
 	
 	}

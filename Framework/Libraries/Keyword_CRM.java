@@ -9141,15 +9141,15 @@ public class Keyword_CRM extends Driver {
 			String k = BillAmt.split("QR")[1];
 			String[] obj = k.split(",");
 			if (obj.length > 1)
-				k = k.replace(',', ' ');
+				k = obj[0].trim()+obj[1].trim();
 			String p=Pay_Amt.split("QR")[1];
 			String[] obj1 = p.split(",");
 			if (obj1.length > 1)
-				p = p.replace(',', ' ');
+				p = obj1[0].trim()+obj1[1].trim();
 			String q=amt.split("QR")[1];
 			String[] obj2 = q.split(",");
 			if (obj2.length > 1)
-				q = q.replace(',', ' ');		
+				q = obj2[0].trim()+obj2[1].trim();		
 			y = Double.parseDouble(k);
 			z = Double.parseDouble(p);			
 			x = Double.parseDouble(q);
@@ -9318,7 +9318,7 @@ public class Keyword_CRM extends Driver {
 	public String DueAmount() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN, GetData,  BillingProfile, MCA_Total = "";
+		String MSISDN,  BillingProfile, MCA_Total = "";
 		int Col_P, Col,  Row = 2;
 		Result.fUpdateLog("------Fecting BP Summary Details------");
 		try {
@@ -9329,12 +9329,7 @@ public class Keyword_CRM extends Driver {
 				MSISDN = pulldata("MSISDN");
 			}
 
-			if (!(getdata("GetData").equals(""))) {
-				GetData = getdata("GetData");
-			} else {
-				GetData = pulldata("GetData");
-			}
-			
+				
 			CO.GetSiebelDate();
 			CO.Assert_Search(MSISDN, "Active");
 			CO.waitforload();

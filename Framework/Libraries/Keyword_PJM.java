@@ -3,9 +3,7 @@ package Libraries;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-
 import org.openqa.selenium.interactions.Actions;
-
 
 public class Keyword_PJM extends Driver {
 	Common CO = new Common();
@@ -78,21 +76,26 @@ public class Keyword_PJM extends Driver {
 			Actions action = new Actions(cDriver.get());
 			action.sendKeys(Keys.TAB).build().perform();
 
-			// cDriver.get().findElement(By.xpath("//a[@class='x-btn x-form-file-btn x-unselectable x-btn-default-small x-noicon x-btn-noicon x-btn-default-small-noicon']")).click();
+			// cDriver.get().findElement(By.xpath("//a[@class='x-btn x-form-file-btn
+			// x-unselectable x-btn-default-small x-noicon x-btn-noicon
+			// x-btn-default-small-noicon']")).click();
 			cDriver.get().findElement(By.name("fileData"))
 					.sendKeys("C:\\Users\\Surendaran_Maveric\\Desktop\\Work_New\\13691.zip");
 			Result.takescreenshot("FileUPload");
 			Browser.WebButton.click("PJM_Submit");
 			CO.waitforload();
-			 cDriver.get().findElement(By.xpath("//span[@class='x-btn-inner x-btn-inner-center']/..//span[.='OK']/../span[2]")).click();
-				
-			//Browser.WebButton.click("PJM_Ok");
-			
-			int i=0;
+			cDriver.get()
+					.findElement(
+							By.xpath("//span[@class='x-btn-inner x-btn-inner-center']/..//span[.='OK']/../span[2]"))
+					.click();
+
+			// Browser.WebButton.click("PJM_Ok");
+
+			int i = 0;
 			do {
-			Browser.WebButton.click("PJM_Refresh");
-			i=i+1;
-			}while(i<3);
+				Browser.WebButton.click("PJM_Refresh");
+				i = i + 1;
+			} while (i < 3);
 			Result.takescreenshot("FileUPloaded");
 			String Batch_id = Browser.WebTable.getCellData("PJM_Status Query", 1, 1);
 			String File_Uploaded = Browser.WebTable.getCellData("PJM_Status Query", 1, 3);
@@ -105,7 +108,7 @@ public class Keyword_PJM extends Driver {
 				Utlities.StoreValue("File_Uploaded", File_Uploaded);
 				Test_OutPut += "File_Uploaded : " + File_Uploaded + ",";
 				Result.takescreenshot("File Uploaded Successfully ");
-			
+
 				Status = "PASS";
 			} else {
 				Test_OutPut += "File Uploaded is Un Successfully" + ",";

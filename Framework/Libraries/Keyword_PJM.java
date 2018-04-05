@@ -80,7 +80,7 @@ public class Keyword_PJM extends Driver {
 			// x-unselectable x-btn-default-small x-noicon x-btn-noicon
 			// x-btn-default-small-noicon']")).click();
 			cDriver.get().findElement(By.name("fileData"))
-					.sendKeys("C:\\Users\\Surendaran_Maveric\\Desktop\\Work_New\\13691.zip");
+					.sendKeys(UCscreenfilepth.get() +"/"+ InvoiceZip.get());
 			Result.takescreenshot("FileUPload");
 			Browser.WebButton.click("PJM_Submit");
 			CO.waitforload();

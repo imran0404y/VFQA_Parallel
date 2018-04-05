@@ -168,29 +168,52 @@ public class MCare extends Driver{
 	}
 
 	public static String billEnquiryMCare() {
-		String Test_OutPut = "", Status = "", MSISDN,ID;
+		String Test_OutPut = "", Status = "", MSISDN,ID, DeviceName, SiebelTotal;
 		try {
+			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			Properties p = new Properties();
+			p.load(reader);
+			DeviceName = utils.fetchData("DeviceName");
 			MSISDN = utils.fetchData("MSISDN");
 			MSISDN = MSISDN.substring(3,11);
-			ID="VQFT1237452";
+			SiebelTotal=Utlities.FetchStoredValue("MCare_BillEnquiry", "MCare_BillEnquiry", "MCA_Total");
+			ID=Utlities.FetchStoredValue("MCare_BillEnquiry", "MCare_BillEnquiry", "MCA_ContactId");
 			SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='1']")).click();
 			SetCapabilities.dr.findElement(By.xpath("//android.widget.TextView[contains(@text,'Billing and Payment')]")).click();
 			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.xpath("//android.widget.TextView[contains(@text,'Retrieve a bill & pay')]")).click();
 			utils.takeScreenShot();
-			SetCapabilities.dr.findElement(By.xpath("//*android.widget.EditText[contains(@text='Vodafone number or Account number']")).click();
-			SetCapabilities.dr.findElement(By.xpath("//EditText[contains(@text,'Vodafone number or Account number')]']")).sendKeys(MSISDN);
-			//SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @text='Qatari I.D. or Passport Number ']")).click();
-			SetCapabilities.dr.findElement(By.xpath("//android.widget.EditText[contains(@text,'Qatari I.D. or Passport Number')]']")).sendKeys(ID);
-			SetCapabilities.dr.findElement(By.xpath("//android.widget.EditText[contains(@text,'Retrieve & Pay')]']")).click();
+			SetCapabilities.dr.findElement(By.xpath("//*[@class='android.support.v7.widget.LinearLayoutCompat']//*[contains(@text,'Vodafone number or Account number')]")).sendKeys(MSISDN);
+			SetCapabilities.dr.findElement(By.xpath("//*[@class='android.support.v7.widget.LinearLayoutCompat']//*[contains(@text,'Qatari I.D. or Passport Number')]")).click();
+			SetCapabilities.dr.findElement(By.xpath("//*[@class='android.support.v7.widget.LinearLayoutCompat']//*[contains(@text,'Qatari I.D. or Passport Number')]")).sendKeys(ID);
+			String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input keyevent 4";
+			Runtime run = Runtime.getRuntime();
+			run.exec(cmd);
+			SetCapabilities.dr.findElement(By.xpath("//android.widget.TextView[contains(@content-desc,'retrieve_billing_info.button')]")).click();
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[contains(@content-desc,'retrieve_billing_info.text')]")));
 			utils.takeScreenShot();
-			String BillAmount = SetCapabilities.dr.findElement(By.xpath("//android.widget.TextView[contains(@content-desc,'retrieve_billing_info.text')]")).getText().toString();
+			String BillAmount = SetCapabilities.dr.findElement(By.xpath("//android.support.v7.widget.LinearLayoutCompat[@content-desc='retrieve_billing_info.vertical']//android.widget.TextView[2]")).getText().toString();
 			System.out.println(BillAmount+"---->");
-			BillAmount  = BillAmount.substring(2, BillAmount.length()).trim();
-			System.out.println("After Trimming "+BillAmount);
+			BillAmount  = BillAmount.substring(3, BillAmount.length()).trim();
+			String[] obj = BillAmount.split(",");
+			if (obj.length > 1)
+				BillAmount = obj[0].trim() + obj[1].trim();
+			Result.fUpdateLog("Total Due Amount on MCare is " + BillAmount);
+			Test_OutPut += "Total Due Amount on MCare is " + BillAmount + ",";
+			SiebelTotal  = SiebelTotal.substring(2, SiebelTotal.length()).trim();
+			String[] obj1 = SiebelTotal.split(",");
+			if (obj1.length > 1)
+				SiebelTotal = obj1[0].trim() + obj1[1].trim();
+			Result.fUpdateLog("Total Due Amount on Siebel is " + SiebelTotal);
+			Test_OutPut += "Total Due Amount on Siebel is " + SiebelTotal + ",";
+			if(BillAmount.equalsIgnoreCase(SiebelTotal))
 			Status = "PASS";
+			else {
+				Result.fUpdateLog("There is some mismatch between the Amount from MCare and Siebel");
+				Test_OutPut += "There is some mismatch between the Amount from MCare and Siebel";
+				Status = "FAIL";
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured"+e);

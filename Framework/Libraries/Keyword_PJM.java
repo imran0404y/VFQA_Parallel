@@ -31,7 +31,6 @@ public class Keyword_PJM extends Driver {
 			Browser.WebEdit.Set("PJM_Password", getdata("VQ_Login_Pswd"));
 
 			Browser.WebButton.click("PJM_Submit");
-			PJM_Upload();
 			if (Browser.WebLink.exist("PJM_Main")) {
 				Continue.set(true);
 			} else {

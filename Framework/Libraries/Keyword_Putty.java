@@ -131,7 +131,7 @@ public class Keyword_Putty extends Driver {
 
 				Date today = new Date();
 				String x = today.toString();
-				x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
+				x = x.substring(4, 10).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
 						.replace("05", " 5").replace("06", " 6").replace("07", " 7").replace("08", " 8")
 						.replace("09", " 9");
 				Result.fUpdateLog(x);
@@ -231,7 +231,7 @@ public class Keyword_Putty extends Driver {
 
 				Date today5 = new Date();
 				x = today5.toString();
-				x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
+				x = x.substring(4, 10).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
 						.replace("05", " 5").replace("06", " 6").replace("07", " 7").replace("08", " 8")
 						.replace("09", " 9");
 				String str = "";
@@ -262,7 +262,7 @@ public class Keyword_Putty extends Driver {
 
 					Date today7 = new Date();
 					x = today7.toString();
-					x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3")
+					x = x.substring(4, 10).replace("01", " 1").replace("02", " 2").replace("03", " 3")
 							.replace("04", " 4").replace("05", " 5").replace("06", " 6").replace("07", " 7")
 							.replace("08", " 8").replace("09", " 9");
 					Result.fUpdateLog(x);
@@ -282,7 +282,7 @@ public class Keyword_Putty extends Driver {
 
 						Date today2 = new Date();
 						x = today2.toString();
-						x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3")
+						x = x.substring(4, 10).replace("01", " 1").replace("02", " 2").replace("03", " 3")
 								.replace("04", " 4").replace("05", " 5").replace("06", " 6").replace("07", " 7")
 								.replace("08", " 8").replace("09", " 9");
 						Result.fUpdateLog(x);
@@ -362,7 +362,7 @@ public class Keyword_Putty extends Driver {
 
 				Date today = new Date();
 				String x = today.toString();
-				x = x.substring(4, 13).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
+				x = x.substring(4, 10).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
 						.replace("05", " 5").replace("06", " 6").replace("07", " 7").replace("08", " 8")
 						.replace("09", " 9");
 				Result.fUpdateLog(x);

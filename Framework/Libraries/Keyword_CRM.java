@@ -1127,7 +1127,6 @@ public class Keyword_CRM extends Driver {
 
 			Browser.WebButton.waittillvisible("Validate");
 			Browser.WebButton.click("Validate");
-			CO.waitforload();
 			// CO.isAlertExist();
 			try {
 				WebDriverWait wait = new WebDriverWait(cDriver.get(), 60);
@@ -1200,7 +1199,6 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.waittillvisible("Submit");
 				CO.scroll("Submit", "WebButton");
 				Browser.WebButton.click("Submit");
-				CO.waitforload();
 				if (CO.isAlertExist()) {
 					Continue.set(false);
 					Msg = "Unwanted Popup exists on Submit ,";

@@ -186,7 +186,7 @@ public class Dialers extends Driver {
 			Status = "FAIL";
 		}
 		Result.fUpdateLog("------OG Bar Call Event Details------");
-		return Status + "@@" + Test_OutPut + "";
+		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
 	public String CheckUnBarringCall() {
@@ -230,7 +230,7 @@ public class Dialers extends Driver {
 			Status = "FAIL";
 		}
 		Result.fUpdateLog("------OG Bar Call Event Details------");
-		return Status + "@@" + Test_OutPut + "";
+		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 	
 	public String BillEnquiryDialler() {
@@ -280,7 +280,7 @@ public class Dialers extends Driver {
 			System.out.println(e);
 			Status = "FAIL";
 		}
-		return Status + "@@" + Test_OutPut + "";
+		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
 }

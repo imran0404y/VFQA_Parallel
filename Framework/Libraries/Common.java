@@ -209,7 +209,7 @@ public class Common extends Driver {
 	@SuppressWarnings("deprecation")
 	public boolean isAlertExist() {
 		try {
-			WebDriverWait wait = new WebDriverWait(cDriver.get(), 15);
+			WebDriverWait wait = new WebDriverWait(cDriver.get(), 20);
 			if (!(wait.until(ExpectedConditions.alertIsPresent()) == null)) {
 				String popup = cDriver.get().switchTo().alert().getText();
 				Result.fUpdateLog(popup);
@@ -273,7 +273,7 @@ public class Common extends Driver {
 		((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
 		waitforload();
 		cDriver.get().findElement(By.xpath(cellXpath)).click();
-		waitforload();
+		// waitforload();
 	}// div option button span
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -926,11 +926,21 @@ public class Common extends Driver {
 						a = false;
 					}
 				} while (a);
-
-				waitforload();
+				Result.takescreenshot("");
 				Browser.WebButton.click("UnbilledUsage_Button");
-				waitforload();
-				waitforload();
+				k = 1;
+				a = true;
+				do {
+					k++;
+					waitforload();
+					Result.fUpdateLog("Unbilled Usage Page Loading.....");
+					if (Browser.WebButton.waitTillEnabled("UnBilled_Valid_Name")) {
+						a = false;
+					} else if (k < 20) {
+						a = false;
+					}
+				} while (a);
+
 				Result.takescreenshot("Unbilled Usage");
 				TabNavigator("Real Time Balance");
 				k = 1;

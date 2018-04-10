@@ -73,7 +73,6 @@ public class Utlities extends Driver {
 			String[] TC_Description = new String[rs.getCount()];
 			String[] data = new String[rs.getCount()];
 			String[] ValidationData = new String[rs.getCount()];
-			
 
 			for (int currs = 1; currs <= rs.getCount(); currs++) {
 				IDP[currs - 1] = rs.getField(3).value();
@@ -197,16 +196,16 @@ public class Utlities extends Driver {
 		for (int readloop = 0; readloop < DataSap.length; readloop++) {
 			String[] Sapdata = DataSap[readloop].split("--");
 			if (Sapdata.length == 2) {
-				/*
-				 * if (Sapdata[1].equals("Fetch#IDP")) { dict.put(Sapdata[0], Sapdata[1]);
-				 * String value = FetchStoredValue(UseCaseIDP.get(), TestCaseIDP.get(),
-				 * Sapdata[0]); dict.put(Sapdata[0], value); } else if
-				 * (Sapdata[1].equals("Fetch#DP")) { String value =
-				 * FetchStoredValue(UseCaseDP.get(), TestCaseDP.get(), Sapdata[0]);
-				 * dict.put(Sapdata[0], value); } else { dict.put(Sapdata[0], Sapdata[1]); }
-				 */
 
-				dict.put(Sapdata[0], Sapdata[1]);
+				if (Sapdata[1].equals("Fetch#IDP")) {
+					String value = FetchStoredValue(UseCaseIDP.get(), TestCaseIDP.get(), Sapdata[0]);
+					dict.put(Sapdata[0], value);
+				} else if (Sapdata[1].equals("Fetch#DP")) {
+					String value = FetchStoredValue(UseCaseDP.get(), TestCaseDP.get(), Sapdata[0]);
+					dict.put(Sapdata[0], value);
+				} else {
+					dict.put(Sapdata[0], Sapdata[1]);
+				}
 
 			} else {
 				dict.put(Sapdata[0], "");

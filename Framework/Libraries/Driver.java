@@ -36,6 +36,7 @@ public class Driver {
 	public static ThreadLocal<String> URL = new ThreadLocal<String>();
 	public static ThreadLocal<String> logfilepth = new ThreadLocal<String>();
 	public static ThreadLocal<String> UC = new ThreadLocal<String>();
+	public static ThreadLocal<String> Project = new ThreadLocal<String>();
 
 	public static int passUC = 0;
 	public static int failUC = 0;
@@ -258,9 +259,9 @@ public class Driver {
 						if (currKW_DB.get().toString().equalsIgnoreCase("Data")) {
 							TestData.set((Dictionary<?, ?>) Utlities.freaddata(TestCaseData.get()));
 						} else {
-
 							TestData.set((Dictionary<?, ?>) Utlities.freaddata_diff(currKW_DB.get()));
 							Environment.set(getdata("Environment"));
+							Project.set(getdata("Project_Name"));
 						}
 
 						try {
@@ -323,6 +324,7 @@ public class Driver {
 			if (TotExeCount == totalUCount) {
 				// Result.DisplayHTMLReport();
 				Browser.OpenBrowser(browser.get(), masterrephtml.get());
+				killexeTask();
 			}
 
 		} catch (Exception e) {
@@ -389,7 +391,7 @@ public class Driver {
 
 	public static void killexeTask() {
 		try {
-			Runtime.getRuntime().exec("taskkill /im chrome.exe /f");
+			//Runtime.getRuntime().exec("taskkill /im chrome.exe /f");
 			Runtime.getRuntime().exec("taskkill /im chromedriver.exe /f");
 			//Runtime.getRuntime().exec("taskkill /im conhost.exe /f");
 			Runtime.getRuntime().exec("taskkill /im geckodriver.exe /f");

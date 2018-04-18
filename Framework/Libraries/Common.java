@@ -2608,4 +2608,134 @@ public class Common extends Driver {
 
 	}
 
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Cancel_Order
+	 * Arguments			: AccountNumber
+	 * Use 					: To traverse the latest Order Created in a specific Account 
+	 * Modified By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 21-01-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public void Cancel_Order(String Reason) {
+		try {
+			waitmoreforload();
+			scroll("Order_Reason", "WebEdit");
+			Browser.WebEdit.Set("Order_Reason", Reason);
+			waitforload();
+
+			Actions a = new Actions(cDriver.get());
+			WebElement we = cDriver.get().findElement(By.xpath("//body"));
+			a.sendKeys(we, Keys.chord(Keys.CONTROL, "s")).perform();
+			scroll("Cancel_Order", "WebButton");
+			Result.takescreenshot("Order cancellation is initiated with reason " + Reason);
+			Result.fUpdateLog("Order cancellation is initiated with reason " + Reason);
+
+			Browser.WebButton.click("Cancel_Order");
+			waitforload();
+
+		} catch (Exception e) {
+			Continue.set(false);
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+		}
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+		 * Method Name			: OrderID
+		 * Arguments			: AccountNumber
+		 * Use 					: To traverse the latest Order Created in a specific Account 
+		 * Modified By			: Vinodhini Raviprasad
+		 * Last Modified Date 	: 21-01-2018
+		--------------------------------------------------------------------------------------------------------*/
+	public void Cancel_Verification(String AccountNo, String OrderID) {
+		try {
+			String Status;
+			Account_Search(AccountNo);
+			waitforload();
+			TabNavigator("Orders");
+			waitforload();
+			Browser.WebButton.click("OrderQuery");
+			waitforload();
+			int Col_S, Col_ID, Row = 2, RowCount = Browser.WebTable.getRowCount("Acc_Orders");
+			Col_S = Select_Cell("Acc_Orders", "Status");
+			Col_ID = Select_Cell("Acc_Orders", "Order #");
+			if (RowCount == 2) {
+				Browser.WebTable.SetData("Acc_Orders", Row, Col_ID, "Order_Number", OrderID);
+				waitforload();
+				RowCount = Browser.WebTable.getRowCount("Acc_Orders");
+				if (RowCount == 2) {
+					Status = Browser.WebTable.getCellData("Acc_Orders", Row, Col_S);
+					if (Status.equalsIgnoreCase("Pending Cancel")) {
+						Result.takescreenshot("Order Status Verified Successfully");
+						Result.fUpdateLog("Order Status Verified Successfully");
+					} else {
+						Continue.set(false);
+						Result.takescreenshot("Order Status Verification failed");
+						Result.fUpdateLog("Order Status Verification failed");
+					}
+				} else {
+					Continue.set(false);
+				}
+			} else {
+				Continue.set(false);
+			}
+
+		} catch (Exception e) {
+			Continue.set(false);
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+		}
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Order_Search
+	 * Arguments			: AccountNumber
+	 * Use 					: To traverse the latest Order Created in a specific Account 
+	 * Modified By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 21-01-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String Order_Search(String OrderId) {
+		String Status = null;
+		try {
+			int Row = 2, RowCount, Col, ColS;
+
+			waitforload();
+			Browser.WebLink.click("SalesOrder");
+			waitforload();
+			Result.takescreenshot("Navigating to All Sales Order Tab");
+			Result.fUpdateLog("Navigating to All Sales Order Tab");
+			Text_Select("a", "All Sales Orders");
+			waitforload();
+			Browser.WebButton.click("OrderQuery");
+			waitforload();
+			Col = Select_Cell("Orders", "Order #");
+			ColS = Select_Cell("Orders", "Status");
+			Result.takescreenshot("Order Query Initiation");
+			Result.fUpdateLog("Order Query Initiation");
+			RowCount = Browser.WebTable.getRowCount("Orders");
+			if (RowCount == 2) {
+				Browser.WebTable.SetData("Orders", Row, Col, "Order_Number", OrderId);
+				waitforload();
+				RowCount = Browser.WebTable.getRowCount("Orders");
+				if (RowCount == 2) {
+					Result.takescreenshot("Order Id : " + OrderId + " Identified");
+					Result.fUpdateLog("Order Id : " + OrderId + " Identified");
+					Status = Browser.WebTable.getCellData("Orders", Row, ColS);
+					Browser.WebTable.clickL("Orders", Row, Col);
+					waitforload();
+					Browser.WebLink.waittillvisible("Line_Items");
+					Browser.WebLink.click("Line_Items");
+					waitforload();
+				} else {
+					Continue.set(false);
+				}
+			} else {
+				Continue.set(false);
+			}
+
+			return Status;
+
+		} catch (Exception e) {
+			Continue.set(false);
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			return Status;
+		}
+	}
 }

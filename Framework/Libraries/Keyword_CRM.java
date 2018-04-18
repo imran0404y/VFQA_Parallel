@@ -381,6 +381,9 @@ public class Keyword_CRM extends Driver {
 					New_Account.set(Account_No);
 					Utlities.StoreValue("Account_No", Account_No);
 					Test_OutPut += "Account_No : " + Account_No + ",";
+					CO.waitforload();
+					CO.waitforload();
+					CO.scroll("Account_No", "WebEdit");
 				} else {
 					Continue.set(false);
 					Result.fUpdateLog("No records Founded - Create a address for the customer");
@@ -727,7 +730,7 @@ public class Keyword_CRM extends Driver {
 			String[] Date = OD_Date.split(" ")[0].split("/");
 			OrderDate.set((Date[1] + "-" + Date[0] + "-" + Date[2]));
 
-			Browser.WebTable.click("Order_Table", Row, (Col - 1));
+			Browser.WebTable.clickA("Order_Table", Row, (Col - 1));
 			SalesOrder_No.set(Order_No);
 			do {
 				CO.waitforload();
@@ -1171,7 +1174,7 @@ public class Keyword_CRM extends Driver {
 					case "ExtCustomer":
 					case "Prepaid_To_Postpaid":
 						try {
-							WebDriverWait wait = new WebDriverWait(cDriver.get(), 100);
+							WebDriverWait wait = new WebDriverWait(cDriver.get(), 140);
 							if (!(wait.until(ExpectedConditions.alertIsPresent()) == null)) {
 								String popup = cDriver.get().switchTo().alert().getText();
 								Result.fUpdateLog(popup);
@@ -1253,7 +1256,7 @@ public class Keyword_CRM extends Driver {
 				Bill_Col = CO.Actual_Cell("Line_Items", "Bill Cycle");
 				Bill_Cycle = Browser.WebTable.getCellData("Line_Items", Row, Bill_Col);
 				billDate.set(Bill_Cycle);
-
+				CO.scroll("Submit", "WebButton");
 				if (OS_Status.equalsIgnoreCase(EStatus) || Complete_Status == (Row_Count - 1)) {
 					Continue.set(true);
 				} else {
@@ -1368,6 +1371,9 @@ public class Keyword_CRM extends Driver {
 				 */
 
 				Browser.WebLink.waittillvisible("Acc_Summary");
+				CO.waitforload();
+				CO.waitforload();
+				CO.scroll("Account_No", "WebEdit");
 
 				CO.ToWait();
 				if (Continue.get()) {
@@ -9508,6 +9514,173 @@ public class Keyword_CRM extends Driver {
 			e.printStackTrace();
 		}
 		Result.fUpdateLog("------Fecting BP Summary Details------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: CancelOrder
+	 * Arguments			: None
+	 * Use 					: Cancel Open Orders Account level and Order Level
+	 * Designed By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 10-Apr-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String CancelOrder() {
+		String Test_OutPut = "", Status = "";
+		String OrderId, AccountNo, Cancel_Reason, OrderStatus, TempOrderNo;// ,GetData
+		Result.fUpdateLog("------ Cancel Order - Siebel ---------");
+		try {
+			if (!(getdata("OrderId").equals(""))) {
+				OrderId = getdata("OrderId");
+			} else {
+				OrderId = pulldata("OrderId");
+			}
+
+			if (!(getdata("AccountNo").equals(""))) {
+				AccountNo = getdata("AccountNo");
+			} else {
+				AccountNo = pulldata("AccountNo");
+			}
+
+			/*
+			 * if (!(getdata("GetData").equals(""))) { GetData = getdata("GetData"); } else
+			 * { GetData = pulldata("GetData"); }
+			 */
+			if (!(getdata("Cancel_Reason").equals(""))) {
+				Cancel_Reason = getdata("Cancel_Reason");
+			} else {
+				Cancel_Reason = pulldata("Cancel_Reason");
+			}
+			int Col_ID, Col_S, Row = 2, RowCount;
+			if (TestCaseN.get().equalsIgnoreCase("Account_Level")) {
+				boolean exit = false;
+				TempOrderNo = "";
+				do {
+					Browser.WebLink.click("VQ_Home");
+					CO.waitmoreforload();
+					CO.Account_Search(AccountNo);
+					CO.waitforload();
+					CO.TabNavigator("Orders");
+					CO.waitforload();
+					Browser.WebButton.click("Acc_Order_Query");
+					CO.waitforload();
+					CO.waitforload();
+					Col_S = CO.Select_Cell("Order_Table", "Status");
+					Col_ID = CO.Select_Cell("Order_Table", "Order #");
+					RowCount = Browser.WebTable.getRowCount("Order_Table");
+					if (TempOrderNo.isEmpty() == false) {
+						if (RowCount == 2) {
+							Browser.WebTable.SetDataE("Order_Table", Row, Col_ID, "Order_Number", TempOrderNo);
+							CO.waitforload();
+							Browser.WebButton.click("Acc_Order_GO");
+							CO.waitmoreforload();
+							RowCount = Browser.WebTable.getRowCount("Order_Table");
+							if (RowCount == 2) {
+								Status = Browser.WebTable.getCellData("Order_Table", Row, Col_S);
+								if (Status.equalsIgnoreCase("Pending Cancel")) {
+									Result.takescreenshot(
+											"Order Cancellation of " + TempOrderNo + " is done and moved to " + Status);
+									Result.fUpdateLog(
+											"Order Cancellation of " + TempOrderNo + " is done and moved to " + Status);
+									Browser.WebButton.click("Acc_Order_Query");
+									CO.waitforload();
+									RowCount = Browser.WebTable.getRowCount("Order_Table");
+								} else {
+									Continue.set(false);
+									Result.takescreenshot("Order Cancellation Failed - Order " + TempOrderNo
+											+ " is done and moved to " + Status);
+									Result.fUpdateLog("Order Cancellation Failed - Order " + TempOrderNo
+											+ " is done and moved to " + Status);
+								}
+							} else {
+								Continue.set(false);
+								Result.takescreenshot("Account level Orders Query Search disabled");
+								Result.fUpdateLog("Account level Orders Query Search disabled");
+							}
+						} else {
+							Continue.set(false);
+							Result.takescreenshot("Account level Orders Query Search disabled");
+							Result.fUpdateLog("Account level Orders Query Search disabled");
+						}
+					}
+
+					if (RowCount == 2) {
+						Browser.WebTable.SetDataE("Order_Table", Row, Col_S, "Status", "Open");
+						CO.waitforload();
+						Browser.WebButton.click("Acc_Order_GO");
+						CO.waitmoreforload();
+						RowCount = Browser.WebTable.getRowCount("Order_Table");
+						if (RowCount >= 2) {
+							Result.takescreenshot("Listing Open Orders in Account " + AccountNo);
+							Result.fUpdateLog("Listing Open Orders in Account " + AccountNo);
+
+							Col_ID = CO.Select_Cell("Order_Table", "Order #");
+							TempOrderNo = Browser.WebTable.getCellData("Order_Table", Row, Col_ID);
+							Result.takescreenshot("Traversing Order " + TempOrderNo);
+							Result.fUpdateLog("Traversing Order " + TempOrderNo);
+
+							Browser.WebTable.clickL("Order_Table", Row, Col_ID);
+							CO.waitmoreforload();
+							CO.Cancel_Order(Cancel_Reason);
+
+							Result.takescreenshot(
+									"Order " + TempOrderNo + " is cancelled with cancellation Reason " + Cancel_Reason);
+							Result.fUpdateLog(
+									"Order " + TempOrderNo + " is cancelled with cancellation Reason " + Cancel_Reason);
+
+						} else {
+							exit = true;
+							Result.takescreenshot("There are no more Open Orders to be Cancelled");
+							Result.fUpdateLog("There are no more Open Orders to be Cancelled");
+						}
+					} else {
+
+						Continue.set(false);
+						exit = true;
+						Result.takescreenshot("Account level Orders Query Search disabled");
+						Result.fUpdateLog("Account level Orders Query Search disabled");
+
+					}
+				} while (exit == false);
+			} else {
+				OrderStatus = CO.Order_Search(OrderId);
+
+				Result.takescreenshot("Order Id : " + OrderId + " Navigation with status: " + OrderStatus);
+				Result.fUpdateLog("Order Id : " + OrderId + " Navigation with status: " + OrderStatus);
+
+				if (OrderStatus.equalsIgnoreCase("Open")) {
+					CO.waitforload();
+					CO.Cancel_Order(Cancel_Reason);
+					CO.waitforload();
+
+					OrderStatus = CO.Order_Search(OrderId);
+
+				} else {
+					Result.takescreenshot("Order is not available in Open Status please check data");
+					Result.fUpdateLog("Order is not available in Open Status please check data");
+					Continue.set(false);
+				}
+			}
+
+			CO.ToWait();
+
+			if (Continue.get()) {
+				Test_OutPut += "Cancel Order - Siebel is done Successfully " + ",";
+				Result.fUpdateLog("Cancel Order - Siebel is  done successfully");
+				Status = "PASS";
+			} else {
+				Test_OutPut += "Cancel Order - Siebel Failed" + ",";
+				Result.takescreenshot("Cancel Order - Siebel Failed");
+				Result.fUpdateLog("Cancel Order - Siebel Failed");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + e.getMessage());
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Cancel Order - Siebel - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 

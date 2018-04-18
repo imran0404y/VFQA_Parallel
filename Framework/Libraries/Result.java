@@ -168,7 +168,7 @@ public class Result extends Driver {
 				"</head>" + "<body bgcolor = \"green\">" + "<div id = \"lastres\">" + "<table width='100%' border=2>"
 				+ "<tr>" + "<td border='0'>" + "<img src ='" + "Scripts\\"
 				+ "Client-logo.jpg' height = 30% width = 100%>" + "</td>" + "<td width =70% Style=\"color:green\">"
-				+ "<center><h1> Master Report </h1>  </center>" + "</td>" + "<td border='0'>" + "<img src ='"
+				+ "<center><h1> "+ Project.get() +" - Master Report </h1>  </center>" + "</td>" + "<td border='0'>" + "<img src ='"
 				+ "Scripts\\" + "maveric-logo.jpg' height = 30% width = 100%>" + "</td>" + "</tr>"
 				+ "<table width='100%' border=2>" + "<tr>"
 				+ "<td align=\"center\" width='50%' colspan=2><h3>Execution overview </h3></td>"

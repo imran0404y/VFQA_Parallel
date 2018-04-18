@@ -210,17 +210,25 @@ public class KeyWord {
 	public String CreditLimit() {
 		return KC.CreditLimit();
 	}
+	
 	public String MVCareBill() {
 		return KC.MVCareBill();
 	}
+	
 	public String BillSummary() {
 		return KC.BillSummary();
 	}
+	
 	public String HappyOffers() {
 		return KC.HappyOffers();
 	}
+	
 	public String DueAmount() {
 		return KC.DueAmount();
+	}
+	
+	public String CancelOrder() {
+		return KC.CancelOrder();
 	}
 	// ------------------Keyword CRM -------------------//
 

@@ -352,6 +352,8 @@ public class Keyword_CRM extends Driver {
 		try {
 			String Exi = getdata("Account_No");
 			if (Exi.equals("")) {
+				CO.waitforload();
+				CO.waitforload();
 				int Row_Count = Browser.WebTable.getRowCount("Address");
 				if (Row_Count > 1) {
 					Browser.WebButton.waittillvisible("Create_A/c");

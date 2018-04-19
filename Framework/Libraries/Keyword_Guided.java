@@ -547,10 +547,10 @@ public class Keyword_Guided extends Driver
 
 			// To Navigate Orders Tab
 			do {
-				Browser.WebButton.click("Orders_Tab");
+				CO.TabNavigator("Orders");
 				CO.waitforload();
 				if (CO.isAlertExist())
-					Browser.WebButton.click("Orders_Tab");
+					CO.TabNavigator("Orders");
 
 			} while (!Browser.WebTable.waitTillEnabled("Order_Table"));
 

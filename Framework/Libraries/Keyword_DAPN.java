@@ -92,7 +92,7 @@ public class Keyword_DAPN extends Driver
 			}
 
 			CO.Account_Search(Account_No);
-			Browser.WebButton.click("Profile_Tab");
+			CO.TabNavigator("Profiles");
 			int Col_Nam = CO.Select_Cell("Bill_Prof", "Name");
 			Browser.WebTable.click("Bill_Prof", 2, (Col_Nam - 1));
 			Actions action = new Actions(cDriver.get());

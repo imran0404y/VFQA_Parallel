@@ -435,7 +435,8 @@ public class Keyword_CRM extends Driver {
 				} else if (Browser.WebButton.exist("Address_Tab")) {
 					Result.fUpdateLog("Proceeding Enterprise Address Creation");
 					Browser.WebButton.click("Add_Address");
-					CO.waitmoreforload();
+					CO.waitforload();
+					CO.waitforload();
 				}
 
 				CO.waitforload();
@@ -536,9 +537,10 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 			}
 			if (Continue.get()) {
-				CO.scroll("Profile_Tab", "WebButton");
+				//CO.scroll("Profile_Tab", "WebButton");
 				do {
-					Browser.WebButton.click("Profile_Tab");
+					CO.TabNavigator("Profiles");
+					//Browser.WebButton.click("Profile_Tab");
 					CO.waitforload();
 					if (Browser.WebLink.exist("SRP_SubTab")) {
 						CO.Text_Select("a", "Billing Profile");
@@ -691,10 +693,12 @@ public class Keyword_CRM extends Driver {
 
 			// int j = 1;
 			do {
-				Browser.WebButton.click("Orders_Tab");
+				//Browser.WebButton.click("Orders_Tab");
+				CO.TabNavigator("Orders");
 				CO.waitforload();
 				if (CO.isAlertExist())
-					Browser.WebButton.click("Orders_Tab");
+					CO.TabNavigator("Orders");
+					//Browser.WebButton.click("Orders_Tab");
 				/*
 				 * if (Browser.WebEdit.waitTillEnabled("Order_Valid_Name")) { j = 0; break; }
 				 */
@@ -1426,10 +1430,10 @@ public class Keyword_CRM extends Driver {
 				}
 
 				do {
-					Browser.WebButton.click("Address_Tab");
+					CO.TabNavigator("Addresses");
 					CO.waitforload();
 				} while (!Browser.WebButton.waitTillEnabled("Add_Address"));
-				Browser.WebButton.waittillvisible("Add_Address");
+				//Browser.WebButton.waittillvisible("Add_Address");
 
 				CO.waitforload();
 				if (!(Address.equals(""))) {
@@ -1437,7 +1441,7 @@ public class Keyword_CRM extends Driver {
 					CO.waitforobj("Add_Address", "WebButton");
 					// Browser.WebButton.waittillvisible("Add_Address");
 					Browser.WebButton.click("Add_Address");
-
+					CO.waitforload();
 					// Search for Specific Address
 					CO.waitforobj("Popup_Go", "WebButton");
 					CO.scroll("Popup_Go", "WebButton");
@@ -1600,10 +1604,10 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 				CO.scroll("Account360", "WebButton");
 
-				Browser.WebButton.click("Address_Tab");
+				CO.TabNavigator("Addresses");
 				if (CO.isAlertExist())
 					if (CO.isAlertExist())
-						Browser.WebButton.click("Address_Tab");
+						CO.TabNavigator("Addresses");
 				/*
 				 * Browser.WebButton.click("Ent_Notification");
 				 * Browser.WebButton.click("Ent_Not_Ok"); if (CO.isAlertExist())
@@ -1612,7 +1616,7 @@ public class Keyword_CRM extends Driver {
 
 				Browser.WebButton.click("Ent_Notification");
 				Browser.WebButton.click("Ent_Not_Ok");
-				Browser.WebButton.click("Address_Tab");
+				CO.TabNavigator("Addresses");
 				if (CO.isAlertExist())
 					CO.isAlertExist();
 				CO.waitforload();
@@ -3879,9 +3883,9 @@ public class Keyword_CRM extends Driver {
 			int Flag = 0;
 			if (!Primary.equalsIgnoreCase("") && (Primary.equalsIgnoreCase(MSISDN))) {
 
-				CO.scroll("Profile_Tab", "WebButton");
+				//CO.scroll("Profile_Tab", "WebButton");
 				do {
-					Browser.WebButton.click("Profile_Tab");
+					CO.TabNavigator("Profiles");
 					CO.waitforload();
 					if (Browser.WebLink.exist("SRP_SubTab")) {
 						CO.Text_Select("a", "Billing Profile");
@@ -4130,9 +4134,9 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 			}
 			if (Continue.get()) {
-				CO.scroll("Profile_Tab", "WebButton");
+				//CO.scroll("Profile_Tab", "WebButton");
 				do {
-					Browser.WebButton.click("Profile_Tab");
+					CO.TabNavigator("Profiles");
 					CO.waitforload();
 					if (Browser.WebLink.exist("SRP_SubTab")) {
 						CO.Text_Select("a", "Billing Profile");
@@ -4606,9 +4610,9 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Account_Search(Ac_No);
-			CO.scroll("Profile_Tab", "WebButton");
+			//CO.scroll("Profile_Tab", "WebButton");
 			do {
-				Browser.WebButton.click("Profile_Tab");
+				CO.TabNavigator("Profiles");
 				CO.waitforload();
 				if (Browser.WebLink.exist("SRP_SubTab")) {
 					CO.Text_Select("a", "Billing Profile");
@@ -4907,9 +4911,9 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Account_Search(Ac_No);
-			CO.scroll("Profile_Tab", "WebButton");
+			//CO.scroll("Profile_Tab", "WebButton");
 			do {
-				Browser.WebButton.click("Profile_Tab");
+				CO.TabNavigator("Profiles");
 				CO.waitforload();
 				if (Browser.WebLink.exist("SRP_SubTab")) {
 					CO.Text_Select("a", "Billing Profile");
@@ -5214,9 +5218,9 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Account_Search(Ac_No);
-			CO.scroll("Profile_Tab", "WebButton");
+			//CO.scroll("Profile_Tab", "WebButton");
 			do {
-				Browser.WebButton.click("Profile_Tab");
+				CO.TabNavigator("Profiles");
 				CO.waitforload();
 				if (Browser.WebLink.exist("SRP_SubTab")) {
 					CO.Text_Select("a", "Billing Profile");
@@ -5539,9 +5543,9 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Account_Search(Ac_No);
-			CO.scroll("Profile_Tab", "WebButton");
+			//CO.scroll("Profile_Tab", "WebButton");
 			do {
-				Browser.WebButton.click("Profile_Tab");
+				CO.TabNavigator("Profiles");
 				CO.waitforload();
 				if (Browser.WebLink.exist("SRP_SubTab")) {
 					CO.Text_Select("a", "Billing Profile");

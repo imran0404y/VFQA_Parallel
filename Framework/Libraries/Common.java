@@ -882,10 +882,10 @@ public class Common extends Driver {
 			// String BP="1-4KG38HZ";
 			waitforload();
 
-			scroll("Profile_Tab", "WebButton");
-			scroll("Profile_Tab", "WebButton");
+			//scroll("Profile_Tab", "WebButton");
+			//scroll("Profile_Tab", "WebButton");
 			do {
-				Browser.WebButton.click("Profile_Tab");
+				TabNavigator("Profiles");
 				waitforload();
 				if (Browser.WebLink.exist("SRP_SubTab")) {
 					Text_Select("a", "Billing Profile");

@@ -159,7 +159,7 @@ public class Keyword_ETHERNET extends Driver {
 
 			CO.scroll("Profile_Tab", "WebButton");
 
-			Browser.WebButton.click("Profile_Tab");
+			CO.TabNavigator("Profiles");
 			CO.waitforload();
 			Browser.WebButton.click("Bill_Add");
 			Result.takescreenshot("");
@@ -711,7 +711,9 @@ public class Keyword_ETHERNET extends Driver {
 
 					CO.waitforobj("Add_Address", "WebButton");
 					// Browser.WebButton.waittillvisible("Add_Address");
-					Browser.WebButton.click("Add_Address");
+					CO.TabNavigator("Addresses");
+					CO.waitforload();
+					CO.waitforload();
 
 					// Search for Specific Address
 					CO.waitforobj("Popup_Go", "WebButton");
@@ -926,7 +928,9 @@ public class Keyword_ETHERNET extends Driver {
 
 					CO.waitforobj("Add_Address", "WebButton");
 					// Browser.WebButton.waittillvisible("Add_Address");
-					Browser.WebButton.click("Add_Address");
+					CO.TabNavigator("Addresses");
+					CO.waitforload();
+					CO.waitforload();
 
 					// Search for Specific Address
 					CO.waitforobj("Popup_Go", "WebButton");
@@ -1148,8 +1152,9 @@ public class Keyword_ETHERNET extends Driver {
 
 					CO.waitforobj("Add_Address", "WebButton");
 					// Browser.WebButton.waittillvisible("Add_Address");
-					Browser.WebButton.click("Add_Address");
-
+					CO.TabNavigator("Addresses");
+					CO.waitforload();
+					CO.waitforload();
 					// Search for Specific Address
 					CO.waitforobj("Popup_Go", "WebButton");
 					CO.scroll("Popup_Go", "WebButton");
@@ -1351,11 +1356,11 @@ public class Keyword_ETHERNET extends Driver {
 				CO.waitforload();
 				if (Browser.WebLink.exist("Acc_address")) {
 					Result.fUpdateLog("Proceeding Consumer Address Creation");
-					Browser.WebButton.click("Add_Address");
+					CO.TabNavigator("Addresses");
 					CO.waitforload();
 				} else if (Browser.WebButton.exist("Address_Tab")) {
 					Result.fUpdateLog("Proceeding Enterprise Address Creation");
-					Browser.WebButton.click("Add_Address");
+					CO.TabNavigator("Addresses");
 					CO.waitmoreforload();
 				}
 
@@ -1445,10 +1450,10 @@ public class Keyword_ETHERNET extends Driver {
 
 			// int j = 1;
 			do {
-				Browser.WebButton.click("Orders_Tab");
+				CO.TabNavigator("Orders");
 				CO.waitforload();
 				if (CO.isAlertExist())
-					Browser.WebButton.click("Orders_Tab");
+					CO.TabNavigator("Orders");
 
 			} while (!Browser.WebTable.waitTillEnabled("Order_Table"));
 			Browser.WebTable.waittillvisible("Order_Table");

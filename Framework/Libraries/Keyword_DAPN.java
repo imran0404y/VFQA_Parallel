@@ -13,7 +13,6 @@ public class Keyword_DAPN extends Driver
 	Common CO = new Common();
 	Random R = new Random();
 	Keyword_CRM KC = new Keyword_CRM();
-
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: PlanSelection
 	 * Arguments			: None
@@ -65,7 +64,7 @@ public class Keyword_DAPN extends Driver
 				CO.Link_Select("Account APN");
 
 				CO.Text_Select("option", "Account Level APN");
-				Browser.WebEdit.Set("NumberReservationToken", getdata("No_APN"));
+				Browser.WebEdit.Set("NumberReservationToken", "1");
 				Browser.WebButton.click("Apn_Add");
 
 				CO.Link_Select("Account Level APN");
@@ -176,10 +175,19 @@ public class Keyword_DAPN extends Driver
 			CO.waitforload();
 			CO.Link_Select("Others");
 			CO.waitforload();
-			CO.Radio_Select("APN Service");
-			CO.waitforload();
-			CO.Radio_Select("APN Static IP Address");
-			CO.waitforload();
+			if(getdata("Provision_Type")=="Static") {
+				CO.Radio_Select("APN Service");
+				CO.waitforload();
+				CO.Radio_Select("APN Static IP Address");
+				CO.waitforload();
+			}else if(getdata("Provision_Type")=="Dynamic")
+			{
+				CO.Radio_Select("APN Service");
+				CO.waitforload();
+				CO.Radio_Select("APN Dynamic IP Address");
+				CO.waitforload();
+			}
+			
 			CO.Text_Select("button", "Verify");
 			CO.isAlertExist();
 			CO.waitforload();
@@ -346,7 +354,7 @@ public class Keyword_DAPN extends Driver
 
 			CO.Title_Select("button", "APN Details:OK");
 			CO.waitforload();
-
+			if(getdata("Provision_Type")=="Static") {
 			GData = "APN Static IP Address";
 			Row_Count = Browser.WebTable.getRowCount("Line_Items");
 			for (int i = 2; i <= Row_Count; i++) {
@@ -369,7 +377,7 @@ public class Keyword_DAPN extends Driver
 			CO.waitforload();
 
 			Browser.WebButton.click("Static_ok");
-
+			}
 			CO.waitforload();
 
 			Row_Count = Browser.WebTable.getRowCount("Line_Items");

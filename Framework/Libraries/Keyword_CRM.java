@@ -352,9 +352,17 @@ public class Keyword_CRM extends Driver {
 		try {
 			String Exi = getdata("Account_No");
 			if (Exi.equals("")) {
-				CO.waitforload();
-				CO.waitforload();
+				int loop = 0;
 				int Row_Count = Browser.WebTable.getRowCount("Address");
+				do {
+					Row_Count = Browser.WebTable.getRowCount("Address");
+					CO.waitforload();
+					loop = loop + 1;
+					if (Row_Count > 1) {
+						loop = 100;
+					}
+				} while (!(Row_Count > 1) && !(loop > 7));
+
 				if (Row_Count > 1) {
 					Browser.WebButton.waittillvisible("Create_A/c");
 					CO.waitforobj("Create_A/c", "WebButton");
@@ -1117,7 +1125,8 @@ public class Keyword_CRM extends Driver {
 			if (UseCaseName.get().toLowerCase().contains("EnterprisePrepaid")
 					|| UseCaseName.get().toLowerCase().contains("EnterprisePostpaid")
 					|| UseCaseName.get().toLowerCase().contains("EnterpriseFixedLine")
-					|| TestCaseN.get().toLowerCase().contains("vip") || UseCaseName.get().contains("SIPT")) {
+					|| TestCaseN.get().toLowerCase().contains("vip") || UseCaseName.get().contains("SIPT")
+					|| UseCaseName.get().contains("DAPN")) {
 				if (!(getdata("Ent_CreditLimit").equals(""))) {
 					CreditLimit = getdata("Ent_CreditLimit");
 				} else {
@@ -1250,6 +1259,7 @@ public class Keyword_CRM extends Driver {
 					Wait = Wait + 5;
 					CO.waitforload();
 				} while (Wait < 100);
+				cDriver.get().navigate().refresh();
 				Browser.WebButton.waittillvisible("Submit");
 				CO.scroll("Submit", "WebButton");
 				Result.takescreenshot("");
@@ -6069,7 +6079,8 @@ public class Keyword_CRM extends Driver {
 
 			}
 
-			// Trouble Ticket CO.waitforload(); Browser.WebLink.click("Trouble_ticket");
+			// Trouble Ticket CO.waitforload();
+			Browser.WebLink.click("Trouble_ticket");
 			if (Browser.WebEdit.exist("All_Trouble_ticket")) {
 				Result.takescreenshot("Trouble tickets are Enabled ");
 				Result.fUpdateLog("Trouble tickets are Enabled ");

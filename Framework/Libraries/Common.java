@@ -858,8 +858,12 @@ public class Common extends Driver {
 			Col = Select_Cell("Assert", "Product");
 			Browser.WebButton.waitTillEnabled("Assert_Go");
 			Browser.WebButton.click("Assert_Go");
+			
+			
 			waitforload();
 			Col = Select_Cell("Assert", "Account");
+			
+			
 			int Assert_Row_Count = Browser.WebTable.getRowCount("Assert");
 			if (Assert_Row_Count > 1)
 				Browser.WebTable.clickL("Assert", Row, Col);
@@ -877,6 +881,7 @@ public class Common extends Driver {
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");
 			Result.takescreenshot("");
+			
 			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
 			String BP = Browser.WebTable.getCellData("Installed_Assert", 2, Col1);
 			// String BP="1-4KG38HZ";

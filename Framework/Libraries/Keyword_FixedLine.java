@@ -305,7 +305,7 @@ public class Keyword_FixedLine extends Driver {
 					break;
 				}
 			}
-			Browser.WebTable.click("Line_Items", Row_Val, Col);
+			Browser.WebTable.click("Line_Items", Row_Val, (Col + 1));
 			CO.waitforload();
 			Browser.WebButton.click("Activ_New");
 			CO.Text_Select("span", "Book Appointment");
@@ -635,7 +635,7 @@ public class Keyword_FixedLine extends Driver {
 					break;
 				}
 			}
-			Browser.WebTable.click("Line_Items", Row_Val, Col);
+			Browser.WebTable.click("Line_Items", Row_Val, (Col + 1));
 			CO.waitforload();
 			Browser.WebButton.click("Activ_New");
 			CO.Text_Select("span", "Book Appointment");
@@ -692,15 +692,14 @@ public class Keyword_FixedLine extends Driver {
 		}
 		Result.fUpdateLog("-----Change FL Order Replacement Event  - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
-
 	}
 
 	public String OrderVerfication() {
 		String Test_OutPut = "", Status = "";
 		int Row = 2, Col;
 		try {
-		//String Sales_Od = SalesOrder_No.get();
-		String Sales_Od = "1-10518905394";
+			// String Sales_Od = SalesOrder_No.get();
+			String Sales_Od = "1-10518905394";
 			Result.takescreenshot("Searching Order in Seibel");
 			Browser.WebLink.click("SalesOrder");
 			Browser.WebLink.click("All_Orders");

@@ -831,7 +831,8 @@ public class Common extends Driver {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: RTBScreen
 	 * Use 					: To check the Unbilled usage in Billing profile
@@ -875,13 +876,12 @@ public class Common extends Driver {
 			Col = Select_Cell("Installed_Assert", "Service ID");
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");
-
+			Result.takescreenshot("");
 			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
-
 			String BP = Browser.WebTable.getCellData("Installed_Assert", 2, Col1);
 			// String BP="1-4KG38HZ";
 			waitforload();
-
+			Result.takescreenshot("");
 			//scroll("Profile_Tab", "WebButton");
 			//scroll("Profile_Tab", "WebButton");
 			do {

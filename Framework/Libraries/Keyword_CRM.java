@@ -539,10 +539,10 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 			}
 			if (Continue.get()) {
-				//CO.scroll("Profile_Tab", "WebButton");
+				// CO.scroll("Profile_Tab", "WebButton");
 				do {
 					CO.TabNavigator("Profiles");
-					//Browser.WebButton.click("Profile_Tab");
+					// Browser.WebButton.click("Profile_Tab");
 					CO.waitforload();
 					if (Browser.WebLink.exist("SRP_SubTab")) {
 						CO.Text_Select("a", "Billing Profile");
@@ -695,12 +695,12 @@ public class Keyword_CRM extends Driver {
 
 			// int j = 1;
 			do {
-				//Browser.WebButton.click("Orders_Tab");
+				// Browser.WebButton.click("Orders_Tab");
 				CO.TabNavigator("Orders");
 				CO.waitforload();
 				if (CO.isAlertExist())
 					CO.TabNavigator("Orders");
-					//Browser.WebButton.click("Orders_Tab");
+				// Browser.WebButton.click("Orders_Tab");
 				/*
 				 * if (Browser.WebEdit.waitTillEnabled("Order_Valid_Name")) { j = 0; break; }
 				 */
@@ -1114,8 +1114,10 @@ public class Keyword_CRM extends Driver {
 			if (Browser.WebTable.exist("Line_Items"))
 				Result.fUpdateLog("Proceeding Order Submission");
 			CO.waitforload();
-			if (UseCaseName.get().toLowerCase().contains("enterprise") || TestCaseN.get().toLowerCase().contains("vip")
-					|| UseCaseName.get().contains("SIPT")) {
+			if (UseCaseName.get().toLowerCase().contains("EnterprisePrepaid")
+					|| UseCaseName.get().toLowerCase().contains("EnterprisePostpaid")
+					|| UseCaseName.get().toLowerCase().contains("EnterpriseFixedLine")
+					|| TestCaseN.get().toLowerCase().contains("vip") || UseCaseName.get().contains("SIPT")) {
 				if (!(getdata("Ent_CreditLimit").equals(""))) {
 					CreditLimit = getdata("Ent_CreditLimit");
 				} else {
@@ -1249,7 +1251,8 @@ public class Keyword_CRM extends Driver {
 					CO.waitforload();
 				} while (Wait < 100);
 				Browser.WebButton.waittillvisible("Submit");
-
+				CO.scroll("Submit", "WebButton");
+				Result.takescreenshot("");
 				CO.waitforload();
 				Row_Count = Browser.WebTable.getRowCount("Line_Items");
 				CO.scroll("Submit", "WebButton");
@@ -1435,7 +1438,7 @@ public class Keyword_CRM extends Driver {
 					CO.TabNavigator("Addresses");
 					CO.waitforload();
 				} while (!Browser.WebButton.waitTillEnabled("Add_Address"));
-				//Browser.WebButton.waittillvisible("Add_Address");
+				// Browser.WebButton.waittillvisible("Add_Address");
 
 				CO.waitforload();
 				if (!(Address.equals(""))) {
@@ -3885,7 +3888,7 @@ public class Keyword_CRM extends Driver {
 			int Flag = 0;
 			if (!Primary.equalsIgnoreCase("") && (Primary.equalsIgnoreCase(MSISDN))) {
 
-				//CO.scroll("Profile_Tab", "WebButton");
+				// CO.scroll("Profile_Tab", "WebButton");
 				do {
 					CO.TabNavigator("Profiles");
 					CO.waitforload();
@@ -4136,7 +4139,7 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 			}
 			if (Continue.get()) {
-				//CO.scroll("Profile_Tab", "WebButton");
+				// CO.scroll("Profile_Tab", "WebButton");
 				do {
 					CO.TabNavigator("Profiles");
 					CO.waitforload();
@@ -4612,7 +4615,7 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Account_Search(Ac_No);
-			//CO.scroll("Profile_Tab", "WebButton");
+			// CO.scroll("Profile_Tab", "WebButton");
 			do {
 				CO.TabNavigator("Profiles");
 				CO.waitforload();
@@ -4913,7 +4916,7 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Account_Search(Ac_No);
-			//CO.scroll("Profile_Tab", "WebButton");
+			// CO.scroll("Profile_Tab", "WebButton");
 			do {
 				CO.TabNavigator("Profiles");
 				CO.waitforload();
@@ -5220,7 +5223,7 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Account_Search(Ac_No);
-			//CO.scroll("Profile_Tab", "WebButton");
+			// CO.scroll("Profile_Tab", "WebButton");
 			do {
 				CO.TabNavigator("Profiles");
 				CO.waitforload();
@@ -5545,7 +5548,7 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Account_Search(Ac_No);
-			//CO.scroll("Profile_Tab", "WebButton");
+			// CO.scroll("Profile_Tab", "WebButton");
 			do {
 				CO.TabNavigator("Profiles");
 				CO.waitforload();

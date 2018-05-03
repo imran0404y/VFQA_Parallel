@@ -62,7 +62,7 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.click("VQ_Login");
 				CO.waitforload();
 				Browser.WebButton.waittillvisible("VF_Search_Identify");
-
+				CO.RTBScreen("97470899278", "Active");
 				CO.ToWait();
 				if (Continue.get()) {
 					Test_OutPut += "Successfully Login with : " + getdata("VQ_Login_User") + ",";

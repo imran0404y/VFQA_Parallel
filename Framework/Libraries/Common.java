@@ -881,7 +881,25 @@ public class Common extends Driver {
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");
 			Result.takescreenshot("");
-			
+	       int Row_Count,Row_Val = 0;
+           String SData="";
+           Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
+           Col = Select_Cell("Installed_Assert", "Product");
+           for (int i = 2; i <= Row_Count; i++) {
+                 String LData = Browser.WebTable.getCellData("Installed_Assert", i, Col);
+                 if (LData.equalsIgnoreCase("Mobile Service Bundle"))
+                        Row_Val = i;
+           }
+           int Col_S = Actual_Cell("Installed_Assert","Status");
+           Browser.WebTable.click("Installed_Assert", Row_Val,Col_S );
+           Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
+           if (Row_Count <= 3) {
+                 Browser.WebButton.waittillvisible("Expand");
+                 Browser.WebButton.click("Expand");
+           }
+           
+           Result.takescreenshot("");
+
 			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
 			String BP = Browser.WebTable.getCellData("Installed_Assert", 2, Col1);
 			// String BP="1-4KG38HZ";
@@ -906,7 +924,7 @@ public class Common extends Driver {
 			Browser.WebEdit.waittillvisible("BP_Valid_Name");
 
 			waitforload();
-			int Row_Count = Browser.WebTable.getRowCount("Bill_Prof");
+			Row_Count = Browser.WebTable.getRowCount("Bill_Prof");
 			int Col_Val = Select_Cell("Bill_Prof", "Name");
 			int Col2 = Select_Cell("Bill_Prof", "Payment Type");
 			for (int i = 2; i <= Row_Count; i++) {
@@ -962,7 +980,7 @@ public class Common extends Driver {
 				} while (a);
 
 				scroll("RTB_Valid_Name", "WebButton");
-				Result.takescreenshot("Real Time Balance");
+			//	Result.takescreenshot("Real Time Balance");
 				int Rowcount = Browser.WebTable.getRowCount("RTB_Table");
 				if (Rowcount >= 2) {
 					for (int i = 2; i <= Rowcount; i++) {
@@ -1001,7 +1019,7 @@ public class Common extends Driver {
 					Result.takescreenshot("Real Time Balance" + Count);
 					Browser.WebButton.click("Rowcounter_next");
 					Count = Count + 1;
-
+					waitforload();
 				}
 
 			} while (flag == 1);

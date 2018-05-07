@@ -19,6 +19,20 @@ public class Browser extends Driver {
 	 * Last Modified Date 	: 16-April-2017
 	--------------------------------------------------------------------------------------------------------*/
 	public static class WebEdit {
+		public static void SetE(String objname, String objvalue) throws Exception {
+			String objtype = "WebEdit";
+			String[] objprop = Utlities.FindObject(objname, objtype);
+			Method.clearTD(objprop);
+			Thread.sleep(200);
+			Method.setETD(objprop, objvalue);
+			if (Continue.get() == false) {
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - to set Value: " + objvalue);
+				throw new Exception();
+			} else {
+				Result.fUpdateLog(Batchs.get() + " :: Action SetText on Obj: " + objname + " - Value: " + objvalue);
+			}
+		}
+
 		public static void Set(String objname, String objvalue) throws Exception {
 			String objtype = "WebEdit";
 			String[] objprop = Utlities.FindObject(objname, objtype);

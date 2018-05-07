@@ -20,6 +20,85 @@ import org.w3c.dom.NodeList;
  * Last Modified Date 	: 25-Apr-2016
  --------------------------------------------------------------------------------------------------------*/
 public class Method extends Driver {
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: setTD
+	 * Arguments			: identifier and value
+	 * Use 					: Enters value in the Web Edit
+	 * Designed By			: Vinodhini
+	 * Last Modified Date 	: 25-Apr-2016
+	--------------------------------------------------------------------------------------------------------*/
+	public static void setETD(String[] identify, String val) {
+		int i = 0;
+		Exception Error = null;
+		for (i = 0; i < identify.length;) {
+			try {
+				if (Continue.get() == true) {
+					switch (i) {
+					case 0:
+						if (identify[0] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[0])));
+							cDriver.get().findElement(By.xpath(identify[0])).sendKeys(val);
+							cDriver.get().findElement(By.xpath(identify[0])).click();
+							cDriver.get().findElement(By.xpath(identify[0])).sendKeys(Keys.ENTER);
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					case 1:
+						if (identify[1] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[1])));
+							cDriver.get().findElement(By.name(identify[1])).sendKeys(val);
+							cDriver.get().findElement(By.name(identify[1])).click();
+							cDriver.get().findElement(By.name(identify[1])).sendKeys(Keys.ENTER);
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					case 2:
+						if (identify[2] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[2])));
+							cDriver.get().findElement(By.id(identify[2])).sendKeys(val);
+							cDriver.get().findElement(By.id(identify[2])).click();
+							cDriver.get().findElement(By.id(identify[2])).sendKeys(Keys.ENTER);
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					case 3:
+						if (identify[3] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[3])));
+							cDriver.get().findElement(By.className(identify[3])).sendKeys(val);
+							cDriver.get().findElement(By.className(identify[3])).click();
+							cDriver.get().findElement(By.className(identify[3])).sendKeys(Keys.ENTER);
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					case 4:
+						if (identify[4] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[4])));
+							cDriver.get().findElement(By.linkText(identify[4])).sendKeys(val);
+							cDriver.get().findElement(By.linkText(identify[4])).click();
+							cDriver.get().findElement(By.linkText(identify[4])).sendKeys(Keys.ENTER);
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					}
+				}
+				break;
+			} catch (Exception e) {
+				i++;
+				Error = e;
+				Continue.set(true);
+			}
+		}
+		if (i == identify.length) {
+			Continue.set(false);
+			Result.fUpdateLog("Object does't Exists to set");
+			Error.printStackTrace();
+		}
+	}
 
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: waitForPageToLoad
@@ -747,10 +826,10 @@ public class Method extends Driver {
 		return doc;
 	}
 
-	public static void Scroll(WebElement element){
-		 JavascriptExecutor jse = (JavascriptExecutor) cDriver.get();
-		 jse.executeScript("arguments[0].scrollIntoView();", element);
-		 cDriver.get().manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-		 
+	public static void Scroll(WebElement element) {
+		JavascriptExecutor jse = (JavascriptExecutor) cDriver.get();
+		jse.executeScript("arguments[0].scrollIntoView();", element);
+		cDriver.get().manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
 	}
 }

@@ -371,6 +371,7 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public void AddOnSelection(String Product, String Status) {
 		try {
+
 			int Length;
 			String Product_Tabs[] = Product.split("<>");
 			for (int i = 0; i < Product_Tabs.length; i++) {
@@ -383,14 +384,33 @@ public class Common extends Driver {
 					Result.takescreenshot("Add on Tab");
 					if (Status.equals("Delete")) {
 						Result.fUpdateLog("------Modify Remove Addon Event Details------");
-						for (int j = 1; j < Prod_array.length; j++)
-							Radio_None(Prod_array[j]);
-						Result.takescreenshot("Deletion of Addon");
+						for (int j = 1; j < Prod_array.length; j++) {
+							String Addon[] = Prod_array[j].split("::");
+							if (Addon.length > 1) {
+								Radio_None(Addon[0]);
+								Result.takescreenshot("Deletion of Addon");
+							} else {
+								Radio_None(Addon[0]);
+								Result.takescreenshot("Deletion of Addon");
+							}
+						}
 					} else {
 						Result.fUpdateLog("------Modify Add Addon Event Details------");
-						for (int j = 1; j < Prod_array.length; j++)
-							Radio_Select(Prod_array[j]);
-						Result.takescreenshot("Addition of Addon");
+						for (int j = 1; j < Prod_array.length; j++) {
+							String Addon[] = Prod_array[j].split("::");
+							if (Addon.length > 1) {
+								Radio_Select(Addon[0]);
+								waitforload();
+								Result.takescreenshot("Addition of Addon");
+								Discounts(Addon[0], Addon[1]);
+								Result.fUpdateLog("------Discount Selected ------");
+							} else {
+								Radio_Select(Addon[0]);
+								waitforload();
+								Result.takescreenshot("Addition of Addon");
+							}
+						}
+
 					}
 
 				}
@@ -831,8 +851,7 @@ public class Common extends Driver {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: RTBScreen
 	 * Use 					: To check the Unbilled usage in Billing profile
@@ -858,12 +877,10 @@ public class Common extends Driver {
 			Col = Select_Cell("Assert", "Product");
 			Browser.WebButton.waitTillEnabled("Assert_Go");
 			Browser.WebButton.click("Assert_Go");
-			
-			
+
 			waitforload();
 			Col = Select_Cell("Assert", "Account");
-			
-			
+
 			int Assert_Row_Count = Browser.WebTable.getRowCount("Assert");
 			if (Assert_Row_Count > 1)
 				Browser.WebTable.clickL("Assert", Row, Col);
@@ -881,32 +898,31 @@ public class Common extends Driver {
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");
 			Result.takescreenshot("");
-	       int Row_Count,Row_Val = 0;
-           String SData="";
-           Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
-           Col = Select_Cell("Installed_Assert", "Product");
-           for (int i = 2; i <= Row_Count; i++) {
-                 String LData = Browser.WebTable.getCellData("Installed_Assert", i, Col);
-                 if (LData.equalsIgnoreCase("Mobile Service Bundle"))
-                        Row_Val = i;
-           }
-           int Col_S = Actual_Cell("Installed_Assert","Status");
-           Browser.WebTable.click("Installed_Assert", Row_Val,Col_S );
-           Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
-           if (Row_Count <= 3) {
-                 Browser.WebButton.waittillvisible("Expand");
-                 Browser.WebButton.click("Expand");
-           }
-           
-           Result.takescreenshot("");
+			int Row_Count, Row_Val = 0;
+			Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
+			Col = Select_Cell("Installed_Assert", "Product");
+			for (int i = 2; i <= Row_Count; i++) {
+				String LData = Browser.WebTable.getCellData("Installed_Assert", i, Col);
+				if (LData.equalsIgnoreCase("Mobile Service Bundle"))
+					Row_Val = i;
+			}
+			int Col_S = Actual_Cell("Installed_Assert", "Status");
+			Browser.WebTable.click("Installed_Assert", Row_Val, Col_S);
+			Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
+			if (Row_Count <= 3) {
+				Browser.WebButton.waittillvisible("Expand");
+				Browser.WebButton.click("Expand");
+			}
+
+			Result.takescreenshot("");
 
 			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
 			String BP = Browser.WebTable.getCellData("Installed_Assert", 2, Col1);
 			// String BP="1-4KG38HZ";
 			waitforload();
 			Result.takescreenshot("");
-			//scroll("Profile_Tab", "WebButton");
-			//scroll("Profile_Tab", "WebButton");
+			// scroll("Profile_Tab", "WebButton");
+			// scroll("Profile_Tab", "WebButton");
 			do {
 				TabNavigator("Profiles");
 				waitforload();
@@ -980,7 +996,7 @@ public class Common extends Driver {
 				} while (a);
 
 				scroll("RTB_Valid_Name", "WebButton");
-			//	Result.takescreenshot("Real Time Balance");
+				// Result.takescreenshot("Real Time Balance");
 				int Rowcount = Browser.WebTable.getRowCount("RTB_Table");
 				if (Rowcount >= 2) {
 					for (int i = 2; i <= Rowcount; i++) {
@@ -1749,53 +1765,25 @@ public class Common extends Driver {
 	}
 
 	public void Discounts(String Disc_Addon, String Discount) {
-
-		List<WebElement> elements = cDriver.get().findElements(
-				By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[@class='siebui-ecfg-feature-group']"));
-		int Size = elements.size();
-		System.out.println(Size);
-		boolean flag = false;
-		waitforload();
-		for (int i = 1; i <= Size; i++) {
-			List<WebElement> Addon = cDriver.get()
-					.findElements(By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[" + i
-							+ "]//div[1]//table//div[1]//div[1]//input"));
-
-			for (int t = 1; t < Addon.size(); t++) {
-				if (Addon.get(t).getAttribute("value").equals(Disc_Addon)) {
-					if (Addon.get(t).getAttribute("type").equals("radio")) {
-						// Radio Button
-						Result.takescreenshot("Addon or Plan Selection");
-						((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)",
-								Addon.get(t));
-						Addon.get(t).click();
-						waitmoreforload();
-						cDriver.get()
-								.findElement(By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[" + i
-										+ "]//div[1]//table//div[1]//div[1]//i[@class='siebui-icon-settings']"))
-								.click();
-
-						String cellXpath = "//input[@value='" + Discount + "']";
-
-						if (cDriver.get().findElement(By.xpath(cellXpath)).isDisplayed()) {
-							WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
-							((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
-							cDriver.get().findElement(By.xpath(cellXpath)).click();
-
-						} else
-							Continue.set(false);
-
-						flag = true;
-						break;
-					}
-				}
-			}
-
-			if (flag) {
-				break;
-			}
-
+		String GetData = "";
+		if (!(getdata("GetData").equals(""))) {
+			GetData = getdata("GetData");
+		} else {
+			GetData = pulldata("GetData");
 		}
+		RadioL(Disc_Addon);
+		String cellXpath = "//input[@value='" + Discount + "']";
+
+		if (cDriver.get().findElement(By.xpath(cellXpath)).isDisplayed()) {
+			WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
+			((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+			cDriver.get().findElement(By.xpath(cellXpath)).click();
+
+		} else
+			Continue.set(false);
+		waitforload();
+		cDriver.get().findElement(By.xpath("//div[@class='cxThread']//a[text()='" + GetData + "']")).click();
+		waitforload();
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -2629,6 +2617,18 @@ public class Common extends Driver {
 
 		}
 
+	}
+
+	public void RadioL(String Text) {
+		Radio_Select(Text);
+		waitforload();
+		Result.fUpdateLog("Initiating Customisation");
+		cDriver.get()
+				.findElement(By.xpath("//div[@class='div-table siebui-ecfg-table-collapse']//a[text()='" + Text + "']"))
+				.click();
+		Result.takescreenshot("Customising the Addon " + Text);
+		Result.fUpdateLog("Customising the Addon " + Text);
+		waitforload();
 	}
 
 	/*---------------------------------------------------------------------------------------------------------

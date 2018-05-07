@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -403,6 +405,118 @@ public class Keyword_Putty extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
+	public String Triall_Bill_Run() {
+		String Test_OutPut = "", Status = "";
+		Result.fUpdateLog("------Trial Bill Run Event Details------");
+		String AccountNo = "", Match = "", Contant = "", Bill_Profile, Bill_Cycle, Bill_Lang;// str_Content = "";
+		try {
+			String str_Directory = pulldata("str_Directory");
+			String str_File = pulldata("str_File");
+			String str_FileContent = " ";
+
+			/*
+			 * if (!(getdata("AccountNo").equals(""))) { str_Content = getdata("AccountNo");
+			 * } else if (!(getdata("MultipleAccountNo").equals(""))) { str_Content =
+			 * getdata("MultipleAccountNo").replace(",", "','"); }
+			 */
+			if (!(getdata("AccountNo").equals(""))) {
+				AccountNo = getdata("AccountNo");
+			} else {
+				AccountNo = pulldata("AccountNo");
+			}
+			if (!(getdata("Bill_Profile").equals(""))) {
+				Bill_Profile = getdata("Bill_Profile");
+			} else {
+				Bill_Profile = pulldata("Bill_Profile");
+			}
+			if (!(getdata("Bill_Lang").equals(""))) {
+				Bill_Lang = getdata("Bill_Lang");
+			} else {
+				Bill_Lang = pulldata("Bill_Lang");
+			}
+			if (!(getdata("Bill_Cycle").equals(""))) {
+				Bill_Cycle = getdata("Bill_Cycle");
+			} else {
+				Bill_Cycle = pulldata("Bill_Cycle");
+			}
+
+			// Account_No
+			// Contant = KD.AccPoID_BillPoID(str_Content);
+			if (Continue.get()) {
+				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				Result.fUpdateLog("Reading the initial File Content: " + str_File + " : " + str_FileContent);
+
+				str_FileContent = WriteFileToLinux(nsession.get(), Contant, str_Directory, str_File);
+				Result.fUpdateLog("Writing into the file: " + str_File + " : " + str_FileContent);
+
+				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				Result.fUpdateLog("Reading the File Content after update: " + str_File + " : " + str_FileContent);
+				Test_OutPut += str_FileContent + ",";
+
+				List<String> commands = new ArrayList<String>();
+				commands.add("test");
+				commands.add("./BillRun_Automation_bu.sh");
+				commands.add("n");
+				commands.add(AccountNo);
+				commands.add(Bill_Profile);
+				commands.add(Bill_Lang);
+				commands.add(Bill_Cycle);
+				commands.add("y");
+				commands.add("apps");
+				commands.add("cd vfq_exp_XML/vfq_exp_XML-TRIALBILL/invoice_archive");
+
+				str_FileContent = Executecmd(nsession.get(), commands, "");
+				Pattern pattern = Pattern.compile("Trial_\\w+");
+
+				Matcher matcher = pattern.matcher(str_FileContent);
+				while (matcher.find()) {
+					Match = matcher.group();
+					if (Match.contains(".zip"))
+						Result.fUpdateLog(Match + " found");
+				}
+				List<String> command = new ArrayList<String>();
+				command.add("ls -lst");
+				str_FileContent = Executecmd(nsession.get(), command, "");
+
+				GetZipFile();
+
+				if (str_FileContent.contains(Match)) {
+					Result.fUpdateLog("PVT set as Normal");
+					Test_OutPut += "PVT set as Normal" + ",";
+					Continue.set(true);
+				} else {
+					Result.fUpdateLog("Fail to set PVT Normal");
+					Test_OutPut += "Fail to set PVT Normal" + ",";
+					Continue.set(false);
+				}
+
+				CopytoDoc(str_FileContent);
+
+				if (str_FileContent.contains("logout") && Continue.get()) {
+					Test_OutPut += "Commands Executed Successfully" + ",";
+					// Result.fUpdateLog(str_FileContent);
+					Status = "PASS";
+				} else {
+					Test_OutPut += "Failed to Execute the commands" + ",";
+					// Result.fUpdateLog(str_FileContent);
+					Status = "Fail";
+				}
+			} else {
+				Test_OutPut += "Failed to get Account and bill info PoidID from DB" + ",";
+				// Result.fUpdateLog(str_FileContent);
+				Status = "Fail";
+			}
+		} catch (Exception e) {
+			Continue.set(false);
+			Test_OutPut += "Failed to disconnect session" + ",";
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			Status = "FAIL";
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Trial Bill Run Event Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
 	public String ReadFileFromLinux(Session obj_Session, String str_FileDirectory, String str_FileName)
 			throws Exception {
 		StringBuilder obj_StringBuilder = new StringBuilder();
@@ -545,12 +659,12 @@ public class Keyword_Putty extends Driver {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------XMl Zip file form BRM Event Details------");
 		String SFTPWORKINGDIR = "/brmapp/opt/portal/7.5.0/apps/pin_inv/invoice_dir/";
-		
+
 		try {
 			Channel channel = nsession.get().openChannel("sftp");
 			channel.connect();
 			ChannelSftp channelSftp = (ChannelSftp) channel;
-			channelSftp.get(SFTPWORKINGDIR + InvoiceZip.get(),UCscreenfilepth.get() +"/"+ InvoiceZip.get());
+			channelSftp.get(SFTPWORKINGDIR + InvoiceZip.get(), UCscreenfilepth.get() + "/" + InvoiceZip.get());
 			Result.fUpdateLog("ZIP File successfully saved in Local");
 			channelSftp.exit();
 			Status = "PASS";

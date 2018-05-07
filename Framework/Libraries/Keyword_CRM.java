@@ -62,7 +62,7 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.click("VQ_Login");
 				CO.waitforload();
 				Browser.WebButton.waittillvisible("VF_Search_Identify");
-				CO.RTBScreen("97470899278", "Active");
+				//CO.RTBScreen("97470899278", "Active");
 				CO.ToWait();
 				if (Continue.get()) {
 					Test_OutPut += "Successfully Login with : " + getdata("VQ_Login_User") + ",";
@@ -166,26 +166,116 @@ public class Keyword_CRM extends Driver {
 
 				Browser.WebButton.click("New_Contact");
 
-				if (!(getdata("LastName").equals(""))) {
-					Last_Name = getdata("LastName");
-				} else if (!(pulldata("LastName").equals(""))) {
-					Last_Name = pulldata("LastName") + R.nextInt(1000);
-				}
-				contact.set(Last_Name);
-				CO.scroll("LastName", "WebEdit");
-				Browser.WebEdit.Set("LastName", Last_Name);
-				Result.fUpdateLog("LastName : " + Last_Name);
-				contact.set(Last_Name);
-				if (!(getdata("FirstName").equals(""))) {
-					Browser.WebEdit.Set("FirstName", getdata("FirstName"));
-				} else if (!(pulldata("FirstName").equals(""))) {
-					Browser.WebEdit.Set("FirstName", pulldata("FirstName"));
-				}
-
-				if (!(getdata("Mr/Ms").equals(""))) {
-					Browser.ListBox.select("Mr/Ms", getdata("Mr/Ms"));
+				if (!(getdata("ID_Number").equals(""))) {
+					IDNumber = getdata("ID_Number");
 				} else {
-					Browser.ListBox.select("Mr/Ms", pulldata("Mr/Ms"));
+					IDNumber = pulldata("ID_Number") + R.nextInt(100000);
+				}
+				if (!(getdata("ID_Type").equals(""))) {
+					IDType = getdata("ID_Type");
+				} else {
+					IDType = pulldata("ID_Type");
+				}
+				CO.scroll("ID_Type", "WebEdit");
+				Browser.WebEdit.SetE("ID_Type", IDType);
+
+				CO.waitforload();
+
+				if (IDType.equalsIgnoreCase("Qatari ID")) {
+					CO.Text_Select("li", "Qatari ID");
+					CO.waitforload();
+					CO.waitforobj("MOI", "WebButton");
+					CO.scroll("ID_Number", "WebEdit");
+					Browser.WebEdit.Set("ID_Number", IDNumber);
+
+					CO.waitforload();
+
+					CO.waitforload();
+					Result.takescreenshot("MOI Trigger for QID");
+					Result.fUpdateLog("MOI Trigger for QID");
+					CO.scroll("MOI", "WebButton");
+					Browser.WebButton.click("MOI");
+					CO.waitforload();
+					if (Browser.WebEdit.gettext("LastName").equals("") & Browser.WebEdit.gettext("FirstName").equals("")
+							& Browser.WebEdit.gettext("DOB").equals("")
+							& Browser.WebEdit.gettext("ID_ExpDate").equals("")) {
+						Continue.set(false);
+						Result.takescreenshot("MOI Trigger failed for QID");
+						Result.fUpdateLog("MOI Trigger failed for QID");
+					} else {
+						Last_Name = Browser.WebEdit.gettext("LastName");
+						contact.set(Last_Name);
+						Result.takescreenshot("MOI Trigger successfull for QID");
+						Result.fUpdateLog("MOI Trigger successfull for QID");
+					}
+
+				} else {
+					if (!(getdata("LastName").equals(""))) {
+						Last_Name = getdata("LastName");
+					} else if (!(pulldata("LastName").equals(""))) {
+						Last_Name = pulldata("LastName") + R.nextInt(1000);
+					}
+
+					contact.set(Last_Name);
+					CO.scroll("LastName", "WebEdit");
+					Browser.WebEdit.Set("LastName", Last_Name);
+					Result.fUpdateLog("LastName : " + Last_Name);
+					contact.set(Last_Name);
+					CO.scroll("ID_Number", "WebEdit");
+
+					Browser.WebEdit.Set("ID_Number", IDNumber);
+					CO.scroll("LastName", "WebEdit");
+					Browser.WebEdit.Set("LastName", Last_Name);
+					Result.fUpdateLog("LastName : " + Last_Name);
+					contact.set(Last_Name);
+					if (!(getdata("FirstName").equals(""))) {
+						Browser.WebEdit.Set("FirstName", getdata("FirstName"));
+					} else if (!(pulldata("FirstName").equals(""))) {
+						Browser.WebEdit.Set("FirstName", pulldata("FirstName"));
+					}
+
+					if (!(getdata("Mr/Ms").equals(""))) {
+						Browser.ListBox.select("Mr/Ms", getdata("Mr/Ms"));
+					} else {
+						Browser.ListBox.select("Mr/Ms", pulldata("Mr/Ms"));
+					}
+
+					if (!(getdata("DOB").equals(""))) {
+						Browser.WebEdit.Set("DOB", getdata("DOB"));
+					} else {
+						Browser.WebEdit.Set("DOB", pulldata("DOB"));
+					}
+
+					if (!(getdata("Gender").equals(""))) {
+						Browser.ListBox.select("Gender", getdata("Gender"));
+					} else {
+						Browser.ListBox.select("Gender", pulldata("Gender"));
+					}
+
+					Result.fUpdateLog("Customer ID : " + IDNumber);
+					Test_OutPut += "Customer ID : " + IDNumber + ",";
+
+					// CO.scroll("ID_ExpDate", "WebEdit");
+					if (!(getdata("ID_ExpDate").equals(""))) {
+						Browser.WebEdit.Set("ID_ExpDate", getdata("ID_ExpDate"));
+					} else {
+						Browser.WebEdit.Set("ID_ExpDate", pulldata("ID_ExpDate"));
+					}
+
+					// CO.scroll("Nationality", "ListBox");
+					if (!(getdata("Nationality").equals(""))) {
+						Browser.ListBox.select("Nationality", getdata("Nationality"));
+					} else {
+						Browser.ListBox.select("Nationality", pulldata("Nationality"));
+					}
+
+					// CO.scroll("Phone", "WebEdit");
+				}
+				CO.waitforload();
+				if (!(getdata("Email").equals(""))) {
+					Browser.WebEdit.Set("Email", getdata("Email"));
+				} else {
+					Browser.WebEdit.Set("Email", pulldata("Email"));
 				}
 
 				if (!(getdata("PrefLanguage").equals(""))) {
@@ -194,57 +284,6 @@ public class Keyword_CRM extends Driver {
 					Browser.ListBox.select("PrefLanguage", pulldata("PrefLanguage"));
 				}
 
-				if (!(getdata("DOB").equals(""))) {
-					Browser.WebEdit.Set("DOB", getdata("DOB"));
-				} else {
-					Browser.WebEdit.Set("DOB", pulldata("DOB"));
-				}
-
-				if (!(getdata("Gender").equals(""))) {
-					Browser.ListBox.select("Gender", getdata("Gender"));
-				} else {
-					Browser.ListBox.select("Gender", pulldata("Gender"));
-				}
-
-				if (!(getdata("Email").equals(""))) {
-					Browser.WebEdit.Set("Email", getdata("Email"));
-				} else {
-					Browser.WebEdit.Set("Email", pulldata("Email"));
-				}
-
-				// CO.scroll("ID_Type", "ListBox");
-				if (!(getdata("ID_Type").equals(""))) {
-					IDType = getdata("ID_Type");
-				} else {
-					IDType = pulldata("ID_Type");
-				}
-				Browser.ListBox.select("ID_Type", IDType);
-
-				// CO.scroll("ID_Number", "WebEdit");
-				if (!(getdata("ID_Number").equals(""))) {
-					IDNumber = getdata("ID_Number");
-				} else {
-					IDNumber = pulldata("ID_Number") + R.nextInt(100000);
-				}
-				Browser.WebEdit.Set("ID_Number", IDNumber);
-				Result.fUpdateLog("Customer ID : " + IDNumber);
-				Test_OutPut += "Customer ID : " + IDNumber + ",";
-
-				// CO.scroll("ID_ExpDate", "WebEdit");
-				if (!(getdata("ID_ExpDate").equals(""))) {
-					Browser.WebEdit.Set("ID_ExpDate", getdata("ID_ExpDate"));
-				} else {
-					Browser.WebEdit.Set("ID_ExpDate", pulldata("ID_ExpDate"));
-				}
-
-				// CO.scroll("Nationality", "ListBox");
-				if (!(getdata("Nationality").equals(""))) {
-					Browser.ListBox.select("Nationality", getdata("Nationality"));
-				} else {
-					Browser.ListBox.select("Nationality", pulldata("Nationality"));
-				}
-
-				// CO.scroll("Phone", "WebEdit");
 				if (!(getdata("Phone").equals(""))) {
 					Browser.WebEdit.Set("Phone", getdata("Phone"));
 				} else {
@@ -261,6 +300,9 @@ public class Keyword_CRM extends Driver {
 				// Handles Alerts
 				if (CO.isAlertExist())
 					CO.waitforload();
+
+				if (IDType.equalsIgnoreCase("Qatari ID"))
+					Browser.WebTable.clickA("Contact", 2, Col);
 
 				String Address;
 				if (!(getdata("Address").equals(""))) {
@@ -293,6 +335,12 @@ public class Keyword_CRM extends Driver {
 					}
 					CO.waitforload();
 					Browser.WebButton.click("Popup_Go");
+
+					if (CO.isAlertExist()) {
+						Continue.set(false);
+						Result.takescreenshot("Contact Exist Already for the " + IDType + " " + IDNumber);
+
+					}
 
 					CO.scroll("Add_OK", "WebButton");
 					Browser.WebButton.click("Add_OK");
@@ -751,7 +799,7 @@ public class Keyword_CRM extends Driver {
 			} while (!Browser.WebLink.waitTillEnabled("Line_Items"));
 			Browser.WebLink.waittillvisible("Line_Items");
 			Browser.WebLink.click("Line_Items");
-			Browser.WebLink.waittillvisible("Line_Items");
+			CO.waitforload();
 			if (Browser.WebLink.exist("SalesOd_Expand")) {
 				Browser.WebLink.click("SalesOd_Expand");
 				CO.waitforload();
@@ -805,8 +853,9 @@ public class Keyword_CRM extends Driver {
 		try {
 
 			int Row_Val = 3, Col_V, COl_STyp, Col_Res, Col_S, Col_pri, Col_cat;
-			String Reserve, Category, GetData, Add_Addon, Remove_Addon, ReservationToken, StarNumber = null, SIM,
-					MSISDN = null, SData = "SIM Card";
+			String Reserve, Category, GetData, Add_Addon, Remove_Addon, StarNumber = null, SIM,
+					Spendlimit ="",ReservationToken, MSISDN = null, SData = "SIM Card";
+			
 			CO.waitforload();
 
 			if (!(getdata("PlanName").equals(""))) {
@@ -903,9 +952,26 @@ public class Keyword_CRM extends Driver {
 					Browser.WebEdit.Set("NumberReservationToken", ReservationToken);
 					Result.takescreenshot("Providing Number Reservation Token");
 				}
+
+				Result.fUpdateLog("------Customising to Add Plan Discount ------");
+				if (!(getdata("PlanBundle").equals(""))) {
+					String PlanBundle = getdata("PlanBundle");
+					CO.waitforload();
+					CO.Text_Select("a", "Mobile Plans");
+					CO.waitforload();
+					String PB[] = PlanBundle.split("::");
+					if (PB.length > 1) {
+						// CO.Radio_None(PB[0]);
+						Result.takescreenshot("Customising to Select Discounts");
+						CO.Discounts(PB[0], PB[1]);
+						Result.fUpdateLog("------Discount Selected  ------");
+					}
+				}
+
 				CO.AddOnSelection(Add_Addon, "Add");
 				CO.AddOnSelection(Remove_Addon, "Delete");
 				CO.waitforload();
+
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
 				CO.waitforload();
@@ -913,6 +979,29 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 				if (CO.isAlertExist())
 					Continue.set(false);
+			}
+			
+			if (!(getdata("Spendlimit").equals(""))) {
+				Spendlimit = getdata("Spendlimit");
+			}
+			if (Spendlimit != "") {
+				Browser.WebTable.click("Line_Items", Row_Val, Col_V);
+				Browser.WebButton.click("Customize");
+				CO.waitforload();
+				Result.takescreenshot("Navigating to Others Tab");
+				Result.fUpdateLog("Navigating to Others Tab");
+				CO.waitforload();
+				CO.Link_Select("Others");
+				CO.waitforload();
+				CO.RadioL("Spend Limit");
+				CO.waitforload();
+				Browser.WebEdit.Set("NumberReservationToken", Spendlimit);
+				Result.takescreenshot("Modifying Spend Limit ");
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.Text_Select("button", "Done");
+				CO.waitforload();
+				CO.waitforload();
 			}
 
 			if (ReservationToken.equals("")) {
@@ -933,7 +1022,6 @@ public class Keyword_CRM extends Driver {
 				Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", "Mobile");
 
 				if (!MSISDN.equals("")) {
-
 					Reserve = MSISDN.substring(3, MSISDN.length());
 					Browser.WebTable.SetData("Numbers", Row, Col_Res, "Service_Id", Reserve);
 					// Browser.WebButton.click("Number_Go");
@@ -1021,14 +1109,7 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 				Reserve = MSISDN.substring(3, MSISDN.length());
 				CO.Popup_Selection("Number_Selection", "Number", Reserve);
-				/*
-				 * CO.waitforload();
-				 * 
-				 * Browser.WebButton.waittillvisible("Reserved_Ok");
-				 * Browser.WebButton.waitTillEnabled("Reserved_Ok"); Row_Count =
-				 * Browser.WebTable.getRowCount("Number_Selection"); if (Row_Count > 1)
-				 * Browser.WebButton.click("Reserved_Ok"); else Continue.set(false);
-				 */
+
 			} else if (!ReservationToken.equals("")) {
 				CO.waitforload();
 				Row_Count = Browser.WebTable.getRowCount("Line_Items");
@@ -1486,6 +1567,7 @@ public class Keyword_CRM extends Driver {
 					Status = stat_add[0];
 					Address = stat_add[1].split(",")[0];
 				}
+
 				Result.takescreenshot("Address Selected : " + Address);
 				Result.fUpdateLog("Address Selected : " + Address);
 				CO.waitforload();
@@ -1507,64 +1589,6 @@ public class Keyword_CRM extends Driver {
 					Browser.WebButton.click("Acc_Add_Contact");
 				}
 				int Row = 2, Col;
-				Col = CO.Select_Cell("Acc_Contact", "First Name");
-				if (!(getdata("FirstName").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", getdata("FirstName"));
-				} else if (!(pulldata("FirstName").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", pulldata("FirstName"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", Utlities.randname());
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "Last Name");
-				if (!(getdata("LastName").equals(""))) {
-					Last_Name = getdata("LastName");
-				} else if (!(pulldata("LastName").equals(""))) {
-					Last_Name = pulldata("LastName") + R.nextInt(1000);
-				} else {
-					Last_Name = Utlities.randname();
-				}
-				Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Last_Name", Last_Name);
-
-				Col = CO.Select_Cell("Acc_Contact", "Mr/Ms");
-				if (!(getdata("Mr/Ms").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "M_M", getdata("Mr/Ms"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "M_M", pulldata("Mr/Ms"));
-				}
-
-				// Browser.WebTable.SetData("Acc_Contact", 2, Col, "Job_Title",getdata(""));
-
-				/*
-				 * Col = CO.Select_Cell("Acc_Contact", "Work Phone #");
-				 * if(!(getdata("Cont_WorkPhone").equals(""))) {
-				 * Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Work_Phone__",
-				 * getdata("Cont_WorkPhone")); }else { Browser.WebTable.SetDataE("Acc_Contact",
-				 * Row, Col, "Work_Phone__", "97498780980"); }
-				 */
-
-				Col = CO.Select_Cell("Acc_Contact", "Email");
-				if (!(getdata("Email").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Email_Address", getdata("Email"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Email_Address", pulldata("Email"));
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "Date of Birth");
-				if (!(getdata("DOB").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_DOB", getdata("DOB"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_DOB", pulldata("DOB"));
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "ID Expiration Date");
-				if (!(getdata("IDExpiryDate").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Expiration_Date",
-							getdata("IDExpiryDate"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Expiration_Date",
-							pulldata("IDExpiryDate"));
-				}
 
 				Col = CO.Select_Cell("Acc_Contact", "ID Number");
 				if (!(getdata("IDNumber").equals(""))) {
@@ -1575,38 +1599,146 @@ public class Keyword_CRM extends Driver {
 
 				}
 
-				// CO.scroll("Contact_ACC", "WebTable");
-
-				// Col = CO.Select_Cell("Acc_Contact", "ID Type");
-				Col++;
+				String IDType = "";
+				Col = CO.Select_Cell("Acc_Contact", "ID Type");
 				if (!(getdata("IDType").equals(""))) {
+					IDType = getdata("IDType");
 					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Type", getdata("IDType"));
 				} else {
+					IDType = pulldata("IDType");
 					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Type", pulldata("IDType"));
 				}
 
-				Col++;
-				// Col = CO.Select_Cell("Acc_Contact", "Mobile Phone #");
+				if (IDType.equalsIgnoreCase("Qatari ID")) {
+					Col = CO.Select_Cell("Acc_Contact", "ID Number");
+					if (!(getdata("IDNumber").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Number", getdata("IDNumber"));
+					} else {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Number",
+								pulldata("IDNumber") + R.nextInt(100000));
+
+					}
+					CO.scroll("MOI_Con", "WebButton");
+					Browser.WebButton.click("MOI_Con");
+
+					CO.waitforload();
+					CO.waitmoreforload();
+
+					Col = CO.Select_Cell("Acc_Contact", "First Name");
+					String First = Browser.WebTable.getCellData("Acc_Contact", Row, Col);
+
+					Col = CO.Select_Cell("Acc_Contact", "Last Name");
+					String Last = Browser.WebTable.getCellData("Acc_Contact", Row, Col);
+					if (First.isEmpty() == false & Last.isEmpty() == false) {
+
+						Result.takescreenshot(" Qatari Id MOI Validation is successfull");
+						Result.fUpdateLog(" Qatari Id MOI Validation is successfull");
+					} else {
+						Continue.set(false);
+						Result.takescreenshot(" Qatari Id MOI Validation is not successfull");
+						Result.fUpdateLog(" Qatari Id MOI Validation is not successfull");
+					}
+
+				} else {
+					Col = CO.Select_Cell("Acc_Contact", "First Name");
+					if (!(getdata("FirstName").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", getdata("FirstName"));
+					} else if (!(pulldata("FirstName").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", pulldata("FirstName"));
+					} else {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", Utlities.randname());
+					}
+
+					Col = CO.Select_Cell("Acc_Contact", "Last Name");
+					if (!(getdata("LastName").equals(""))) {
+						Last_Name = getdata("LastName");
+					} else if (!(pulldata("LastName").equals(""))) {
+						Last_Name = pulldata("LastName") + R.nextInt(1000);
+					} else {
+						Last_Name = Utlities.randname();
+					}
+					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Last_Name", Last_Name);
+
+					Col = CO.Select_Cell("Acc_Contact", "Mr/Ms");
+					if (!(getdata("Mr/Ms").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "M_M", getdata("Mr/Ms"));
+					} else {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "M_M", pulldata("Mr/Ms"));
+					}
+
+					// Browser.WebTable.SetData("Acc_Contact", 2, Col, "Job_Title",getdata(""));
+
+					/*
+					 * Col = CO.Select_Cell("Acc_Contact", "Work Phone #");
+					 * if(!(getdata("Cont_WorkPhone").equals(""))) {
+					 * Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Work_Phone__",
+					 * getdata("Cont_WorkPhone")); }else { Browser.WebTable.SetDataE("Acc_Contact",
+					 * Row, Col, "Work_Phone__", "97498780980"); }
+					 */
+
+					Col = CO.Select_Cell("Acc_Contact", "Date of Birth");
+					if (!(getdata("DOB").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_DOB", getdata("DOB"));
+					} else {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_DOB", pulldata("DOB"));
+					}
+
+					Col = CO.Select_Cell("Acc_Contact", "ID Expiration Date");
+					if (!(getdata("IDExpiryDate").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Expiration_Date",
+								getdata("IDExpiryDate"));
+					} else {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Expiration_Date",
+								pulldata("IDExpiryDate"));
+					}
+
+					Col = CO.Select_Cell("Acc_Contact", "ID Number");
+					if (!(getdata("IDNumber").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Number", getdata("IDNumber"));
+					} else {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Number",
+								pulldata("IDNumber") + R.nextInt(100000));
+
+					}
+
+					// CO.scroll("Contact_ACC", "WebTable");
+
+					// Col = CO.Select_Cell("Acc_Contact", "ID Type");
+					Col++;
+					if (!(getdata("IDType").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Type", getdata("IDType"));
+					} else {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Type", pulldata("IDType"));
+					}
+
+					Col++;
+					Col++;
+					// Col = CO.Select_Cell("Acc_Contact", "Nationality");
+					if (!(getdata("Nationality").equals(""))) {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_Nationality", getdata("Nationality"));
+					} else {
+						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_Nationality", pulldata("Nationality"));
+					}
+					Col = CO.Select_Cell("Acc_Contact", "Gender");
+					if (!(getdata("Gender").equals(""))) {
+						Browser.WebTable.SetData("Acc_Contact", Row, Col, "VFQA_M_F", getdata("Gender"));
+					} else {
+						Browser.WebTable.SetData("Acc_Contact", Row, Col, "VFQA_M_F", pulldata("Gender"));
+					}
+				}
+
+				Col = CO.Select_Cell("Acc_Contact", "Email");
+				if (!(getdata("Email").equals(""))) {
+					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Email_Address", getdata("Email"));
+				} else {
+					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Email_Address", pulldata("Email"));
+				}
+
+				Col = CO.Select_Cell("Acc_Contact", "Mobile Phone #");
 				if (!(getdata("MobilePhone").equals(""))) {
 					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Cellular_Phone__", getdata("MobilePhone"));
 				} else {
 					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Cellular_Phone__", pulldata("MobilePhone"));
-				}
-
-				Col++;
-				// Col = CO.Select_Cell("Acc_Contact", "Nationality");
-				if (!(getdata("Nationality").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_Nationality", getdata("Nationality"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_Nationality", pulldata("Nationality"));
-				}
-
-				Col = Col + 4;
-				// Col = CO.Select_Cell("Acc_Contact", "Gender");
-				if (!(getdata("Gender").equals(""))) {
-					Browser.WebTable.SetData("Acc_Contact", Row, Col, "VFQA_M_F", getdata("Gender"));
-				} else {
-					Browser.WebTable.SetData("Acc_Contact", Row, Col, "VFQA_M_F", pulldata("Gender"));
 				}
 
 				Col = CO.Select_Cell("Acc_Contact", "Preferred Language");
@@ -1623,12 +1755,7 @@ public class Keyword_CRM extends Driver {
 				if (CO.isAlertExist())
 					if (CO.isAlertExist())
 						CO.TabNavigator("Addresses");
-				/*
-				 * Browser.WebButton.click("Ent_Notification");
-				 * Browser.WebButton.click("Ent_Not_Ok"); if (CO.isAlertExist())
-				 * CO.isAlertExist();
-				 */
-
+				CO.waitforload();
 				Browser.WebButton.click("Ent_Notification");
 				Browser.WebButton.click("Ent_Not_Ok");
 				CO.TabNavigator("Addresses");
@@ -1813,7 +1940,7 @@ public class Keyword_CRM extends Driver {
 	public String UpgradePromotion() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN, New_PlanName, GetData, Order_no;
+		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "";
 		int Col, Col_P;
 		Result.fUpdateLog("------Plan Upgrade/Downgrade Event Details------");
 		try {
@@ -1821,6 +1948,10 @@ public class Keyword_CRM extends Driver {
 				MSISDN = getdata("MSISDN");
 			} else {
 				MSISDN = pulldata("MSISDN");
+			}
+
+			if (!(getdata("Spendlimit").equals(""))) {
+				Spendlimit = getdata("Spendlimit");
 			}
 
 			if (!(getdata("New_PlanName").equals(""))) {
@@ -1899,12 +2030,24 @@ public class Keyword_CRM extends Driver {
 						Result.fUpdateLog(LData + ":" + Action);
 						Continue.set(false);
 					}
-				} /*
-					 * else if (LData.equalsIgnoreCase(Existing_Plan)) { if
-					 * (Action.equalsIgnoreCase("Delete")) { Result.fUpdateLog("Action Update   " +
-					 * LData + ":" + Action); } else { Result.fUpdateLog(LData + ":" + Action);
-					 * Continue.set(false); } }
-					 */
+				} else if (Spendlimit != "" && LData.equalsIgnoreCase(GetData)) {
+					Browser.WebButton.click("Customize");
+					CO.waitforload();
+					Result.takescreenshot("Navigating to Others Tab");
+					Result.fUpdateLog("Navigating to Others Tab");
+					CO.waitforload();
+					CO.Link_Select("Others");
+					CO.waitforload();
+					CO.RadioL("Spend Limit");
+					CO.waitforload();
+					Browser.WebEdit.Set("NumberReservationToken", Spendlimit);
+					Result.takescreenshot("Modifying Spend Limit ");
+					CO.Text_Select("button", "Verify");
+					CO.isAlertExist();
+					CO.Text_Select("button", "Done");
+					CO.waitforload();
+					CO.waitforload();
+				}
 			}
 			if (Row_Count1 <= 4) {
 				Browser.WebButton.waittillvisible("Expand");
@@ -1948,7 +2091,7 @@ public class Keyword_CRM extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public String UpgradePromotion_Acc360() {
 		String Test_OutPut = "", Status = "";
-		String MSISDN, New_PlanName, Order_no;
+		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "";
 		int RowCount, Col_P, Col;
 
 		Result.fUpdateLog("------Upgrade Promotion via Account 360 view------");
@@ -1968,11 +2111,15 @@ public class Keyword_CRM extends Driver {
 			Result.fUpdateLog("New_PlanName : " + New_PlanName);
 			Planname.set(New_PlanName);
 
-			/*
-			 * if (!(getdata("GetData").equals(""))) { GetData = getdata("GetData"); } else
-			 * { GetData = pulldata("GetData"); }
-			 */
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
 
+			if (!(getdata("Spendlimit").equals(""))) {
+				Spendlimit = getdata("Spendlimit");
+			}
 			CO.waitforload();
 			Browser.WebLink.waittillvisible("Global_Search");
 			Browser.WebLink.click("Global_Search");
@@ -2060,6 +2207,23 @@ public class Keyword_CRM extends Driver {
 						Result.fUpdateLog(LData + ":" + Action);
 						Continue.set(false);
 					}
+				} else if (Spendlimit != "" && LData.equalsIgnoreCase(GetData)) {
+					Browser.WebButton.click("Customize");
+					CO.waitforload();
+					Result.takescreenshot("Navigating to Others Tab");
+					Result.fUpdateLog("Navigating to Others Tab");
+					CO.waitforload();
+					CO.Link_Select("Others");
+					CO.waitforload();
+					CO.RadioL("Spend Limit");
+					CO.waitforload();
+					Browser.WebEdit.Set("NumberReservationToken", Spendlimit);
+					Result.takescreenshot("Modifying Spend Limit ");
+					CO.Text_Select("button", "Verify");
+					CO.isAlertExist();
+					CO.Text_Select("button", "Done");
+					CO.waitforload();
+					CO.waitforload();
 				}
 			}
 			if (Row_Count1 <= 4) {
@@ -2680,7 +2844,7 @@ public class Keyword_CRM extends Driver {
 	public String Enterprise_Migration() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN, New_PlanName, GetData, Order_no;
+		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "";
 		int Col, Col_P;
 		Result.fUpdateLog("------Consumer_Migration Event Details------");
 		try {
@@ -2704,6 +2868,10 @@ public class Keyword_CRM extends Driver {
 			} else {
 				GetData = pulldata("GetData");
 			}
+			if (!(getdata("Spendlimit").equals(""))) {
+				Spendlimit = getdata("Spendlimit");
+			}
+
 			CO.AssertSearch(MSISDN, "Active");
 			CO.waitforload();
 			BillingProfileCreation();
@@ -2784,6 +2952,26 @@ public class Keyword_CRM extends Driver {
 				String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
 				String Action = Browser.WebTable.getCellData("Line_Items", i, Col_P);
 				if (LData.equalsIgnoreCase(GetData) || LData.equalsIgnoreCase(New_PlanName)) {
+					if (Spendlimit != "" && LData.equalsIgnoreCase(GetData)
+							&& TestCaseN.get().equalsIgnoreCase("Prepaid_To_Postpaid")) {
+						Browser.WebButton.click("Customize");
+						CO.waitforload();
+						CO.waitforload();
+						Result.takescreenshot("Navigating to Others Tab");
+						Result.fUpdateLog("Navigating to Others Tab");
+						CO.waitforload();
+						CO.Link_Select("Others");
+						CO.waitforload();
+						CO.RadioL("Spend Limit");
+						CO.waitforload();
+						Browser.WebEdit.Set("NumberReservationToken", Spendlimit);
+						Result.takescreenshot("Modifying Spend Limit ");
+						CO.Text_Select("button", "Verify");
+						CO.isAlertExist();
+						CO.Text_Select("button", "Done");
+						CO.waitforload();
+						CO.waitforload();
+					}
 					CO.Popup_Click("Line_Items", i, Col_bp);
 					CO.waitforload();
 					CO.Popup_Selection("Bill_Selection", "Name", Billprofile_No.get());
@@ -3700,7 +3888,7 @@ public class Keyword_CRM extends Driver {
 	 --------------------------------------------------------------------------------------------------------*/
 	public String Discounts() {
 		String Test_OutPut = "", Status = "";
-		String MSISDN, Discount, GetData, Order_no;
+		String MSISDN, PlanBundle, GetData, Add_Addon, Order_no;
 		int Inst_RowCount, Col_P, Col_SID;
 
 		Result.fUpdateLog("------Discounts ------");
@@ -3709,12 +3897,6 @@ public class Keyword_CRM extends Driver {
 				MSISDN = getdata("MSISDN");
 			} else {
 				MSISDN = pulldata("MSISDN");
-			}
-
-			if (!(getdata("Discounts").equals(""))) {
-				Discount = getdata("Discounts");
-			} else {
-				Discount = pulldata("Discounts");
 			}
 
 			if (!(getdata("GetData").equals(""))) {
@@ -3775,50 +3957,29 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			if (TestCaseN.get().equalsIgnoreCase("PlanDiscount")) {
 				Result.fUpdateLog("------Customising to Add Plan Discount ------");
-				String PlanName;
 				if (!(getdata("PlanBundle").equals(""))) {
-					PlanName = getdata("PlanBundle");
+					PlanBundle = getdata("PlanBundle");
 				} else {
-					PlanName = pulldata("PlanBundle");
+					PlanBundle = pulldata("PlanBundle");
 				}
-
 				CO.waitforload();
 				CO.Text_Select("a", "Mobile Plans");
 				CO.waitforload();
-				CO.Link_Select(PlanName);
-				CO.waitforload();
-				// CO.Radio_Select(PlanName);
-				CO.waitforload();
-				Result.takescreenshot("Customising to Select Discounts");
-				/*
-				 * WebElement Custom =
-				 * cDriver.get().findElement(By.xpath("//i[@class='siebui-icon-settings']"));
-				 * ((RemoteWebDriver)
-				 * cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", Custom);
-				 * cDriver.get().findElement(By.xpath("//i[@class='siebui-icon-settings']")).
-				 * click();
-				 */
-				CO.waitforload();
-				CO.Radio_Select(Discount);
-				CO.waitforload();
-				Result.fUpdateLog("------Discount Selected ------");
-			} else {
-				Result.fUpdateLog("------Customising to Add Addon Discount ------");
-				Result.takescreenshot("Addon Level Discount");
-				String Addon, AddonTab;
-				if (!(getdata("Addon").equals(""))) {
-					Addon = getdata("Addon");
-				} else {
-					Addon = pulldata("Addon");
-				}
-				if (!(getdata("AddonTab").equals(""))) {
-					AddonTab = getdata("AddonTab");
-				} else {
-					AddonTab = "Paid Addons";
+				String PB[] = PlanBundle.split("::");
+				if (PB.length > 1) {
+					// CO.Radio_None(PB[0]);
+					Result.takescreenshot("Customising to Select Discounts");
+					CO.Discounts(PB[0], PB[1]);
+					Result.fUpdateLog("------Discount Selected  ------");
 				}
 
-				CO.Link_Select(AddonTab);
-				CO.Discounts(Addon, Discount);
+			} else {
+				if (!(getdata("Add_Addon").equals(""))) {
+					Add_Addon = getdata("Add_Addon");
+				} else {
+					Add_Addon = pulldata("Add_Addon");
+				}
+				CO.AddOnSelection(Add_Addon, "Add");
 				CO.waitforload();
 				Result.fUpdateLog("------Discount Selected ------");
 			}

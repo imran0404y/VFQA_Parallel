@@ -4442,7 +4442,7 @@ public class Keyword_CRM extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public String Suspension() {
 		String Test_OutPut = "", Status = "";
-		String MSISDN, Resume_Date, Order_no, GetData;
+		String MSISDN, Resume_Date = "", Order_no, GetData;
 		int Col_Resume, Row = 2;
 		Result.fUpdateLog("------Suspend Event Details------");
 		try {
@@ -4456,6 +4456,10 @@ public class Keyword_CRM extends Driver {
 				GetData = getdata("GetData");
 			} else {
 				GetData = pulldata("GetData");
+			}
+			
+			if (!(getdata("ResumeDate").equals(""))) {
+				Resume_Date = getdata("ResumeDate");
 			}
 			CO.Assert_Search(MSISDN, "Active");
 			CO.waitforload();
@@ -4508,11 +4512,13 @@ public class Keyword_CRM extends Driver {
 			CO.scroll("Resume_Date", "WebButton");
 			Col_Resume = CO.Select_Cell("Line_Items", "Resume Date");
 			Browser.WebTable.click("Line_Items", Row, Col_Resume);
-
-			DateFormat ResumeDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a");
-			Calendar cals = Calendar.getInstance();
-			cals.add(Calendar.MONTH, 1);
-			Resume_Date = ResumeDate.format(cals.getTime()).toString();
+			if(Resume_Date != "") {
+				DateFormat ResumeDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a");
+				Calendar cals = Calendar.getInstance();
+				cals.add(Calendar.MONTH, 1);
+				Resume_Date = ResumeDate.format(cals.getTime()).toString();
+				
+			}
 			Browser.WebTable.SetDataE("Line_Items", Row, Col_Resume, "Scheduled_Ship_Date", Resume_Date);
 			Result.fUpdateLog(Resume_Date);
 

@@ -405,7 +405,7 @@ public class Keyword_Putty extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	public String Triall_Bill_Run() {
+	public String Trial_BillRun() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------Trial Bill Run Event Details------");
 		String AccountNo = "", Match = "", Contant = "", Bill_Profile, Bill_Cycle, Bill_Lang;// str_Content = "";

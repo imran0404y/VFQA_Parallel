@@ -401,6 +401,7 @@ public class Common extends Driver {
 							if (Addon.length > 1) {
 								Radio_Select(Addon[0]);
 								waitforload();
+								waitforload();
 								Result.takescreenshot("Addition of Addon");
 								Discounts(Addon[0], Addon[1]);
 								Result.fUpdateLog("------Discount Selected ------");

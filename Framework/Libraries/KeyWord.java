@@ -330,6 +330,10 @@ public class KeyWord {
 	public String Invoicegeneration() {
 		return KP.Invoicegeneration();
 	}
+	
+	public String Trial_BillRun() {
+		return KP.Trial_BillRun();
+	}
 
 	public String Collections() {
 		return KP.Collections();

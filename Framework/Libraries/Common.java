@@ -914,8 +914,21 @@ public class Common extends Driver {
 				Browser.WebButton.waittillvisible("Expand");
 				Browser.WebButton.click("Expand");
 			}
-
+			if(Browser.WebButton.exist("Acc_Installed_Show"))
+			{
+			Browser.WebButton.click("Acc_Installed_Show");
+			waitforload();
 			Result.takescreenshot("");
+			
+			Browser.WebButton.click("Acc_Installed_Less");
+
+			}
+			else
+			{
+				Result.takescreenshot("");
+			}
+
+			
 
 			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
 			String BP = Browser.WebTable.getCellData("Installed_Assert", 2, Col1);

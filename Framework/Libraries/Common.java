@@ -605,7 +605,7 @@ public class Common extends Driver {
 			if (Browser.WebButton.exist("Cont_MoiValidation")) {
 				Browser.WebButton.click("Cont_MoiValidation");
 				Result.takescreenshot("");
-				waitforload();
+				waitmoreforload();
 			}
 			do {
 				TabNavigator("Account Summary");

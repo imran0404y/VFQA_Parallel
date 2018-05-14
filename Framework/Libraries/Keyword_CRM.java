@@ -2792,6 +2792,8 @@ public class Keyword_CRM extends Driver {
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");
 			CO.waitforload();
+			CO.Moi_Validation();
+			CO.waitforload();
 			CO.Text_Select("a", GetData);
 			CO.waitforload();
 			CO.Plan_selection(GetData, MSISDN);
@@ -2987,6 +2989,8 @@ public class Keyword_CRM extends Driver {
 			Col = CO.Select_Cell("Installed_Assert", "Service ID");
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");
+			CO.waitforload();
+			CO.Moi_Validation();
 			CO.waitforload();
 			CO.Text_Select("a", GetData);
 			CO.waitforload();
@@ -4607,6 +4611,7 @@ public class Keyword_CRM extends Driver {
 				Resume_Date = getdata("ResumeDate");
 			}
 			CO.Assert_Search(MSISDN, "Active");
+			CO.Moi_Validation();
 			CO.waitforload();
 			CO.Text_Select("a", GetData);
 			CO.waitforload();
@@ -4735,6 +4740,7 @@ public class Keyword_CRM extends Driver {
 				GetData = pulldata("GetData");
 			}
 			CO.Assert_Search(MSISDN, "Suspended");
+			CO.Moi_Validation();
 			CO.waitforload();
 			CO.Text_Select("a", GetData);
 			CO.waitforload();
@@ -7370,6 +7376,8 @@ public class Keyword_CRM extends Driver {
 
 			CO.Assert_Search(MSISDN, "Active");
 			CO.waitforload();
+			CO.Moi_Validation();
+			CO.waitforload();
 			CO.Text_Select("a", GetData);
 			CO.waitforload();
 
@@ -7478,6 +7486,8 @@ public class Keyword_CRM extends Driver {
 			}
 
 			CO.Assert_Search(MSISDN, "Active");
+			CO.waitforload();
+			CO.Moi_Validation();
 			CO.waitforload();
 			CO.Text_Select("a", GetData);
 			CO.waitforload();

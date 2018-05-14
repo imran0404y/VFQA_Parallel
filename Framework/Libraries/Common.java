@@ -514,8 +514,8 @@ public class Common extends Driver {
 
 				// Comment for QA6
 				if (Browser.WebLink.exist("Acc_Portal")) {
-
 					Browser.WebLink.click("Acc_Portal");
+					waitforload();
 				}
 				Result.fUpdateLog("Account Search is done Successfully ");
 			} else
@@ -565,10 +565,13 @@ public class Common extends Driver {
 			else
 				Continue.set(false);
 			// Comment for QA6
-			/*
-			 * if (Browser.WebLink.exist("Acc_Portal")) { waitforload();
-			 * Browser.WebLink.click("Acc_Portal"); }
-			 */
+
+			if (Browser.WebLink.exist("Acc_Portal")) {
+				waitforload();
+				Browser.WebLink.click("Acc_Portal");
+				waitforload();
+			}
+
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			Result.takescreenshot("");
 
@@ -580,16 +583,14 @@ public class Common extends Driver {
 			Browser.WebButton.click("InstalledAssert_Go");
 
 			Result.takescreenshot("");
-			waitforload();			
-		
-			
+			waitforload();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
-	
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: Moi_Validation
 	 * Use 					: Customizing the specific Plan is done
@@ -598,11 +599,10 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public void Moi_Validation() {
 		try {
-	
-			waitforload();			
-			TabNavigator("Contacts");			
-			if(Browser.WebButton.exist("Cont_MoiValidation"))
-			{
+
+			waitforload();
+			TabNavigator("Contacts");
+			if (Browser.WebButton.exist("Cont_MoiValidation")) {
 				Browser.WebButton.click("Cont_MoiValidation");
 				Result.takescreenshot("");
 				waitforload();
@@ -612,13 +612,12 @@ public class Common extends Driver {
 				waitforload();
 			} while (!Browser.WebEdit.waitTillEnabled("Acc_validation_Name"));
 
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
-	
+
 	public void ResumeDate(String objname, int rownum, int columnnum) {
 		try {
 			String[] objprop = Utlities.FindObject(objname, "WebTable");
@@ -919,10 +918,12 @@ public class Common extends Driver {
 			else
 				Continue.set(false);
 			// To be commented for QA6
-			/*
-			 * if (Browser.WebLink.exist("Acc_Portal")) { waitforload();
-			 * Browser.WebLink.click("Acc_Portal"); }
-			 */
+
+			if (Browser.WebLink.exist("Acc_Portal")) {
+				waitforload();
+				Browser.WebLink.click("Acc_Portal");
+				waitforload();
+			}
 
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			InstalledAssertChange("New Query                   [Alt+Q]");
@@ -945,21 +946,16 @@ public class Common extends Driver {
 				Browser.WebButton.waittillvisible("Expand");
 				Browser.WebButton.click("Expand");
 			}
-			if(Browser.WebButton.exist("Acc_Installed_Show"))
-			{
-			Browser.WebButton.click("Acc_Installed_Show");
-			waitforload();
-			Result.takescreenshot("");
-			
-			Browser.WebButton.click("Acc_Installed_Less");
+			if (Browser.WebButton.exist("Acc_Installed_Show")) {
+				Browser.WebButton.click("Acc_Installed_Show");
+				waitforload();
+				Result.takescreenshot("");
 
-			}
-			else
-			{
+				Browser.WebButton.click("Acc_Installed_Less");
+
+			} else {
 				Result.takescreenshot("");
 			}
-
-			
 
 			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
 			String BP = Browser.WebTable.getCellData("Installed_Assert", 2, Col1);
@@ -1121,11 +1117,13 @@ public class Common extends Driver {
 			else
 				Continue.set(false);
 			// to be commented for QA6
-			/*
-			 * if (Browser.WebLink.exist("Acc_Portal")) {
-			 * 
-			 * waitforload(); Browser.WebLink.click("Acc_Portal"); }
-			 */
+
+			if (Browser.WebLink.exist("Acc_Portal")) {
+				waitforload();
+				Browser.WebLink.click("Acc_Portal");
+				waitforload();
+			}
+
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			Result.fUpdateLog("Installed Assert");
 
@@ -1827,7 +1825,9 @@ public class Common extends Driver {
 		} else
 			Continue.set(false);
 		waitforload();
+		waitforload();
 		cDriver.get().findElement(By.xpath("//div[@class='cxThread']//a[text()='" + GetData + "']")).click();
+		waitforload();
 		waitforload();
 	}
 

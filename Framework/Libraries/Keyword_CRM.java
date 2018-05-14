@@ -176,8 +176,8 @@ public class Keyword_CRM extends Driver {
 				} else {
 					IDType = pulldata("ID_Type");
 				}
-				CO.scroll("ID_Type", "WebEdit");
-				Browser.WebEdit.SetE("ID_Type", IDType);
+				CO.scroll("ID_Type", "ListBox");
+				Browser.ListBox.select("ID_Type", IDType);
 
 				CO.waitforload();
 
@@ -216,11 +216,11 @@ public class Keyword_CRM extends Driver {
 						Last_Name = pulldata("LastName") + R.nextInt(1000);
 					}
 
-					contact.set(Last_Name);
+					/*contact.set(Last_Name);
 					CO.scroll("LastName", "WebEdit");
 					Browser.WebEdit.Set("LastName", Last_Name);
 					Result.fUpdateLog("LastName : " + Last_Name);
-					contact.set(Last_Name);
+					contact.set(Last_Name);*/
 					CO.scroll("ID_Number", "WebEdit");
 
 					Browser.WebEdit.Set("ID_Number", IDNumber);
@@ -591,8 +591,7 @@ public class Keyword_CRM extends Driver {
 			if (!Exi.equals("")) {
 				CO.Account_Search(Exi);
 				CO.Moi_Validation();
-				Utlities.StoreValue("Account_No", Exi);
-				
+				Utlities.StoreValue("Account_No", Exi);	
 				Test_OutPut += "Account_No : " + Exi + ",";
 				CO.waitforload();
 			}
@@ -1071,6 +1070,7 @@ public class Keyword_CRM extends Driver {
 				if (StarNumber == null) {
 					StarNumber = Browser.WebTable.getCellData("Numbers", Row, Col_pri);
 					StarNumber = StarNumber.substring(2, StarNumber.length());
+					StarNumber = StarNumber.replaceAll(",", "");
 				}
 				Result.takescreenshot("proceeding for Number Reservation");
 
@@ -1109,12 +1109,11 @@ public class Keyword_CRM extends Driver {
 					CO.Link_Select("Others");
 					CO.scroll("Star_Number_purch", "WebEdit");
 					CO.waitforload();
-					CO.Text_Select("option", "Default");
-					CO.Text_Select("option", StarNoApproval);
-					CO.waitforload();
 					CO.scroll("Star_Number_purch", "WebEdit");
 					Browser.WebEdit.Set("Star_Number_purch", StarNumber);
-
+					CO.waitforload();
+					CO.Text_Select("option", "Default");
+					CO.Text_Select("option", StarNoApproval);
 					CO.waitforload();
 					CO.Text_Select("button", "Verify");
 					CO.isAlertExist();

@@ -216,11 +216,11 @@ public class Keyword_CRM extends Driver {
 						Last_Name = pulldata("LastName") + R.nextInt(1000);
 					}
 
-					/*contact.set(Last_Name);
-					CO.scroll("LastName", "WebEdit");
-					Browser.WebEdit.Set("LastName", Last_Name);
-					Result.fUpdateLog("LastName : " + Last_Name);
-					contact.set(Last_Name);*/
+					/*
+					 * contact.set(Last_Name); CO.scroll("LastName", "WebEdit");
+					 * Browser.WebEdit.Set("LastName", Last_Name); Result.fUpdateLog("LastName : " +
+					 * Last_Name); contact.set(Last_Name);
+					 */
 					CO.scroll("ID_Number", "WebEdit");
 
 					Browser.WebEdit.Set("ID_Number", IDNumber);
@@ -591,7 +591,7 @@ public class Keyword_CRM extends Driver {
 			if (!Exi.equals("")) {
 				CO.Account_Search(Exi);
 				CO.Moi_Validation();
-				Utlities.StoreValue("Account_No", Exi);	
+				Utlities.StoreValue("Account_No", Exi);
 				Test_OutPut += "Account_No : " + Exi + ",";
 				CO.waitforload();
 			}
@@ -2768,6 +2768,8 @@ public class Keyword_CRM extends Driver {
 			}
 			CO.AssertSearch(MSISDN, "Active");
 			CO.waitforload();
+			CO.Moi_Validation();
+			CO.waitforload();
 
 			BillingProfileCreation();
 			CO.waitforload();
@@ -2790,8 +2792,6 @@ public class Keyword_CRM extends Driver {
 			Col = CO.Select_Cell("Installed_Assert", "Service ID");
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");
-			CO.waitforload();
-			CO.Moi_Validation();
 			CO.waitforload();
 			CO.Text_Select("a", GetData);
 			CO.waitforload();
@@ -2967,6 +2967,8 @@ public class Keyword_CRM extends Driver {
 
 			CO.AssertSearch(MSISDN, "Active");
 			CO.waitforload();
+			CO.Moi_Validation();
+			CO.waitforload();
 			BillingProfileCreation();
 			CO.waitforload();
 			int k = 1;
@@ -2988,8 +2990,6 @@ public class Keyword_CRM extends Driver {
 			Col = CO.Select_Cell("Installed_Assert", "Service ID");
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");
-			CO.waitforload();
-			CO.Moi_Validation();
 			CO.waitforload();
 			CO.Text_Select("a", GetData);
 			CO.waitforload();
@@ -4421,8 +4421,6 @@ public class Keyword_CRM extends Driver {
 			String Exi = Account_No;
 			if (!Exi.equals("")) {
 				CO.Account_Search(Exi);
-				
-				
 				Utlities.StoreValue("Account_No", Exi);
 				Test_OutPut += "Account_No : " + Exi + ",";
 				CO.waitforload();

@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -310,6 +311,48 @@ public class utils extends Driver{
 		String test  = MSG.substring(index1+3,index2);
 		double BillAmount = Double.parseDouble(test);
 		return BillAmount;
+	}
+	
+	public static boolean verifyObjectexist(String identify,String path) {
+		String vis = "false";
+		int countval = 1;
+		Exception Error = null;
+		while (countval < 2) {
+			int i = 0;
+			if(path.equalsIgnoreCase("xpath")) {
+			
+				try {
+					cDriver.get().findElement(By.xpath(identify)).isDisplayed();
+					vis = "true";
+					break;
+				} catch (Exception e) {
+					i++;
+					Error = e;
+				}
+		}
+		else if(path.equalsIgnoreCase("id"))
+		{
+			try {
+				cDriver.get().findElement(By.id(identify)).isDisplayed();
+				vis = "true";
+				break;
+					
+			} catch (Exception e) {
+				i++;
+				Error = e;
+			}
+		}
+		if (i == 1) {
+				vis = "false";
+				countval++;
+			} 
+		}
+		if (vis == "false") {
+			return false;
+		} else {
+			return true;
+		}
+
 	}
 	
 	}

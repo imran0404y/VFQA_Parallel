@@ -2,15 +2,24 @@ package utilities;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Duration;
 import java.util.Properties;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Libraries.Driver;
+import Libraries.Method;
 import Libraries.Result;
 import Libraries.Utlities;
+import io.appium.java_client.MobileDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.LongPressOptions;
 
 public class MCare extends Driver{
 	
@@ -50,7 +59,8 @@ public class MCare extends Driver{
 	
 	public static String verifyMCareLogin() {
 		String Test_OutPut = "", Status = "", DeviceName;
-		int MobNum=0, VoV = 0, Avatar=0, NeedHelp=0, Gauge=0,Menu=0;
+		int MobNum=0, VoV = 0, Avatar=0, NeedHelp=0, Gauge=0;
+		int Menu=0;
 		try {
 		DeviceName = utils.fetchData("DeviceName");
 		FileReader reader = new FileReader("MobileFramework/config/config.properties");
@@ -60,12 +70,15 @@ public class MCare extends Driver{
 		Runtime run = Runtime.getRuntime();
 		String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
 		run.exec(cmd);
+		WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
 		utils.takeScreenShot();
+		System.out.println(utils.verifyObjectexist("ltr.permissions.overlay.vertical","id"));
+		if(utils.verifyObjectexist("ltr.permissions.overlay.vertical","id")){
 		SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.TextView' and @text='OK']")).click();
 		utils.takeScreenShot();
-		WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='android.widget.TextView' and @text='Skip tutorial']")));
 		SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.TextView' and @text='Skip tutorial']")).click();
+		}
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("qa.vodafone.myvodafone.devel.beta:id/dashboard_avatar")));
 		if(SetCapabilities.dr.findElement(By.id("qa.vodafone.myvodafone.devel.beta:id/dashboard_avatar")).isDisplayed()) {
 			Result.fUpdateLog("Home Page Loaded Successfully, Verifying other objects.");
@@ -90,8 +103,7 @@ public class MCare extends Driver{
 				Result.fUpdateLog("Burger Menu is not found on Dashboard");
 				Test_OutPut += "Burger Menu is not found on Dashboard </br>";
 				Menu=0;
-			}
-			
+			}		
 			String Mob = SetCapabilities.dr.findElement(By.xpath("//android.widget.TextView[contains(@content-desc,'ltr.dashboard.text')]")).getText().toString();
 			Test_OutPut += "Avatar Icon Verified. </br>";
 			Mob  = Mob.substring(5, 13).trim();
@@ -126,12 +138,23 @@ public class MCare extends Driver{
 				Gauge=0;
 			}
 			utils.takeScreenShot();
+			
+			
+			
+		SetCapabilities.dr.findElement(By.xpath("//android.support.v7.widget.LinearLayoutCompat[@content-desc='ltr.dashboard.billbox.horizontal']/android.widget.ImageView")).click();
+		//	System.out.println(SetCapabilities.dr.getPageSource());
+			
+		//	MobileElement el1 = (MobileElement) SetCapabilities.dr.findElementByXPath("(//android.widget.ImageView[@content-desc='ltr.dashboard.image'])[2]");
+			 
+		//	new TouchAction((MobileDriver) SetCapabilities.dr).longPress(el1).waitAction(Duration.ofMillis(70)).release().perform();
+			
+			
 		}else {
 			Result.fUpdateLog("For some reasons, MCare Dashboard is not loaded properly");
 			Test_OutPut += "For some reasons, MCare Dashboard is not loaded properly </br>";
 			Avatar = 0;
 		}
-		if((Avatar+VoV+NeedHelp+Gauge+MobNum+Menu) == 6) 
+			if((Avatar+VoV+NeedHelp+Gauge+MobNum+Menu) == 6) 
 			Status = "PASS";
 		else
 			Status = "FAIL";
@@ -186,9 +209,11 @@ public class MCare extends Driver{
 			SetCapabilities.dr.findElement(By.xpath("//*[@class='android.support.v7.widget.LinearLayoutCompat']//*[contains(@text,'Vodafone number or Account number')]")).sendKeys(MSISDN);
 			SetCapabilities.dr.findElement(By.xpath("//*[@class='android.support.v7.widget.LinearLayoutCompat']//*[contains(@text,'Qatari I.D. or Passport Number')]")).click();
 			SetCapabilities.dr.findElement(By.xpath("//*[@class='android.support.v7.widget.LinearLayoutCompat']//*[contains(@text,'Qatari I.D. or Passport Number')]")).sendKeys(ID);
+			Thread.sleep(1000);
 			String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input keyevent 4";
 			Runtime run = Runtime.getRuntime();
 			run.exec(cmd);
+			Thread.sleep(1000);
 			SetCapabilities.dr.findElement(By.xpath("//android.widget.TextView[contains(@content-desc,'retrieve_billing_info.button')]")).click();
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[contains(@content-desc,'retrieve_billing_info.text')]")));
@@ -218,6 +243,26 @@ public class MCare extends Driver{
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured"+e);
 			Status = "FAIL";
+		}
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	public static String verifyMCareBuckets(){
+		String Test_OutPut = "", Status = "";
+		try {
+		SetCapabilities.dr.findElement(By.xpath("(//android.widget.TextView[@content-desc=\"ltr.dashboard.gauge.product_circle_view.text\"])[2]")).click();
+		Thread.sleep(5000);
+		WebElement gauge =  SetCapabilities.dr.findElement(By.xpath("//android.widget.TextView[contains(@content-desc,'ltr.dashboard.gauge.circle_pager_view.balance.text')]"));
+		int startX = gauge.getLocation().getX();
+		int startY = gauge.getLocation().getY();
+		int endX = (startX+gauge.getSize().getWidth());
+		System.out.println(startX);
+		System.out.println(startY);
+		System.out.println(endX);
+		TouchAction action = new TouchAction(SetCapabilities.dr);
+		action.longPress(startX, startY).moveTo(endX, startY).release().perform();
+		}catch(Exception e) {
+			System.out.println(e);
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}

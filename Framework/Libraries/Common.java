@@ -580,14 +580,45 @@ public class Common extends Driver {
 			Browser.WebButton.click("InstalledAssert_Go");
 
 			Result.takescreenshot("");
-			waitforload();
-
+			waitforload();			
+		
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
 	}
 
+	
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Moi_Validation
+	 * Use 					: Customizing the specific Plan is done
+	 * Designed By			: SravaniReddy
+	 * Last Modified Date 	: 15-May-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public void Moi_Validation() {
+		try {
+	
+			waitforload();			
+			TabNavigator("Contacts");			
+			if(Browser.WebButton.exist("Cont_MoiValidation"))
+			{
+				Browser.WebButton.click("Cont_MoiValidation");
+				Result.takescreenshot("");
+				waitforload();
+			}
+			do {
+				TabNavigator("Account Summary");
+				waitforload();
+			} while (!Browser.WebEdit.waitTillEnabled("Acc_validation_Name"));
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+		}
+	}
+	
 	public void ResumeDate(String objname, int rownum, int columnnum) {
 		try {
 			String[] objprop = Utlities.FindObject(objname, "WebTable");

@@ -599,10 +599,14 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public void Moi_Validation() {
 		try {
-
 			waitforload();
 			TabNavigator("Contacts");
-			if (Browser.WebButton.exist("Cont_MoiValidation")) {
+			waitforload();
+			waitforload();
+			WebElement e = cDriver.get().findElement(By.xpath("//button[.='MOI Validation']"));
+			boolean actualValue = e.isEnabled();
+			if (actualValue) {
+				System.out.println("Button is enabled");
 				Browser.WebButton.click("Cont_MoiValidation");
 				Result.takescreenshot("");
 				waitmoreforload();

@@ -1113,6 +1113,7 @@ public class Keyword_CRM extends Driver {
 					Browser.WebEdit.Set("Star_Number_purch", StarNumber);
 					CO.waitforload();
 					CO.Text_Select("option", "Default");
+					CO.waitforload();
 					CO.Text_Select("option", StarNoApproval);
 					CO.waitforload();
 					CO.Text_Select("button", "Verify");
@@ -2647,6 +2648,7 @@ public class Keyword_CRM extends Driver {
 					CO.scroll("Star_Number_purch", "WebEdit");
 					CO.waitforload();
 					CO.Text_Select("option", "Default");
+					CO.waitforload();
 					CO.Text_Select("option", "For Testing Only");
 					CO.waitforload();
 					CO.scroll("Star_Number_purch", "WebEdit");

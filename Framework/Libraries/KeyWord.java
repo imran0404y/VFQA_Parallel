@@ -78,6 +78,10 @@ public class KeyWord {
 	public String Modify() {
 		return KC.Modify();
 	}
+	
+	public String Account360_Modify() {
+		return KC.Account360_Modify();
+	}
 
 	public String UpgradePromotion() {
 		return KC.UpgradePromotion();

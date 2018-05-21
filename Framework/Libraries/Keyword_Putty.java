@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -408,17 +409,12 @@ public class Keyword_Putty extends Driver {
 	public String Trial_BillRun() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------Trial Bill Run Event Details------");
-		String AccountNo = "", Match = "", Contant = "", Bill_Profile, Bill_Cycle, Bill_Lang;// str_Content = "";
+		String AccountNo = "", Match = "", Contant = "", Bill_Profile, NoOfMonths, Bill_Lang;// str_Content = "";
 		try {
-			String str_Directory = pulldata("str_Directory");
-			String str_File = pulldata("str_File");
-			String str_FileContent = " ";
-
-			/*
-			 * if (!(getdata("AccountNo").equals(""))) { str_Content = getdata("AccountNo");
-			 * } else if (!(getdata("MultipleAccountNo").equals(""))) { str_Content =
-			 * getdata("MultipleAccountNo").replace(",", "','"); }
-			 */
+			//String str_Directory = pulldata("str_Directory");
+			//String str_File = pulldata("str_File");
+			String str_FileContent = "";
+			
 			if (!(getdata("AccountNo").equals(""))) {
 				AccountNo = getdata("AccountNo");
 			} else {
@@ -429,21 +425,33 @@ public class Keyword_Putty extends Driver {
 			} else {
 				Bill_Profile = pulldata("Bill_Profile");
 			}
-			if (!(getdata("Bill_Lang").equals(""))) {
-				Bill_Lang = getdata("Bill_Lang");
+			if (!(getdata("Bill_Language").equals(""))) {
+				Bill_Lang = getdata("Bill_Language");
 			} else {
-				Bill_Lang = pulldata("Bill_Lang");
+				Bill_Lang = pulldata("Bill_Language");
 			}
-			if (!(getdata("Bill_Cycle").equals(""))) {
-				Bill_Cycle = getdata("Bill_Cycle");
+			if (!(getdata("NoOfMonths").equals(""))) {
+				NoOfMonths = getdata("NoOfMonths");
 			} else {
-				Bill_Cycle = pulldata("Bill_Cycle");
+				NoOfMonths = pulldata("NoOfMonths");
 			}
 
 			// Account_No
 			// Contant = KD.AccPoID_BillPoID(str_Content);
 			if (Continue.get()) {
-				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				
+				ProcessBuilder pb2=new ProcessBuilder("/brmapp/opt/portal/7.5.0/sys/test/BillRun_Automation_bu.sh");
+				Process script_exec = pb2.start();
+				OutputStream in = script_exec.getOutputStream();
+				in.write("N".getBytes());
+				 in.write(AccountNo.getBytes());
+				 in.write(Bill_Profile.getBytes());
+				 in.write(Bill_Lang.getBytes());
+				 in.write(NoOfMonths.getBytes());
+				 in.write("Y".getBytes());
+				 in.flush();
+				 in.close();
+				/*str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
 				Result.fUpdateLog("Reading the initial File Content: " + str_File + " : " + str_FileContent);
 
 				str_FileContent = WriteFileToLinux(nsession.get(), Contant, str_Directory, str_File);
@@ -451,20 +459,28 @@ public class Keyword_Putty extends Driver {
 
 				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
 				Result.fUpdateLog("Reading the File Content after update: " + str_File + " : " + str_FileContent);
-				Test_OutPut += str_FileContent + ",";
+				Test_OutPut += str_FileContent + ",";*/
 
 				List<String> commands = new ArrayList<String>();
 				commands.add("test");
 				commands.add("./BillRun_Automation_bu.sh");
-				commands.add("n");
+				commands.add("N");
 				commands.add(AccountNo);
 				commands.add(Bill_Profile);
 				commands.add(Bill_Lang);
-				commands.add(Bill_Cycle);
-				commands.add("y");
+				commands.add(NoOfMonths);
+				commands.add("Y");
 				commands.add("apps");
 				commands.add("cd vfq_exp_XML/vfq_exp_XML-TRIALBILL/invoice_archive");
-
+				commands.add("apps");
+				
+				Date today9 = new Date();
+				String y = today9.toString();
+				y = y.substring(4, 10).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")
+						.replace("05", " 5").replace("06", " 6").replace("07", " 7").replace("08", " 8")
+						.replace("09", " 9");
+				String v = "ls -lrt|grep '" + y + "'";
+				commands.add(v);
 				str_FileContent = Executecmd(nsession.get(), commands, "");
 				Pattern pattern = Pattern.compile("Trial_\\w+");
 

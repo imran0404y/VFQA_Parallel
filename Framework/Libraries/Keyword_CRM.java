@@ -1957,6 +1957,160 @@ public class Keyword_CRM extends Driver {
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Account360_Modify
+	 * Arguments			: None
+	 * Use 					: 
+	 * Designed By			: Nanda kumar Chandrasekar
+	 * Last Modified Date 	: 10-May-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String Account360_Modify() {
+		String Test_OutPut = "", status = "";
+		String MSISDN,Add_Addon,Remove_Addon,Order_no ;
+		int rowCount, colPhoneNumber, rowCountLineItems;
+		Result.fUpdateLog("------ Account360 Modify - Siebel ---------");
+		try {
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}/*
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}*/
+
+			if (!(getdata("Add_Addon").equals(""))) {
+				Add_Addon = getdata("Add_Addon");
+			} else {
+				Add_Addon = pulldata("Add_Addon");
+			}
+
+			if (!(getdata("Remove_Addon").equals(""))) {
+				Remove_Addon = getdata("Remove_Addon");
+			} else {
+				Remove_Addon = pulldata("Remove_Addon");
+			}
+			Browser.WebLink.waittillvisible("Global_Search");
+			Browser.WebLink.click("Global_Search");
+			CO.waitforload();
+
+			Browser.WebEdit.Set("Phone_Guided", MSISDN);
+			Result.fUpdateLog("Global Search Initiation");
+			Result.takescreenshot("Global Search Initiation");
+			Browser.WebLink.click("GS_Go");
+			CO.waitforload();
+			Thread.sleep(1000);
+
+			Browser.WebLink.waittillvisible("Global_Link");
+			Result.fUpdateLog("Global Search MSISDN Retrived");
+			Result.takescreenshot("Global Search MSISDN Retrived");
+			CO.waitforload();
+
+			Browser.WebLink.click("Global_Link");
+			CO.waitforload();
+
+			Result.fUpdateLog("Account 360 View");
+			Result.takescreenshot("Account 360 View");
+			Browser.WebLink.click("Global_Search");
+
+			Result.fUpdateLog("Retriving Actual MSISDN Record");
+			Result.takescreenshot("Retriving Actual MSISDN Record");
+			rowCount = Browser.WebTable.getRowCount("Installed_Assert360");
+			if (rowCount >=2) {
+
+				colPhoneNumber = CO.Select_Cell("Installed_Assert360", "Phone Number");
+				for (int Row = 2; Row <= rowCount; Row++)
+					if ((Browser.WebTable.getCellData("Installed_Assert360", Row, colPhoneNumber)).equals(MSISDN)) {
+						Browser.WebTable.click("Installed_Assert360", Row, colPhoneNumber);
+						Result.fUpdateLog("Retrived Actual MSISDN Record");
+						Result.takescreenshot("Retrived Actual MSISDN Record");
+						break;
+					}
+				CO.waitforload();
+				CO.Text_Select("div", "Asset Summary");
+				CO.waitforload();				
+				do {
+					Browser.WebButton.click("Manage_Add_On");
+					CO.waitforload();
+					String x = Browser.WebEdit.gettext("Due_Date");
+					if (!x.contains("/")) {
+						Browser.WebButton.click("Date_Cancel");
+						CO.waitforload();
+						Browser.WebButton.click("Manage_Add_On");
+					}
+					CO.waitforload();
+				} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
+				CO.scroll("Date_Continue", "WebButton");
+				Browser.WebButton.click("Date_Continue");			
+				CO.waitmoreforload();
+				CO.AddOnSelection(Add_Addon, "Add");
+				CO.waitmoreforload();
+				CO.AddOnSelection(Remove_Addon, "Delete");
+				CO.waitmoreforload();
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.waitforload();
+				CO.Text_Select("button", "Done");
+				if (CO.isAlertExist()) {
+					Continue.set(false);
+					Result.fUpdateLog("Error On Clicking Done Button");
+					System.exit(0);
+				}				
+				CO.waitforload();
+				rowCountLineItems = Browser.WebTable.getRowCount("Line_Items");
+				if (rowCountLineItems <= 3) {
+					Browser.WebButton.waittillvisible("Expand");
+					Browser.WebButton.click("Expand");
+				}
+
+				LineItemData.clear();
+				CO.Status(Add_Addon);
+				CO.waitforload();
+				CO.Status(Remove_Addon);
+				CO.waitforload();
+				Order_no = CO.Order_ID();
+				Utlities.StoreValue("Order_no", Order_no);
+				Test_OutPut += "Order_no : " + Order_no + ",";
+
+				Test_OutPut += OrderSubmission().split("@@")[1];
+				// fetching Order_no
+				CO.ToWait();
+				CO.GetSiebelDate();
+
+			}			
+			else
+			{
+				Result.takescreenshot("Account 360 Modify Addon rows are not available in Accounts Page");
+				Result.fUpdateLog("Account 360 Modify Addon rows are not available in Accounts Page");
+				Continue.set(false);
+			}
+			
+			if (Continue.get()) {
+				Test_OutPut += "Account 360 Modify Addon - Siebel is done Successfully " + ",";
+				Result.fUpdateLog("Account 360 Modify Addon - Siebel is  done successfully");
+				status = "PASS";
+			} 
+			else 
+			{
+				Test_OutPut += "Account 360 Modify Addon - Siebel Failed" + ",";
+				Result.takescreenshot("Account 360 Modify Addon - Siebel Failed");
+				Result.fUpdateLog("Account 360 Modify Addon - Siebel Failed");
+				status = "FAIL";
+			}
+		} catch (Exception e) {
+			status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + e.getMessage());
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Account 360 Modify Addon - Siebel - Completed------");
+		return status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	
+	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: UpgradePromotion()
 	 * Arguments			: None
 	 * Use 					: Change of Plan
@@ -1988,11 +2142,6 @@ public class Keyword_CRM extends Driver {
 			Result.fUpdateLog("New_PlanName : " + New_PlanName);
 			Planname.set(New_PlanName);
 
-			/*
-			 * if (!(getdata("Existing_PlanName").equals(""))) { Existing_Plan =
-			 * getdata("Existing_PlanName"); } else { Existing_Plan =
-			 * pulldata("Existing_PlanName"); }
-			 */
 			if (!(getdata("GetData").equals(""))) {
 				GetData = getdata("GetData");
 			} else {
@@ -2010,14 +2159,19 @@ public class Keyword_CRM extends Driver {
 				j++;
 				Result.fUpdateLog("PopupQuery_Search Page Loading.....");
 				CO.waitforload();
-				Result.fUpdateLog("Account Summary Page Loading.....");
 				if (Browser.WebEdit.waitTillEnabled("PopupQuery_Search")) {
+					Browser.WebButton.click("Promotion_Query");
+					CO.waitforload();
 					a = false;
-				} else if (j < 20) {
+				} else if (j > 20) {
 					a = false;
 				}
 			} while (a);
-			Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
+			Browser.WebEdit.Set("Promotion_name", New_PlanName);
+			CO.waitforload();
+			Browser.WebButton.click("Promotion_Go");
+			CO.waitforload();
+			//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
 			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
 			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
 			Result.takescreenshot("New Plane is entered in Plan Upgrade Pop Up");
@@ -2033,7 +2187,7 @@ public class Keyword_CRM extends Driver {
 					Result.fUpdateLog("LI_New Page Loading.....");
 					if (Browser.WebButton.waitTillEnabled("LI_New")) {
 						a = false;
-					} else if (i < 20) {
+					} else if (i > 20) {
 						a = false;
 					}
 				} while (a);
@@ -2218,21 +2372,46 @@ public class Keyword_CRM extends Driver {
 			CO.scroll("UpgradePromotion", "WebButton");
 			CO.waitforload();
 			Browser.WebButton.click("UpgradePromotion");
-
+			
+			int j = 1;
+			boolean a = true;
+			do {
+				j++;
+				Result.fUpdateLog("PopupQuery_Search Page Loading.....");
+				CO.waitforload();
+				if (Browser.WebEdit.waitTillEnabled("PopupQuery_Search")) {
+					Browser.WebButton.click("Promotion_Query");
+					CO.waitforload();
+					a = false;
+				} else if (j > 20) {
+					a = false;
+				}
+			} while (a);
+			Browser.WebEdit.Set("Promotion_name", New_PlanName);
 			CO.waitforload();
-			Browser.WebEdit.waittillvisible("PopupQuery_Search");
+			Browser.WebButton.click("Promotion_Go");
 			CO.waitforload();
-			Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
+			//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
 			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
 			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
+			Result.takescreenshot("New Plane is entered in Plan Upgrade Pop Up");
 			CO.waitforload();
-
+			
 			if (Browser.WebTable.getRowCount("Promotion_Upgrades") >= 2) {
-
 				Result.takescreenshot("Promotion Selected");
 				CO.scroll("Upgrade_OK", "WebButton");
 				Browser.WebButton.click("Upgrade_OK");
-
+				int i = 1;
+				a = true;
+				do {
+					i++;
+					Result.fUpdateLog("LI_New Page Loading.....");
+					if (Browser.WebButton.waitTillEnabled("LI_New")) {
+						a = false;
+					} else if (i > 20) {
+						a = false;
+					}
+				} while (a);
 			} else {
 				Continue.set(false);
 				System.exit(0);
@@ -2784,7 +2963,7 @@ public class Keyword_CRM extends Driver {
 				Result.fUpdateLog("Account Summary Page Loading.....");
 				if (Browser.WebLink.exist("Inst_Assert_ShowMore")) {
 					a = false;
-				} else if (k < 20) {
+				} else if (k > 20) {
 					a = false;
 				}
 			} while (a);
@@ -2805,15 +2984,19 @@ public class Keyword_CRM extends Driver {
 				j++;
 				Result.fUpdateLog("PopupQuery_Search Page Loading.....");
 				CO.waitforload();
-				Result.fUpdateLog("Account Summary Page Loading.....");
 				if (Browser.WebEdit.waitTillEnabled("PopupQuery_Search")) {
+					Browser.WebButton.click("Promotion_Query");
+					CO.waitforload();
 					a = false;
-				} else if (j < 20) {
+				} else if (j > 20) {
 					a = false;
 				}
 			} while (a);
-
-			Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
+			Browser.WebEdit.Set("Promotion_name", New_PlanName);
+			CO.waitforload();
+			Browser.WebButton.click("Promotion_Go");
+			CO.waitforload();
+			//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
 			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
 			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
 			Result.takescreenshot("");
@@ -2829,7 +3012,7 @@ public class Keyword_CRM extends Driver {
 					Result.fUpdateLog("LI_New Page Loading.....");
 					if (Browser.WebButton.waitTillEnabled("LI_New")) {
 						a = false;
-					} else if (i < 20) {
+					} else if (i > 20) {
 						a = false;
 					}
 				} while (a);
@@ -2939,7 +3122,7 @@ public class Keyword_CRM extends Driver {
 		String Test_OutPut = "", Status = "";
 		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "";
 		int Col, Col_P;
-		Result.fUpdateLog("------Consumer_Migration Event Details------");
+		Result.fUpdateLog("------Enterprise_Migration Event Details------");
 		try {
 
 			if (!(getdata("MSISDN").equals(""))) {
@@ -2982,7 +3165,7 @@ public class Keyword_CRM extends Driver {
 				Result.fUpdateLog("Account Summary Page Loading.....");
 				if (Browser.WebLink.exist("Inst_Assert_ShowMore")) {
 					a = false;
-				} else if (k < 20) {
+				} else if (k > 20) {
 					a = false;
 				}
 			} while (a);
@@ -3003,14 +3186,19 @@ public class Keyword_CRM extends Driver {
 				j++;
 				Result.fUpdateLog("PopupQuery_Search Page Loading.....");
 				CO.waitforload();
-				Result.fUpdateLog("Account Summary Page Loading.....");
 				if (Browser.WebEdit.waitTillEnabled("PopupQuery_Search")) {
+					Browser.WebButton.click("Promotion_Query");
+					CO.waitforload();
 					a = false;
-				} else if (j < 20) {
+				} else if (j > 20) {
 					a = false;
 				}
 			} while (a);
-			Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
+			Browser.WebEdit.Set("Promotion_name", New_PlanName);
+			CO.waitforload();
+			Browser.WebButton.click("Promotion_Go");
+			CO.waitforload();
+			//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
 			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
 			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
 			Result.takescreenshot("");
@@ -3026,7 +3214,7 @@ public class Keyword_CRM extends Driver {
 					Result.fUpdateLog("LI_New Page Loading.....");
 					if (Browser.WebButton.waitTillEnabled("LI_New")) {
 						a = false;
-					} else if (i < 20) {
+					} else if (i > 20) {
 						a = false;
 					}
 				} while (a);

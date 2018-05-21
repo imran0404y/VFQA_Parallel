@@ -1006,7 +1006,7 @@ public class Common extends Driver {
 					Result.fUpdateLog("Billing Profile Page Loading.....");
 					if (Browser.WebButton.waitTillEnabled("Bill_Valid_Name")) {
 						a = false;
-					} else if (k < 20) {
+					} else if (k > 20) {
 						a = false;
 					}
 				} while (a);
@@ -1020,7 +1020,7 @@ public class Common extends Driver {
 					Result.fUpdateLog("Unbilled Usage Page Loading.....");
 					if (Browser.WebButton.waitTillEnabled("UnBilled_Valid_Name")) {
 						a = false;
-					} else if (k < 20) {
+					} else if (k > 20) {
 						a = false;
 					}
 				} while (a);
@@ -1035,7 +1035,7 @@ public class Common extends Driver {
 					Result.fUpdateLog("Real Time Balance Page Loading.....");
 					if (Browser.WebButton.waitTillEnabled("RTB_Valid_Name")) {
 						a = false;
-					} else if (k < 20) {
+					} else if (k > 20) {
 						a = false;
 					}
 				} while (a);
@@ -2544,14 +2544,19 @@ public class Common extends Driver {
 				j++;
 				Result.fUpdateLog("PopupQuery_Search Page Loading.....");
 				waitforload();
-				Result.fUpdateLog("Account Summary Page Loading.....");
 				if (Browser.WebEdit.waitTillEnabled("PopupQuery_Search")) {
+					Browser.WebButton.click("Promotion_Query");
+					waitforload();
 					a = false;
-				} else if (j < 20) {
+				} else if (j > 20) {
 					a = false;
 				}
 			} while (a);
-			Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
+			Browser.WebEdit.Set("Promotion_name", New_PlanName);
+			waitforload();
+			Browser.WebButton.click("Promotion_Go");
+			waitforload();
+			//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
 			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
 			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
 			Result.takescreenshot("New Plane is entered in Plan Upgrade Pop Up");
@@ -2567,7 +2572,7 @@ public class Common extends Driver {
 					Result.fUpdateLog("LI_New Page Loading.....");
 					if (Browser.WebButton.waitTillEnabled("LI_New")) {
 						a = false;
-					} else if (i < 20) {
+					} else if (i > 20) {
 						a = false;
 					}
 				} while (a);

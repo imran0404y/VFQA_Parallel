@@ -525,6 +525,9 @@ public class KeyWord {
 		public String VerifyProductActivationPrepaid() {
 			return KUSSD.VerifyProductActivationPrepaid();
 		}
+		public String VerifyProductDeActivationPrepaid() {
+			return KUSSD.VerifyProductDeActivationPrepaid();
+		}
 
 		public String SearchAsset() {
 			return KSiebel.SearchAsset();
@@ -532,10 +535,10 @@ public class KeyWord {
 
 		public String CheckOrder() {
 			return KSiebel.CheckOrder();
-		}
+		}		
 		
-		public String VerifyProductDeActivationPrepaid() {
-			return KUSSD.VerifyProductDeActivationPrepaid();
+		public String Cookies() {
+			return KSiebel.Cookies();
 		}
 		
 		// ---------------------Mobile Usages Ends------------------------//
@@ -554,6 +557,20 @@ public class KeyWord {
 		public String billEnquiryMCare() {
 			return MCare.billEnquiryMCare();
 		}
+		public String Addon_Activation() {
+			return MCare.Addon_Activation();
+		}
+		public String Addon_DeActivation() {
+			return MCare.Addon_DeActivation();
+		}
+		
+		public String PostAddon_Activation() {
+			return MCare.PostAddon_Activation();
+		}
+		public String PostAddon_Deactivation() {
+			return MCare.PostAddon_Deactivation();
+		}
+		
 		
 		// ---------------------MCare Keywords Ends------------------------//
 }

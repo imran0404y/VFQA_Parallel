@@ -52,6 +52,67 @@ public class Siebel extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
+	public String Cookies() {
+		String Test_OutPut = "", Status = "";
+		String MSISDN = utils.fetchData("MSISDN");
+
+		try {
+			CO.waitforload();
+			int Row = 2, Col;
+			CO.Title_Select("a", "Home");
+			CO.waitforload();
+			Browser.WebLink.waittillvisible("VQ_Assert");
+			Browser.WebLink.click("VQ_Assert");
+			CO.scroll("Assert_Search", "WebLink");
+			Browser.WebLink.click("Assert_Search");
+			CO.waitforload();
+			Col = CO.Select_Cell("Assert", "Service ID");
+			Browser.WebTable.SetDataE("Assert", Row, Col, "Serial_Number", MSISDN);
+			Col = CO.Select_Cell("Assert", "Status");
+			Browser.WebTable.SetDataE("Assert", Row, Col, "Status", "Active");
+			Col = CO.Select_Cell("Assert", "Product");
+			Browser.WebButton.waitTillEnabled("Assert_Go");
+			Browser.WebButton.click("Assert_Go");
+			CO.waitforload();
+			// Result.takescreenshot("Account Status : " + Status);
+			Col = CO.Select_Cell("Assert", "Account");
+			int Assert_Row_Count = Browser.WebTable.getRowCount("Assert");
+			if (Assert_Row_Count > 1)
+				Browser.WebTable.clickL("Assert", Row, Col);
+			else
+				Continue.set(false);
+			
+			
+			
+			
+			// Browser.WebLink.waittillvisible("Acc_Portal");
+			// CO.waitforload();
+			// Browser.WebLink.click("Acc_Portal");
+			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
+			
+			Result.takescreenshot("");
+
+			CO.waitforload();
+			CO.InstalledAssertChange("New Query                   [Alt+Q]");
+			CO.waitforload();
+			Col = CO.Select_Cell("Installed_Assert", "Service ID");
+			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
+			Browser.WebButton.click("InstalledAssert_Go");
+
+			Result.takescreenshot("");
+			Col = CO.Actual_Cell("Installed_Assert", "Available Cookies");
+			String Cookie=Browser.WebTable.getCellData("Installed_Assert", 2, Col);
+			
+			Utlities.StoreValue("Cookie", Cookie);
+		
+		
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
 	public String CheckOrder() {
 		String Test_OutPut = "", Status = "",OrderNo,OS_Status = "",EStatus = "Complete", FStatus = "Failed", Bill_Cycle,Action;
 		int Col, Wait=0,Row_Count,Complete_Status = 0,Bill_Col,Row = 2;
@@ -92,7 +153,7 @@ public class Siebel extends Driver {
 						Browser.WebButton.click("Expand");
 					}
 					LineItemData.clear();
-					Action = utils.fetchData("Action");
+					Action = utils.pulldata("Action");
 					Result.fUpdateLog("Value of Action is  -->"+Action);
 					CO.Status(Action);
 					do {
@@ -175,6 +236,7 @@ public class Siebel extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+
 
 	
 }

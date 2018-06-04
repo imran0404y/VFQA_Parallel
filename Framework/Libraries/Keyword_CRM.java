@@ -1116,6 +1116,7 @@ public class Keyword_CRM extends Driver {
 					CO.waitforload();
 					CO.Text_Select("option", StarNoApproval);
 					CO.waitforload();
+					Result.takescreenshot("");
 					CO.Text_Select("button", "Verify");
 					CO.isAlertExist();
 					CO.waitforload();

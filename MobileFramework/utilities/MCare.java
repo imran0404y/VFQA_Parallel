@@ -2,27 +2,21 @@ package utilities;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Calendar;
 import java.util.Properties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Libraries.Driver;
-import Libraries.Method;
 import Libraries.Result;
 import Libraries.Utlities;
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.LongPressOptions;
 
 public class MCare extends Driver{
 	
@@ -273,6 +267,7 @@ public class MCare extends Driver{
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	public static String verifyMCareBuckets(){
 		String Test_OutPut = "", Status = "";
 		try {
@@ -329,6 +324,7 @@ public class MCare extends Driver{
 	}
 
 	public static String Cookies() {
+		@SuppressWarnings("unused")
 		String Test_OutPut = "", Status = "", MVA_PrepaidExtras = "";
 
 		try {

@@ -348,6 +348,7 @@ public class utils extends Driver{
 			} 
 		}
 		if (vis == "false") {
+			Error.printStackTrace();
 			return false;
 		} else {
 			return true;

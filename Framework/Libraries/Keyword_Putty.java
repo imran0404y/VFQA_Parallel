@@ -243,7 +243,7 @@ public class Keyword_Putty extends Driver {
 						str = xa[a];
 						System.out.println(str);
 						if (str.contains(AccPoID.get(c)) & str.contains(x)) {
-							String str_FileContent3 = xa[a].substring(42, xa[a].length() - 1);
+							String str_FileContent3 = xa[a].substring(41, xa[a].length() - 1);
 							Xml += " " + str_FileContent3;
 						}
 					}
@@ -260,7 +260,7 @@ public class Keyword_Putty extends Driver {
 					int i = xb.length - 5;
 					str = xb[i];
 					System.out.println(xb[i].length());
-					str_FileContent5 = xb[i].substring(42, xb[i].length() - 1);
+					str_FileContent5 = xb[i].substring(41, xb[i].length() - 1);
 					Result.fUpdateLog(str_FileContent5);
 
 					Date today7 = new Date();
@@ -409,7 +409,7 @@ public class Keyword_Putty extends Driver {
 	public String Trial_BillRun() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------Trial Bill Run Event Details------");
-		String AccountNo = "", Match = "", Contant = "", Bill_Profile, NoOfMonths, Bill_Lang;// str_Content = "";
+		String AccountNo = "", Match = "", Bill_Profile, NoOfMonths, Bill_Lang;// str_Content = "";
 		try {
 			//String str_Directory = pulldata("str_Directory");
 			//String str_File = pulldata("str_File");

@@ -26,79 +26,37 @@ public class Keyword_ETHERNET extends Driver {
 
 			String Layer2_Feature;
 			String Layer2_service_Access;
-
-			if (!(getdata("Network").equals(""))) {
-				Network = getdata("Network");
-			} else {
-				Network = pulldata("Network");
-			}
-
-			if (!(getdata("VPN Access 1").equals(""))) {
-				VPN_Access1 = getdata("VPN Access 1");
-			} else {
-				VPN_Access1 = pulldata("VPN Access 1");
-			}
-
-			if (!(getdata("VPN Access 2").equals(""))) {
-				VPN_Access2 = getdata("VPN Access 2");
-			} else {
-				VPN_Access2 = pulldata("VPN Access 2");
-			}
-
-			if (!(getdata("VPN Node 1").equals(""))) {
-				VPN_Node_1 = getdata("VPN Node 1");
-			} else {
-				VPN_Node_1 = pulldata("VPN Node 1");
-			}
-
-			if (!(getdata("VPN Node2").equals(""))) {
-				VPN_Node_2 = getdata("VPN Node2");
-			} else {
-				VPN_Node_2 = pulldata("VPN Node2");
-			}
-
-			if (!(getdata("Virtual Connection").equals(""))) {
-				Virtual_Connection = getdata("Virtual Connection");
-			} else {
-				Virtual_Connection = pulldata("Virtual Connection");
-			}
-
-			if (!(getdata("Layer2 Features").equals(""))) {
-				Layer2_Feature = getdata("Layer2 Features");
-			} else {
-				Layer2_Feature = pulldata("Layer2 Features");
-			}
-
-			if (!(getdata("Layer2 Service - Access").equals(""))) {
-				Layer2_service_Access = getdata("Layer2 Service - Access");
-			} else {
-				Layer2_service_Access = pulldata("Layer2 Service - Access");
-			}
-
-			Parent_AccountCreation();
-			Parent_ContactCreation();
-
-			// sub Account
+			Network = pulldata("Network");
+			VPN_Access1 = pulldata("VPN Access 1");
+			VPN_Access2 = pulldata("VPN Access 2");
+			VPN_Node_1 = pulldata("VPN Node 1");
+			VPN_Node_2 = pulldata("VPN Node2");
+			Virtual_Connection = pulldata("Virtual Connection");
+			Layer2_Feature = pulldata("Layer2 Features");
+			Layer2_service_Access = pulldata("Layer2 Service - Access");
+			KC.Entp_AccountCreation();
+			KC.Entp_ContactCreation();
+			 
+			// sub Accou
 			Result.takescreenshot("");
-			CO.Link_Select("Sub-Accounts");
+			CO.TabNavigator("Sub-Accounts");
 			CO.waitforload();
 			Browser.WebButton.click("Bill_acc_add");
 			CO.waitforload();
 			int Row = 2, Col, Col1;
 			Col = CO.Select_Cell("Sub_Account", "Account");
-
 			Browser.WebTable.click("Sub_Account", Row, Col);
 			CO.waitforload();
-			cDriver.get().findElement(By.name("Name")).sendKeys("Childone", Utlities.randname());
+			String ChildAccount1="ETHERNET_1"+ Utlities.randname();
+			cDriver.get().findElement(By.name("Name")).sendKeys(ChildAccount1);
 			CO.waitforload();
 			Result.takescreenshot("");
 			Col1 = CO.Select_Cell("Sub_Account", "CR Number");
 			Browser.WebTable.click("Sub_Account", Row, Col1);
-
 			CO.waitforload();
 			Browser.WebTable.click("Sub_Account", Row, Col);
 			CO.waitforload();
-			Browser.WebTable.clickL("Sub_Account", Row, Col);
+			// Browser.WebTable.clickL("Sub_Account", Row, Col);
 			Result.takescreenshot("Childone");
 			CO.waitforload();
 			Childone_ContactCreation();
@@ -108,32 +66,31 @@ public class Keyword_ETHERNET extends Driver {
 
 			CO.TabNavigator("Account Hierarchy");
 			Result.takescreenshot("");
-			CO.waitforload();
-			int col23;
-			col23 = CO.Select_Cell("Account_Org", "Account");
-			Browser.WebTable.clickL("Account_Org", 3, col23);
+			String ParentAccount=Acc_Number.get();
+			CO.Account_Search(ParentAccount);
+			
+
 			CO.waitforload();
 			Result.takescreenshot("");
 			// Sub Account
 
-			CO.Link_Select("Sub-Accounts");
+			CO.TabNavigator("Sub-Accounts");
 			CO.waitforload();
 			Browser.WebButton.click("Bill_acc_add");
 			CO.waitforload();
-
 			Browser.WebTable.click("Sub_Account", Row, Col);
 			CO.waitforload();
-			cDriver.get().findElement(By.name("Name")).sendKeys("Childtwo", Utlities.randname());
-			Browser.WebTable.click("Sub_Account", Row, Col1);
+			
+			String ChildAccount2="ETHERNET_2"+ Utlities.randname();
+			cDriver.get().findElement(By.name("Name")).sendKeys(ChildAccount2);
 			CO.waitforload();
+			
+			
 			Browser.WebTable.click("Sub_Account", Row, Col1);
 			Result.takescreenshot("");
 			CO.waitforload();
-			cDriver.get().findElement(By.id("1_VFQA_CR_Number")).sendKeys("116768");
-			CO.waitforload();
 			Browser.WebTable.click("Sub_Account", Row, Col);
 			CO.waitforload();
-			Browser.WebTable.clickL("Sub_Account", Row, Col);
 			Result.takescreenshot("Childtwo");
 			CO.waitforload();
 			Childtwo_ContactCreation();
@@ -144,11 +101,10 @@ public class Keyword_ETHERNET extends Driver {
 			CO.TabNavigator("Account Hierarchy");
 			Result.takescreenshot("");
 			CO.waitforload();
-			int row = 4, col;
-			col = CO.Select_Cell("Account_Org", "Account");
-			Browser.WebTable.clickL("Account_Org", row, col);
-			CO.waitforload();
-
+		//	String ParentAccount="12644131307",ChildAccount1="ETHERNET_1VFQA_Test_Chad",ChildAccount2="ETHERNET2_y";
+			
+			ParentAccount=Acc_Number.get();
+			CO.Account_Search(ParentAccount);
 			// Account Summary
 
 			CO.TabNavigator("Account Summary");
@@ -170,73 +126,70 @@ public class Keyword_ETHERNET extends Driver {
 			SalesOrder();
 
 			// Plan Selection
-
+			int b = CO.Select_Cell("Line_Items", "Product");
+			int ColSid = CO.Select_Cell("Line_Items", "Service Id");
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + Network);
 			Browser.WebButton.click("LI_New");
 			CO.waitforload();
-			int a = 2, b;
-			b = CO.Select_Cell("Line_Items", "Product");
+			int a = 2;
 			CO.waitforload();
 			Browser.WebTable.SetDataE("Line_Items", a, b, "Product", Network);
-			Browser.WebTable.click("Line_Items", a, b);
+			Browser.WebTable.click("Line_Items", a,ColSid);
 			CO.waitforload();
-
+			CO.waitforload();
+			
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Access1);
 			Browser.WebButton.click("LI_New");
 			CO.waitforload();
-			int a1 = 3, b1;
-			b1 = CO.Select_Cell("Line_Items", "Product");
+			int a1 = 3;
 			CO.waitforload();
-			Browser.WebTable.SetDataE("Line_Items", a1, b1, "Product", VPN_Access1);
-			Browser.WebTable.click("Line_Items", a1, b1);
+			Browser.WebTable.SetDataE("Line_Items", a1, b, "Product", VPN_Access1);
+			Browser.WebTable.click("Line_Items", a1, ColSid);
 			CO.waitforload();
-
+			CO.waitforload();
+			
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Access2);
 			Browser.WebButton.click("LI_New");
 			CO.waitforload();
-			int a2 = 4, b2;
-			b2 = CO.Select_Cell("Line_Items", "Product");
+			int a2 = 4;
 			CO.waitforload();
-			Browser.WebTable.SetDataE("Line_Items", a2, b2, "Product", VPN_Access2);
-			Browser.WebTable.click("Line_Items", a2, b2 + 1);
+			Browser.WebTable.SetDataE("Line_Items", a2, b, "Product", VPN_Access2);
+			Browser.WebTable.click("Line_Items", a2,ColSid);
 			CO.waitforload();
-
+			CO.waitforload();
+			
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Node_1);
 			Browser.WebButton.click("LI_New");
 			CO.waitforload();
-			int a3 = 5, b3;
-			b3 = CO.Select_Cell("Line_Items", "Product");
+			int a3 = 5;
 			CO.waitforload();
-			Browser.WebTable.SetDataE("Line_Items", a3, b3, "Product", VPN_Node_1);
-			Browser.WebTable.click("Line_Items", a3, b3 + 1);
+			Browser.WebTable.SetDataE("Line_Items", a3, b, "Product", VPN_Node_1);
+			Browser.WebTable.click("Line_Items", a3, ColSid);
 			CO.waitforload();
-
+			CO.waitforload();
+			
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Node_2);
 			Browser.WebButton.click("LI_New");
 			CO.waitforload();
-			int a4 = 6, b4;
-			b4 = CO.Select_Cell("Line_Items", "Product");
+			int a4 = 6;
+			Browser.WebTable.SetDataE("Line_Items", a4, b, "Product", VPN_Node_2);
+			Browser.WebTable.click("Line_Items", a4, ColSid);
 			CO.waitforload();
-			Browser.WebTable.SetDataE("Line_Items", a4, b4, "Product", VPN_Node_2);
-			Browser.WebTable.click("Line_Items", a4, b4 + 1);
 			CO.waitforload();
-
+			
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Node_2);
-
 			Browser.WebButton.click("LI_New");
 			CO.waitforload();
-
-			int a5 = 7, b5;
-			b5 = CO.Select_Cell("Line_Items", "Product");
+			int a5 = 7;
 			CO.waitforload();
-			Browser.WebTable.SetDataE("Line_Items", a5, b5, "Product", Virtual_Connection);
-			Browser.WebTable.click("Line_Items", a5, b5 + 1);
+			Browser.WebTable.SetDataE("Line_Items", a5, b, "Product", Virtual_Connection);
+			Browser.WebTable.click("Line_Items", a5, ColSid);
 			CO.waitforload();
 
 			// Network Customize
@@ -259,24 +212,22 @@ public class Keyword_ETHERNET extends Driver {
 			CO.Text_Select("a", "Network Line Detail");
 			CO.waitforload();
 			CO.scroll("LI_New", "WebButton");
-			int Col_S;
-			Col_S = CO.Select_Cell("Line_Items", "Net Price");
+			
 
 			// node 1
-			CO.scroll("LI_New", "WebButton");
+/*			CO.scroll("LI_New", "WebButton");
 			Browser.WebTable.click("Line_Items", 5, Col_S);
-			Result.takescreenshot("");
+			Result.takescreenshot("");*/
 			// Node service account
-
+			int Col_S;
+			CO.Account_Search(ParentAccount);
+			Col_S = CO.Select_Cell("Line_Items", "Net Price");
 			CO.waitforload();
 			Browser.WebLink.click("Node_Service_Acc");
-			int Col_S12;
-			Col_S12 = CO.Select_Cell("Pick_Account", "Account");
-			Browser.WebTable.click("Pick_Account", 3, Col_S12);
-			CO.scroll("Popup_OK", "WebButton");
-			Browser.WebButton.click("Popup_OK");
-			Result.takescreenshot("");
 			CO.waitforload();
+			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount1);
+			CO.waitforload();
+			
 
 			// Node from address
 			CO.waitforload();
@@ -293,15 +244,13 @@ public class Keyword_ETHERNET extends Driver {
 			Result.takescreenshot("");
 
 			// from acc
+			
 			CO.waitforload();
 			Browser.WebLink.click("Node_Service_Acc");
-			int Col_S13;
-			Col_S13 = CO.Select_Cell("Pick_Account", "Account");
-			Browser.WebTable.click("Pick_Account", 4, Col_S13);
-			CO.scroll("Popup_OK", "WebButton");
-			Browser.WebButton.click("Popup_OK");
-			Result.takescreenshot("");
 			CO.waitforload();
+			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount2);
+			CO.waitforload();
+			Result.takescreenshot("");
 
 			// from add
 			CO.waitforload();
@@ -331,14 +280,12 @@ public class Keyword_ETHERNET extends Driver {
 			// from acc
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Acc");
-			int Col_S1;
-			Col_S1 = CO.Select_Cell("Pick_Account", "Account");
-			Browser.WebTable.click("Pick_Account", 3, Col_S1);
-			CO.scroll("Popup_OK", "WebButton");
-			Browser.WebButton.click("Popup_OK");
-			Result.takescreenshot("");
 			CO.waitforload();
+			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount1);
+			CO.waitforload();
+			Result.takescreenshot("");
 
+						
 			// from add
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Addr");
@@ -347,6 +294,9 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 			Result.takescreenshot("");
 			// access two
+			
+			
+			
 			CO.scroll("LI_New", "WebButton");
 			Browser.WebTable.click("Line_Items", 4, Col_S);
 			Result.takescreenshot("");
@@ -368,12 +318,8 @@ public class Keyword_ETHERNET extends Driver {
 
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Acc");
-			int Col_S11;
-			Col_S11 = CO.Select_Cell("Pick_Account", "Account");
-			Browser.WebTable.click("Pick_Account", 4, Col_S11);
-			CO.scroll("Popup_OK", "WebButton");
-			Browser.WebButton.click("Popup_OK");
-			Result.takescreenshot("");
+			CO.waitforload();
+			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount2);
 			CO.waitforload();
 
 			// from add
@@ -403,7 +349,7 @@ public class Keyword_ETHERNET extends Driver {
 			int Col_N1;
 
 			Col_N1 = CO.Select_Cell("Pick_network", "Node");
-			Browser.WebTable.click("Pick_network", 3, Col_N1);
+			Browser.WebTable.click("Pick_network",2, Col_N1);
 
 			CO.waitforload();
 			CO.scroll("Popup_OK", "WebButton");
@@ -419,7 +365,7 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 			int Col_S122;
 			Col_S122 = CO.Select_Cell("Pick_network", "Node");
-			Browser.WebTable.click("Pick_network", 2, Col_S122);
+			Browser.WebTable.click("Pick_network", 3, Col_S122);
 			CO.waitforload();
 			CO.scroll("Popup_OK", "WebButton");
 			Browser.WebButton.waittillvisible("Popup_OK");
@@ -430,26 +376,24 @@ public class Keyword_ETHERNET extends Driver {
 
 			// from acc
 
-			Browser.WebLink.click("Access_From_Service_Acc");
-			int Col_C;
-			Col_C = CO.Select_Cell("Pick_Account", "Account");
-			Browser.WebTable.click("Pick_Account", 3, Col_C);
-			CO.scroll("Popup_OK", "WebButton");
-			Browser.WebButton.click("Popup_OK");
-			Result.takescreenshot("");
+			
 			CO.waitforload();
+			Browser.WebLink.click("Access_From_Service_Acc");
+			CO.waitforload();
+			CO.Popup_Selection("Pick_Account","Account","Name", ChildAccount1);
+			CO.waitforload();
+			
+		
 
 			// to acc
-
-			Browser.WebLink.click("To_Service_Acc");
-			int Col_S21;
-			Col_S21 = CO.Select_Cell("Pick_Account", "Account");
-			Browser.WebTable.click("Pick_Account", 4, Col_S21);
-			CO.scroll("Popup_OK", "WebButton");
-			Browser.WebButton.click("Popup_OK");
+			
 			CO.waitforload();
-			Result.takescreenshot("");
+			Browser.WebLink.click("Access_From_Service_Acc");
+			CO.waitforload();
+			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount2);
+			CO.waitforload();
 
+			
 			// from add
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Addr");
@@ -466,6 +410,7 @@ public class Keyword_ETHERNET extends Driver {
 			Result.takescreenshot("");
 			// Access 1 Customize
 
+			
 			Browser.WebTable.click("Line_Items", 3, Col_S);
 			CO.Text_Select("span", "Customize");
 			CO.waitforload();
@@ -478,7 +423,6 @@ public class Keyword_ETHERNET extends Driver {
 			CO.Text_Select("button", "Done");
 			Result.takescreenshot("");
 			// Access 2 Customize
-
 			Browser.WebTable.click("Line_Items", 4, Col_S);
 			CO.Text_Select("span", "Customize");
 			CO.waitforload();
@@ -579,8 +523,8 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 
 			Result.takescreenshot("Order Submission is Successful");
-
 			Test_OutPut += KC.OrderSubmission().split("@@")[1];
+		
 
 		} catch (Exception e) {
 			Continue.set(false);
@@ -928,10 +872,8 @@ public class Keyword_ETHERNET extends Driver {
 
 					CO.waitforobj("Add_Address", "WebButton");
 					// Browser.WebButton.waittillvisible("Add_Address");
-					CO.TabNavigator("Addresses");
+					Browser.WebButton.click("Add_Address");
 					CO.waitforload();
-					CO.waitforload();
-
 					// Search for Specific Address
 					CO.waitforobj("Popup_Go", "WebButton");
 					CO.scroll("Popup_Go", "WebButton");
@@ -964,7 +906,8 @@ public class Keyword_ETHERNET extends Driver {
 				Result.takescreenshot("Address Selected : " + Address);
 				Result.fUpdateLog("Address Selected : " + Address);
 				CO.waitforload();
-
+				CO.waitforload();
+				int x = 0;
 				do {
 					CO.TabNavigator("Contacts");
 					CO.waitforload();
@@ -976,10 +919,13 @@ public class Keyword_ETHERNET extends Driver {
 
 				CO.waitforload();
 
-				Browser.WebButton.waittillvisible("Acc_Add_Contact");
-				Browser.WebButton.click("Acc_Add_Contact");
-
+				x = Browser.WebTable.getRowCount("Acc_Contact");
+				if (x == 1) {
+					Browser.WebButton.waittillvisible("Acc_Add_Contact");
+					Browser.WebButton.click("Acc_Add_Contact");
+				}
 				int Row = 2, Col;
+
 				Col = CO.Select_Cell("Acc_Contact", "First Name");
 				if (!(getdata("FirstName").equals(""))) {
 					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", getdata("FirstName"));
@@ -1005,17 +951,6 @@ public class Keyword_ETHERNET extends Driver {
 				} else {
 					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "M_M", pulldata("Mr/Ms"));
 				}
-
-				// Browser.WebTable.SetData("Acc_Contact", 2, Col, "Job_Title",getdata(""));
-
-				/*
-				 * Col = CO.Select_Cell("Acc_Contact", "Work Phone #");
-				 * if(!(getdata("Cont_WorkPhone").equals(""))) {
-				 * Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Work_Phone__",
-				 * getdata("Cont_WorkPhone")); }else { Browser.WebTable.SetDataE("Acc_Contact",
-				 * Row, Col, "Work_Phone__", "97498780980"); }
-				 */
-
 				Col = CO.Select_Cell("Acc_Contact", "Email");
 				if (!(getdata("Email").equals(""))) {
 					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Email_Address", getdata("Email"));
@@ -1152,8 +1087,7 @@ public class Keyword_ETHERNET extends Driver {
 
 					CO.waitforobj("Add_Address", "WebButton");
 					// Browser.WebButton.waittillvisible("Add_Address");
-					CO.TabNavigator("Addresses");
-					CO.waitforload();
+					Browser.WebButton.click("Add_Address");
 					CO.waitforload();
 					// Search for Specific Address
 					CO.waitforobj("Popup_Go", "WebButton");
@@ -1187,7 +1121,9 @@ public class Keyword_ETHERNET extends Driver {
 				Result.takescreenshot("Address Selected : " + Address);
 				Result.fUpdateLog("Address Selected : " + Address);
 				CO.waitforload();
+				CO.waitforload();
 
+				int x = 0;
 				do {
 					CO.TabNavigator("Contacts");
 					CO.waitforload();
@@ -1199,8 +1135,11 @@ public class Keyword_ETHERNET extends Driver {
 
 				CO.waitforload();
 
-				Browser.WebButton.waittillvisible("Acc_Add_Contact");
-				Browser.WebButton.click("Acc_Add_Contact");
+				x = Browser.WebTable.getRowCount("Acc_Contact");
+				if (x == 1) {
+					Browser.WebButton.waittillvisible("Acc_Add_Contact");
+					Browser.WebButton.click("Acc_Add_Contact");
+				}
 
 				int Row = 2, Col;
 				Col = CO.Select_Cell("Acc_Contact", "First Name");
@@ -1499,7 +1438,7 @@ public class Keyword_ETHERNET extends Driver {
 			}
 			CO.waitforload();
 			Browser.WebButton.waittillvisible("LI_New");
-
+			
 			CO.ToWait();
 			if (Continue.get()) {
 				Status = "PASS";

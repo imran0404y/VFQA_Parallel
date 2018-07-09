@@ -509,7 +509,9 @@ public class Common extends Driver {
 			waitforload();
 			Row = Browser.WebTable.getRowCount("Account");
 			if (Row == 2) {
-				Browser.WebButton.click("Account360");
+				//Browser.WebButton.click("Account360");
+				int Col = Select_Cell("Account", "Name");
+				Browser.WebTable.clickA("Account", 2, Col);
 				waitmoreforload();
 
 				// Comment for QA6
@@ -945,6 +947,9 @@ public class Common extends Driver {
 			}
 			int Col_S = Actual_Cell("Installed_Assert", "Status");
 			Browser.WebTable.click("Installed_Assert", Row_Val, Col_S);
+			waitforload();
+			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
+			String BP = Browser.WebTable.getCellData("Installed_Assert", 2, Col1);
 			Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
 			if (Row_Count <= 3) {
 				Browser.WebButton.waittillvisible("Expand");
@@ -960,14 +965,9 @@ public class Common extends Driver {
 			} else {
 				Result.takescreenshot("");
 			}
-
-			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
-			String BP = Browser.WebTable.getCellData("Installed_Assert", 2, Col1);
 			// String BP="1-4KG38HZ";
 			waitforload();
 			Result.takescreenshot("");
-			// scroll("Profile_Tab", "WebButton");
-			// scroll("Profile_Tab", "WebButton");
 			do {
 				TabNavigator("Profiles");
 				waitforload();
@@ -977,9 +977,7 @@ public class Common extends Driver {
 				}
 
 				waitforload();
-				/*
-				 * if (Browser.WebEdit.waitTillEnabled("BP_Valid_Name")) { j = 0; break; }
-				 */
+	
 
 			} while (!Browser.WebEdit.waitTillEnabled("BP_Valid_Name"));
 			Browser.WebEdit.waittillvisible("BP_Valid_Name");
@@ -1801,6 +1799,27 @@ public class Common extends Driver {
 		}
 
 	}
+	public void Popup_Selection(String objname, String Name, String id,String MSISDN) {
+		try {
+			waitforload();
+			int Row_Count = Browser.WebTable.getRowCount(objname);
+			int Col = PopupHeader(objname, Name);
+			Browser.WebButton.click("PopupQuery");
+			waitforload();
+			if ((Browser.WebTable.getRowCount(objname) == 2)) {
+				Browser.WebTable.SetData(objname, 2, Col, id, MSISDN);
+				Row_Count = Browser.WebTable.getRowCount(objname);
+				if (Row_Count > 1) {
+					scroll("Popup_OK", "WebButton");
+					Browser.WebButton.click("Popup_OK");
+				} else
+					Driver.Continue.set(false);
+			} else
+				Driver.Continue.set(false);
+		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+		}
+	}
 
 	public void Addon_Settings(String Text) {
 		// String cellXpath = "//" + Tag + "[@title='" + Text + "']";
@@ -1827,12 +1846,14 @@ public class Common extends Driver {
 			cDriver.get().findElement(By.xpath(cellXpath)).click();
 
 		} else
+		{
 			Continue.set(false);
 		waitforload();
 		waitforload();
 		cDriver.get().findElement(By.xpath("//div[@class='cxThread']//a[text()='" + GetData + "']")).click();
 		waitforload();
 		waitforload();
+		}
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -2815,4 +2836,35 @@ public class Common extends Driver {
 			return Status;
 		}
 	}
+
+
+
+/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Drop_Order
+	 * Arguments			: AccountNumber
+	 * Use 					: To Drop the Pending Order Created in a specific Account 
+	 * Modified By			: Nanda Kumar Chandrasekar
+	 * Last Modified Date 	: 10-Jun-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public void Drop_Order(String Reason) {
+		try {
+			waitmoreforload();
+			scroll("Order_Reason", "WebEdit");
+			Browser.WebEdit.Set("Order_Reason", Reason);
+			waitforload();
+
+			Actions a = new Actions(cDriver.get());
+			WebElement we = cDriver.get().findElement(By.xpath("//body"));
+			a.sendKeys(we, Keys.chord(Keys.CONTROL, "s")).perform();
+			scroll("Drop_Order", "WebButton");
+			Result.takescreenshot("Order cancellation is initiated with reason " + Reason);
+			Result.fUpdateLog("Order cancellation is initiated with reason " + Reason);
+			Browser.WebButton.click("Drop_Order");
+			waitforload();
+		} catch (Exception e) {
+			Continue.set(false);
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+		}
+	}
+
 }

@@ -19,7 +19,7 @@ public class KeyWord {
 	Keyword_PEARL KPL = new Keyword_PEARL();
 	Keyword_DAPN KD = new Keyword_DAPN();
 	Keyword_PJM KJ = new Keyword_PJM();
-	
+	Keyword_MPLS MP = new Keyword_MPLS();
 
 	Dialers KDialers = new Dialers();
 	SetCapabilities KSetCapabilities = new SetCapabilities();
@@ -78,7 +78,7 @@ public class KeyWord {
 	public String Modify() {
 		return KC.Modify();
 	}
-	
+
 	public String Account360_Modify() {
 		return KC.Account360_Modify();
 	}
@@ -210,29 +210,40 @@ public class KeyWord {
 	public String LanguageChange() {
 		return KC.LanguageChange();
 	}
-	
+
 	public String CreditLimit() {
 		return KC.CreditLimit();
 	}
-	
+
 	public String MVCareBill() {
 		return KC.MVCareBill();
 	}
-	
+
 	public String BillSummary() {
 		return KC.BillSummary();
 	}
-	
+
 	public String HappyOffers() {
 		return KC.HappyOffers();
 	}
-	
+
 	public String DueAmount() {
 		return KC.DueAmount();
 	}
-	
+
 	public String CancelOrder() {
 		return KC.CancelOrder();
+	}
+
+	public String Seibel_NBO() {
+		return KC.Seibel_NBO();
+	}
+
+	public String Suspension_Account() {
+		return KC.Suspension_Account();
+	}
+	public String DropPendingOrder() {
+		return KC.DropPendingOrder();
 	}
 	// ------------------Keyword CRM -------------------//
 
@@ -315,6 +326,10 @@ public class KeyWord {
 	public String PlanSelection_DAPN() {
 		return KD.PlanSelection_DAPN();
 	}
+
+	public String UpgradePromotion_DAPN() {
+		return KD.UpgradePromotion_DAPN();
+	}
 	// ---------------------Keyword_DAPN------------------------//
 
 	// ---------------------Keyword Putty------------------------//
@@ -331,10 +346,14 @@ public class KeyWord {
 		return KP.BillGeneration_AccountLevel();
 	}
 
+	public String BillGeneration_BillingProfile() {
+		return KP.BillGeneration_BillingProfile();
+	}
+
 	public String Invoicegeneration() {
 		return KP.Invoicegeneration();
 	}
-	
+
 	public String Trial_BillRun() {
 		return KP.Trial_BillRun();
 	}
@@ -342,7 +361,7 @@ public class KeyWord {
 	public String Collections() {
 		return KP.Collections();
 	}
-	
+
 	public String GetZipFile() {
 		return KP.GetZipFile();
 	}
@@ -365,8 +384,18 @@ public class KeyWord {
 	public String OrderVerfication() {
 		return KF.OrderVerfication();
 	}
+	public String FL_Disconnection() {
+        return KF.FL_Disconnection();
+    }
 
 	// ---------------------Keyword_FixedLine------------------------//
+	// ---------------------Keyword_MPLSL------------------------//
+	public String MPLS() {
+		return MP.MPLS();
+	}
+
+	// ---------------------Keyword_MPLS------------------------//
+
 	// ---------------------Keyword_OSM------------------------//
 
 	public String OSM_Login() {
@@ -376,11 +405,10 @@ public class KeyWord {
 	public String OSM_SearchFL() {
 		return KO.OSM_SearchFL();
 	}
-	
+
 	public String OSM_Pearl_data() {
 		return KO.OSM_Pearl_data();
 	}
-
 
 	// ---------------------Keyword_OSM------------------------//
 
@@ -407,170 +435,176 @@ public class KeyWord {
 		return KPL.PlanSelection_Data_Pearl();
 	}
 	// ---------------------Keyword_PEARL------------------------//
-	
+
 	// ---------------------PJM ------------------------//
 	public String PJM_Login() {
 		return KJ.PJM_Login();
 	}
+
 	public String PJM_Upload() {
 		return KJ.PJM_Upload();
 	}
 	// ---------------------PJM ------------------------//
-	
+
 	// ---------------------Keyword Mobile Usages Starts------------------------//
-		public String Dialer() {
-			return KDialers.Dialer();
-		}
+	public String Dialer() {
+		return KDialers.Dialer();
+	}
 
-		public String CheckUnBarringCall() {
-			return KDialers.CheckUnBarringCall();
-		}
+	public String CheckUnBarringCall() {
+		return KDialers.CheckUnBarringCall();
+	}
 
-		public String CheckBarringCall() {
-			return KDialers.CheckBarringCall();
-		}
+	public String CheckBarringCall() {
+		return KDialers.CheckBarringCall();
+	}
 
-		public String smsSender() {
-			return KDialers.smsSender();
-		}
+	public String smsSender() {
+		return KDialers.smsSender();
+	}
 
-		public String BalanceCheckDialer() {
-			return KDialers.BalanceCheckDialer();
-		}
+	public String BalanceCheckDialer() {
+		return KDialers.BalanceCheckDialer();
+	}
 
-		public String RechargeDialer() {
-			return KDialers.RechargeDialer();
-		}
-		
-		public String BillEnquiryDialler() {
-			return KDialers.BillEnquiryDialler();
-		}
+	public String RechargeDialer() {
+		return KDialers.RechargeDialer();
+	}
 
-		public String setMessengerCapabilities() {
-			return KSetCapabilities.setMessengerCapabilities();
-		}
+	public String BillEnquiryDialler() {
+		return KDialers.BillEnquiryDialler();
+	}
 
-		public String SetCallCapabilities() {
-			return KSetCapabilities.setDialerCapabilities();
-		}
-		
-		public String setMCareCapabilities() {
-			return KSetCapabilities.setMCareCapabilities();
-		}
+	public String setMessengerCapabilities() {
+		return KSetCapabilities.setMessengerCapabilities();
+	}
 
-		public String PrevCheckBalance() {
-			return KRTB.PrevCheckBalance();
-		}
+	public String SetCallCapabilities() {
+		return KSetCapabilities.setDialerCapabilities();
+	}
 
-		public String PostCheckBalance() {
-			return KRTB.PostCheckBalance();
-		}
+	public String setMCareCapabilities() {
+		return KSetCapabilities.setMCareCapabilities();
+	}
 
-		public String LocalCallCharging() {
-			return KCharging.LocalCallCharging();
-		}
+	public String PrevCheckBalance() {
+		return KRTB.PrevCheckBalance();
+	}
 
-		public String LocalSMSCharging() {
-			return KCharging.LocalSMSCharging();
-		}
+	public String PostCheckBalance() {
+		return KRTB.PostCheckBalance();
+	}
 
-		public String InternationalCallCharging() {
-			return KCharging.InternationalCallCharging();
-		}
+	public String LocalCallCharging() {
+		return KCharging.LocalCallCharging();
+	}
 
-		public String InternationalSMSCharging() {
-			return KCharging.InternationalSMSCharging();
-		}
+	public String LocalSMSCharging() {
+		return KCharging.LocalSMSCharging();
+	}
 
-		public String BalanceCheck() {
-			return KNotification.BalanceCheck();
-		}
+	public String InternationalCallCharging() {
+		return KCharging.InternationalCallCharging();
+	}
 
-		public String FlexBalanceCheck() {
-			return KNotification.FlexBalanceCheck();
-		}
+	public String InternationalSMSCharging() {
+		return KCharging.InternationalSMSCharging();
+	}
 
-		public String ProductInfoNotification() {
-			return KNotification.ProductInfoNotification();
-		}
+	public String BalanceCheck() {
+		return KNotification.BalanceCheck();
+	}
 
-		public String ConfigureSMSC() {
-			return KHandset.ConfigureSMSC();
-		}
+	public String FlexBalanceCheck() {
+		return KNotification.FlexBalanceCheck();
+	}
 
-		public String RestartMobile() {
-			return KHandset.RestartMobile();
-		}
+	public String ProductInfoNotification() {
+		return KNotification.ProductInfoNotification();
+	}
 
-		public String VerifyRecharge() {
-			return KUSSD.VerifyRecharge();
-		}
+	public String ConfigureSMSC() {
+		return KHandset.ConfigureSMSC();
+	}
 
-		public String USSDJourney() {
-			return KUSSD.USSDJourney();
-		}
+	public String RestartMobile() {
+		return KHandset.RestartMobile();
+	}
 
-		public String InvokeUSSDMenu() {
-			return KUSSD.InvokeUSSDMenu();
-		}
+	public String VerifyRecharge() {
+		return KUSSD.VerifyRecharge();
+	}
 
-		public String USSDCleaner() {
-			return KUSSD.USSDCleaner();
-		}
+	public String USSDJourney() {
+		return KUSSD.USSDJourney();
+	}
 
-		public String PunchRechargePIN() {
-			return KUSSD.PunchRechargePIN();
-		}
+	public String InvokeUSSDMenu() {
+		return KUSSD.InvokeUSSDMenu();
+	}
 
-		public String VerifyProductActivationPrepaid() {
-			return KUSSD.VerifyProductActivationPrepaid();
-		}
-		public String VerifyProductDeActivationPrepaid() {
-			return KUSSD.VerifyProductDeActivationPrepaid();
-		}
+	public String USSDCleaner() {
+		return KUSSD.USSDCleaner();
+	}
 
-		public String SearchAsset() {
-			return KSiebel.SearchAsset();
-		}
+	public String PunchRechargePIN() {
+		return KUSSD.PunchRechargePIN();
+	}
 
-		public String CheckOrder() {
-			return KSiebel.CheckOrder();
-		}		
-		
-		public String Cookies() {
-			return KSiebel.Cookies();
-		}
-		
-		// ---------------------Mobile Usages Ends------------------------//
-		
-		
-		// ---------------------MCare Keywords Starts------------------------//
-		public String installMyVodafoneApp() {
-			return MCare.installMyVodafoneApp();
-		}
-		public String verifyMCareLogin() {
-			return MCare.verifyMCareLogin();
-		}
-		public String verifyPlanNameMCare() {
-			return MCare.verifyPlanNameMCare();
-		}
-		public String billEnquiryMCare() {
-			return MCare.billEnquiryMCare();
-		}
-		public String Addon_Activation() {
-			return MCare.Addon_Activation();
-		}
-		public String Addon_DeActivation() {
-			return MCare.Addon_DeActivation();
-		}
-		
-		public String PostAddon_Activation() {
-			return MCare.PostAddon_Activation();
-		}
-		public String PostAddon_Deactivation() {
-			return MCare.PostAddon_Deactivation();
-		}
-		
-		
-		// ---------------------MCare Keywords Ends------------------------//
+	public String VerifyProductActivationPrepaid() {
+		return KUSSD.VerifyProductActivationPrepaid();
+	}
+
+	public String VerifyProductDeActivationPrepaid() {
+		return KUSSD.VerifyProductDeActivationPrepaid();
+	}
+
+	public String SearchAsset() {
+		return KSiebel.SearchAsset();
+	}
+
+	public String CheckOrder() {
+		return KSiebel.CheckOrder();
+	}
+
+	public String Cookies() {
+		return KSiebel.Cookies();
+	}
+
+	// ---------------------Mobile Usages Ends------------------------//
+
+	// ---------------------MCare Keywords Starts------------------------//
+	public String installMyVodafoneApp() {
+		return MCare.installMyVodafoneApp();
+	}
+
+	public String verifyMCareLogin() {
+		return MCare.verifyMCareLogin();
+	}
+
+	public String verifyPlanNameMCare() {
+		return MCare.verifyPlanNameMCare();
+	}
+
+	public String billEnquiryMCare() {
+		return MCare.billEnquiryMCare();
+	}
+
+	public String Addon_Activation() {
+		return MCare.Addon_Activation();
+	}
+
+	public String Addon_DeActivation() {
+		return MCare.Addon_DeActivation();
+	}
+
+	public String PostAddon_Activation() {
+		return MCare.PostAddon_Activation();
+	}
+
+	public String PostAddon_Deactivation() {
+		return MCare.PostAddon_Deactivation();
+	}
+
+	// ---------------------MCare Keywords Ends------------------------//
 }

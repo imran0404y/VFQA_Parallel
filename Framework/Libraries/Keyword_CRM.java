@@ -21,6 +21,7 @@ public class Keyword_CRM extends Driver {
 	Common CO = new Common();
 	Random R = new Random();
 	Keyword_Validations KV = new Keyword_Validations();
+	Keyword_API KA = new Keyword_API();
 	public static int COL_FUL_STATUS;
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -1452,9 +1453,9 @@ public class Keyword_CRM extends Driver {
 				if (!(getdata("Account_Name").equals(""))) {
 					Acc = getdata("Account_Name");
 				} else if (!(pulldata("Account_Name").equals(""))) {
-					Acc = pulldata("Account_Name") + R.nextInt(1000);
+					Acc = pulldata("Account_Name") + R.nextInt(100000);
 				} else {
-					Acc = Utlities.randname() + R.nextInt(1000);
+					Acc = Utlities.randname() + R.nextInt(100000);
 				}
 				CO.scroll("Acc_Name", "WebEdit");
 				Browser.WebEdit.Set("Acc_Name", Acc);
@@ -1792,6 +1793,8 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 				Browser.WebButton.click("Ent_Notification");
 				Browser.WebButton.click("Ent_Not_Ok");
+				if (CO.isAlertExist())
+					CO.isAlertExist();
 				CO.TabNavigator("Addresses");
 				if (CO.isAlertExist())
 					CO.isAlertExist();
@@ -4863,7 +4866,7 @@ public class Keyword_CRM extends Driver {
 			CO.scroll("Resume_Date", "WebButton");
 			Col_Resume = CO.Select_Cell("Line_Items", "Resume Date");
 			Browser.WebTable.click("Line_Items", Row, Col_Resume);
-			if (Resume_Date != "") {
+			if (Resume_Date == "") {
 				DateFormat ResumeDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a");
 				Calendar cals = Calendar.getInstance();
 				cals.add(Calendar.MONTH, 1);
@@ -10217,5 +10220,437 @@ public class Keyword_CRM extends Driver {
 		Result.fUpdateLog("------Cancel Order - Siebel - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: NextBestOffer
+	 * Arguments			: None
+	 * Use 					: To Perform Order level payments in Siebel
+	 * Modified By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 15-01-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String Seibel_NBO() {
+		String Test_OutPut = "", Status = "";
+
+		try {
+
+			Browser.WebLink.waittillvisible("Global_Search");
+			Browser.WebLink.click("Global_Search");
+			Result.takescreenshot("Global_Search");
+			Browser.WebEdit.SetE("Phone_Guided", getdata("MSISDN"));
+			Browser.WebLink.waittillvisible("Global_Link");
+			Browser.WebLink.click("Global_Link");
+			Browser.WebLink.waittillvisible("Acc_Portal");
+			Result.takescreenshot("Acc_Portal");
+			Browser.WebLink.click("Global_Search");
+			CO.waitforload();
+			CO.Text_Select("div", "Asset Summary");
+			CO.waitforload();
+			CO.waitforload();
+			Browser.WebEdit.waittillvisible("NBS_Product");
+
+			Result.takescreenshot("Global_Search");
+			String ProductName;
+			// =cDriver.get().findElement(By.xpath("//div[@class='vfqa-360view-bestoffer-proddesc']")).getText();
+			do {
+				ProductName = cDriver.get().findElement(By.xpath("//div[@class='vfqa-360view-bestoffer-proddesc']"))
+						.getText();
+				CO.waitforload();
+			} while (!ProductName.contains(" "));
+
+			if (!ProductName.contains("There are no more offers to display")) {
+				if (TestCaseN.get().contains("Accept")) {
+					CO.waitforload();
+					Browser.WebButton.click("NBS_ProdAccept");
+					Result.takescreenshot("NBS_ProdAccept");
+					KA.RTB();
+					KA.RTB_Check();
+				} else if (TestCaseN.get().contains("Reject")) {
+					CO.waitforload();
+					Browser.WebButton.click("NBS_Reject");
+					Result.takescreenshot("Global_Search");
+				} else if (TestCaseN.get().contains("Interested")) {
+					CO.waitforload();
+					Browser.WebButton.click("NBS_Interested");
+					Result.takescreenshot("Global_Search");
+				}
+			} else {
+				Continue.set(false);
+				Result.fUpdateLog("No Product is available");
+			}
+
+			Test_OutPut += "ProductNamed" + ProductName + "'";
+
+		} catch (Exception e) {
+			Continue.set(false);
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Order level payment Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Suspend_AccountLevel
+	 * Arguments			: None
+	 * Use 					: To Perform Order level payments in Siebel
+	 * Modified By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 15-01-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String Suspension_Account() {
+		String Test_OutPut = "", Status = "";
+
+		try {
+			String GetData;
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+			
+			CO.Account_Search(getdata("AccountNo"));
+			
+			int Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
+			int Col_Val = CO.Actual_Cell("Installed_Assert", "Service ID");
+			int Count = 0;
+			for (int i = 2; i <= Row_Count; i++) {
+				String SID = Browser.WebTable.getCellData_title("Installed_Assert", i, Col_Val);
+				if (!SID.equals("")) {
+					Count = Count + 1;
+				}
+			}
+			int Inst_RowCount = Browser.WebTable.getRowCount("Installed_Assert");
+			int Col_P = CO.Select_Cell("Installed_Assert", "Product");
+			int Col_SID = CO.Select_Cell("Installed_Assert", "Service ID");
+			int Col_SR = CO.Actual_Cell("Installed_Assert", "Status");
+	
+			String MSISDN[] = new String[Count];
+			int s=0;
+			CO.waitforload();
+			
+			// To Find the Record with Mobile Service Bundle and MSISDN
+			for (int i = 2; i <= Inst_RowCount; i++) {
+				
+				if (Browser.WebTable.getCellData("Installed_Assert", i, Col_P).equalsIgnoreCase("Mobile Service Bundle")
+						& Browser.WebTable.getCellData("Installed_Assert", i, Col_SR)
+								.equalsIgnoreCase("Active")) {
+					CO.waitforload();
+					MSISDN[s] = Browser.WebTable.getCellData("Installed_Assert", i, Col_SID);
+					s=s+1;
+					
+
+				}
+			}
+			
+			for(int i=0;i<MSISDN.length;i++) {
+				
+				String a=MSISDN[i];
+				Suspension(a);
+			}
+				
+			
+			
+		} catch (Exception e) {
+			Continue.set(false);
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Order level payment Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Suspend
+	 * Arguments			: None
+	 * Use 					: Suspend a Active Plan
+	 * Designed By			: Vinodhini Raviprasad
+	 * Latest Modified By	: Sravani
+	 * Last Modified Date 	: 22-March-2017
+	--------------------------------------------------------------------------------------------------------*/
+	public String Suspension(String MSISDN) {
+		String Test_OutPut = "", Status = "";
+		String Resume_Date = "", Order_no, GetData;
+		int Col_Resume, Row = 2;
+		Result.fUpdateLog("------Suspend Event Details------");
+		try {
+
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+
+			if (!(getdata("ResumeDate").equals(""))) {
+				Resume_Date = getdata("ResumeDate");
+			}
+			CO.Assert_Search(MSISDN, "Active");
+			CO.Moi_Validation();
+			CO.waitforload();
+			CO.Text_Select("a", GetData);
+			CO.waitforload();
+
+			if (Browser.WebButton.exist("Suspend")) {
+				int Inst_RowCount = Browser.WebTable.getRowCount("Acc_Installed_Assert");
+				int Col_P = CO.Select_Cell("Acc_Installed_Assert", "Product");
+				int Col_SID = CO.Select_Cell("Acc_Installed_Assert", "Service ID");
+				int Col_SR = CO.Actual_Cell("Acc_Installed_Assert", "Status");
+
+				Result.fUpdateLog(Col_P + "," + Col_SID);
+				Result.fUpdateLog(Browser.WebTable.getCellData("Acc_Installed_Assert", 3, Col_P));
+				for (int i = 2; i <= Inst_RowCount; i++)
+					if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P)
+							.equalsIgnoreCase("Mobile Service Bundle")) {
+						Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
+						break;
+					}
+
+				// CO.InstalledAssertChange("Suspend");
+				CO.scroll("Suspend", "WebButton");
+				Browser.WebButton.click("Suspend");
+			} else {
+				CO.InstalledAssertChange("InstalledAssertChange");
+			}
+			CO.waitforload();
+
+			/*
+			 * CO.scroll("Due_Date_chicklet", "WebButton");
+			 * Browser.WebButton.click("Due_Date_chicklet");
+			 */
+			CO.waitforload();
+			String x;
+			do {
+				x = Browser.WebEdit.gettext("Due_Date");
+				if (!x.contains("/")) {
+					Browser.WebButton.click("Date_Cancel");
+					CO.waitforload();
+					Browser.WebButton.click("Suspend");
+				}
+				CO.waitforload();
+			} while (x.isEmpty());
+
+			CO.scroll("Date_Continue", "WebButton");
+			Browser.WebButton.click("Date_Continue");
+			CO.waitmoreforload();
+
+			CO.scroll("Resume_Date", "WebButton");
+			Col_Resume = CO.Select_Cell("Line_Items", "Resume Date");
+			Browser.WebTable.click("Line_Items", Row, Col_Resume);
+			if (Resume_Date == "") {
+				DateFormat ResumeDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a");
+				Calendar cals = Calendar.getInstance();
+				cals.add(Calendar.MONTH, 1);
+				Resume_Date = ResumeDate.format(cals.getTime()).toString();
+
+			}
+			Browser.WebTable.SetDataE("Line_Items", Row, Col_Resume, "Scheduled_Ship_Date", Resume_Date);
+			Result.fUpdateLog(Resume_Date);
+
+			// Result.fUpdateLog(CO.Col_Data(Col_Resume).trim());
+			Result.takescreenshot("");
+
+			CO.scroll("Service", "WebButton");
+			CO.scroll("Line_Items", "WebLink");
+
+			int Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
+			if (Row_Count1 <= 3) {
+				Browser.WebButton.waittillvisible("Expand");
+				Browser.WebButton.click("Expand");
+			}
+			CO.Action_Update("Suspend", MSISDN);
+
+			Test_OutPut += OrderSubmission().split("@@")[1];
+			// fetching Order_no
+			Order_no = CO.Order_ID();
+			Utlities.StoreValue("Order_no", Order_no);
+			Test_OutPut += "Order_no : " + Order_no + ",";
+			Result.takescreenshot("");
+
+			CO.ToWait();
+			CO.GetSiebelDate();
+			if (Continue.get()) {
+				Test_OutPut += "Suspend the Plan is done Successfully " + ",";
+				Result.fUpdateLog("Suspend the Plan is done Successfully ");
+				Status = "PASS";
+			} else {
+				Result.fUpdateLog("Suspenstion Failed");
+				Status = "FAIL";
+			}
+
+		} catch (Exception e) {
+			Continue.set(false);
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("Suspend Login Event Details - Completed");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: DropPendingOrder
+	 * Arguments			: None
+	 * Use 					: Cancel Pending Orders Account level and Order Level
+	 * Designed By			: Nanda Kumar Chandrasekar
+	 * Last Modified Date 	: 10-Jun-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String DropPendingOrder () {
+		String Test_OutPut = "", Status = "";
+		String OrderId, AccountNo, Cancel_Reason, OrderStatus, TempOrderNo;// ,GetData
+		Result.fUpdateLog("------ Cancel Order - Siebel ---------");
+		try {
+			if (!(getdata("PendingOrderId").equals(""))) {
+				OrderId = getdata("PendingOrderId");
+			} else {
+				OrderId = pulldata("PendingOrderId");
+			}
+
+			if (!(getdata("AccountNo").equals(""))) {
+				AccountNo = getdata("AccountNo");
+			} else {
+				AccountNo = pulldata("AccountNo");
+			}
+			
+			if (!(getdata("Cancel_Reason").equals(""))) {
+				Cancel_Reason = getdata("Cancel_Reason");
+			} else {
+				Cancel_Reason = pulldata("Cancel_Reason");
+			}
+			int Col_ID, Col_S, Row = 2, RowCount;
+			if (TestCaseN.get().equalsIgnoreCase("Account_Level")) {
+				boolean exit = false;
+				TempOrderNo = "";
+				do {
+					Browser.WebLink.click("VQ_Home");
+					CO.waitmoreforload();
+					CO.Account_Search(AccountNo);
+					CO.waitforload();
+					CO.TabNavigator("Orders");
+					CO.waitforload();
+					Browser.WebButton.click("Acc_Order_Query");
+					CO.waitforload();
+					CO.waitforload();
+					Col_S = CO.Select_Cell("Order_Table", "Status");
+					Col_ID = CO.Select_Cell("Order_Table", "Order #");
+					RowCount = Browser.WebTable.getRowCount("Order_Table");
+					if (TempOrderNo.isEmpty() == false) {
+						if (RowCount == 2) {
+							Browser.WebTable.SetDataE("Order_Table", Row, Col_ID, "Order_Number", TempOrderNo);
+							CO.waitforload();
+							Browser.WebButton.click("Acc_Order_GO");
+							CO.waitmoreforload();
+							RowCount = Browser.WebTable.getRowCount("Order_Table");
+							if (RowCount == 2) {
+								Status = Browser.WebTable.getCellData("Order_Table", Row, Col_S);
+								if (Status.equalsIgnoreCase("Abandoned")) {
+									Result.takescreenshot(
+											"Order Cancellation of " + TempOrderNo + " is done and moved to " + Status);
+									Result.fUpdateLog(
+											"Order Cancellation of " + TempOrderNo + " is done and moved to " + Status);
+									Browser.WebButton.click("Acc_Order_Query");
+									CO.waitforload();
+									RowCount = Browser.WebTable.getRowCount("Order_Table");
+								} else {
+									Continue.set(false);
+									Result.takescreenshot("Order Cancellation Failed - Order " + TempOrderNo
+											+ " is done and moved to " + Status);
+									Result.fUpdateLog("Order Cancellation Failed - Order " + TempOrderNo
+											+ " is done and moved to " + Status);
+								}
+							} else {
+								Continue.set(false);
+								Result.takescreenshot("Account level Orders Query Search disabled");
+								Result.fUpdateLog("Account level Orders Query Search disabled");
+							}
+						} else {
+							Continue.set(false);
+							Result.takescreenshot("Account level Orders Query Search disabled");
+							Result.fUpdateLog("Account level Orders Query Search disabled");
+						}
+					}
+
+					if (RowCount == 2) {
+						Browser.WebTable.SetDataE("Order_Table", Row, Col_S, "Status", "Pending");
+						CO.waitforload();
+						Browser.WebButton.click("Acc_Order_GO");
+						CO.waitmoreforload();
+						RowCount = Browser.WebTable.getRowCount("Order_Table");
+						if (RowCount >= 2) {
+							Result.takescreenshot("Listing Open Orders in Account " + AccountNo);
+							Result.fUpdateLog("Listing Open Orders in Account " + AccountNo);
+
+							Col_ID = CO.Select_Cell("Order_Table", "Order #");
+							TempOrderNo = Browser.WebTable.getCellData("Order_Table", Row, Col_ID);
+							Result.takescreenshot("Traversing Order " + TempOrderNo);
+							Result.fUpdateLog("Traversing Order " + TempOrderNo);
+
+							Browser.WebTable.clickL("Order_Table", Row, Col_ID);
+							CO.waitmoreforload();
+							CO.Drop_Order(Cancel_Reason);
+
+							Result.takescreenshot(
+									"Order " + TempOrderNo + " is cancelled with cancellation Reason " + Cancel_Reason);
+							Result.fUpdateLog(
+									"Order " + TempOrderNo + " is cancelled with cancellation Reason " + Cancel_Reason);
+
+						} else {
+							exit = true;
+							Result.takescreenshot("There are no more Pending Orders to be Cancelled");
+							Result.fUpdateLog("There are no more Pending Orders to be Cancelled");
+						}
+					} else {
+
+						Continue.set(false);
+						exit = true;
+						Result.takescreenshot("Account level Orders Query Search disabled");
+						Result.fUpdateLog("Account level Orders Query Search disabled");
+
+					}
+				} while (exit == false);
+			} else {
+				OrderStatus = CO.Order_Search(OrderId);
+
+				Result.takescreenshot("Order Id : " + OrderId + " Navigation with status: " + OrderStatus);
+				Result.fUpdateLog("Order Id : " + OrderId + " Navigation with status: " + OrderStatus);
+
+				if (OrderStatus.equalsIgnoreCase("Pending")) {
+					CO.waitforload();
+					CO.Drop_Order(Cancel_Reason);
+					CO.waitforload();
+
+					OrderStatus = CO.Order_Search(OrderId);
+
+				} else {
+					Result.takescreenshot("Order is not available in Pending Status please check data");
+					Result.fUpdateLog("Order is not available in Pending Status please check data");
+					Continue.set(false);
+				}
+			}
+
+			CO.ToWait();
+
+			if (Continue.get()) {
+				Test_OutPut += "Cancel Pending Order - Siebel is done Successfully " + ",";
+				Result.fUpdateLog("Cancel Pending Order - Siebel is  done successfully");
+				Status = "PASS";
+			} else {
+				Test_OutPut += "Cancel Pending Order - Siebel Failed" + ",";
+				Result.takescreenshot("Cancel Pending Order - Siebel Failed");
+				Result.fUpdateLog("Cancel Pending Order - Siebel Failed");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + e.getMessage());
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Cancel Pending Order - Siebel - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+		}
 
 }

@@ -3,6 +3,7 @@ package Libraries;
 import java.util.Random;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
@@ -412,5 +413,177 @@ public class Keyword_DAPN extends Driver
 		Result.fUpdateLog("------Plan Selection Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: UpgradePromotion_DAPN()()
+	 * Arguments			: None
+	 * Use 					: Change of Plan
+	 * Designed By			: Sumit
+	 * Last Modified Date 	: 09-July-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String UpgradePromotion_DAPN() {
+
+		String Test_OutPut = "", Status = "";
+		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "";
+		int Col, Col_P;
+		Result.fUpdateLog("------Plan Upgrade/Downgrade Event Details------");
+		try {
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}
+
+			if (!(getdata("Spendlimit").equals(""))) {
+				Spendlimit = getdata("Spendlimit");
+			}
+
+			if (!(getdata("New_PlanName").equals(""))) {
+				New_PlanName = getdata("New_PlanName");
+			} else {
+				New_PlanName = pulldata("New_PlanName");
+			}
+			Result.fUpdateLog("New_PlanName : " + New_PlanName);
+			Planname.set(New_PlanName);
+
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+			CO.Assert_Search(MSISDN, "Active");
+			CO.Moi_Validation();
+			CO.waitforload();
+			CO.Text_Select("a", GetData);
+			CO.waitforload();
+			CO.Plan_selection(GetData, MSISDN);
+			int j = 1;
+			boolean a = true;
+			do {
+				j++;
+				Result.fUpdateLog("PopupQuery_Search Page Loading.....");
+				CO.waitforload();
+				if (Browser.WebEdit.waitTillEnabled("PopupQuery_Search")) {
+					Browser.WebButton.click("Promotion_Query");
+					CO.waitforload();
+					a = false;
+				} else if (j > 20) {
+					a = false;
+				}
+			} while (a);
+			Browser.WebEdit.Set("Promotion_name", New_PlanName);
+			CO.waitforload();
+			Browser.WebButton.click("Promotion_Go");
+			CO.waitforload();
+			//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
+			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
+			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
+			Result.takescreenshot("New Plane is entered in Plan Upgrade Pop Up");
+			CO.waitforload();
+
+			if (Browser.WebTable.getRowCount("Promotion_Upgrades") >= 2) {
+				CO.scroll("Upgrade_OK", "WebButton");
+				Browser.WebButton.click("Upgrade_OK");
+				int i = 1;
+				a = true;
+				do {
+					i++;
+					Result.fUpdateLog("LI_New Page Loading.....");
+					if (Browser.WebButton.waitTillEnabled("LI_New")) {
+						a = false;
+					} else if (i > 20) {
+						a = false;
+					}
+				} while (a);
+			} else {
+				Continue.set(false);
+				System.exit(0);
+			}
+
+			int Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
+			Col = CO.Select_Cell("Line_Items", "Product");
+			Col_P = CO.Actual_Cell("Line_Items", "Action");
+			Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
+			for (int i = 2; i <= Row_Count1; i++) {
+				String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+				String Action = Browser.WebTable.getCellData("Line_Items", i, Col_P);
+
+				if (LData.equalsIgnoreCase(New_PlanName)) {
+					if (Action.equalsIgnoreCase("Add")) {
+						Result.fUpdateLog("Action Update   " + LData + ":" + Action);
+					} else {
+						Result.fUpdateLog(LData + ":" + Action);
+						Continue.set(false);
+					}
+				} else if (LData.equalsIgnoreCase(GetData)) {
+					Browser.WebButton.click("Customize");
+					CO.waitforload();
+					if (!(getdata("PlanBundle").equals(""))) {
+						Result.fUpdateLog("------Customising to Add Plan Discount ------");
+						String PlanBundle = getdata("PlanBundle");
+						CO.waitforload();
+						CO.Text_Select("a", "Mobile Plans");
+						CO.waitforload();
+						String PB[] = PlanBundle.split("::");
+						if (PB.length > 1) {
+							// CO.Radio_None(PB[0]);
+							Result.takescreenshot("Customising to Select Discounts");
+							CO.Discounts(PB[0].trim(), PB[1]);
+							Result.fUpdateLog("------Discount Selected  ------");
+						}
+					}
+
+					if (Spendlimit != "") {
+						Result.takescreenshot("Navigating to Others Tab");
+						Result.fUpdateLog("Navigating to Others Tab");
+						CO.waitforload();
+						CO.Link_Select("Others");
+						CO.waitforload();
+						CO.RadioL("Spend Limit");
+						CO.waitforload();
+						Browser.WebEdit.Set("NumberReservationToken", Spendlimit);
+						Result.takescreenshot("Modifying Spend Limit ");
+					}
+					CO.Text_Select("button", "Verify");
+					CO.isAlertExist();
+					CO.Text_Select("button", "Done");
+					if (CO.isAlertExist()) {
+						Continue.set(false);
+						Test_OutPut += "unwanted Popup Exists" + ",";
+					}
+				}
+			}
+			if (Row_Count1 <= 4) {
+				Browser.WebButton.waittillvisible("Expand");
+				Browser.WebButton.click("Expand");
+			}
+			CO.LineItems_Data();
+
+			Order_no = CO.Order_ID();
+			Utlities.StoreValue("Order_no", Order_no);
+			Test_OutPut += "Order_no : " + Order_no + ",";
+
+			CO.waitforload();
+			Test_OutPut += KC.OrderSubmission().split("@@")[1];
+
+			CO.ToWait();
+			CO.GetSiebelDate();
+			if (Continue.get()) {
+				Status = "PASS";
+			} else {
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Continue.set(false);
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Plan Upgrade/Downgrade Event Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+
+	}
+
 
 }

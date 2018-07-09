@@ -537,7 +537,7 @@ public class Keyword_Guided extends Driver
 
 			if (RowCount >= 2) {
 				Col = CO.Select_Cell("Contact", "Account");
-				Browser.WebTable.clickL("Contact", Row, Col);
+				Browser.WebTable.clickA("Contact", Row, Col);
 				Result.takescreenshot("Contact Verification is successfull");
 				Result.fUpdateLog("Contact Verification is successfull");
 			} else {

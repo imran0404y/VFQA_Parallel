@@ -124,10 +124,10 @@ public class Keyword_OSM extends Driver {
 					Browser.WebButton.click("OSM_Search");
 					CO.waitforload();
 					CO.waitforload();
-					if (!(getdata("CPE").equals("")) || (!(pulldata("CPE").equals("")))) {
+					if (!(getdata("OSM_CPE").equals("")) || (!(pulldata("OSM_CPE").equals("")))) {
 						CO.scroll("OSM_CPE", "WebEdit");
-						Browser.WebEdit.Set("OSM_CPE", getdata("CPE"));
-						Result.fUpdateLog("Entering CPE Number " + getdata("CPE"));
+						Browser.WebEdit.Set("OSM_CPE", getdata("OSM_CPE"));
+						Result.fUpdateLog("Entering CPE Number " + getdata("OSM_CPE"));
 					}
 
 					if (!(getdata("OSM_OUI").equals("")) || (!(pulldata("OSM_OUI").equals("")))) {

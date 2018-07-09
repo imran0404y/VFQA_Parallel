@@ -150,7 +150,45 @@ public class Keyword_DB extends Driver {
 		Result.fUpdateLog("------AccPoID_BillPoID Event Details - Completed------");
 		return Test_OutPut;
 	}
+	public String AccPoID_BillPoID(String AccountNo,String BillingProf) {
+		Continue.set(true);
+		String Test_OutPut = "";
+		if (Continue.get()) {
+			Result.fUpdateLog("------AccPoID_BillPoID Event Details------");
+			Test_OutPut = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + "<BusinessConfiguration\r\n"
+					+ "xmlns=\"http://www.portal.com/schemas/BusinessConfig\"\r\n"
+					+ "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n"
+					+ "xsi:schemaLocation=\"http://www.portal.com/schemas/BusinessConfig BusinessConfiguration.xsd\">\r\n"
+					+ "<!-- Sample input file for pin_bill_accts containing parameters for bill run management -->\r\n"
+					+ "<!-- Modify according to guidelines -->\r\n" + "<BillRunConfiguration>\r\n"
+					+ "<!-- List of Billinfo to be billed -->\r\n";
+			try {
+				Statement statement = con.get().createStatement();
+				String queryString = "Select a.poid_id0 ,b.poid_id0 from pin.account_t a,pin.billinfo_t b where a.account_no IN ('"
+						+ AccountNo + "') and b.bill_info_id IN ('" + BillingProf + "')and b.account_obj_id0=a.poid_id0 AND NOT b.PAYINFO_OBJ_TYPE LIKE '%prepaid%'";
+				Result.fUpdateLog(queryString);
+				ResultSet rs = statement.executeQuery(queryString);
+				while (rs.next()) {
+					Test_OutPut += "        <BillingList>\r\n" + "                <Account>" + rs.getString(1)
+							+ "</Account>\r\n" + "                <Billinfo>" + rs.getString(2) + "</Billinfo>\r\n"
+							+ "        </BillingList>\r\n";
+				}
 
+				Test_OutPut += "</BillRunConfiguration>\r\n" + "</BusinessConfiguration>";
+			} catch (Exception e) {
+				Continue.set(false);
+				Test_OutPut += "Failed to AccPoID_BillPoID" + ",";
+				Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+				e.printStackTrace();
+			}
+
+		} else {
+			Result.fUpdateLog("Failed at intial did not entered in AccPoID_BillPoID");
+			Continue.set(false);
+		}
+		Result.fUpdateLog("------AccPoID_BillPoID Event Details - Completed------");
+		return Test_OutPut;
+	}
 	public String BillPoID(String AccountNo) {
 		Continue.set(true);
 		String Test_OutPut = "";

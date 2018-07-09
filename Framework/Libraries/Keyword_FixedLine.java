@@ -734,5 +734,128 @@ public class Keyword_FixedLine extends Driver {
 		Result.fUpdateLog("-----Change Primary Number Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: FL_Disconnection
+	 * Arguments			: None
+	 * Use 					: Disconnection of Active line
+	 * Designed By			: Sumit Sharma
+	 * Last Modified Date 	: 24-June-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String FL_Disconnection() {
+
+		String Test_OutPut = "", Status = "";
+		String MSISDN, Order_no, Order_Reason, GetData;
+		int Col, Col_P;
+		Result.fUpdateLog("------Disconnect Event Details------");
+		try {
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}
+
+			if (!(getdata("Order_Reason").equals(""))) {
+				Order_Reason = getdata("Order_Reason");
+			} else {
+				Order_Reason = pulldata("Order_Reason");
+			}
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+			CO.Assert_Search(MSISDN, "Active");
+			CO.waitforload();
+			int Col_S, Row_Count;
+			String LData;
+			Col = CO.Actual_Cell("Installed_Assert", "Product");
+			Col_S = CO.Actual_Cell("Installed_Assert", "Service ID");
+			Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
+			for (int i = 2; i <= Row_Count; i++) {
+				LData = Browser.WebTable.getCellData("Installed_Assert", i, Col);
+				if (LData.equalsIgnoreCase(GetData)) {
+					if ((i % 2) == 0) {
+						Browser.WebTable.click("Installed_Assert", (i + 1), Col_S);
+						CO.waitforload();
+						break;
+					} else {
+						Browser.WebTable.click("Installed_Assert", (i - 1), Col_S);
+						CO.waitforload();
+						break;
+					}
+				}
+
+			}
+			do {
+				Browser.WebButton.click("VFQ_Disconnect");
+				String x = Browser.WebEdit.gettext("Due_Date");
+				if (!x.contains("/")) {
+					Browser.WebButton.click("Date_Cancel");
+					Browser.WebButton.click("VFQ_Disconnect");
+				}
+				CO.waitforload();
+			} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
+
+			if (Browser.WebEdit.gettext("Due_Date").equals(""))
+				Continue.set(false);
+			CO.scroll("Date_Continue", "WebButton");
+			Browser.WebButton.click("Date_Continue");
+			CO.waitmoreforload();
+			Result.takescreenshot("Disconnect Order : ");
+			
+			if(Browser.WebButton.exist("FL_Acc_Msg"))
+			{
+				Result.fUpdateLog(Browser.WebEdit.gettext("FL_Msg_Text"));
+				Browser.WebButton.click("FL_Acc_Msg");
+			}
+			// CO.InstalledAssertChange("Disconnect");
+			CO.waitforload();
+			Browser.WebButton.waittillvisible("Validate");
+			CO.Webtable_Value("Order Reason", Order_Reason);
+
+			int Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
+			Col = CO.Select_Cell("Line_Items", "Product");
+			Col_P = CO.Actual_Cell("Line_Items", "Action");
+			Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
+			for (int i = 2; i <= Row_Count1; i++) {
+				LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+				String Action = Browser.WebTable.getCellData("Line_Items", i, Col_P);
+
+				if (Action.equalsIgnoreCase("Delete")||LData.equalsIgnoreCase("Penalty Charges")) {
+					Result.fUpdateLog("Action Update   " + LData + ":" + Action);
+				} else {
+					Result.fUpdateLog(LData + ":" + Action);
+					Continue.set(false);
+				}
+
+			}
+
+			Test_OutPut += KC.OrderSubmission().split("@@")[1];
+			Order_no = CO.Order_ID();
+			Utlities.StoreValue("Order_no", Order_no);
+			Test_OutPut += "Order_no : " + Order_no + ",";
+
+			CO.waitforload();
+
+			CO.AssertSearch(MSISDN, "Inactive");
+			CO.waitforload();
+			Result.takescreenshot("");
+			CO.ToWait();
+			if (Continue.get()) {
+				Status = "PASS";
+			} else {
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Continue.set(false);
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Disconnect Event Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
 
 }

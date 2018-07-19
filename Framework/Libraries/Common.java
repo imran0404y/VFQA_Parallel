@@ -447,7 +447,7 @@ public class Common extends Driver {
 			Expected = objTyp.replace('_', ' ');
 		int Col_Count = Browser.WebTable.getColCount(objname);
 		waitforload();
-		for (int i = 1; i < Col_Count; i++) {
+		for (int i = 1; i <= Col_Count; i++) {
 			Col = i;
 			String cellXpath = "//table//th[" + i + "]";
 			WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
@@ -2867,4 +2867,27 @@ public class Common extends Driver {
 		}
 	}
 
+	public int Actual_tab_Cell_th(String objname, String objTyp) throws Exception {
+		int Col = 1, f = 0;
+		String Expected = objTyp;
+		String[] obj = objTyp.split("_");
+		if (obj.length > 1)
+			Expected = objTyp.replace('_', ' ');
+		int Col_Count = Browser.WebTable.getColCount1(objname);
+		String[] objprop = Utlities.FindObject(objname, "WebTable");
+		waitforload();
+		for (int i = 1; i < Col_Count; i++) {
+			Col = i;
+			String cellXpath = objprop[0] + "//th[" + i + "]/div";
+			WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
+			((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+			String celldata = cDriver.get().findElement(By.xpath(cellXpath)).getText().trim();
+			if (celldata.equalsIgnoreCase(Expected))
+				f = f + 1;
+			if (f == 1)
+				break;
+
+		}
+		return Col;
+	}
 }

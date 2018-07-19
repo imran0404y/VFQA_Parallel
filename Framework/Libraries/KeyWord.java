@@ -245,6 +245,33 @@ public class KeyWord {
 	public String DropPendingOrder() {
 		return KC.DropPendingOrder();
 	}
+	
+	public String getPUK() {
+        return KC.getPUK();
+    }
+    
+    public String Adjustments_BillingProfileLevel() {
+        return KC.Adjustments_BillingProfileLevel();
+    }
+    
+    public String Adjustments_BillLevel() {
+        return KC.Adjustments_BillLevel();
+    }
+    
+    public String Adjustments_ItemLevel() {
+        return KC.Adjustments_ItemLevel();
+    }
+	public String SharedBundleProvisioning() {
+		return KC.SharedBundleProvisioning();
+	}
+	
+	public String DisconnectSharedBundle() {
+		return KC.DisconnectSharedBundle();
+	}
+	
+	//public String ReplicateOrder() {
+		//return KC.ReplicateOrder();
+
 	// ------------------Keyword CRM -------------------//
 
 	// ------------------Keyword Guided -------------------//
@@ -384,10 +411,13 @@ public class KeyWord {
 	public String OrderVerfication() {
 		return KF.OrderVerfication();
 	}
+	public String HomeMove() {
+        return KF.HomeMove();
+    }
+
 	public String FL_Disconnection() {
         return KF.FL_Disconnection();
     }
-
 	// ---------------------Keyword_FixedLine------------------------//
 	// ---------------------Keyword_MPLSL------------------------//
 	public String MPLS() {

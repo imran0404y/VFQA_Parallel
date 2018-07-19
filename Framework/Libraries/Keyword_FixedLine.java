@@ -1,5 +1,9 @@
 package Libraries;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class Keyword_FixedLine extends Driver {
@@ -858,4 +862,161 @@ public class Keyword_FixedLine extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
+	public String HomeMove() {
+		String Test_OutPut = "", Status = "", MSISDN = "", GetData = "";
+		Result.fUpdateLog("-----Home Move Event Details------");
+		try {
+
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+
+			DateFormat ResumeDate = new SimpleDateFormat("MM/dd/yyyy");
+			CO.Assert_Search(MSISDN, "Active");
+			CO.waitforload();
+			CO.waitforload();
+			CO.Text_Select("a", "Addresses");
+			CO.waitforload();
+			CO.waitforload();
+			int Row = 2;
+			int AL = CO.Select_Cell("Address", "Address Line 1");
+			String Address1 = Browser.WebTable.getCellData("Address", Row, AL);
+			Browser.WebButton.click("Add_Address");
+
+			if (!(getdata("Kahramaa_ID").equals(""))) {
+				Browser.ListBox.select("PopupQuery_List", "Kahramaa ID");
+
+				Browser.WebEdit.Set("PopupQuery_Search", getdata("Kahramaa_ID"));
+				Result.takescreenshot("PopupQuery_Search" + getdata("Kahramaa_ID"));
+
+			}
+			CO.waitforload();
+			CO.scroll("Add_OK", "WebButton");
+			Browser.WebButton.click("Add_OK");
+			int Row_Count = Browser.WebTable.getRowCount("Address");
+			int P = CO.Select_Cell("Address", "Primary");
+			int Sd = CO.Select_Cell("Address", "Start Date");
+			int CT = CO.Select_Cell("Address", "City");
+			int PB = CO.Select_Cell("Address", "PO Box");
+			int Ac = CO.Select_Cell("Address", "Active");
+			int ED1 = CO.Select_Cell("Address", "End Date");
+
+			for (int i = 2; i <= Row_Count; i++) {
+				String Add_New = Browser.WebTable.getCellData("Address", i, AL);
+				if (!Add_New.equalsIgnoreCase(Address1)) {
+					Browser.WebTable.SetData("Address", i, PB, "VFQA_PO_Box", "12345");
+					Browser.WebTable.SetData("Address", i, CT, "City", "Doha");
+					Browser.WebTable.click("Address", i, Sd);
+					Calendar cals = Calendar.getInstance();
+					cals.add(Calendar.DATE, 2);
+					String SD = ResumeDate.format(cals.getTime()).toString();
+					Browser.WebTable.SetDataE("Address", i, Sd, "Start_Date", SD);
+
+					Browser.WebTable.click("Address", i, P);
+					Browser.WebTable.click("Address", i, P);
+					CO.waitforload();
+					Browser.WebTable.click("Address", i, Ac);
+					Browser.WebTable.click("Address", i, Ac);
+					CO.waitforload();
+					Browser.WebTable.click_che("Address", i, Ac);
+					
+					Result.takescreenshot("");
+
+				}
+
+			}
+
+			for (int i = 2; i <= Row_Count; i++) {
+				String Add_New = Browser.WebTable.getCellData("Address", i, AL);
+				if (Add_New.equalsIgnoreCase(Address1)) {
+					Calendar cals1 = Calendar.getInstance();
+					cals1.add(Calendar.DATE, 1);
+					String END = ResumeDate.format(cals1.getTime()).toString();
+					Browser.WebTable.SetDataE("Address", i, ED1, "End_Date", END);
+					CO.waitforload();
+					Browser.WebTable.click("Address", i, Ac);
+					Browser.WebTable.click("Address", i, Ac);
+					CO.waitforload();
+					Browser.WebTable.click_che("Address", i, Ac);
+					CO.waitforload();
+					Result.takescreenshot("");
+
+				}
+
+			}
+			Browser.WebButton.click("Home_Button");
+			Browser.WebButton.waittillvisible("LI_New");
+			Browser.WebButton.click("Order_DueDate");
+			Browser.WebButton.click("Date_Now");
+			Browser.WebButton.click("Date_Done");
+			Result.takescreenshot("");
+			CO.waitforload();
+			CO.Text_Select("a", "Appointments");
+			CO.waitforload();
+			int Col, Row_Val = 0;
+			Row_Count = Browser.WebTable.getRowCount("Line_Items");
+			Col = CO.Actual_Cell("Line_Items", "Product");
+			int Col_A = CO.Actual_Cell("Line_Items", "Action");
+			for (int i = 2; i <= Row_Count; i++) {
+				String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+				String Actio = Browser.WebTable.getCellData("Line_Items", i, Col_A);
+				if (GetData.equalsIgnoreCase(LData) && (Actio.equalsIgnoreCase("Add"))) {
+					Row_Val = i;
+					break;
+				}
+			}
+			Browser.WebTable.click("Line_Items", Row_Val, (Col + 1));
+			CO.waitforload();
+			Browser.WebButton.click("Activ_New");
+			CO.Text_Select("span", "Book Appointment");
+			CO.waitforload();
+			CO.Text_Select("span", "Confirm");
+			Result.takescreenshot("Appointment added Successfully");
+			CO.Action_Update("Add", "MSISDN");
+
+			CO.scroll("Service", "WebButton");
+			String Order_no = CO.Order_ID();
+			SalesOrder_No.set(Order_no);
+			Utlities.StoreValue("Order_no", SalesOrder_No.get());
+			Test_OutPut += "Order_no : " + SalesOrder_No.get() + ",";
+			Browser.WebButton.waittillvisible("Validate");
+			Browser.WebButton.click("Validate");
+			if (CO.isAlertExist()) {
+				Continue.set(false);
+			}
+			CO.waitmoreforload();
+			CO.waitforload();
+			if (Continue.get()) {
+				Browser.WebButton.waittillvisible("Submit");
+				CO.scroll("Submit", "WebButton");
+				Browser.WebButton.click("Submit");
+				CO.waitmoreforload();
+				if (CO.isAlertExist()) {
+					Continue.set(false);
+				}
+			}
+
+			if (Continue.get() && Row_Count > 1) {
+				Status = "PASS";
+			} else {
+				Result.fUpdateLog("Create_A/c button not exist");
+				Status = "FAIL";
+			}
+
+		} catch (Exception e) {
+			Continue.set(false);
+			Status = "FAIL";
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Home Move Event Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
 }

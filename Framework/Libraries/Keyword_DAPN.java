@@ -14,6 +14,7 @@ public class Keyword_DAPN extends Driver
 	Common CO = new Common();
 	Random R = new Random();
 	Keyword_CRM KC = new Keyword_CRM();
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: PlanSelection
 	 * Arguments			: None
@@ -156,39 +157,29 @@ public class Keyword_DAPN extends Driver
 			}
 
 			if (ReservationToken != "") {
-				Browser.WebButton.click("Customize");
-				if (ReservationToken != "") {
-					Browser.WebEdit.waittillvisible("NumberReservationToken");
-					Browser.WebEdit.Set("NumberReservationToken", ReservationToken);
-					Result.takescreenshot("Providing Number Reservation Token");
-				}
-				CO.waitforload();
-				CO.Text_Select("button", "Verify");
-				CO.isAlertExist();
-				CO.waitforload();
-				CO.Text_Select("button", "Done");
-				CO.waitforload();
-				if (CO.isAlertExist())
-					Continue.set(false);
+
+				Browser.WebEdit.waittillvisible("NumberReservationToken");
+				Browser.WebEdit.Set("NumberReservationToken", ReservationToken);
+				Result.takescreenshot("Providing Number Reservation Token");
 			}
+			CO.waitforload();
 
 			Browser.WebButton.click("Customize");
 			CO.waitforload();
 			CO.Link_Select("Others");
 			CO.waitforload();
-			if(getdata("Provision_Type")=="Static") {
+			if (getdata("Provision_Type") == "Static") {
 				CO.Radio_Select("APN Service");
 				CO.waitforload();
 				CO.Radio_Select("APN Static IP Address");
 				CO.waitforload();
-			}else if(getdata("Provision_Type")=="Dynamic")
-			{
+			} else if (getdata("Provision_Type") == "Dynamic") {
 				CO.Radio_Select("APN Service");
 				CO.waitforload();
 				CO.Radio_Select("APN Dynamic IP Address");
 				CO.waitforload();
 			}
-			
+
 			CO.Text_Select("button", "Verify");
 			CO.isAlertExist();
 			CO.waitforload();
@@ -355,29 +346,29 @@ public class Keyword_DAPN extends Driver
 
 			CO.Title_Select("button", "APN Details:OK");
 			CO.waitforload();
-			if(getdata("Provision_Type")=="Static") {
-			GData = "APN Static IP Address";
-			Row_Count = Browser.WebTable.getRowCount("Line_Items");
-			for (int i = 2; i <= Row_Count; i++) {
-				String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
-				if (GData.equals(LData)) {
-					Row_Val = i;
-					break;
+			if (getdata("Provision_Type") == "Static") {
+				GData = "APN Static IP Address";
+				Row_Count = Browser.WebTable.getRowCount("Line_Items");
+				for (int i = 2; i <= Row_Count; i++) {
+					String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+					if (GData.equals(LData)) {
+						Row_Val = i;
+						break;
+					}
 				}
-			}
-			CO.waitforload();
-			CO.waitforload();
-			CO.Popup_Click("Line_Items", Row_Val, Con_No);
-			CO.waitforload();
+				CO.waitforload();
+				CO.waitforload();
+				CO.Popup_Click("Line_Items", Row_Val, Con_No);
+				CO.waitforload();
 
-			CO.Title_Select("button", "APN Details:OK");
-			CO.waitforload();
-			CO.waitforload();
-			CO.Popup_Click("Line_Items", Row_Val, Con_N1);
-			CO.waitforload();
-			CO.waitforload();
+				CO.Title_Select("button", "APN Details:OK");
+				CO.waitforload();
+				CO.waitforload();
+				CO.Popup_Click("Line_Items", Row_Val, Con_N1);
+				CO.waitforload();
+				CO.waitforload();
 
-			Browser.WebButton.click("Static_ok");
+				Browser.WebButton.click("Static_ok");
 			}
 			CO.waitforload();
 
@@ -413,6 +404,7 @@ public class Keyword_DAPN extends Driver
 		Result.fUpdateLog("------Plan Selection Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: UpgradePromotion_DAPN()()
 	 * Arguments			: None
@@ -474,7 +466,7 @@ public class Keyword_DAPN extends Driver
 			CO.waitforload();
 			Browser.WebButton.click("Promotion_Go");
 			CO.waitforload();
-			//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
+			// Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
 			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
 			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
 			Result.takescreenshot("New Plane is entered in Plan Upgrade Pop Up");
@@ -584,6 +576,5 @@ public class Keyword_DAPN extends Driver
 		return Status + "@@" + Test_OutPut + "<br/>";
 
 	}
-
 
 }

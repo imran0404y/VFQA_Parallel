@@ -10373,13 +10373,6 @@ public class Keyword_CRM extends Driver {
 		String Test_OutPut = "", Status = "";
 
 		try {
-			String GetData;
-			if (!(getdata("GetData").equals(""))) {
-				GetData = getdata("GetData");
-			} else {
-				GetData = pulldata("GetData");
-			}
-
 			CO.Account_Search(getdata("AccountNo"));
 
 			int Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
@@ -10731,7 +10724,6 @@ public class Keyword_CRM extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public String getPUK() {
 		String Test_OutPut = "", Status = "", MSISDN = null, SData = "SIM Card";
-		int Row = 1, Col, flag = 1, Count = 1;
 		int Row_Count, Row_Val = 0;
 		try {
 			if (!(getdata("MSISDN").equals(""))) {
@@ -10746,7 +10738,7 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.click("Expand");
 			}
 			Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
-			Col = CO.Actual_Cell("Installed_Assert", "Product");
+			int Col = CO.Actual_Cell("Installed_Assert", "Product");
 			for (int i = 2; i <= Row_Count; i++) {
 				String LData = Browser.WebTable.getCellData("Installed_Assert", i, Col);
 				if (SData.equalsIgnoreCase(LData))
@@ -11693,7 +11685,7 @@ public class Keyword_CRM extends Driver {
 	public String DisconnectSharedBundle() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN, Order_no, Order_Reason, GetData, ShareData, AccountNo;
+		String MSISDN, Order_no, Order_Reason, ShareData, AccountNo;
 		int Col, Col_P;
 		Result.fUpdateLog("------Disconnect Event Details------");
 		try {
@@ -11713,11 +11705,6 @@ public class Keyword_CRM extends Driver {
 				Order_Reason = getdata("Order_Reason");
 			} else {
 				Order_Reason = pulldata("Order_Reason");
-			}
-			if (!(getdata("GetData").equals(""))) {
-				GetData = getdata("GetData");
-			} else {
-				GetData = pulldata("GetData");
 			}
 			if (!(getdata("ShareData").equals(""))) {
 				ShareData = getdata("ShareData");
@@ -11861,6 +11848,305 @@ public class Keyword_CRM extends Driver {
 			e.printStackTrace();
 		}
 		Result.fUpdateLog("------Disconnect Event Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: ReplicateOrder
+	 * Arguments			: None
+	 * Use 					: Replicate recent successfull order in the account
+	 * Designed By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 18-July-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String ReplicateOrder() {
+		String Test_OutPut = "", Status = "";
+		String AccountNo, Order_no, MSISDN, SIM, ReservationToken, GetData, StarNumber = null;// ,GetData
+		Result.fUpdateLog("------ Replicate Order - Siebel ---------");
+		try {
+			int Row = 2, Col_Res, Row_Count, Col, Row_Val = 3;
+
+			if (!(getdata("AccountNo").equals(""))) {
+				AccountNo = getdata("AccountNo");
+			} else {
+				AccountNo = pulldata("AccountNo");
+			}
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}
+			if (!(getdata("SIM").equals(""))) {
+				SIM = getdata("SIM");
+			} else {
+				SIM = pulldata("SIM");
+			}
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+
+			if (!(getdata("ReservationToken").equals(""))) {
+				ReservationToken = getdata("ReservationToken");
+			} else {
+				ReservationToken = pulldata("ReservationToken");
+			}
+
+			if (!(getdata("StarNumber").equals(""))) {
+				StarNumber = getdata("StarNumber");
+			} else if (!(pulldata("StarNumber").equals(""))) {
+				StarNumber = pulldata("StarNumber");
+			}
+
+			if (!(getdata("ReservationToken").equals(""))) {
+				ReservationToken = getdata("ReservationToken");
+			} else {
+				ReservationToken = pulldata("ReservationToken");
+			}
+
+			CO.Account_Search(AccountNo);
+
+			Result.takescreenshot("Account : " + AccountNo + " Navigation ");
+			Result.fUpdateLog("Account : " + AccountNo + " Navigation ");
+			do {
+				CO.TabNavigator("Orders");
+				CO.waitforload();
+				if (CO.isAlertExist())
+					CO.TabNavigator("Orders");
+				// Browser.WebButton.click("Orders_Tab");
+				/*
+				 * if (Browser.WebEdit.waitTillEnabled("Order_Valid_Name")) { j = 0; break; }
+				 */
+
+			} while (!Browser.WebTable.waitTillEnabled("Order_Table"));
+			Browser.WebTable.waittillvisible("Order_Table");
+
+			Result.takescreenshot("Orders Tab Navigation");
+			Result.fUpdateLog("Orders Tab Navigation");
+
+			Actions a = new Actions(cDriver.get());
+			WebElement we = cDriver.get().findElement(By.xpath("//body"));
+			a.sendKeys(we, Keys.chord(Keys.CONTROL, "b")).perform();
+
+			CO.waitmoreforload();
+			CO.waitforload();
+			int Col_new = CO.Actual_Cell("Order_Table", "Status");
+			boolean flag = true;
+
+			do {
+				String orderstatus = Browser.WebTable.getCellData_title("Order_Table", 2, Col_new);
+				if (orderstatus.equalsIgnoreCase("Pending")) {
+					flag = false;
+					break;
+				}
+			} while (flag);
+
+			Col = CO.Get_Col("Order_Table", Row, "Sales Order");
+			Browser.WebTable.click("Order_Table", Row, Col);
+			String Order_No = Browser.WebTable.getCellData("Order_Table", 2, (Col - 1));
+
+			String OD_Date;
+			Col_new = CO.Actual_Cell("Order_Table", "Order Date");
+			Browser.WebTable.click("Order_Table", Row, Col_new);
+			OD_Date = Browser.WebTable.getCellData_title("Order_Table", 2, Col_new);
+			String[] Date = OD_Date.split(" ")[0].split("/");
+			OrderDate.set((Date[1] + "-" + Date[0] + "-" + Date[2]));
+
+			Browser.WebTable.clickA("Order_Table", Row, (Col - 1));
+			SalesOrder_No.set(Order_No);
+			do {
+				CO.waitforload();
+			} while (!Browser.WebLink.waitTillEnabled("Line_Items"));
+			Browser.WebLink.waittillvisible("Line_Items");
+			Browser.WebLink.click("Line_Items");
+			CO.waitforload();
+			if (Browser.WebLink.exist("SalesOd_Expand")) {
+				Browser.WebLink.click("SalesOd_Expand");
+				CO.waitforload();
+			}
+			CO.waitforload();
+
+			Col = CO.Select_Cell("Line_Items", "Product");
+			CO.waitforload();
+			// -----------------------
+
+			Row_Count = Browser.WebTable.getRowCount("Line_Items");
+
+			int Col_S = CO.Select_Cell("Line_Items", "Service Id");
+
+			// To select the Mobile Bundle
+			int Col_V = Col + 2;
+			if (ReservationToken.equals("")) {
+				CO.scroll("Numbers", "WebLink");
+				Browser.WebLink.click("Numbers");
+				CO.waitforload();
+				Row_Count = Browser.WebTable.getRowCount("Numbers");
+				int Col_cat = CO.Select_Cell("Numbers", "Category");
+				int Col_pri = CO.Select_Cell("Numbers", "Price From");
+				Col_Res = CO.Select_Cell("Numbers", "(Start) Number");
+				if (Row_Count == 1)
+					Browser.WebButton.click("Number_Query");
+				Browser.WebLink.click("Num_Manage");
+				CO.waitforload();
+
+				if (!MSISDN.equals("")) {
+
+					String Reserve = MSISDN.substring(3, MSISDN.length());
+					Browser.WebTable.SetData("Numbers", Row, Col_Res, "Service_Id", Reserve);
+					// Browser.WebButton.click("Number_Go");
+					CO.waitforload();
+				} else {
+					Browser.WebButton.click("Number_Go");
+					CO.waitforload();
+					CO.waitforload();
+					Browser.WebTable.click("Numbers", (Row + 1), Col);
+					MSISDN = Browser.WebTable.getCellData("Numbers", (Row + 1), Col_Res);
+
+				}
+
+				String Category = Browser.WebTable.getCellData("Numbers", Row, Col_cat);
+				if (StarNumber == null) {
+					StarNumber = Browser.WebTable.getCellData("Numbers", Row, Col_pri);
+					StarNumber = StarNumber.substring(2, StarNumber.length());
+					StarNumber = StarNumber.replaceAll(",", "");
+				}
+				Result.takescreenshot("proceeding for Number Reservation");
+
+				Result.fUpdateLog("Category " + Category);
+				Browser.WebButton.click("Reserve");
+				if (CO.isAlertExist()) {
+					Result.takescreenshot("Number Reseved");
+					Result.fUpdateLog("Alert Handled");
+				}
+
+				Browser.WebLink.waittillvisible("Line_Items");
+				Browser.WebLink.click("Line_Items");
+				CO.waitforload();
+				// Browser.WebLink.click("LI_Totals");
+				CO.waitforload();
+				Col = CO.Actual_Cell("Line_Items", "Product");
+				Row_Count = Browser.WebTable.getRowCount("Line_Items");
+
+				if (Category.contains("STAR")) {
+
+					String StarNoApproval = "";
+					if (!(getdata("Spendlimit").equals(""))) {
+						StarNoApproval = getdata("Spendlimit");
+					} else {
+						StarNoApproval = "For Testing Only";
+					}
+
+					for (int i = 2; i <= Row_Count; i++) {
+						String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+						if (GetData.equalsIgnoreCase(LData)) {
+							Row_Val = i;
+							break;
+						}
+					}
+					Browser.WebTable.click("Line_Items", Row_Val, Col_V);
+					CO.Text_Select("span", "Customize");
+					CO.Link_Select("Others");
+					CO.scroll("Star_Number_purch", "WebEdit");
+					CO.waitforload();
+					CO.scroll("Star_Number_purch", "WebEdit");
+					Browser.WebEdit.Set("Star_Number_purch", StarNumber);
+					CO.waitforload();
+					CO.Text_Select("option", "Default");
+					CO.waitforload();
+					CO.Text_Select("option", StarNoApproval);
+					CO.waitforload();
+					Result.takescreenshot("");
+					CO.Text_Select("button", "Verify");
+					CO.isAlertExist();
+					CO.waitforload();
+					CO.Text_Select("button", "Done");
+					if (CO.isAlertExist()) {
+						Continue.set(false);
+						System.exit(0);
+					}
+
+				}
+				CO.waitforload();
+				Row_Count = Browser.WebTable.getRowCount("Line_Items");
+				if (Row_Count <= 3) {
+					Browser.WebButton.waittillvisible("Expand");
+					Browser.WebButton.click("Expand");
+				}
+				Col = CO.Actual_Cell("Line_Items", "Product");
+				Col_S = CO.Actual_Cell("Line_Items", "Service Id");
+				for (int i = 2; i <= Row_Count; i++) {
+					String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+					if (GetData.equalsIgnoreCase(LData)) {
+						Row_Val = i;
+					}
+				}
+				CO.waitforload();
+				CO.waitforload();
+				CO.Popup_Click("Line_Items", Row_Val, Col_S);
+				CO.waitforload();
+				String Reserve = MSISDN.substring(3, MSISDN.length());
+				CO.Popup_Selection("Number_Selection", "Number", Reserve);
+
+			} else if (!ReservationToken.equals("")) {
+				CO.waitforload();
+				Row_Count = Browser.WebTable.getRowCount("Line_Items");
+				if (Row_Count <= 3) {
+					Browser.WebButton.waittillvisible("Expand");
+					Browser.WebButton.click("Expand");
+				}
+				Col_S = CO.Actual_Cell("Line_Items", "Service Id");
+
+				for (int i = 2; i <= Row_Count; i++) {
+					String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+					if (GetData.equalsIgnoreCase(LData))
+						Row_Val = i;
+				}
+				Browser.WebTable.click("Line_Items", Row_Val, Col_S);
+				Browser.WebTable.SetData("Line_Items", Row_Val, Col_S, "Service_Id", MSISDN);
+
+			}
+			// To Provide SIM No
+			Row_Count = Browser.WebTable.getRowCount("Line_Items");
+			if (Row_Count <= 3) {
+				Browser.WebButton.waittillvisible("Expand");
+				Browser.WebButton.click("Expand");
+			}
+			CO.waitforload();
+			for (int i = 2; i <= Row_Count; i++) {
+				String SData = "";
+				String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+				if (SData.equalsIgnoreCase(LData))
+					Row_Val = i;
+			}
+
+			Browser.WebTable.click("Line_Items", Row_Val, Col_S);
+			Browser.WebTable.SetData("Line_Items", Row_Val, Col_S, "Service_Id", SIM);
+
+			Test_OutPut += OrderSubmission().split("@@")[1];
+			Order_no = CO.Order_ID();
+			Utlities.StoreValue("Order_no", Order_no);
+			Test_OutPut += "Order_no : " + Order_no + ",";
+
+			CO.ToWait();
+
+			if (Continue.get()) {
+				Test_OutPut += "Replicate Order - Siebel is done Successfully " + ",";
+				Result.fUpdateLog("Replicate Order - Siebel is  done successfully");
+				Status = "PASS";
+			} else {
+				Test_OutPut += "Replicate Order - Siebel Failed" + ",";
+				Result.takescreenshot("Replicate Order - Siebel Failed");
+				Result.fUpdateLog("Replicate Order - Siebel Failed");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + e.getMessage());
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Replicate Order - Siebel - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 

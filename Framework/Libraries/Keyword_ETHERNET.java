@@ -43,6 +43,7 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 			Browser.WebButton.click("Bill_acc_add");
 			CO.waitforload();
+			CO.waitforload();
 			int Row = 2, Col, Col1;
 			Col = CO.Select_Cell("Sub_Account", "Account");
 			Browser.WebTable.click("Sub_Account", Row, Col);

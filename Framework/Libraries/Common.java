@@ -333,7 +333,9 @@ public class Common extends Driver {
 					.findElements(By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[" + i
 							+ "]//div[1]//table//div[1]//div[1]//input"));
 			waitforload();
+			waitforload();
 			for (int t = 1; t < cellXpath.size(); t++) {
+				waitforload();
 				if (cellXpath.get(t).getAttribute("value").equals(Text)) {
 					if (cellXpath.get(t).getAttribute("type").equals("radio")) {
 						// Radio Button

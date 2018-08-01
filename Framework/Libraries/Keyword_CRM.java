@@ -1367,7 +1367,7 @@ public class Keyword_CRM extends Driver {
 			}
 
 			if (Continue.get()
-					&& (getdata("Smartlimit").equalsIgnoreCase("") && (!getdata("Smartlimit").equalsIgnoreCase("")))) {
+					&& (getdata("Smartlimit").equalsIgnoreCase("") || (!getdata("Smartlimit").equalsIgnoreCase("")))) {
 				switch (UseCaseName.get()) {
 				case "ConsumerPostpaid_Provision":
 				case "ConsumerPostpaid_Prov_OrdPay":
@@ -1999,11 +1999,13 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.waittillvisible("Expand");
 				Browser.WebButton.click("Expand");
 			}
-
+			Result.takescreenshot("");
 			LineItemData.clear();
 			CO.Status(Add_Addon);
+			Result.takescreenshot("");
 			CO.waitforload();
 			CO.Status(Remove_Addon);
+			Result.takescreenshot("");
 			CO.waitforload();
 			Order_no = CO.Order_ID();
 			Utlities.StoreValue("Order_no", Order_no);
@@ -5079,7 +5081,7 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.click("Expand");
 			}
 			CO.Action_Update("Resume", MSISDN);
-			// Test_OutPut += OrderSubmission().split("@@")[1];
+			Test_OutPut += OrderSubmission().split("@@")[1];
 
 			// fetching Order_no
 			Order_no = CO.Order_ID();

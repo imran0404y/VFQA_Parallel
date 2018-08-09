@@ -227,29 +227,8 @@ public class Keyword_PEARL extends Driver {
 					}
 				}
 				CO.waitforload();
-				CO.waitforload();
-				CO.Popup_Click("Line_Items", Row_Val, Col_S);
-				CO.waitforload();
-				Reserve = MSISDN.substring(3, MSISDN.length());
-				CO.waitforload();
-				Browser.WebButton.click("PopupQuery");
-				Col = CO.PopupHeader("Number_Selection", "Number");
-				int Col1 = CO.PopupHeader("Number_Selection", "Service Type");
-
-				// CO.waitforload();
-				if ((Browser.WebTable.getRowCount("Number_Selection") == 2)) {
-					Browser.WebTable.SetDataE("Number_Selection", 2, Col1, "Service_Type", "PEARL");
-					Browser.WebTable.SetData("Number_Selection", 2, Col, "Number", Reserve);
-
-					Row_Count = Browser.WebTable.getRowCount("Number_Selection");
-					Result.fUpdateLog("");
-					if (Row_Count > 1) {
-						CO.scroll("Popup_OK", "WebButton");
-						Browser.WebButton.click("Popup_OK");
-					} else
-						Driver.Continue.set(false);
-				} else
-					Driver.Continue.set(false);
+				Browser.WebTable.click("Line_Items", Row_Val, Col_S);
+				Browser.WebTable.SetData("Line_Items", Row_Val, Col_S, "Service_Id", MSISDN);
 
 			} else if (!ReservationToken.equals("")) {
 				CO.waitforload();

@@ -11,7 +11,7 @@ public class Keyword_OSM extends Driver {
 	 * Method Name			: OSM_Login
 	 * Arguments			: None
 	 * Use 					: Opens a New Browser and logins to the OSM application
-	 * Designed By			: Sravani Reddy
+	 * Designed By			: Sravani Reddy C
 	 * Last Modified Date 	: 17-Oct-2017
 	--------------------------------------------------------------------------------------------------------*/
 	public String OSM_Login() {

@@ -37,7 +37,7 @@ public class Keyword_ETHERNET extends Driver {
 			KC.Entp_AccountCreation();
 			KC.Entp_ContactCreation();
 			 
-			// sub Accou
+			// sub Account
 			Result.takescreenshot("");
 			CO.TabNavigator("Sub-Accounts");
 			CO.waitforload();

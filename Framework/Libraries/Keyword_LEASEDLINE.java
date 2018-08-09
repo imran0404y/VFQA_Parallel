@@ -319,7 +319,7 @@ public class Keyword_LEASEDLINE extends Driver {
 			
 			// Access1 Customize
 	
-			// node 1
+		
 			Col_S = CO.Select_Cell("Line_Items", "Net Price");
 			
 			if (!(getdata("LLCharges").equals(""))

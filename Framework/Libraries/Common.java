@@ -2591,9 +2591,6 @@ public class Common extends Driver {
 			Result.takescreenshot("");
 			Browser.WebButton.click("Promotion_Go");
 			waitforload();
-			/*//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
-			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
-			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);*/
 			Result.takescreenshot("New Plane is entered in Plan Upgrade Pop Up");
 			waitforload();
 

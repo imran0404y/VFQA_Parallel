@@ -13,7 +13,7 @@ public class Keyword_PEARL extends Driver {
 	 * Method Name			: PlanSelection_Pearl
 	 * Arguments			: None
 	 * Use 					: Specified Plan is selected for the Order in Vanilla Journey
-	 * Designed By			: SravaniReddy
+	 * Designed By			: SravaniReddy C
 	 * Last Modified Date 	: 14-Mar-2018
 	--------------------------------------------------------------------------------------------------------*/
 	public String PlanSelection_Pearl() {

@@ -6211,7 +6211,7 @@ public class Keyword_CRM extends Driver {
 	 * Last Modified Date 	: 01-Mar-2018
 	--------------------------------------------------------------------------------------------------------*/
 	public String TransferOfOwnership_E2C() {
-		String Test_OutPut = "", Status = "", BP_Name = null;
+		String Test_OutPut = "", Status = "";
 		String Account_No = "", GetData, Bil_Profile = "", Payment_Method = null, Pymt_Type = null, PM_MSISDN = null,
 				Ac_No;
 		int Inst_RowCount, Col_P, Col_Type1, Row = 2, Col_Type = 0, Col_Nam = 0, k, Row_Count, Col_Val;

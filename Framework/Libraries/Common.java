@@ -339,6 +339,8 @@ public class Common extends Driver {
 				if (cellXpath.get(t).getAttribute("value").equals(Text)) {
 					if (cellXpath.get(t).getAttribute("type").equals("radio")) {
 						// Radio Button
+						waitforload();
+						waitforload();
 						((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)",
 								cellXpath.get(0));
 						waitforload();
@@ -347,6 +349,7 @@ public class Common extends Driver {
 						break;
 					} else {
 						// Check box
+						waitforload();
 						((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)",
 								cellXpath.get(t));
 						waitforload();
@@ -383,15 +386,19 @@ public class Common extends Driver {
 				if (Length > 1) {
 					Thread.sleep(3000);
 					Link_Select(Prod_array[0]);
+					waitforload();
 					Result.takescreenshot("Add on Tab");
 					if (Status.equals("Delete")) {
 						Result.fUpdateLog("------Modify Remove Addon Event Details------");
 						for (int j = 1; j < Prod_array.length; j++) {
 							String Addon[] = Prod_array[j].split("::");
 							if (Addon.length > 1) {
+								
+								waitforload();
 								Radio_None(Addon[0]);
 								Result.takescreenshot("Deletion of Addon");
 							} else {
+								waitforload();
 								Radio_None(Addon[0]);
 								Result.takescreenshot("Deletion of Addon");
 							}
@@ -947,7 +954,7 @@ public class Common extends Driver {
 				if (LData.equalsIgnoreCase("Mobile Service Bundle"))
 					Row_Val = i;
 			}
-			int Col_S = Actual_Cell("Installed_Assert", "Status");
+			int Col_S = Actual_Cell("Installed_Assert", "Asset Description");
 			Browser.WebTable.click("Installed_Assert", Row_Val, Col_S);
 			waitforload();
 			int Col1 = Select_Cell("Installed_Assert", "Billing Profile");
@@ -1840,22 +1847,25 @@ public class Common extends Driver {
 			GetData = pulldata("GetData");
 		}
 		RadioL(Disc_Addon);
+		waitforload();
 		String cellXpath = "//input[@value='" + Discount + "']";
 
 		if (cDriver.get().findElement(By.xpath(cellXpath)).isDisplayed()) {
 			WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 			((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
 			cDriver.get().findElement(By.xpath(cellXpath)).click();
-
+			Result.takescreenshot("");
 		} else
 		{
 			Continue.set(false);
+		}
 		waitforload();
 		waitforload();
 		cDriver.get().findElement(By.xpath("//div[@class='cxThread']//a[text()='" + GetData + "']")).click();
 		waitforload();
 		waitforload();
-		}
+		Result.takescreenshot("");
+		
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -2577,11 +2587,13 @@ public class Common extends Driver {
 			} while (a);
 			Browser.WebEdit.Set("Promotion_name", New_PlanName);
 			waitforload();
+			waitforload();
+			Result.takescreenshot("");
 			Browser.WebButton.click("Promotion_Go");
 			waitforload();
-			//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
+			/*//Browser.WebEdit.Set("PopupQuery_Search", New_PlanName);
 			String Path[] = Utlities.FindObject("PopupQuery_Search", "WebEdit");
-			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);
+			cDriver.get().findElement(By.xpath(Path[0])).sendKeys(Keys.ENTER);*/
 			Result.takescreenshot("New Plane is entered in Plan Upgrade Pop Up");
 			waitforload();
 
@@ -2699,10 +2711,13 @@ public class Common extends Driver {
 	public void RadioL(String Text) {
 		Radio_Select(Text);
 		waitforload();
+		waitforload();
+	
 		Result.fUpdateLog("Initiating Customisation");
 		cDriver.get()
 				.findElement(By.xpath("//div[@class='div-table siebui-ecfg-table-collapse']//a[text()='" + Text + "']"))
 				.click();
+		waitforload();
 		Result.takescreenshot("Customising the Addon " + Text);
 		Result.fUpdateLog("Customising the Addon " + Text);
 		waitforload();

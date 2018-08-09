@@ -25,7 +25,7 @@ public class Keyword_ETHERNET extends Driver {
 		try {
 
 			String Layer2_Feature;
-			String Layer2_service_Access;
+	
 			Network = pulldata("Network");
 			VPN_Access1 = pulldata("VPN Access 1");
 			VPN_Access2 = pulldata("VPN Access 2");
@@ -33,7 +33,7 @@ public class Keyword_ETHERNET extends Driver {
 			VPN_Node_2 = pulldata("VPN Node2");
 			Virtual_Connection = pulldata("Virtual Connection");
 			Layer2_Feature = pulldata("Layer2 Features");
-			Layer2_service_Access = pulldata("Layer2 Service - Access");
+			
 			KC.Entp_AccountCreation();
 			KC.Entp_ContactCreation();
 			 
@@ -410,87 +410,227 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 			Result.takescreenshot("");
 			// Access 1 Customize
+			Col_S = CO.Select_Cell("Line_Items", "Net Price");
+			if (!!(getdata("Layer2_Ethernet_Services").equals(""))
+					|| !(getdata("Layer2_Ethernet_Charges").equals(""))
+					|| !(getdata("Layer2_Ethernet_Charges").equals(""))) {
+				
+
+				Browser.WebTable.click("Line_Items",3, Col_S);
+				CO.waitforload();
+				CO.Text_Select("span", "Customize");
+				CO.waitforload();
+				
+
+
+				if (!(getdata("Layer2_Ethernet_Services").equals(""))) {
+					
+
+					String Addon =getdata("Layer2_Ethernet_Services");
+					CO.Text_Select("a","Layer2 Ethernet Services");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+									
+					
+				}
+				if (!(getdata("Layer2_Ethernet_Charges").equals(""))) {
+
+					String Addon =getdata("Layer2_Ethernet_Charges");
+					CO.Text_Select("a","Layer2 Ethernet Charges");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+				
+					
+				}
+				if (!(getdata("Layer2_Ethernet_Features").equals(""))) {
+
+					String Addon =getdata("Layer2_Ethernet_Features");
+					CO.Text_Select("a","Layer2 Ethernet Features");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+					CO.waitforload();
+					
+				}
+				
+				CO.waitforload();
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.waitforload();
+				CO.Text_Select("button", "Done");
+
+				CO.waitforload();
+
+			}
+
+	
+			// Access 2 Customize
+			
+			if (!!(getdata("Layer2_Ethernet_Services").equals(""))
+					|| !(getdata("Layer2_Ethernet_Charges").equals(""))
+					|| !(getdata("Layer2_Ethernet_Charges").equals(""))) {
+				
+
+				Browser.WebTable.click("Line_Items",4, Col_S);
+				CO.waitforload();
+				CO.Text_Select("span", "Customize");
+				CO.waitforload();
+				
+
+
+				if (!(getdata("Layer2_Ethernet_Services").equals(""))) {
+					
+
+					String Addon =getdata("Layer2_Ethernet_Services");
+					CO.Text_Select("a","Layer2 Ethernet Services");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+									
+					
+				}
+				if (!(getdata("Layer2_Ethernet_Charges").equals(""))) {
+
+					String Addon =getdata("Layer2_Ethernet_Charges");
+					CO.Text_Select("a","Layer2 Ethernet Charges");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+				
+					
+				}
+				if (!(getdata("Layer2_Ethernet_Features").equals(""))) {
+
+					String Addon =getdata("Layer2_Ethernet_Features");
+					CO.Text_Select("a","Layer2 Ethernet Features");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+					CO.waitforload();
+					
+				}
+				
+				CO.waitforload();
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.waitforload();
+				CO.Text_Select("button", "Done");
+
+				CO.waitforload();
+
+			}
+			
+			// Node 1 Customize
+			
+			
+			if (!(getdata("Layer2_Ethernet_Node_Features").equals(""))
+					|| !(getdata("Layer2_Ethernet_Node_Charges").equals(""))) {
+				
+
+				Browser.WebTable.click("Line_Items", 5, Col_S);
+				CO.waitforload();
+				CO.Text_Select("span", "Customize");
+				CO.waitforload();
+				
+
+				if (!(getdata("Layer2_Ethernet_Node_Features").equals(""))) {
+
+					String Addon =getdata("LLNodeFeatures");
+					CO.Radio_Select1(Addon);
+					CO.scroll("Ecofig_Add", "WebButton");
+					CO.waitforload();
+					cDriver.get().findElement(By.xpath("//div[text()='Item']//following::select[1]")).click();
+					Actions cpe = new Actions(cDriver.get());
+					cpe.sendKeys(Keys.ARROW_DOWN).build().perform();
+					cpe.sendKeys(Keys.ENTER).build().perform();
+
+					cDriver.get().findElement(By.xpath("//div[text()='Qty']//following::input[1]")).sendKeys("1");
+
+					CO.waitforload();
+					Result.takescreenshot("");
+
+					CO.Text_Select("button", "Add Item");
+					
+					
+				}
+				if (!(getdata("Layer2_Ethernet_Node_Charges").equals(""))) {
+
+					String Addon =getdata("Layer2_Ethernet_Node_Charges");
+					CO.Text_Select("a","Layer2 Ethernet NodeCharges");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+				
+					
+				}
+							
+				CO.waitforload();
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.waitforload();
+				CO.Text_Select("button", "Done");
+
+				CO.waitforload();
+
+			}
 
 			
-			Browser.WebTable.click("Line_Items", 3, Col_S);
-			CO.Text_Select("span", "Customize");
-			CO.waitforload();
-			Result.takescreenshot("");
-			CO.Radio_Select1(Layer2_service_Access);
-			CO.waitforload();
-			CO.Text_Select("button", "Verify");
-			CO.isAlertExist();
-			CO.waitforload();
-			CO.Text_Select("button", "Done");
-			Result.takescreenshot("");
-			// Access 2 Customize
-			Browser.WebTable.click("Line_Items", 4, Col_S);
-			CO.Text_Select("span", "Customize");
-			CO.waitforload();
-			Result.takescreenshot("");
-			CO.Radio_Select1(Layer2_service_Access);
-			CO.waitforload();
-			CO.Text_Select("button", "Verify");
-			CO.isAlertExist();
-			CO.waitforload();
-			CO.Text_Select("button", "Done");
-			Result.takescreenshot("");
-
-			// Node 1 Customize
-
-			Browser.WebTable.click("Line_Items", 5, Col_S);
-			CO.waitforload();
-			CO.Text_Select("span", "Customize");
-			CO.waitforload();
-			Result.takescreenshot("");
-
-			cDriver.get().findElement(By.xpath("//div[text()=\"Item\"]//following::select[1]")).click();
-			Actions cpe = new Actions(cDriver.get());
-			cpe.sendKeys(Keys.ARROW_DOWN).build().perform();
-			cpe.sendKeys(Keys.ENTER).build().perform();
-
-			cDriver.get().findElement(By.xpath("//div[text()=\"Qty\"]//following::input[1]")).sendKeys("1");
-
-			CO.waitforload();
-
-			Result.takescreenshot("");
-
-			CO.Text_Select("button", "Add Item");
-			CO.waitforload();
-			CO.Text_Select("button", "Verify");
-			CO.isAlertExist();
-			CO.waitforload();
-			CO.Text_Select("button", "Done");
-
-			CO.waitforload();
+			
 
 			// Node 2 Customize
+			if (!(getdata("Layer2_Ethernet_Node_Features").equals(""))
+					|| !(getdata("Layer2_Ethernet_Node_Charges").equals(""))) {
+				
 
-			Browser.WebTable.click("Line_Items", 6, Col_S);
-			CO.waitforload();
-			CO.Text_Select("span", "Customize");
-			CO.waitforload();
-			Result.takescreenshot("");
+				Browser.WebTable.click("Line_Items", 6, Col_S);
+				CO.waitforload();
+				CO.Text_Select("span", "Customize");
+				CO.waitforload();
+				
 
-			cDriver.get().findElement(By.xpath("//div[text()=\"Item\"]//following::select[1]")).click();
-			Actions cpe1 = new Actions(cDriver.get());
-			cpe1.sendKeys(Keys.ARROW_DOWN).build().perform();
-			cpe1.sendKeys(Keys.ENTER).build().perform();
+				if (!(getdata("Layer2_Ethernet_Node_Features").equals(""))) {
 
-			cDriver.get().findElement(By.xpath("//div[text()=\"Qty\"]//following::input[1]")).sendKeys("1");
+					String Addon =getdata("LLNodeFeatures");
+					CO.Radio_Select1(Addon);
+					CO.scroll("Ecofig_Add", "WebButton");
+					CO.waitforload();
+					cDriver.get().findElement(By.xpath("//div[text()='Item']//following::select[1]")).click();
+					Actions cpe = new Actions(cDriver.get());
+					cpe.sendKeys(Keys.ARROW_DOWN).build().perform();
+					cpe.sendKeys(Keys.ENTER).build().perform();
 
-			CO.waitforload();
+					cDriver.get().findElement(By.xpath("//div[text()='Qty']//following::input[1]")).sendKeys("1");
 
-			Result.takescreenshot("");
+					CO.waitforload();
+					Result.takescreenshot("");
 
-			CO.Text_Select("button", "Add Item");
-			CO.waitforload();
-			CO.Text_Select("button", "Verify");
-			CO.isAlertExist();
-			CO.waitforload();
-			CO.Text_Select("button", "Done");
+					CO.Text_Select("button", "Add Item");
+					
+					
+				}
+				if (!(getdata("Layer2_Ethernet_Node_Charges").equals(""))) {
 
-			CO.waitforload();
+					String Addon =getdata("Layer2_Ethernet_Node_Charges");
+					CO.Text_Select("a","Layer2 Ethernet NodeCharges");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+				
+					
+				}
+							
+				CO.waitforload();
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.waitforload();
+				CO.Text_Select("button", "Done");
+
+				CO.waitforload();
+
+			}
+			
 
 			CO.Text_Select("a", "Appointments");
 			CO.waitforload();
@@ -518,10 +658,14 @@ public class Keyword_ETHERNET extends Driver {
 			}
 
 			CO.waitforload();
+			
 
 			Result.takescreenshot(" Order Submited");
 
 			CO.waitforload();
+			String Order_no = CO.Order_ID();
+			Utlities.StoreValue("Order_no", Order_no);
+			Test_OutPut += "Order_no : " + Order_no + ",";
 
 			Result.takescreenshot("Order Submission is Successful");
 			Test_OutPut += KC.OrderSubmission().split("@@")[1];
@@ -540,310 +684,7 @@ public class Keyword_ETHERNET extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	public String Parent_AccountCreation() {
-		String Test_OutPut = "", Status = "";
-		String Account_No = "";
-		Result.fUpdateLog("------Account Creation Event Details------");
-		try {
-			String Exi = getdata("Account_No");
-			if (Exi.equals("")) {
-				// Navigating to Accounts
-				CO.waitforload();
-				Browser.WebLink.waittillvisible("VQ_Account");
-				CO.waitforobj("VQ_Account", "WebLink");
-				Browser.WebLink.click("VQ_Account");
-				CO.waitforload();
-
-				// CO.Link_Select("My Accounts");
-				CO.waitforobj("My_Account", "WebLink");
-				Browser.WebLink.click("My_Account");
-
-				CO.scroll("New_Account", "WebButton");
-				Browser.WebButton.click("New_Account");
-				String Acc;
-				if (!(getdata("Account_Name").equals(""))) {
-					Acc = getdata("Account_Name");
-				} else if (!(pulldata("Account_Name").equals(""))) {
-					Acc = pulldata("Account_Name") + R.nextInt(1000);
-				} else {
-					Acc = Utlities.randname() + R.nextInt(1000);
-				}
-				CO.scroll("Acc_Name", "WebEdit");
-				Browser.WebEdit.Set("Acc_Name", Acc);
-
-				if (!(getdata("CR_Type").equals(""))) {
-					Browser.ListBox.select("CR_Type", getdata("CR_Type"));
-				} else {
-					Browser.ListBox.select("CR_Type", pulldata("CR_Type"));
-				}
-
-				Account_No = Browser.WebEdit.gettext("Account_No");
-				Random R = new Random();
-				if (!(getdata("CR_Type").equals(""))) {
-					Browser.WebEdit.Set("CR_Number", getdata("CR_Number"));
-				} else if (!(pulldata("CR_Number").equals(""))) {
-					Browser.WebEdit.Set("CR_Number", pulldata("CR_Number"));
-				} else {
-					Browser.WebEdit.Set("CR_Number", "1" + R.nextInt(1000000));
-				}
-
-				if (!(getdata("SpecialManagement").equals(""))) {
-					Browser.ListBox.select("Spcl_Mang", getdata("SpecialManagement"));
-				} else {
-					Browser.ListBox.select("Spcl_Mang", pulldata("SpecialManagement"));
-				}
-
-				CO.scroll("Customer_Segment", "ListBox");
-				if (!(getdata("CustomerSegment").equals(""))) {
-					Browser.ListBox.select("Customer_Segment", getdata("CustomerSegment"));
-				} else {
-					Browser.ListBox.select("Customer_Segment", pulldata("CustomerSegment"));
-				}
-
-				CO.waitforload();
-				CO.scroll("Tier", "WebEdit");
-				Browser.WebEdit.click("Tier");
-				if (!(getdata("Tier").equals(""))) {
-					Browser.WebEdit.Set("Tier", getdata("Tier"));
-
-				} else {
-					Browser.WebEdit.Set("Tier", pulldata("Tier"));
-				}
-				CO.Link_Select(Acc);
-				CO.waitforload();
-				// Utlities.StoreValue("Account_No", Account_No);
-				Test_OutPut += "Account_No : " + Account_No + ",";
-				Result.takescreenshot("Account Created Account NO : " + Account_No);
-			}
-		} catch (Exception e) {
-			Continue.set(false);
-			Status = "FAIL";
-			Test_OutPut += "Exception occurred" + ",";
-			Result.takescreenshot("Exception occurred");
-			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
-			e.printStackTrace();
-		}
-		Result.fUpdateLog("------Account Creation Event Details - Completed------");
-		return Status + "@@" + Test_OutPut + "<br/>";
-	}
-
-	public String Parent_ContactCreation() {
-		String Test_OutPut = "", Status = "";
-		String Last_Name = null;
-		Result.fUpdateLog("------Contact Creation Event Details------");
-		try {
-			String Exi = getdata("Account_No");
-			if (Exi.equals("")) {
-				String Address;
-				if (!(getdata("Address").equals(""))) {
-					Address = getdata("Address");
-				} else if (!(getdata("Kahramaa_ID").equals(""))) {
-					Address = "Kar#" + getdata("Kahramaa_ID");
-				} else if (!(pulldata("Kahramaa_ID").equals(""))) {
-					Address = "Kar#" + pulldata("Kahramaa_ID");
-				} else {
-					Address = pulldata("Address");
-				}
-
-				do {
-					Browser.WebButton.click("Address_Tab");
-					CO.waitforload();
-				} while (!Browser.WebButton.waitTillEnabled("Add_Address"));
-				Browser.WebButton.waittillvisible("Add_Address");
-
-				CO.waitforload();
-				if (!(Address.equals(""))) {
-
-					CO.waitforobj("Add_Address", "WebButton");
-					// Browser.WebButton.waittillvisible("Add_Address");
-					CO.TabNavigator("Addresses");
-					CO.waitforload();
-					CO.waitforload();
-
-					// Search for Specific Address
-					CO.waitforobj("Popup_Go", "WebButton");
-					CO.scroll("Popup_Go", "WebButton");
-
-					if (Address.contains("Kar#")) {
-						Browser.ListBox.select("PopupQuery_List", "Kahramaa ID");
-						Browser.WebEdit.Set("PopupQuery_Search", Address.split("#")[1]);
-					} else {
-						Browser.ListBox.select("PopupQuery_List", "Address Line 1");
-						Browser.WebEdit.Set("PopupQuery_Search", Address);
-					}
-					CO.waitforload();
-					Browser.WebButton.click("Popup_Go");
-
-					CO.waitforload();
-					CO.scroll("Add_OK", "WebButton");
-					CO.waitmoreforload();
-					Browser.WebButton.click("Add_OK");
-					/*
-					 * do { Result.fUpdateLog("Page Loading....."); } while
-					 * (Browser.WebButton.waitTillEnabled("Add_OK"));
-					 */
-					CO.waitforload();
-					// Browser.WebButton.waittillvisible("Create_A/c");
-				} else {
-					String[] stat_add = AddressCreation().split("@@");
-					Status = stat_add[0];
-					Address = stat_add[1].split(",")[0];
-				}
-				Result.takescreenshot("Address Selected : " + Address);
-				Result.fUpdateLog("Address Selected : " + Address);
-				CO.waitforload();
-				int x = 0;
-				// int j = 1;
-				do {
-					CO.TabNavigator("Contacts");
-					CO.waitforload();
-					/*
-					 * if (Browser.WebEdit.waitTillEnabled("Contact_Valid_Name")) { j = 0; break; }
-					 */
-				} while (!Browser.WebEdit.waitTillEnabled("Contact_Valid_Name"));
-				Browser.WebEdit.waittillvisible("Contact_Valid_Name");
-
-				CO.waitforload();
-				x = Browser.WebTable.getRowCount("Acc_Contact");
-				if (x == 1) {
-					Browser.WebButton.waittillvisible("Acc_Add_Contact");
-					Browser.WebButton.click("Acc_Add_Contact");
-				}
-
-				int Row = 2, Col;
-				Col = CO.Select_Cell("Acc_Contact", "First Name");
-				if (!(getdata("FirstName").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", getdata("FirstName"));
-				} else if (!(pulldata("FirstName").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", pulldata("FirstName"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "First_Name", Utlities.randname());
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "Last Name");
-				if (!(getdata("LastName").equals(""))) {
-					Last_Name = getdata("LastName");
-				} else if (!(pulldata("LastName").equals(""))) {
-					Last_Name = pulldata("LastName") + R.nextInt(1000);
-				} else {
-					Last_Name = Utlities.randname();
-				}
-				Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Last_Name", Last_Name);
-
-				Col = CO.Select_Cell("Acc_Contact", "Mr/Ms");
-				if (!(getdata("Mr/Ms").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "M_M", getdata("Mr/Ms"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "M_M", pulldata("Mr/Ms"));
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "Email");
-				if (!(getdata("Email").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Email_Address", getdata("Email"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Email_Address", pulldata("Email"));
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "Date of Birth");
-				if (!(getdata("DOB").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_DOB", getdata("DOB"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_DOB", pulldata("DOB"));
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "ID Expiration Date");
-				if (!(getdata("IDExpiryDate").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Expiration_Date",
-							getdata("IDExpiryDate"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Expiration_Date",
-							pulldata("IDExpiryDate"));
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "ID Number");
-				if (!(getdata("IDNumber").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Number", getdata("IDNumber"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Number",
-							pulldata("IDNumber") + R.nextInt(100000));
-
-				}
-
-				// CO.scroll("Contact_ACC", "WebTable");
-
-				// Col = CO.Select_Cell("Acc_Contact", "ID Type");
-				Col++;
-				if (!(getdata("IDType").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Type", getdata("IDType"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Type", pulldata("IDType"));
-				}
-
-				Col++;
-				// Col = CO.Select_Cell("Acc_Contact", "Mobile Phone #");
-				if (!(getdata("MobilePhone").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Cellular_Phone__", getdata("MobilePhone"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "Cellular_Phone__", pulldata("MobilePhone"));
-				}
-
-				Col++;
-				// Col = CO.Select_Cell("Acc_Contact", "Nationality");
-				if (!(getdata("Nationality").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_Nationality", getdata("Nationality"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_Nationality", pulldata("Nationality"));
-				}
-
-				Col = Col + 4;
-				// Col = CO.Select_Cell("Acc_Contact", "Gender");
-				if (!(getdata("Gender").equals(""))) {
-					Browser.WebTable.SetData("Acc_Contact", Row, Col, "VFQA_M_F", getdata("Gender"));
-				} else {
-					Browser.WebTable.SetData("Acc_Contact", Row, Col, "VFQA_M_F", pulldata("Gender"));
-				}
-
-				Col = CO.Select_Cell("Acc_Contact", "Preferred Language");
-				if (!(getdata("PrefLang").equals(""))) {
-					Browser.WebTable.SetData("Acc_Contact", Row, Col, "VFQ_Preferred_Language", getdata("PrefLang"));
-				} else {
-					Browser.WebTable.SetData("Acc_Contact", Row, Col, "VFQ_Preferred_Language", pulldata("PrefLang"));
-				}
-
-				CO.waitforload();
-				CO.scroll("Account360", "WebButton");
-				Browser.WebButton.click("Address_Tab");
-				if (CO.isAlertExist())
-					if (CO.isAlertExist())
-						Browser.WebButton.click("Address_Tab");
-
-				CO.ToWait();
-				if (Continue.get()) {
-					Result.takescreenshot("Contact Ceated : " + Last_Name);
-					// Utlities.StoreValue("LastName", Last_Name);
-					// Utlities.StoreValue("Address", Address);
-					Test_OutPut += "Address : " + Address + ",";
-					Test_OutPut += "Contact : " + Last_Name + ",";
-					Status = "PASS";
-				} else {
-					Test_OutPut += "Create_A/c button not exist" + ",";
-					Result.takescreenshot("Create_A/c button not exist");
-					Result.fUpdateLog("Create_A/c button not exist");
-					Status = "FAIL";
-				}
-			}
-		} catch (Exception e) {
-			Status = "FAIL";
-			Continue.set(false);
-			Test_OutPut += "Exception occurred" + ",";
-			Result.takescreenshot("Exception occurred");
-			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
-			e.printStackTrace();
-		}
-		Result.fUpdateLog("------Contact Creation Event Details - Completed------");
-		return Status + "@@" + Test_OutPut + "<br/>";
-	}
-
+	
 	public String Childone_ContactCreation() {
 		String Test_OutPut = "", Status = "";
 		String Last_Name = null;

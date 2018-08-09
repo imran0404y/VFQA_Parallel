@@ -552,7 +552,11 @@ public class Keyword_LEASEDLINE extends Driver {
 			Result.takescreenshot("");
 			CO.waitforload();
 
-
+			String Order_no = CO.Order_ID();
+			Utlities.StoreValue("Order_no", Order_no);
+			Test_OutPut += "Order_no : " + Order_no + ",";
+			
+			
 			Test_OutPut += KC.OrderSubmission().split("@@")[1];
 
 		} catch (Exception e) {

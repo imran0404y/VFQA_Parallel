@@ -2189,7 +2189,7 @@ public class Keyword_CRM extends Driver {
 	public String UpgradePromotion() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "";
+		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "",Add_Addon="",Remove_Addon="";
 		int Col, Col_P;
 		Result.fUpdateLog("------Plan Upgrade/Downgrade Event Details------");
 		try {
@@ -2215,6 +2215,17 @@ public class Keyword_CRM extends Driver {
 				GetData = getdata("GetData");
 			} else {
 				GetData = pulldata("GetData");
+			}
+			if (!(getdata("Add_Addon").equals(""))) {
+				Add_Addon = getdata("Add_Addon");
+			} else {
+				Add_Addon = pulldata("Add_Addon");
+			}
+
+			if (!(getdata("Remove_Addon").equals(""))) {
+				Remove_Addon = getdata("Remove_Addon");
+			} else {
+				Remove_Addon = pulldata("Remove_Addon");
 			}
 			CO.Assert_Search(MSISDN, "Active");
 			CO.Moi_Validation();
@@ -2286,6 +2297,17 @@ public class Keyword_CRM extends Driver {
 				} else if (LData.equalsIgnoreCase(GetData)) {
 					Browser.WebButton.click("Customize");
 					CO.waitforload();
+					if(Add_Addon!= "")  {
+						CO.waitmoreforload();
+						CO.AddOnSelection(Add_Addon, "Add");
+						CO.waitforload();
+						
+					}
+					if(Remove_Addon!="")
+					{
+						CO.AddOnSelection(Remove_Addon, "Delete");
+						CO.waitforload();
+					}
 					if (!(getdata("PlanBundle").equals(""))) {
 						Result.fUpdateLog("------Customising to Add Plan Discount ------");
 						String PlanBundle = getdata("PlanBundle");
@@ -2300,7 +2322,7 @@ public class Keyword_CRM extends Driver {
 							Result.fUpdateLog("------Discount Selected  ------");
 						}
 					}
-
+				
 					if (Spendlimit != "") {
 						Result.takescreenshot("Navigating to Others Tab");
 						Result.fUpdateLog("Navigating to Others Tab");
@@ -2326,14 +2348,16 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.click("Expand");
 			}
 			CO.LineItems_Data();
-
+			Result.takescreenshot("");
+			
+			
 			Order_no = CO.Order_ID();
 			Utlities.StoreValue("Order_no", Order_no);
 			Test_OutPut += "Order_no : " + Order_no + ",";
 
 			CO.waitforload();
 			Test_OutPut += OrderSubmission().split("@@")[1];
-
+		
 			CO.ToWait();
 			CO.GetSiebelDate();
 			if (Continue.get()) {
@@ -2745,10 +2769,9 @@ public class Keyword_CRM extends Driver {
 			} else {
 				GetData = pulldata("GetData");
 			}
-
+			CO.RTBScreen(MSISDN, "Active");
 			CO.waitforload();
 			CO.Title_Select("a", "Home");
-
 			CO.Assert_Search(MSISDN, "Active");
 			CO.waitforload();
 			CO.Text_Select("a", GetData);
@@ -2997,7 +3020,7 @@ public class Keyword_CRM extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public String Consumer_Migration() {
 
-		String Test_OutPut = "", Status = "";
+		String Test_OutPut = "", Status = "",Add_Addon="",Remove_Addon="";
 		String MSISDN, New_PlanName, GetData, Order_no;
 		int Col, Col_P;
 		Result.fUpdateLog("------Consumer_Migration Event Details------");
@@ -3021,6 +3044,17 @@ public class Keyword_CRM extends Driver {
 				GetData = getdata("GetData");
 			} else {
 				GetData = pulldata("GetData");
+			}
+			if (!(getdata("Add_Addon").equals(""))) {
+				Add_Addon = getdata("Add_Addon");
+			} else {
+				Add_Addon = pulldata("Add_Addon");
+			}
+
+			if (!(getdata("Remove_Addon").equals(""))) {
+				Remove_Addon = getdata("Remove_Addon");
+			} else {
+				Remove_Addon = pulldata("Remove_Addon");
 			}
 			CO.AssertSearch(MSISDN, "Active");
 			CO.waitforload();
@@ -3114,10 +3148,23 @@ public class Keyword_CRM extends Driver {
 				String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
 				String Action = Browser.WebTable.getCellData("Line_Items", i, Col_P);
 				if (LData.equalsIgnoreCase(GetData) || LData.equalsIgnoreCase(New_PlanName)) {
-					if (!(getdata("PlanBundle").equals("")) && LData.equalsIgnoreCase(GetData)
-							&& TestCaseN.get().equalsIgnoreCase("Prepaid_To_Postpaid")) {
+					if (LData.equalsIgnoreCase(GetData)	&& TestCaseN.get().equalsIgnoreCase("Prepaid_To_Postpaid")) {
 						Browser.WebButton.click("Customize");
 						CO.waitforload();
+						CO.waitforload();
+						if(Add_Addon!= "")  {
+							CO.waitmoreforload();
+							CO.AddOnSelection(Add_Addon, "Add");
+							CO.waitforload();
+							
+						}
+						if(Remove_Addon!="")
+						{
+							CO.AddOnSelection(Remove_Addon, "Delete");
+							CO.waitforload();
+						}
+
+						if (!(getdata("PlanBundle").equals(""))){
 						Result.fUpdateLog("------Customising to Add Plan Discount ------");
 						String PlanBundle = getdata("PlanBundle");
 						CO.waitforload();
@@ -3129,6 +3176,7 @@ public class Keyword_CRM extends Driver {
 							Result.takescreenshot("Customising to Select Discounts");
 							CO.Discounts(PB[0].trim(), PB[1]);
 							Result.fUpdateLog("------Discount Selected  ------");
+						}
 						}
 						CO.waitforload();
 						CO.Text_Select("button", "Verify");
@@ -3167,7 +3215,15 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.click("Expand");
 			}
 			CO.LineItems_Data();
+			if(Add_Addon!= "")  {
+				CO.Status(Add_Addon);
+				Result.takescreenshot("");
+			}else if(Remove_Addon!="")
+			{
+				CO.Status(Remove_Addon);
+				Result.takescreenshot("");
 
+			}
 			CO.ToWait();
 			CO.GetSiebelDate();
 			if (Continue.get()) {
@@ -3198,7 +3254,7 @@ public class Keyword_CRM extends Driver {
 	public String Enterprise_Migration() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "";
+		String MSISDN, New_PlanName, GetData, Order_no, Spendlimit = "",Remove_Addon="",Add_Addon="";
 		int Col, Col_P;
 		Result.fUpdateLog("------Enterprise_Migration Event Details------");
 		try {
@@ -3226,6 +3282,17 @@ public class Keyword_CRM extends Driver {
 				Spendlimit = getdata("Spendlimit");
 			} else {
 				Spendlimit = pulldata("Spendlimit");
+			}
+			if (!(getdata("Add_Addon").equals(""))) {
+				Add_Addon = getdata("Add_Addon");
+			} else {
+				Add_Addon = pulldata("Add_Addon");
+			}
+
+			if (!(getdata("Remove_Addon").equals(""))) {
+				Remove_Addon = getdata("Remove_Addon");
+			} else {
+				Remove_Addon = pulldata("Remove_Addon");
 			}
 
 			CO.AssertSearch(MSISDN, "Active");
@@ -3322,6 +3389,17 @@ public class Keyword_CRM extends Driver {
 						Browser.WebButton.click("Customize");
 						CO.waitforload();
 						CO.waitforload();
+						if(Add_Addon!= "")  {
+							CO.waitmoreforload();
+							CO.AddOnSelection(Add_Addon, "Add");
+							CO.waitforload();
+							
+						}
+						if(Remove_Addon!="")
+						{
+							CO.AddOnSelection(Remove_Addon, "Delete");
+							CO.waitforload();
+						}
 
 						if (!(getdata("PlanBundle").equals(""))) {
 							Result.fUpdateLog("------Customising to Add Plan Discount ------");
@@ -3385,7 +3463,15 @@ public class Keyword_CRM extends Driver {
 				Browser.WebButton.click("Expand");
 			}
 			CO.LineItems_Data();
+			if(Add_Addon!= "")  {
+				CO.Status(Add_Addon);
+				Result.takescreenshot("");
+			}else if(Remove_Addon!="")
+			{
+				CO.Status(Remove_Addon);
+				Result.takescreenshot("");
 
+			}
 			CO.ToWait();
 			CO.GetSiebelDate();
 			if (Continue.get()) {
@@ -3417,9 +3503,7 @@ public class Keyword_CRM extends Driver {
 		String MSISDN;
 		Result.fUpdateLog("------RealTimeBalance_Screen Event Details------");
 		try {
-			if (!(getdata("NEW_MSISDN").equals(""))) {
-				MSISDN = getdata("NEW_MSISDN");
-			} else if (!(getdata("MSISDN").equals(""))) {
+			if (!(getdata("MSISDN").equals(""))) {
 				MSISDN = getdata("MSISDN");
 			} else {
 				MSISDN = pulldata("MSISDN");
@@ -4617,6 +4701,7 @@ public class Keyword_CRM extends Driver {
 				CO.waitforload();
 				Row_Count = Browser.WebTable.getRowCount("Line_Items");
 				for (int i = 2; i <= Row_Count; i++) {
+					CO.waitforload();
 					CO.Popup_Click1("Line_Items", i, Col_SA);
 					CO.waitforload();
 					CO.Popup_Selection("Account_PickTable", "Account_Number", Account_No);
@@ -5640,7 +5725,7 @@ public class Keyword_CRM extends Driver {
 				Entp_AccountCreation();
 				Entp_ContactCreation();
 
-				Account_No = New_Account.get();
+				Account_No = Acc_Number.get();
 
 				for (k = 0; k < MSD.length; k++) {
 					if ((PT[k].equalsIgnoreCase("Postpaid")) && (POFlag == 0)) {
@@ -6147,7 +6232,11 @@ public class Keyword_CRM extends Driver {
 
 			CO.Account_Search(Ac_No);
 			// CO.scroll("Profile_Tab", "WebButton");
-			do {
+			
+			String Primary_MSISDN =Browser.WebEdit.gettext("Primary_MSISDN");
+			
+
+/*			do {
 				CO.TabNavigator("Profiles");
 				CO.waitforload();
 				if (Browser.WebLink.exist("SRP_SubTab")) {
@@ -6156,9 +6245,9 @@ public class Keyword_CRM extends Driver {
 				}
 
 				CO.waitforload();
-				/*
+				
 				 * if (Browser.WebEdit.waitTillEnabled("BP_Valid_Name")) { j = 0; break; }
-				 */
+				 
 
 			} while (!Browser.WebEdit.waitTillEnabled("BP_Valid_Name"));
 			Browser.WebEdit.waittillvisible("BP_Valid_Name");
@@ -6174,7 +6263,7 @@ public class Keyword_CRM extends Driver {
 					}
 
 				}
-			}
+			}*/
 
 			Browser.WebLink.click("Acc_Summary");
 			Result.fUpdateLog("------Account Summary Tab------");
@@ -6197,9 +6286,9 @@ public class Keyword_CRM extends Driver {
 			int Flag = 0;
 			for (int i = 2; i <= Row_Count; i++) {
 				String SID = Browser.WebTable.getCellData_title("Installed_Assert", i, Col_Val);
-				String BpNam = Browser.WebTable.getCellData_title("Installed_Assert", i, Col_Nam);
+			//	String BpNam = Browser.WebTable.getCellData_title("Installed_Assert", i, Col_Nam);
 				if (!SID.equals("")) {
-					if (BpNam.equalsIgnoreCase(BP_Name) & (Flag == 0)) {
+					if (SID.equalsIgnoreCase(Primary_MSISDN) & (Flag == 0)) {
 
 						PM_MSISDN = Browser.WebTable.getCellData_title("Installed_Assert", i, Col_Val);
 						Flag = 1;
@@ -6254,31 +6343,23 @@ public class Keyword_CRM extends Driver {
 					Pymt_Type = Browser.WebTable.getCellData("Bill_Prof", Row, Col_Type);
 					Payment_Method = Browser.WebTable.getCellData("Bill_Prof", Row, Col_Type1);
 					if (Pymt_Type.equalsIgnoreCase("postpaid")) {
-						Browser.WebButton.click("Profile_Query");
+						
+						CO.TabNavigator("Profiles");
 						CO.waitforload();
-						Browser.WebTable.SetDataE("Bill_Prof", Row, Col_Type, "Payment_Type", "Prepaid");
-						int Col_S = CO.Select_Cell("Bill_Prof", "Billing Profile Status");
-						Browser.WebTable.SetDataE("Bill_Prof", Row, Col_S, "Status", "Active");
+						CO.Text_Select("a", "Billing Profile");
 						CO.waitforload();
-						Browser.WebButton.click("BillingProfile_Go");
-						Inst_RowCount = Browser.WebTable.getRowCount("Bill_Prof");
-						CO.waitforload();
-
-						if (Inst_RowCount == 2) {
-							CO.waitforload();
-							Bil_Profile = Browser.WebTable.getCellData("Bill_Prof", Row, Col_Nam);
-						} else {
-							TOS_BillingProfileCreation(Ac_No, "Prepaid", "Prepaid");
-							Bil_Profile = Billprofile_No.get();
-						}
-
+						TOS_BillingProfileCreation(Ac_No, "Prepaid", "Prepaid");
+						Bil_Profile = Billprofile_No.get();
+						Test_OutPut += "MSISDN : " + MSD[k] + ",";
 						CO.PlanChangeTOO(MSD[k], GetData, Bil_Profile);
-						CO.waitforload();
+						String Order_no1 = CO.Order_ID();
+						Test_OutPut += "Migration Order_no : " + Order_no1 + ",";
 						Browser.WebButton.waittillvisible("Validate");
 						CO.waitforload();
 						Test_OutPut += OrderSubmission().split("@@")[1];
 						Pymt_Type = Payment_Method = "Prepaid";
-
+						
+										
 					}
 
 				} else {
@@ -10734,6 +10815,8 @@ public class Keyword_CRM extends Driver {
 				MSISDN = pulldata("MSISDN");
 			}
 			CO.Assert_Search(MSISDN, "Active");
+			int Col_S1 = CO.Actual_Cell("Installed_Assert", "Status");
+			Browser.WebTable.click("Installed_Assert", 2, Col_S1);
 			Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
 			if (Row_Count <= 3) {
 				Browser.WebButton.waittillvisible("Expand");
@@ -10811,6 +10894,8 @@ public class Keyword_CRM extends Driver {
 						CO.TabNavigator("Adjustments");
 						Result.takescreenshot("Total Due and Adjustments");
 						CO.waitforload();
+						String x=Browser.WebEdit.gettext("Total_Due");
+						x=x.split("QR")[1];
 						Old_Total = Double.parseDouble(Browser.WebEdit.gettext("Total_Due").split("QR")[1]);
 						Test_OutPut += "Current Total Due is QR" + Old_Total + "</br>";
 						Result.fUpdateLog("Current Total Due is QR" + Old_Total);

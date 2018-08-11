@@ -202,7 +202,8 @@ public class Keyword_ETHERNET extends Driver {
 			CO.Text_Select("span", "Customize");
 			CO.waitforload();
 			Result.takescreenshot("");
-			CO.Radio_Select1(Layer2_Feature);
+			String Netwk =getdata("Layer2_Ethernet_Network");
+			CO.Radio_Select1(Netwk);
 			CO.waitforload();
 			CO.Text_Select("button", "Verify");
 			CO.isAlertExist();
@@ -221,7 +222,7 @@ public class Keyword_ETHERNET extends Driver {
 			Result.takescreenshot("");*/
 			// Node service account
 			int Col_S;
-			CO.Account_Search(ParentAccount);
+	
 			Col_S = CO.Select_Cell("Line_Items", "Net Price");
 			CO.waitforload();
 			Browser.WebLink.click("Node_Service_Acc");
@@ -621,6 +622,60 @@ public class Keyword_ETHERNET extends Driver {
 					
 				}
 							
+				CO.waitforload();
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.waitforload();
+				CO.Text_Select("button", "Done");
+
+				CO.waitforload();
+
+			}
+			//Virtual Connection
+			if (!!(getdata("Layer2_Ethernet_Virtual_Connection").equals(""))
+					|| !(getdata("Layer2_Ethernet_Charges_Conn").equals(""))
+					|| !(getdata("Layer2_Ethernet_Charges").equals(""))) {
+				
+
+				Browser.WebTable.click("Line_Items",7, Col_S);
+				CO.waitforload();
+				CO.Text_Select("span", "Customize");
+				CO.waitforload();
+				
+
+
+				if (!(getdata("Layer2_Ethernet_Virtual_Connection").equals(""))) {
+					
+
+					String Addon =getdata("Layer2_Ethernet_Virtual_Connection");
+					CO.Text_Select("a","Layer2 Ethernet Virtual Connection");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+									
+					
+				}
+				if (!(getdata("Layer2_Ethernet_Charges_Conn").equals(""))) {
+
+					String Addon =getdata("Layer2_Ethernet_Charges_Conn");
+					CO.Text_Select("a","Layer2 Ethernet Charges");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+				
+					
+				}
+				if (!(getdata("Layer2_Ethernet_SLA").equals(""))) {
+
+					String Addon =getdata("Layer2_Ethernet_SLA");
+					CO.Text_Select("a","Layer2 Ethernet SLA");
+					CO.waitforload();
+					CO.Radio_Select1(Addon);
+					CO.waitforload();
+					CO.waitforload();
+					
+				}
+				
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();

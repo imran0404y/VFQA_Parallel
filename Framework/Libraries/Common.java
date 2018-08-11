@@ -505,7 +505,9 @@ public class Common extends Driver {
 			Browser.WebLink.click("VQ_Account");
 			Link_Select("All Accounts");
 			waitforload();
+			waitforload();
 			Browser.WebButton.click("Account_Query");
+			waitforload();
 			Webtable_Value("Account #", AccountNo);
 			/*
 			 * Col = Select_Cell("Account", "Account #"); Row =

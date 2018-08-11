@@ -6661,6 +6661,7 @@ public class Keyword_CRM extends Driver {
 					Result.fUpdateLog("Activities are Displayed");
 					Test_OutPut += "Activities are Displayed" + ",";
 					CO.waitforload();
+					CO.waitforload();
 					cDriver.get().navigate().back();
 				}
 			} else {
@@ -6685,6 +6686,8 @@ public class Keyword_CRM extends Driver {
 					CO.scroll("Sales_order_no", "WebLink");
 					if (Browser.WebLink.exist("Sales_order_no")) {
 						Result.fUpdateLog("Sales order page is Displayed");
+						CO.waitforload();
+						CO.waitforload();
 						CO.waitforload();
 						cDriver.get().navigate().back();
 					}

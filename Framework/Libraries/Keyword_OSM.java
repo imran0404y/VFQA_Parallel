@@ -36,17 +36,12 @@ public class Keyword_OSM extends Driver {
 
 			// Result.fUpdateLog("Browser Opened Successfully");
 			Result.takescreenshot("Opening Browser and navigating to the URL");
-			/*
-			 * Browser.WebLink.waittillvisible("OSM_Link");
-			 * Browser.WebLink.click("OSM_Link");
-			 */
 			// Browser.WebEdit.click("VQ_Login_User");
 			Browser.WebEdit.Set("OSM_Login_User", getdata("VQ_Login_User"));
 			// Browser.WebEdit.click("OSM_Login_Pswd");
 			Browser.WebEdit.Set("OSM_Login_Pswd", getdata("VQ_Login_Pswd"));
 			Browser.WebLink.click("OSM_Submit");
-			// Browser.WebLink.waittillvisible("OSM_Submit");
-			// Browser.WebLink.click("OSM_Submit");
+		
 
 			CO.ToWait();
 

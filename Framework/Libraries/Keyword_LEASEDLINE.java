@@ -42,7 +42,7 @@ public class Keyword_LEASEDLINE extends Driver {
 			Col = CO.Select_Cell("Sub_Account", "Account");
 			Browser.WebTable.click("Sub_Account", Row, Col);
 			CO.waitforload();
-			String ChildAccount1 = "Child1_Mpls1" + Utlities.randname();
+			String ChildAccount1 = "Child1_LL1" + Utlities.randname();
 			cDriver.get().findElement(By.name("Name")).sendKeys(ChildAccount1);
 			CO.waitforload();
 			Result.takescreenshot("");
@@ -84,7 +84,7 @@ public class Keyword_LEASEDLINE extends Driver {
 			Browser.WebTable.click("Sub_Account", Row, Col);
 			CO.waitforload();
 
-			String ChildAccount2 = "Child2_Mpls2" + Utlities.randname();
+			String ChildAccount2 = "Child2_LL2" + Utlities.randname();
 			cDriver.get().findElement(By.name("Name")).sendKeys(ChildAccount2);
 			CO.waitforload();
 

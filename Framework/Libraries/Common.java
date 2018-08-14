@@ -49,7 +49,7 @@ public class Common extends Driver {
 	 * Last Modified Date 	: 24-Aug-2017
 	--------------------------------------------------------------------------------------------------------*/
 	public void waitforload() {
-		cDriver.get().manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+		cDriver.get().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		Method.waitForPageToLoad(cDriver.get(), 5);
 	}
 
@@ -340,7 +340,6 @@ public class Common extends Driver {
 					if (cellXpath.get(t).getAttribute("type").equals("radio")) {
 						// Radio Button
 						waitforload();
-						waitforload();
 						((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)",
 								cellXpath.get(0));
 						waitforload();
@@ -393,14 +392,15 @@ public class Common extends Driver {
 						for (int j = 1; j < Prod_array.length; j++) {
 							String Addon[] = Prod_array[j].split("::");
 							if (Addon.length > 1) {
-								
 								waitforload();
 								Radio_None(Addon[0]);
-								Result.takescreenshot("Deletion of Addon");
+								Result.fUpdateLog("Deletion of Addon : " + Addon[0]);
+								Result.takescreenshot("Deletion of Addon : " + Addon[0]);
 							} else {
 								waitforload();
 								Radio_None(Addon[0]);
-								Result.takescreenshot("Deletion of Addon");
+								Result.fUpdateLog("Deletion of Addon : " + Addon[0]);
+								Result.takescreenshot("Deletion of Addon : " + Addon[0]);
 							}
 						}
 					} else {
@@ -410,14 +410,13 @@ public class Common extends Driver {
 							if (Addon.length > 1) {
 								Radio_Select(Addon[0]);
 								waitforload();
-								waitforload();
-								Result.takescreenshot("Addition of Addon");
+								Result.fUpdateLog("Addon Selected : " + Addon[0]);
+								Result.takescreenshot("Addition of Addon" + Addon[0]);
 								Discounts(Addon[0], Addon[1]);
-								Result.fUpdateLog("------Discount Selected ------");
 							} else {
 								Radio_Select(Addon[0]);
-								waitforload();
-								Result.takescreenshot("Addition of Addon");
+								Result.fUpdateLog("Addon Selected : " + Addon[0]);
+								Result.takescreenshot("Addition of Addon" + Addon[0]);
 							}
 						}
 
@@ -499,7 +498,8 @@ public class Common extends Driver {
 	 * Last Modified Date 	: 29-October-2017
 	--------------------------------------------------------------------------------------------------------*/
 
-	public void Account_Search(String AccountNo) {
+	public boolean Account_Search(String AccountNo) {
+		boolean MSG=true;
 		try {
 			int Row;
 			Browser.WebLink.click("VQ_Account");
@@ -520,7 +520,7 @@ public class Common extends Driver {
 			waitforload();
 			Row = Browser.WebTable.getRowCount("Account");
 			if (Row == 2) {
-				//Browser.WebButton.click("Account360");
+				// Browser.WebButton.click("Account360");
 				int Col = Select_Cell("Account", "Name");
 				Browser.WebTable.clickA("Account", 2, Col);
 				waitmoreforload();
@@ -531,12 +531,16 @@ public class Common extends Driver {
 					waitforload();
 				}
 				Result.fUpdateLog("Account Search is done Successfully ");
-			} else
+			} else {
 				Continue.set(false);
+				Result.fUpdateLog("Account record is not available");
+				MSG = false;
+			}
 
 		} catch (Exception e) {
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
+		return MSG;
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -545,7 +549,8 @@ public class Common extends Driver {
 	 * Designed By			: Vinodhini
 	 * Last Modified Date 	: 7-March-2017
 	--------------------------------------------------------------------------------------------------------*/
-	public void Assert_Search(String MSISDN, String Status) {
+	public boolean Assert_Search(String MSISDN, String Status) {
+		boolean MSG = true;
 		try {
 			waitforload();
 			Result.fUpdateLog("MSISDN : " + MSISDN);
@@ -575,8 +580,11 @@ public class Common extends Driver {
 			int Assert_Row_Count = Browser.WebTable.getRowCount("Assert");
 			if (Assert_Row_Count > 1)
 				Browser.WebTable.clickL("Assert", Row, Col);
-			else
+			else {
 				Continue.set(false);
+				Result.fUpdateLog("Asset record is not available");
+				MSG = false;
+			}
 			// Comment for QA6
 
 			if (Browser.WebLink.exist("Acc_Portal")) {
@@ -602,6 +610,7 @@ public class Common extends Driver {
 			e.printStackTrace();
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 		}
+		return MSG;
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -988,7 +997,6 @@ public class Common extends Driver {
 				}
 
 				waitforload();
-	
 
 			} while (!Browser.WebEdit.waitTillEnabled("BP_Valid_Name"));
 			Browser.WebEdit.waittillvisible("BP_Valid_Name");
@@ -1103,7 +1111,8 @@ public class Common extends Driver {
 		}
 	}
 
-	public void AssertSearch(String MSISDN, String Status) {
+	public boolean AssertSearch(String MSISDN, String Status) {
+		boolean MSG = true;
 		try {
 			waitforload();
 			int Row = 2, Col;
@@ -1127,8 +1136,11 @@ public class Common extends Driver {
 			int Assert_Row_Count = Browser.WebTable.getRowCount("Assert");
 			if (Assert_Row_Count > 1)
 				Browser.WebTable.clickL("Assert", Row, Col);
-			else
+			else {
 				Continue.set(false);
+				Result.fUpdateLog("Asset record is not available");
+				MSG = false;
+			}
 			// to be commented for QA6
 
 			if (Browser.WebLink.exist("Acc_Portal")) {
@@ -1144,6 +1156,7 @@ public class Common extends Driver {
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
+		return MSG;
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -1810,7 +1823,8 @@ public class Common extends Driver {
 		}
 
 	}
-	public void Popup_Selection(String objname, String Name, String id,String MSISDN) {
+
+	public void Popup_Selection(String objname, String Name, String id, String MSISDN) {
 		try {
 			waitforload();
 			int Row_Count = Browser.WebTable.getRowCount(objname);
@@ -1857,17 +1871,14 @@ public class Common extends Driver {
 			((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
 			cDriver.get().findElement(By.xpath(cellXpath)).click();
 			Result.takescreenshot("");
-		} else
-		{
+		} else {
 			Continue.set(false);
 		}
 		waitforload();
-		waitforload();
 		cDriver.get().findElement(By.xpath("//div[@class='cxThread']//a[text()='" + GetData + "']")).click();
 		waitforload();
-		waitforload();
-		Result.takescreenshot("");
-		
+		Result.fUpdateLog("Discount Selected : " + Discount);
+		Result.takescreenshot("Discount Selected : " + Discount);
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -2711,13 +2722,10 @@ public class Common extends Driver {
 		Radio_Select(Text);
 		waitforload();
 		waitforload();
-	
-		Result.fUpdateLog("Initiating Customisation");
 		cDriver.get()
 				.findElement(By.xpath("//div[@class='div-table siebui-ecfg-table-collapse']//a[text()='" + Text + "']"))
 				.click();
 		waitforload();
-		Result.takescreenshot("Customising the Addon " + Text);
 		Result.fUpdateLog("Customising the Addon " + Text);
 		waitforload();
 	}
@@ -2853,15 +2861,13 @@ public class Common extends Driver {
 		}
 	}
 
-
-
-/*---------------------------------------------------------------------------------------------------------
-	 * Method Name			: Drop_Order
-	 * Arguments			: AccountNumber
-	 * Use 					: To Drop the Pending Order Created in a specific Account 
-	 * Modified By			: Nanda Kumar Chandrasekar
-	 * Last Modified Date 	: 10-Jun-2018
-	--------------------------------------------------------------------------------------------------------*/
+	/*---------------------------------------------------------------------------------------------------------
+		 * Method Name			: Drop_Order
+		 * Arguments			: AccountNumber
+		 * Use 					: To Drop the Pending Order Created in a specific Account 
+		 * Modified By			: Nanda Kumar Chandrasekar
+		 * Last Modified Date 	: 10-Jun-2018
+		--------------------------------------------------------------------------------------------------------*/
 	public void Drop_Order(String Reason) {
 		try {
 			waitmoreforload();

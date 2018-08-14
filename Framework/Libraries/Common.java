@@ -333,13 +333,10 @@ public class Common extends Driver {
 					.findElements(By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[" + i
 							+ "]//div[1]//table//div[1]//div[1]//input"));
 			waitforload();
-			waitforload();
 			for (int t = 1; t < cellXpath.size(); t++) {
-				waitforload();
 				if (cellXpath.get(t).getAttribute("value").equals(Text)) {
 					if (cellXpath.get(t).getAttribute("type").equals("radio")) {
 						// Radio Button
-						waitforload();
 						((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)",
 								cellXpath.get(0));
 						waitforload();
@@ -348,7 +345,6 @@ public class Common extends Driver {
 						break;
 					} else {
 						// Check box
-						waitforload();
 						((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)",
 								cellXpath.get(t));
 						waitforload();
@@ -410,11 +406,14 @@ public class Common extends Driver {
 							if (Addon.length > 1) {
 								Radio_Select(Addon[0]);
 								waitforload();
+
 								Result.fUpdateLog("Addon Selected : " + Addon[0]);
 								Result.takescreenshot("Addition of Addon" + Addon[0]);
 								Discounts(Addon[0], Addon[1]);
+
 							} else {
 								Radio_Select(Addon[0]);
+
 								Result.fUpdateLog("Addon Selected : " + Addon[0]);
 								Result.takescreenshot("Addition of Addon" + Addon[0]);
 							}
@@ -455,6 +454,7 @@ public class Common extends Driver {
 			Expected = objTyp.replace('_', ' ');
 		int Col_Count = Browser.WebTable.getColCount(objname);
 		waitforload();
+
 		for (int i = 1; i <= Col_Count; i++) {
 			Col = i;
 			String cellXpath = "//table//th[" + i + "]";
@@ -499,7 +499,7 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 
 	public boolean Account_Search(String AccountNo) {
-		boolean MSG=true;
+		boolean MSG = true;
 		try {
 			int Row;
 			Browser.WebLink.click("VQ_Account");
@@ -531,6 +531,7 @@ public class Common extends Driver {
 					waitforload();
 				}
 				Result.fUpdateLog("Account Search is done Successfully ");
+
 			} else {
 				Continue.set(false);
 				Result.fUpdateLog("Account record is not available");
@@ -621,6 +622,7 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public void Moi_Validation() {
 		try {
+
 			waitforload();
 			TabNavigator("Contacts");
 			waitforload();
@@ -985,9 +987,11 @@ public class Common extends Driver {
 			} else {
 				Result.takescreenshot("");
 			}
+
 			// String BP="1-4KG38HZ";
 			waitforload();
 			Result.takescreenshot("");
+
 			do {
 				TabNavigator("Profiles");
 				waitforload();
@@ -1870,13 +1874,16 @@ public class Common extends Driver {
 			WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 			((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
 			cDriver.get().findElement(By.xpath(cellXpath)).click();
+
 			Result.takescreenshot("");
 		} else {
 			Continue.set(false);
+
 		}
 		waitforload();
 		cDriver.get().findElement(By.xpath("//div[@class='cxThread']//a[text()='" + GetData + "']")).click();
 		waitforload();
+
 		Result.fUpdateLog("Discount Selected : " + Discount);
 		Result.takescreenshot("Discount Selected : " + Discount);
 	}
@@ -2604,6 +2611,7 @@ public class Common extends Driver {
 			Result.takescreenshot("");
 			Browser.WebButton.click("Promotion_Go");
 			waitforload();
+
 			Result.takescreenshot("New Plane is entered in Plan Upgrade Pop Up");
 			waitforload();
 
@@ -2721,10 +2729,12 @@ public class Common extends Driver {
 	public void RadioL(String Text) {
 		Radio_Select(Text);
 		waitforload();
+
 		waitforload();
 		cDriver.get()
 				.findElement(By.xpath("//div[@class='div-table siebui-ecfg-table-collapse']//a[text()='" + Text + "']"))
 				.click();
+
 		waitforload();
 		Result.fUpdateLog("Customising the Addon " + Text);
 		waitforload();

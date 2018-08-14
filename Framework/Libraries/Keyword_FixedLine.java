@@ -15,7 +15,7 @@ public class Keyword_FixedLine extends Driver {
 	 * Arguments			: None
 	 * Use 					: Specified Plan is selected for the Order in Vanilla Journey
 	 * Designed By			: SravaniReddy
-	 * Last Modified Date 	: 13-Dece-2017
+	 * Last Modified Date 	: 13-Dec-2017
 	--------------------------------------------------------------------------------------------------------*/
 	@SuppressWarnings("unused")
 	public String PlanSelection_FL() {
@@ -243,7 +243,42 @@ public class Keyword_FixedLine extends Driver {
 				Browser.WebTable.SetData("Line_Items", Row_Val, Col_S, "Service_Id", MSISDN);
 
 			}
+			if (!(getdata("OverrideAmt").equals(""))) {
+				Browser.WebButton.click("Line_Details");
+				Col = CO.Actual_Cell("Line_Items", "Product");
+				CO.waitforload();
+				Row_Count = Browser.WebTable.getRowCount("Line_Items");
+				if (Row_Count <= 3) {
+					Browser.WebButton.waittillvisible("Expand");
+					Browser.WebButton.click("Expand");
+				}
+				CO.waitforload();
+				Row_Count = Browser.WebTable.getRowCount("Line_Items");
 
+				for (int i = 2; i <= Row_Count; i++) {
+					int j;
+					String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+					if (GetData.equalsIgnoreCase(LData)) {
+						for (j = i + 1; j <= Row_Count; j++) {
+							LData = Browser.WebTable.getCellData("Line_Items", j, Col);
+							if (PlanName.contains(LData)) {
+								Row_Val = j;
+								break;
+							}
+						}
+						if (!(i == j)) {
+							break;
+						}
+
+					}
+
+				}
+				Col_S = CO.Actual_Cell("Line_Items", "Service Id");
+				Browser.WebTable.click("Line_Items", Row_Val, Col_S);
+				CO.waitforload();
+				CO.Webtable_Value("Manual Price Override", getdata("OverrideAmt"));
+
+			}
 			Row_Count = Browser.WebTable.getRowCount("Line_Items");
 			Col = CO.Select_Cell("Line_Items", "Product");
 			Col_S = CO.Actual_Cell("Line_Items", "Service Id");
@@ -278,6 +313,8 @@ public class Keyword_FixedLine extends Driver {
 			CO.Popup_Click("Line_Items", Row_Val, Col_SP);
 			CO.waitforload();
 			Reserve = MSISDN.substring(3, MSISDN.length());
+			// CO.Popup_Selection("LI_ServPoint", "Service Point",
+			// getdata("Service_Point"));
 			CO.Popup_Selection("LI_ServPoint", "Location", "Not*");
 			Col = CO.Select_Cell("Line_Items", "Product");
 
@@ -702,8 +739,8 @@ public class Keyword_FixedLine extends Driver {
 		String Test_OutPut = "", Status = "";
 		int Row = 2, Col;
 		try {
-		 String Sales_Od = SalesOrder_No.get();
-			//String Sales_Od = "1-10518905394";
+			String Sales_Od = SalesOrder_No.get();
+			// String Sales_Od = "1-10518905394";
 			Result.takescreenshot("Searching Order in Seibel");
 			Browser.WebLink.click("SalesOrder");
 			Browser.WebLink.click("All_Orders");
@@ -738,6 +775,7 @@ public class Keyword_FixedLine extends Driver {
 		Result.fUpdateLog("-----Change Primary Number Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: FL_Disconnection
 	 * Arguments			: None
@@ -806,9 +844,8 @@ public class Keyword_FixedLine extends Driver {
 			Browser.WebButton.click("Date_Continue");
 			CO.waitmoreforload();
 			Result.takescreenshot("Disconnect Order : ");
-			
-			if(Browser.WebButton.exist("FL_Acc_Msg"))
-			{
+
+			if (Browser.WebButton.exist("FL_Acc_Msg")) {
 				Result.fUpdateLog(Browser.WebEdit.gettext("FL_Msg_Text"));
 				Browser.WebButton.click("FL_Acc_Msg");
 			}
@@ -825,7 +862,7 @@ public class Keyword_FixedLine extends Driver {
 				LData = Browser.WebTable.getCellData("Line_Items", i, Col);
 				String Action = Browser.WebTable.getCellData("Line_Items", i, Col_P);
 
-				if (Action.equalsIgnoreCase("Delete")||LData.equalsIgnoreCase("Penalty Charges")) {
+				if (Action.equalsIgnoreCase("Delete") || LData.equalsIgnoreCase("Penalty Charges")) {
 					Result.fUpdateLog("Action Update   " + LData + ":" + Action);
 				} else {
 					Result.fUpdateLog(LData + ":" + Action);
@@ -926,7 +963,7 @@ public class Keyword_FixedLine extends Driver {
 					Browser.WebTable.click("Address", i, Ac);
 					CO.waitforload();
 					Browser.WebTable.click_che("Address", i, Ac);
-					
+
 					Result.takescreenshot("");
 
 				}

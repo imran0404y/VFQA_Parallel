@@ -12679,5 +12679,78 @@ public class Keyword_CRM extends Driver {
 		Result.fUpdateLog("------Replicate Order - Siebel - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+	
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Custom
+	 * Arguments			: None
+	 * Use 					: To Perform Order level payments in Siebel
+	 * Modified By			: Vinodhini Raviprasad
+	 * Last Modified Date 	: 15-01-2018
+	--------------------------------------------------------------------------------------------------------*/
+	public String Custom() {
+		String Test_OutPut = "", Status = "";
+
+		try {
+
+			Browser.WebLink.waittillvisible("Global_Search");
+			Browser.WebLink.click("Global_Search");
+			Browser.WebEdit.SetE("Phone_Guided", getdata("MSISDN"));
+			//Browser.WebEdit.SetE("Phone_Guided", "97430180689");
+			Browser.WebLink.waittillvisible("Hyper_link");
+			Browser.WebLink.click("Hyper_link");
+			if(CO.isAlertExist())
+			{
+				
+				Test_OutPut += "Alert Exist"+ ",";
+			
+			}
+			else {
+				
+			
+			Browser.WebLink.waittillvisible("Acc_Portal");
+			Browser.WebLink.click("Global_Search");
+
+			Browser.WebLink.click("Acc_Portal");
+			Browser.WebEdit.waittillvisible("Primary_MSISDN1");
+
+			CO.scroll("Account_360_view", "WebButton");
+			String Primary_MSISDN = Browser.WebEdit.gettext("Primary_MSISDN1");
+			if (Primary_MSISDN.equalsIgnoreCase(getdata("MSISDN"))) {
+				Test_OutPut += "Primary_MSISDN :" + Primary_MSISDN + ",";
+				int Inst_RowCount = Browser.WebTable.getRowCount("Installed_Assert");
+				int Col_P = CO.Select_Cell("Installed_Assert", "Product");
+				int Col_SID = CO.Select_Cell("Installed_Assert", "Service ID");
+				int Col_SR = CO.Actual_Cell("Installed_Assert", "Status");
+				String MSISDN;
+				String Status1;
+				int Count = 1;
+				// To Find the Record with Mobile Service Bundle and MSISDN
+				for (int i = 2; i <= Inst_RowCount; i++) {
+					// String rr=Browser.WebTable.getCellData("Installed_Assert", i, Col_P);
+					if (Browser.WebTable.getCellData("Installed_Assert", i, Col_P)
+							.equalsIgnoreCase("Mobile Service Bundle")) {
+						CO.waitforload();
+						MSISDN = Browser.WebTable.getCellData("Installed_Assert", i, Col_SID);
+						Status1 = Browser.WebTable.getCellData("Installed_Assert", i, Col_SR);
+						Test_OutPut += "MSISDN" + Count + ":" + MSISDN + ":";
+						Test_OutPut += "MSISDN" + Count + "Status:" + Status1 + ",";
+						Count = Count + 1;
+
+					}
+				}
+			
+			}
+			}
+		} catch (Exception e) {
+			Continue.set(false);
+			Status = "FAIL";
+			Test_OutPut += "Exception occurred" + ",";
+			Result.takescreenshot("Exception occurred");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+		Result.fUpdateLog("------Order level payment Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
 
 }

@@ -644,5 +644,16 @@ public class KeyWord {
 		return MCare.PostAddon_Deactivation();
 	}
 
+	public String MVACookies() {
+        return MCare.MVACookies();
+    }
+    
+    public String verifyMCareBuckets() {
+        return MCare.verifyMCareBuckets();
+    }
+    
+    public String McareBillPayment() {
+        return MCare.McareBillPayment();
+    }
 	// ---------------------MCare Keywords Ends------------------------//
 }

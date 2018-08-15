@@ -24,6 +24,7 @@ public class Keyword_ETHERNET extends Driver {
 		Result.fUpdateLog("------KEYMORD  Ethernet ------");
 		try {
 
+			@SuppressWarnings("unused")
 			String Layer2_Feature;
 	
 			Network = pulldata("Network");

@@ -356,4 +356,25 @@ public class utils extends Driver{
 
 	}
 	
+	@SuppressWarnings("unused")
+	public static int getBucketTypeCount(String Type) {
+		int count=-1;
+		int counter = 0;
+		try{
+		String BuckId = null;
+		Fillo fillo = new Fillo();
+		//Connection connection = fillo.getConnection("MobileFramework\\db\\result.xlsx");
+		Connection connection = fillo.getConnection(UCscreenfilepth.get()+"\\result.xlsx");
+		String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0' and Expiry !='Date Not Given'";
+		//String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0'";
+		Recordset recordset = connection.executeQuery(strQuery);
+		count = recordset.getCount();
+		}
+		catch(Exception e) {
+			//Result.fUpdateLog("Exception Occurred"+e);
+			count = -1;
+		}
+		return count;
+	}
+	
 	}

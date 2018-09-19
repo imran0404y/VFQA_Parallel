@@ -1290,6 +1290,9 @@ public class Keyword_CRM extends Driver {
 
 			Browser.WebTable.click("Line_Items", Row_Val, Col_S);
 			Browser.WebTable.SetData("Line_Items", Row_Val, Col_S, "Service_Id", SIM);
+			if (CO.isAlertExist()) {
+				Test_OutPut += "Unwanted Popup exists on Validate - " + "SIM Card already assigned in UIM(SBL-EXL-00151)" + ",";
+			}
 			Result.takescreenshot("Plan Selection is Successful : " + PlanName);
 
 			Row_Count = Browser.WebTable.getRowCount("Line_Items");

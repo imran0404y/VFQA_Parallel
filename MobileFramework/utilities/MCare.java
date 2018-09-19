@@ -598,4 +598,66 @@ public class MCare extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+	
+	public static String FlexBalance() {
+		String Test_OutPut = "", Status = "",Flextext="",Flex="",FlexBal="",FB="";
+		try {
+			utils.takeScreenShot();	
+			if (SetCapabilities.dr.findElement(By.xpath("//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/dashboard_small_credits']"))
+					.isDisplayed()) {
+				 Flextext =	SetCapabilities.dr .findElement(By.xpath(
+						 "//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/balance' and @index='0']//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.text')]"
+						 )) .getText().toString();
+				if(Flextext.contains("Flex"))
+				{
+					 Flex = SetCapabilities.dr .findElement(By.xpath(
+							 "//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.amount.text')]")) .getText().toString();
+						utils.takeScreenShot();	
+						
+				}
+				else if(Flextext.contains("Credit"))
+				{
+					 Flex =SetCapabilities.dr .findElement(By.xpath(
+							 "//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/dashboard_small_credits']//*[@class='android.support.v7.widget.LinearLayoutCompat' and @index='1']//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.amount.text')]"
+							 )) .getText().toString();
+						utils.takeScreenShot();	
+						
+				}
+				
+				FlexBal=Flex.split("FLEX")[1].trim();
+				System.out.println(FlexBal);
+				utils.takeScreenShot();
+				if(TestCaseN.get().equals("Mcare_Post_FlexVerify")) {
+						FB = Utlities.FetchStoredValue("Mcare_Post_FlexVerify", "Mcare_Post_FlexVerify",
+						"Flexbalance");
+				}else if(TestCaseN.get().equals("Mcare_Pre_FlexVerify"))
+				{
+						FB = Utlities.FetchStoredValue("Mcare_Pre_FlexVerify", "Mcare_Pre_FlexVerify",
+							"Flexbalance");
+				}
+				if(FlexBal.contains(FB))
+				{
+					
+					Status = "PASS";
+					Result.fUpdateLog("Flex bucket is verified with RTB");
+				}
+				else{
+					Status = "FAIL";
+					Result.fUpdateLog("Flex bucket is not as per RTB");
+				}
+			
+			}else
+			{
+				Continue.set(false);
+				Result.fUpdateLog("Flex bucket is not available");
+			}
+			
+		} catch (Exception e) {
+			Status = "FAIL";
+			e.printStackTrace();
+			Result.fUpdateLog("Exception Occured ");
+		}
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+	
 }

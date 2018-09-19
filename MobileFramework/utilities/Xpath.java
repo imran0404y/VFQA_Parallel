@@ -27,4 +27,7 @@ public class Xpath extends Driver{
 	static String QuickPayMSISDN = "//*[@class='android.widget.EditText' and @index='1']";
 	static String QuickPayAmount = "//android.widget.EditText[contains(@text,'insert amount')]";
 	static String QuickPayByFalcon = "//android.widget.TextView[contains(@text,'Pay by Falcon')]";
+	static String Payment = "//*[contains(@text,'Pay by Falcon')]";
+
+	
 }

@@ -30,7 +30,7 @@ public class Keyword_CRM extends Driver {
 	 * Use 					: Opens a New Browser and logins to the Siebel CRM application
 	 * Designed By			: Imran Baig
 	 * Last Modified Date 	: 23-Aug-2017
-	--------------------------------------------------------------------------------------------------------*/
+	---------------------------------------------------------------------------------------------------------*/
 	public String Siebel_Login() {
 
 		String Test_OutPut = "", Status = "";
@@ -12751,6 +12751,126 @@ public class Keyword_CRM extends Driver {
 		}
 		Result.fUpdateLog("------Order level payment Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: Spendlimit
+	 * Arguments			: None
+	 * Use 					: Change of Smart limit vanilla flow
+	 * Designed By			: Sravani Reddy
+	 * Last Modified Date 	: 27-Sep-2017
+	--------------------------------------------------------------------------------------------------------*/
+	public String Spendlimit() {
+		String Test_OutPut = "", Status = "";
+		String MSISDN, GetData = null, Order_no = null;
+		int Inst_RowCount, Col_P, Col_SID;
+		String Spendlimit;
+		Result.fUpdateLog("------Change SpendLimit Event Details------");
+		try {
+			if (!(getdata("MSISDN").equals(""))) {
+				MSISDN = getdata("MSISDN");
+			} else {
+				MSISDN = pulldata("MSISDN");
+			}
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+			if (!(getdata("Spend_Limit").equals(""))) {
+				Spendlimit = getdata("Spend_Limit");
+			} else {
+				Spendlimit = pulldata("Spend_Limit");
+			}
+
+			if (CO.Assert_Search(MSISDN, "Active")) {
+				CO.waitforload();
+				CO.Text_Select("a", GetData);
+				CO.waitforload();
+				CO.waitforload();
+				if (Browser.WebButton.exist("Assert_Modify")) {
+
+					Inst_RowCount = Browser.WebTable.getRowCount("Acc_Installed_Assert");
+
+					Col_P = CO.Select_Cell("Acc_Installed_Assert", "Product");
+					Col_SID = CO.Select_Cell("Acc_Installed_Assert", "Service ID");
+					int Col_SR = CO.Actual_Cell("Acc_Installed_Assert", "Status");
+					// To Find the Record with Mobile Service Bundle and MSISDN
+					for (int i = 2; i <= Inst_RowCount; i++)
+						if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P).equalsIgnoreCase(GetData)
+								& Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_SID)
+										.equalsIgnoreCase(MSISDN)) {
+							CO.waitforload();
+							Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
+
+							break;
+						}
+					do {
+						Browser.WebButton.click("Assert_Modify");
+						String x = Browser.WebEdit.gettext("Due_Date");
+						if (!x.contains("/")) {
+							Browser.WebButton.click("Date_Cancel");
+							Browser.WebButton.click("Assert_Modify");
+						}
+						CO.waitforload();
+					} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
+
+				} else {
+					CO.InstalledAssertChange("Modify");
+				}
+
+				CO.scroll("Date_Continue", "WebButton");
+				Browser.WebButton.click("Date_Continue");
+				// wait
+				CO.waitmoreforload();
+				CO.Link_Select("Others");
+				CO.waitforload();
+				Result.takescreenshot("Navigating to Others Tab");
+				Result.fUpdateLog("Navigating to Others Tab");
+				CO.waitforload();
+				CO.Link_Select("Others");
+				CO.waitforload();
+				CO.RadioL("Spend Limit");
+				CO.waitforload();
+				Browser.WebEdit.Set("NumberReservationToken", Spendlimit);
+				Result.takescreenshot("Modifying Spend Limit ");
+				CO.waitforload();
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.waitforload();
+				CO.Text_Select("button", "Done");
+				if (CO.isAlertExist()) {
+					Continue.set(false);
+					Result.fUpdateLog("Error On Clicking Done Button");
+					System.exit(0);
+				}
+
+				CO.waitforload();
+				CO.waitforload();
+				Test_OutPut += OrderSubmission().split("@@")[1];
+				CO.waitforload();
+
+			
+				if (Continue.get()) {
+					Status = "PASS";
+					Utlities.StoreValue("Sales_OrderNO", Order_no);
+					Test_OutPut += "Order_No : " + Order_no + ",";
+				} else {
+					Status = "FAIL";
+				}
+			}
+		} catch (Exception e) {
+			Continue.set(false);
+			Status = "FAIL";
+			Result.takescreenshot("Exception occurred");
+			Test_OutPut += "Exception occurred" + ",";
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+
+		}
+		Result.fUpdateLog("-----Change SpendLimit Event Details - Completed------");
+		return Status + "@@" + Test_OutPut + "<br/>";
+
 	}
 
 }

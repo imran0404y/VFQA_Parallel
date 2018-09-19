@@ -537,22 +537,20 @@ public class MCare extends Driver {
 	}
 
 	@SuppressWarnings("unused")
-	public static String Recharge() {
+	public static String SelfRecharge() {
 		String Test_OutPut = "", Status = "", MSISDN = "", RechargeType = "", Amount = "";
 		try {
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
 			SetCapabilities.dr.findElement(By.id(Xpath.BurgerMenu)).click();
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Recharge)).click();
-			switch (UseCaseName.get()) {
-			case "Recharge_Self":
-				MSISDN = utils.fetchData("MSISDN");
-				break;
-			case "Recharge_Others":
-				MSISDN = utils.fetchData("Others_MSISDN");
-				break;
-			}
+			SetCapabilities.dr.findElement(By.id("qa.vodafone.myvodafone.devel.debug:id/"+TestCaseN.get()+"")).click();
+			/*	ScrollScript*/
+			SetCapabilities.dr.findElement(By.xpath(Xpath.Payment)).click();
+			
+		
+			
 			// RechargeType = utils.fetchData("RechargeType");
-			RechargeType = "Credit";
+			
 
 		} catch (Exception e) {
 			Status = "FAIL";

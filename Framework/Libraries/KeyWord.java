@@ -278,6 +278,9 @@ public class KeyWord {
 	public String ReplicateOrder() {
 		return KC.ReplicateOrder();
 	}
+	public String Spendlimit() {
+		return KC.Spendlimit();
+	}
 	// ------------------Keyword CRM -------------------//
 
 	// ------------------Keyword Guided -------------------//
@@ -655,5 +658,9 @@ public class KeyWord {
     public String McareBillPayment() {
         return MCare.McareBillPayment();
     }
+    public String SelfRecharge() {
+        return MCare.SelfRecharge();
+    }
+
 	// ---------------------MCare Keywords Ends------------------------//
 }

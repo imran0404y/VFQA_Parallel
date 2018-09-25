@@ -10,7 +10,7 @@ public class Xpath extends Driver{
 	static String BurgerMenu = "qa.vodafone.myvodafone.devel.debug:id/burger_menu";
 	static String NeedHelp = "qa.vodafone.myvodafone.devel.debug:id/dashboard_need_help";
 	static String GaugeLayout = "qa.vodafone.myvodafone.devel.debug:id/gauge_circle_layout";
-	static String SkipTutorial = "//android.widget.TextView[contains(@text,'Skip tutorial')]";
+	static String SkipTutorial = "//android.widget.TextView[contains(@text,'Skip')]";
 	static String AlertCancel = "android:id/button2";
 	static String MenuVFPoints = "//*[contains(@text,'Vodafone Points')]";
 	static String CookieValue = "//android.widget.TextView[contains(@content-desc,'ltr.cookies.points.text')]";

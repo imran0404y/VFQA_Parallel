@@ -113,6 +113,7 @@ public class MCare extends Driver {
 				String Mob = SetCapabilities.dr
 						.findElement(By.xpath("//android.widget.TextView[contains(@text,'+974')]")).getText()
 						.toString();
+				System.out.println(Mob);
 				Test_OutPut += "Avatar Icon Verified. </br>";
 				Mob = Mob.substring(5, 13).trim();
 				String MSISDN = utils.fetchData("MSISDN");

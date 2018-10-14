@@ -25,7 +25,7 @@ public class Keyword_SIPT extends Driver {
 
 			int Row_Val = 3, Col_V, Col_S;
 			String GetData, COSP_Plan, ReservationToken, Qty, To, MSISDN, Default_Plan_Tab, Default_Addon, // ,Reserve
-					From, PData = "Pilot Number", CCODE = "974";
+					From, PData = "Pilot Number", CCODE = "974",DID="";
 			GetData = "Corporate SIP Trunk Bundle";
 			CO.waitforload();
 
@@ -48,16 +48,18 @@ public class Keyword_SIPT extends Driver {
 			CO.waitforload();
 			int Row = 2, Col;
 			Col = CO.Select_Cell("Line_Items", "Product");
+			Col_V = CO.Select_Cell("Line_Items", "Action");
 			CO.waitforload();
 			Browser.WebTable.SetDataE("Line_Items", Row, Col, "Product", PlanName);
-			Browser.WebTable.click("Line_Items", Row, Col + 1);
+			Browser.WebTable.click("Line_Items", Row, Col_V);
 			CO.waitforload();
 			// -----------------------
 
 			int Row_Count = Browser.WebTable.getRowCount("Line_Items");
 
 			Col_S = CO.Select_Cell("Line_Items", "Service Id");
-			Col_V = Col + 2;
+		
+			
 
 			for (int i = 2; i <= Row_Count; i++) {
 				String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
@@ -88,10 +90,16 @@ public class Keyword_SIPT extends Driver {
 			}
 			To = To.replace("974", "");
 
-			if (!(getdata("ReservationToken").equals(""))) {
-				ReservationToken = getdata("ReservationToken");
+			if (!(getdata("ReservationToken_Pilot").equals(""))) {
+				ReservationToken = getdata("ReservationToken_Pilot");
 			} else {
-				ReservationToken = pulldata("ReservationToken");
+				ReservationToken = pulldata("ReservationToken_Pilot");
+			}
+			
+			if (!(getdata("DID").equals(""))) {
+				DID = getdata("ReservationToken_DID");
+			} else {
+				DID = pulldata("ReservationToken_DID");
 			}
 
 			if (!(getdata("MSISDN").equals(""))) {
@@ -131,7 +139,38 @@ public class Keyword_SIPT extends Driver {
 			Result.takescreenshot(COSP_Plan + "is selected from COSP Plans");
 			CO.waitforload();
 			CO.ToWait();
-			CO.NumberRangeProducts("DID Number Range", Qty, From, To, ReservationToken);
+			
+			if(!ReservationToken.equals(""))
+			{
+				CO.Link_Select("Number Range Products");
+				
+				Browser.WebButton.click("SIPT_Piolt");
+				Browser.WebEdit.waittillvisible("NumberReservationToken");
+				Browser.WebEdit.Set("NumberReservationToken", ReservationToken);
+				Result.takescreenshot("Providing Number Reservation Token");
+				CO.waitforload();
+				CO.Text_Select("button", "Verify");
+				CO.isAlertExist();
+				CO.waitforload();
+				CO.Text_Select("button", "Done");
+				CO.waitforload();
+				if (CO.isAlertExist())
+					Continue.set(false);
+				Col = CO.Select_Cell("Line_Items", "Product");
+				Col_V = CO.Select_Cell("Line_Items", "Action");
+				Row_Count = Browser.WebTable.getRowCount("Line_Items");
+				for (int i = 2; i <= Row_Count; i++) {
+					String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+					if (GetData.equals(LData)) {
+						Row_Val = i;
+						break;
+					}
+				}
+				Browser.WebTable.click("Line_Items", Row_Val, Col_V);
+				CO.Text_Select("span", "Customize");
+				
+			}
+			CO.NumberRangeProducts("DID Number Range", Qty, From, To,DID);
 			CO.waitforload();
 			CO.Text_Select("button", "Verify");
 			CO.isAlertExist();
@@ -189,6 +228,7 @@ public class Keyword_SIPT extends Driver {
 					// Number_Selection(CCODE+MSISDN);
 
 				} else if (!ReservationToken.equals("")) {
+					Col = CO.Select_Cell("Line_Items", "Product");
 					Row_Count = Browser.WebTable.getRowCount("Line_Items");
 					if (Row_Count <= 3) {
 						Browser.WebButton.waittillvisible("Expand");
@@ -204,6 +244,7 @@ public class Keyword_SIPT extends Driver {
 					Browser.WebTable.SetData("Line_Items", Row_Val, Col_S, "Service_Id", CCODE + MSISDN);
 
 					// To Provide Pilot Number
+					
 					for (int i = 2; i <= Row_Count; i++) {
 						String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
 						if (PData.equals(LData)) {
@@ -282,7 +323,6 @@ public class Keyword_SIPT extends Driver {
 		Result.fUpdateLog("------SIPT Plan Selection Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: View_Selection
 	 * Use 					: To view a spectific Radio Button or check box

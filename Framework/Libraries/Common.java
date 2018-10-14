@@ -1746,11 +1746,11 @@ public class Common extends Driver {
 					((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)",
 							Field_Input.get(Index));
 					ToWait();
-					if (Field_Name.get(Index).getText().contains("From"))
+					if (Field_Name.get(Index).getText().equals("From"))
 						Field_Input.get(Index).sendKeys(CCODE + From);
-					if (Field_Name.get(Index).getText().contains("To"))
+					if (Field_Name.get(Index).getText().equals("To"))
 						Field_Input.get(Index).sendKeys(CCODE + To);
-					if (Field_Name.get(Index).getText().contains("Reservation Token"))
+					if (Field_Name.get(Index).getText().equals("Number Reservation Token"))
 						Field_Input.get(Index).sendKeys(Token);
 					Result.takescreenshot("Providing From and To Values " + From + " " + To);
 				}

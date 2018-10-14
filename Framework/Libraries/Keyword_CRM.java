@@ -431,14 +431,13 @@ public class Keyword_CRM extends Driver {
 						Browser.ListBox.select("Spcl_Mang", pulldata("SpecialManagement"));
 						Result.fUpdateLog("SpecialManagement : " + pulldata("SpecialManagement"));
 					}
-
-					if (TestCaseN.get().equalsIgnoreCase("BlackCustomer")) {
-						CO.scroll("Customer_Segment", "ListBox");
-						if (!(getdata("CustomerSegment_black").equals(""))) {
-							Browser.ListBox.select("Customer_Segment", getdata("CustomerSegment_black"));
-							Result.fUpdateLog("Customer_Segment : " + getdata("CustomerSegment_black"));
-						}
+					
+					CO.scroll("Customer_Segment", "ListBox");
+					if (!(getdata("CustomerSegment_C").equals(""))) {
+						Browser.ListBox.select("Customer_Segment", getdata("CustomerSegment_C"));
+						Result.fUpdateLog("Customer_Segment : " + getdata("CustomerSegment_C"));
 					}
+
 					Account_No = Browser.WebEdit.gettext("Account_No");
 					New_Account.set(Account_No);
 					Utlities.StoreValue("Account_No", Account_No);

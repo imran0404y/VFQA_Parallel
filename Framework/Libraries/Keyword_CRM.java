@@ -1354,10 +1354,10 @@ public class Keyword_CRM extends Driver {
 				Result.fUpdateLog("Proceeding Order Submission");
 			CO.waitforload();
 
-			if (!(getdata("Ent_CreditLimit").equals(""))) {
-				CreditLimit = getdata("Ent_CreditLimit");
+			if (!(getdata("CreditLimit").equals(""))) {
+				CreditLimit = getdata("CreditLimit");
 			} else {
-				CreditLimit = pulldata("Ent_CreditLimit");
+				CreditLimit = pulldata("CreditLimit");
 			}
 			if (CreditLimit != "") {
 				CO.scroll("Ent_CreditLimit", "WebEdit");
@@ -1506,7 +1506,7 @@ public class Keyword_CRM extends Driver {
 				Bill_Cycle = Browser.WebTable.getCellData("Line_Items", Row, Bill_Col);
 				billDate.set(Bill_Cycle);
 				CO.scroll("Submit", "WebButton");
-				if (OS_Status.equalsIgnoreCase(EStatus) || Complete_Status == (Row_Count - 1)) {
+				if (OS_Status.equalsIgnoreCase(EStatus) && Complete_Status == (Row_Count - 1)) {
 					Continue.set(true);
 				} else {
 					Continue.set(false);

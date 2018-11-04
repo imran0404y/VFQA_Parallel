@@ -588,11 +588,11 @@ public class Common extends Driver {
 			}
 			// Comment for QA6
 
-			if (Browser.WebLink.exist("Acc_Portal")) {
+			/*if (Browser.WebLink.exist("Acc_Portal")) {
 				waitforload();
 				Browser.WebLink.click("Acc_Portal");
 				waitforload();
-			}
+			}*/
 
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			Result.takescreenshot("");
@@ -1147,11 +1147,11 @@ public class Common extends Driver {
 			}
 			// to be commented for QA6
 
-			if (Browser.WebLink.exist("Acc_Portal")) {
+			/*if (Browser.WebLink.exist("Acc_Portal")) {
 				waitforload();
 				Browser.WebLink.click("Acc_Portal");
 				waitforload();
-			}
+			}*/
 
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			Result.fUpdateLog("Installed Assert");

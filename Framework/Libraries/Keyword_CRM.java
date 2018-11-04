@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -9642,10 +9643,8 @@ public class Keyword_CRM extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public String Activities() {
 		String Test_OutPut = "", Status = "";
-		String Channel, Priority, Comment, A_Language, Topic, Type, Sub_Topic, Interaction_Type, ContactRole, MSISDN;// Language
-																														// =
-																														// "",
-																														// GetData,
+		String MSISDN, Channel, Type, Topic, Sub_Topic, Area, A_Language, Interaction_Type, Comment, Service_MSISDN,
+				Description, Resolution_Code, Priority, ContactRole, Activity_Status, Activity_Number;
 		int Col, Row = 2;
 		Result.fUpdateLog("------ Activities Creation / Closure - Siebel ---------");
 		try {
@@ -9659,31 +9658,7 @@ public class Keyword_CRM extends Driver {
 			if (!(getdata("Activity_Channel").equals(""))) {
 				Channel = getdata("Activity_Channel");
 			} else {
-				Channel = "Appointment";// pulldata("GetData");
-			}
-
-			if (!(getdata("Priority").equals(""))) {
-				Priority = getdata("Priority");
-			} else {
-				Priority = pulldata("Priority");
-			}
-
-			if (!(getdata("Comment").equals(""))) {
-				Comment = getdata("Comment");
-			} else {
-				Comment = pulldata("Comment");
-			}
-
-			if (!(getdata("A_Language").equals(""))) {
-				A_Language = getdata("A_Language");
-			} else {
-				A_Language = pulldata("A_Language");
-			}
-
-			if (!(getdata("Topic").equals(""))) {
-				Topic = getdata("Topic");
-			} else {
-				Topic = pulldata("Topic");
+				Channel = pulldata("Activity_Channel");
 			}
 
 			if (!(getdata("Type").equals(""))) {
@@ -9692,10 +9667,28 @@ public class Keyword_CRM extends Driver {
 				Type = pulldata("Type");
 			}
 
+			if (!(getdata("Topic").equals(""))) {
+				Topic = getdata("Topic");
+			} else {
+				Topic = pulldata("Topic");
+			}
+
 			if (!(getdata("Sub_Topic").equals(""))) {
 				Sub_Topic = getdata("Sub_Topic");
 			} else {
 				Sub_Topic = pulldata("Sub_Topic");
+			}
+
+			if (!(getdata("Area").equals(""))) {
+				Area = getdata("Area");
+			} else {
+				Area = pulldata("Area");
+			}
+
+			if (!(getdata("A_Language").equals(""))) {
+				A_Language = getdata("A_Language");
+			} else {
+				A_Language = pulldata("A_Language");
 			}
 
 			if (!(getdata("Interaction_Type").equals(""))) {
@@ -9704,26 +9697,62 @@ public class Keyword_CRM extends Driver {
 				Interaction_Type = pulldata("Interaction_Type");
 			}
 
+			if (!(getdata("Comments").equals(""))) {
+				Comment = getdata("Comments");
+			} else {
+				Comment = pulldata("Comments");
+			}
+			
+			if (!(getdata("Service_MSISDN").equals(""))) {
+				Service_MSISDN = getdata("Service_MSISDN");
+			} else {
+				Service_MSISDN = pulldata("Service_MSISDN");
+			}
+
+			if (!(getdata("Description").equals(""))) {
+				Description = getdata("Description");
+			} else {
+				Description = pulldata("Description");
+			}
+
+			if (!(getdata("Resolution_Code").equals(""))) {
+				Resolution_Code = getdata("Resolution_Code");
+			} else {
+				Resolution_Code = pulldata("Resolution_Code");
+			}
+
+			if (!(getdata("Priority").equals(""))) {
+				Priority = getdata("Priority");
+			} else {
+				Priority = pulldata("Priority");
+			}
+
 			if (!(getdata("ContactRole").equals(""))) {
 				ContactRole = getdata("ContactRole");
 			} else {
 				ContactRole = pulldata("ContactRole");
 			}
-			CO.waitmoreforload();
+
+			if (!(getdata("Activity_Status").equals(""))) {
+				Activity_Status = getdata("Activity_Status");
+			} else {
+				Activity_Status = pulldata("Activity_Status");
+			}
+
+			if (!(getdata("Activity_Number").equals(""))) {
+				Activity_Number = getdata("Activity_Number");
+			} else {
+				Activity_Number = pulldata("Activity_Number");
+			}
+			CO.waitforload();
 
 			if (CO.AssertSearch(MSISDN, "Active")) {
-
-				if (Browser.WebLink.exist("Acc_Portal")) {
-					CO.waitforload();
-					Browser.WebLink.click("Acc_Portal");
-
-				}
 
 				CO.Text_Select("a", "Activities");
 				CO.waitforload();
 				int RowCount = Browser.WebTable.getRowCount("Activities");
 
-				if (TestCaseN.get().toLowerCase().contains("create")) {
+				if (TestCaseN.get().toLowerCase().contains("new")) {
 
 					Result.takescreenshot("Creating New Activity");
 					Result.fUpdateLog("Creating New Activity");
@@ -9738,21 +9767,27 @@ public class Keyword_CRM extends Driver {
 						Col = CO.Select_Cell("Activities", "Channel");
 						Browser.WebTable.SetDataE("Activities", Row, Col, "Channel", Channel);
 
-						Col = CO.Select_Cell("Activities", "Due");
-						Browser.WebTable.Popup("Activities", Row, Col);
+						// Due Date
+						/*
+						 * Col = CO.Select_Cell("Activities", "Due");
+						 * Browser.WebTable.Popup("Activities", Row, Col);
+						 * 
+						 * CO.scroll("Date_Now", "WebButton"); Browser.WebButton.click("Date_Now");
+						 * CO.scroll("Date_Done", "WebButton"); Browser.WebButton.click("Date_Done");
+						 * CO.waitforload();
+						 */
 
-						CO.scroll("Date_Now", "WebButton");
-						Browser.WebButton.click("Date_Now");
-						CO.scroll("Date_Done", "WebButton");
-						Browser.WebButton.click("Date_Done");
-						CO.waitforload();
+						// Status
+						/*
+						 * Col = CO.Select_Cell("Activities", "Status");
+						 * Browser.WebTable.SetDataE("Activities", Row, Col, "Status", "Open");
+						 * CO.waitforload();
+						 */
 
-						Col = CO.Select_Cell("Activities", "Status");
-						Browser.WebTable.SetDataE("Activities", Row, Col, "Status", "Open");
-						CO.waitforload();
-
-						Col = CO.Select_Cell("Activities", "Priority");
-						Browser.WebTable.SetDataE("Activities", Row, Col, "Priority", Priority);
+						if (!(getdata("Priority").equals(""))) {
+							Col = CO.Select_Cell("Activities", "Priority");
+							Browser.WebTable.SetDataE("Activities", Row, Col, "Priority", Priority);
+						}
 
 						Col = CO.Select_Cell("Activities", "Comments");
 						Browser.WebTable.CommentE("Activities", Row, Col, "Comment", Comment);
@@ -9761,11 +9796,19 @@ public class Keyword_CRM extends Driver {
 						Browser.WebTable.SetDataE("Activities", Row, Col, "VFQA_Language", A_Language);
 
 						Col = CO.Select_Cell("Activities", "MSISDN");
-						Browser.WebTable.Popup("Activities", Row, Col);
-						Browser.WebButton.click("Service_OK");
+						Browser.WebTable.SetDataE("Activities", Row, Col, "VFQA_Service_MSISDN", MSISDN);
+						/*
+						 * Browser.WebTable.Popup("Activities", Row, Col);
+						 * Browser.WebButton.click("Service_OK");
+						 */
 
 						Col = CO.Select_Cell("Activities", "Topic");
 						Browser.WebTable.SetDataE("Activities", Row, Col, "Topic", Topic);
+
+						if (!(getdata("Resolution_Code").equals(""))) {
+							Col = CO.Select_Cell("Activities", "Resolution Code");
+							Browser.WebTable.SetDataE("Activities", Row, Col, "Resolution_Code", Resolution_Code);
+						}
 
 						Col = CO.Actual_Cell("Activities", "Type");
 						Browser.WebTable.SetDataE("Activities", Row, Col, "Type", Type);
@@ -9773,76 +9816,185 @@ public class Keyword_CRM extends Driver {
 						Col = CO.Select_Cell("Activities", "Sub-Topic");
 						Browser.WebTable.SetDataE("Activities", Row, Col, "Sub-Topic", Sub_Topic);
 
+						Col = CO.Select_Cell("Activities", "Area");
+						Browser.WebTable.SetDataE("Activities", Row, Col, "VQA_Area", Area);
+
+						if (!(getdata("ContactRole").equals(""))) {
+							Col = CO.Select_Cell("Activities", "Contact Role");
+							Browser.WebTable.SetDataE("Activities", Row, Col, "ContactRole", ContactRole);
+						}
+
 						Col = CO.Select_Cell("Activities", "Interaction Type");
 						Browser.WebTable.SetData("Activities", Row, Col, "Interaction_Type", Interaction_Type);
 
-						Col = CO.Select_Cell("Activities", "Contact Role");
-						Browser.WebTable.SetData("Activities", Row, Col, "ContactRole", ContactRole);
+						if (!(getdata("Service_MSISDN").equals(""))) {
+							Col = CO.Select_Cell("Activities", "Service MSISDN#");
+							Browser.WebTable.SetDataE("Activities", Row, Col, "ServiceMSISDN", Service_MSISDN);
+						}
 
-						Browser.WebButton.click("Activity_Popup1");
-						CO.isAlertExist();
-						Browser.WebButton.click("Activity_Popup2");
-						CO.isAlertExist();
+						if (!(getdata("Description").equals(""))) {
+							Col = CO.Select_Cell("Activities", "Description");
+							Browser.WebTable.SetDataE("Activities", Row, Col, "Description", Description);
+						}
+						
+						// Browser.WebButton.click("Activity_Popup1");
+						// CO.isAlertExist();
+						// Browser.WebButton.click("Activity_Popup2");
+						// CO.isAlertExist();
 
 						Col = CO.Select_Cell("Activities", "Activity #");
 						String ActivityId = Browser.WebTable.getCellData("Activities", Row, Col);
+
+						Col = CO.Select_Cell("Activities", "Journey");
+						String Journey = Browser.WebTable.getCellData("Activities", Row, Col);
+
+						Col = CO.Select_Cell("Activities", "Transaction Date");
+						String TransactionDate = Browser.WebTable.getCellData("Activities", Row, Col);
+
+						Col = CO.Select_Cell("Activities", "Customer Segment");
+						String CustomerSegment = Browser.WebTable.getCellData("Activities", Row, Col);
+
+						Col = CO.Select_Cell("Activities", "Customer Type");
+						String CustomerType = Browser.WebTable.getCellData("Activities", Row, Col);
+
+						Col = CO.Select_Cell("Activities", "Agent ID");
+						String AgentID = Browser.WebTable.getCellData("Activities", Row, Col);
+
+						Col = CO.Select_Cell("Activities", "Status");
+						Activity_Status = Browser.WebTable.getCellData("Activities", Row, Col);
 						// Activity #
-						Result.takescreenshot("Activity Created in Open Status with Activity Id " + ActivityId);
-						Result.fUpdateLog("Activity Created in Open Status with Activity Id " + ActivityId);
+						Result.takescreenshot("Activity Created Activity Number " + ActivityId);
+						Result.fUpdateLog("Activity Created Activity Number " + ActivityId);
+						Test_OutPut += "ActivityNumber : " + ActivityId + ",";
+						Test_OutPut += "Journey : " + Journey + ",";
+						Test_OutPut += "Transaction Date : " + TransactionDate + ",";
+						Test_OutPut += "Customer Segment : " + CustomerSegment + ",";
+						Test_OutPut += "Customer Type : " + CustomerType + ",";
+						Test_OutPut += "Agent ID : " + AgentID + ",";
+						Test_OutPut += "Activity Status : " + Activity_Status + ",";
+						
+						if (Browser.WebButton.exist("Activity_Menu")) {
+							CO.scroll("Activity_Menu", "WebButton");
+							Browser.WebButton.click("Activity_Menu");
+							
+							CO.waitforload();
+							CO.waitforload();
+							String[] objprop = Utlities.FindObject("Menu_Selection", "WebButton");
+							String cellXpath = objprop[0] + "Save Record                [Ctrl+S]" + "']";
+							if (cDriver.get().findElement(By.xpath(cellXpath)).isDisplayed()) {
+								WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
+								((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+								cDriver.get().findElement(By.xpath(cellXpath)).click();
+							} else
+								Continue.set(false);
+							CO.waitforload();
+						}
+						
+						try {
+							WebDriverWait wait = new WebDriverWait(cDriver.get(), 5);
+							if (!(wait.until(ExpectedConditions.alertIsPresent()) == null)) {
+								String popup = cDriver.get().switchTo().alert().getText();
+								Result.fUpdateLog(popup);
+								Test_OutPut = "Unwanted Popup exists - " + popup + ",";
+								Continue.set(false);
+							}
+							Browser.alert.accept();
+							Browser.Readystate();
+						} catch (Exception e) {
+							Result.fUpdateLog("No Alert Exist");
+							e.getMessage();
+						}
+						
 					} else {
 						Continue.set(false);
 						Result.takescreenshot("Activity is not Created");
 						Result.fUpdateLog("Activity is not Created");
+						Test_OutPut += "Not able to Create Activity" + ",";
 					}
-				} else {
-
-					Result.takescreenshot("Closing All Open Activities");
-
-					Result.fUpdateLog("Closing All Open Activities");
-
-					Browser.WebButton.click("Activity_Query");
-					CO.waitforload();
-
-					Col = CO.Select_Cell("Activities", "Status");
-					Browser.WebTable.SetDataE("Activities", Row, Col, "Status", "Open");
-					Result.takescreenshot("Query - Open Activities");
-					Result.fUpdateLog("Query - Open Activities");
-					Browser.WebButton.click("Activity_GO");
-					CO.waitforload();
-
+				} else if (TestCaseN.get().toLowerCase().contains("change status")) {
 					int RowCount1 = Browser.WebTable.getRowCount("Activities");
+					Browser.WebButton.click("Activity_Query");
 
-					if (RowCount1 >= 2) {
+					CO.waitforload();
 
-						for (int R = 2; R <= RowCount1; R++) {
+					if (!(getdata("Activity_Number").equals(""))) {
+						Col = CO.Select_Cell("Activities", "Activity #");
+						Browser.WebTable.SetDataE("Activities", Row, Col, "Activity_UID", Activity_Number);
+						Result.takescreenshot("Query");
+						Result.fUpdateLog("Query");
+						Browser.WebButton.click("Activity_GO");
+						CO.waitforload();
+						RowCount1 = Browser.WebTable.getRowCount("Activities");
 
-							Browser.WebTable.SetData("Activities", R, Col, "Status", "Close");
+						if (RowCount1 >= 2) {
+							Col = CO.Select_Cell("Activities", "Status");
+							Browser.WebTable.SetData("Activities", 2, Col, "Status", Activity_Status);
 
 							Col = CO.Select_Cell("Activities", "Activity #");
-							String ActivityId = Browser.WebTable.getCellData("Activities", R, Col);
-
-							Result.takescreenshot("Closing Activity " + ActivityId);
-							Result.fUpdateLog("Closing Activity " + ActivityId);
+							String ActivityId = Browser.WebTable.getCellData("Activities", 2, Col);
 
 							Col = CO.Select_Cell("Activities", "Status");
-						}
-					} else {
-						Continue.set(false);
-						Result.takescreenshot("No Activity is in Open Status to close please check the data");
-						Result.fUpdateLog("No Activity is in Open Status to close please check the data");
-					}
+							Activity_Status = Browser.WebTable.getCellData("Activities", Row, Col);
 
+							Result.takescreenshot("Activity Status " + Activity_Status);
+							Result.fUpdateLog("Activity Status " + Activity_Status);
+
+							Test_OutPut += "Activity Number : " + ActivityId + ",";
+							Test_OutPut += "Activity Status : " + Activity_Status + ",";
+
+						} else {
+							Continue.set(false);
+							Result.takescreenshot("No Activity is available : " + Activity_Number);
+							Result.fUpdateLog("No Activity is available : " + Activity_Number);
+							Test_OutPut += "No Activity is available : " + Activity_Number + ",";
+						}
+
+					} else {
+
+						Col = CO.Select_Cell("Activities", "Status");
+						Browser.WebTable.SetDataE("Activities", Row, Col, "Status", "Open");
+						Result.takescreenshot("Query - Activities");
+						Result.fUpdateLog("Query - Activities");
+						Browser.WebButton.click("Activity_GO");
+						CO.waitforload();
+
+						RowCount1 = Browser.WebTable.getRowCount("Activities");
+
+						if (RowCount1 >= 2) {
+
+							for (int R = 2; R <= RowCount1; R++) {
+
+								Browser.WebTable.SetData("Activities", R, Col, "Status", Activity_Status);
+
+								Col = CO.Select_Cell("Activities", "Activity #");
+								String ActivityId = Browser.WebTable.getCellData("Activities", R, Col);
+
+								Col = CO.Select_Cell("Activities", "Status");
+								Activity_Status = Browser.WebTable.getCellData("Activities", Row, Col);
+
+								Result.takescreenshot("Activity Status " + Activity_Status);
+								Result.fUpdateLog("Activity Status " + Activity_Status);
+
+								Test_OutPut += "Activity Number : " + ActivityId + ",";
+								Test_OutPut += "Activity Status : " + Activity_Status + ",";
+							}
+						} else {
+							Continue.set(false);
+							Result.takescreenshot("No Activity is available : ");
+							Result.fUpdateLog("No Activity is available : ");
+							Test_OutPut += "No Activity is available : " + ",";
+						}
+
+					}
 				}
 			} else {
-				Test_OutPut += "Assert not found";
+				Test_OutPut += "Assert not found" + ",";
 			}
 
 			if (Continue.get()) {
-				Test_OutPut += "Activities Creation / Closure - Siebel is done Successfully " + ",";
 				Result.fUpdateLog("Activities Creation / Closure  - Siebel is  done successfully");
 				Status = "PASS";
 			} else {
-				Test_OutPut += "Activities Creation / Closure - Siebel Failed" + ",";
 				Result.takescreenshot("Activities Creation / Closure - Siebel Failed");
 				Result.fUpdateLog("Activities Creation / Closure - Siebel Failed");
 				Status = "FAIL";

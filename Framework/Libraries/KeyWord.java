@@ -210,6 +210,11 @@ public class KeyWord {
 	public String LanguageChange() {
 		return KC.LanguageChange();
 	}
+	
+	public String Activities() {
+		return KC.Activities();
+	}
+
 
 	public String CreditLimit() {
 		return KC.CreditLimit();

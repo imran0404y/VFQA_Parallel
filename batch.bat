@@ -1,0 +1,1 @@
+java -cp bin;SeleniumJars\fillo-1.18.jar;SeleniumJars\apache-commons-net.jar;SeleniumJars\bcprov-jdk15on-1.59.jar;SeleniumJars\java-client-6.1.0.jar;SeleniumJars\jsch-0.1.54.jar;SeleniumJars\ojdbc8.jar;SeleniumJars\selenium-server-standalone-3.14.0.jar Libraries.Driver

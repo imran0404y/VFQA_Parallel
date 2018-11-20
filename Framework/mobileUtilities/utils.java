@@ -1,4 +1,4 @@
-package utilities;
+package mobileUtilities;
 
 import java.io.File;
 import java.io.FileReader;
@@ -62,7 +62,7 @@ public class utils extends Driver{
 
 	public static String getPriority(String BucketId) throws FilloException {
 		Fillo fillo = new Fillo();
-		Connection connection = fillo.getConnection("MobileFramework\\db\\priority.xlsx");
+		Connection connection = fillo.getConnection("Framework\\db\\priority.xlsx");
 		String strQuery = "Select * from sheet1 where Bucket_ID='" + BucketId + "'";
 		Recordset recordset = connection.executeQuery(strQuery);
 		String a;
@@ -76,7 +76,7 @@ public class utils extends Driver{
 
 	public static String getType(String BucketId) throws FilloException {
 		Fillo fillo = new Fillo();
-		Connection connection = fillo.getConnection("MobileFramework\\db\\priority.xlsx");
+		Connection connection = fillo.getConnection("Framework\\db\\priority.xlsx");
 		String strQuery = "Select * from sheet1 where Bucket_ID='" + BucketId + "'";
 		Recordset recordset = connection.executeQuery(strQuery);
 		String a;
@@ -91,7 +91,7 @@ public class utils extends Driver{
 		int counter = 0;
 		String BuckId = null;
 		Fillo fillo = new Fillo();
-		//Connection connection = fillo.getConnection("MobileFramework\\db\\result.xlsx");
+		//Connection connection = fillo.getConnection("Framework\\db\\result.xlsx");
 		Connection connection = fillo.getConnection(UCscreenfilepth.get()+"\\result.xlsx");
 		String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0' and Expiry !='Date Not Given'";
 		//String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0'";
@@ -134,7 +134,7 @@ public class utils extends Driver{
 		double Balance;
 		try {
 		Fillo fillo = new Fillo();
-		//Connection connection = fillo.getConnection("MobileFramework\\db\\result.xlsx");
+		//Connection connection = fillo.getConnection("Framework\\db\\result.xlsx");
 		Connection connection = fillo.getConnection(UCscreenfilepth.get()+"\\result.xlsx");
 		String strQuery = "Select * from " + type + " where Bucket_Id='" + Bucket + "'";
 		Recordset recordset = connection.executeQuery(strQuery);
@@ -164,7 +164,7 @@ public class utils extends Driver{
 		if(!(Bucket.contentEquals("PRMBAL"))) {
 		//if(Bucket!="PRMBAL") {
 		Fillo fillo = new Fillo();
-		Connection connection = fillo.getConnection("MobileFramework\\db\\priority.xlsx");
+		Connection connection = fillo.getConnection("Framework\\db\\priority.xlsx");
 		String strQuery = "Select * from sheet1 where Bucket_Id='" + Bucket + "'";
 		Recordset recordset = connection.executeQuery(strQuery);
 		for (int i = 0; i <= recordset.getCount(); i++)
@@ -172,7 +172,7 @@ public class utils extends Driver{
 		String str = recordset.getField(3).value();
 		charging = Double.parseDouble(str);
 		}else {
-			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			charging = Double.parseDouble(p.getProperty("PRMBAL_"+Type));
@@ -182,12 +182,12 @@ public class utils extends Driver{
 
 	public static void clenaup() throws FilloException {
 		Fillo fillo = new Fillo();
-		//Connection connection = fillo.getConnection("MobileFramework\\db\\result.xlsx");
+		//Connection connection = fillo.getConnection("Framework\\db\\result.xlsx");
 		Connection connection = fillo.getConnection(UCscreenfilepth.get()+"\\result.xlsx");
 		String strQuery = "Update pre Set Bucket_Id = '', Name='',Value='',Expiry='',Priority='',Type='',SubType=''";
 		connection.executeUpdate(strQuery);
 		connection.close();
-		connection = fillo.getConnection("MobileFramework\\db\\result.xlsx");
+		connection = fillo.getConnection("Framework\\db\\result.xlsx");
 		strQuery = "Update post Set Bucket_Id = '', Name='',Value='',Expiry='',Priority='',Type='',SubType=''";
 		connection.executeUpdate(strQuery);
 		connection.close();
@@ -196,7 +196,7 @@ public class utils extends Driver{
 	public static String getSubType(String BucketId) throws FilloException {
 		String SubType;
 		Fillo fillo = new Fillo();
-		//Connection connection = fillo.getConnection("MobileFramework\\db\\result.xlsx");
+		//Connection connection = fillo.getConnection("Framework\\db\\result.xlsx");
 		Connection connection = fillo.getConnection(UCscreenfilepth.get()+"\\result.xlsx");
 		String strQuery = "Select * from pre where Bucket_ID='" + BucketId + "'";
 		Recordset recordset = connection.executeQuery(strQuery);
@@ -213,7 +213,7 @@ public class utils extends Driver{
 		double charging = 0;
 		if(SubType.equalsIgnoreCase("QAR") || SubType.equalsIgnoreCase("FLEX")) {
 			Fillo fillo = new Fillo();
-			Connection connection = fillo.getConnection("MobileFramework\\db\\priority.xlsx");
+			Connection connection = fillo.getConnection("Framework\\db\\priority.xlsx");
 			String strQuery = "Select * from International where Country='" + Country + "'";
 			System.out.println(strQuery);
 			Recordset recordset = connection.executeQuery(strQuery);
@@ -230,7 +230,7 @@ public class utils extends Driver{
 			}
 		}else {
 			Fillo fillo = new Fillo();
-			Connection connection = fillo.getConnection("MobileFramework\\db\\priority.xlsx");
+			Connection connection = fillo.getConnection("Framework\\db\\priority.xlsx");
 			String strQuery = "Select * from sheet1 where Bucket_Id='" + Bucket + "'";
 			Recordset recordset = connection.executeQuery(strQuery);
 			for (int i = 0; i <= recordset.getCount(); i++)
@@ -248,7 +248,7 @@ public class utils extends Driver{
 		double charging = 0;
 		if(SubType.equalsIgnoreCase("QAR") || SubType.equalsIgnoreCase("FLEX")) {
 			Fillo fillo = new Fillo();
-			Connection connection = fillo.getConnection("MobileFramework\\db\\priority.xlsx");
+			Connection connection = fillo.getConnection("Framework\\db\\priority.xlsx");
 			String strQuery = "Select * from International where Country='" + Country + "'";
 			System.out.println(strQuery);
 			Recordset recordset = connection.executeQuery(strQuery);
@@ -265,7 +265,7 @@ public class utils extends Driver{
 			}
 		}else {
 			Fillo fillo = new Fillo();
-			Connection connection = fillo.getConnection("MobileFramework\\db\\priority.xlsx");
+			Connection connection = fillo.getConnection("Framework\\db\\priority.xlsx");
 			String strQuery = "Select * from sheet1 where Bucket_Id='" + Bucket + "'";
 			Recordset recordset = connection.executeQuery(strQuery);
 			for (int i = 0; i <= recordset.getCount(); i++)
@@ -290,7 +290,7 @@ public class utils extends Driver{
 	}	
 	
 	public static void restartMobile(String DeviceName) throws IOException {
-		FileReader reader = new FileReader("MobileFramework/config/config.properties");
+		FileReader reader = new FileReader("Framework/config/config.properties");
 		Properties p = new Properties();
 		p.load(reader);
 		Runtime run = Runtime.getRuntime();
@@ -363,7 +363,7 @@ public class utils extends Driver{
 		try{
 		String BuckId = null;
 		Fillo fillo = new Fillo();
-		//Connection connection = fillo.getConnection("MobileFramework\\db\\result.xlsx");
+		//Connection connection = fillo.getConnection("Framework\\db\\result.xlsx");
 		Connection connection = fillo.getConnection(UCscreenfilepth.get()+"\\result.xlsx");
 		String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0' and Expiry !='Date Not Given'";
 		//String strQuery = "Select * from pre where Type Like '%" + Type + "%' and Value !='0'";

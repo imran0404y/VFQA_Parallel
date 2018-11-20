@@ -1,4 +1,4 @@
-package utilities;
+package mobileUtilities;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,7 +27,7 @@ public class MCare extends Driver {
 		DeviceName = utils.fetchData("DeviceName");
 		Path = utils.fetchData("Path");
 		try {
-			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			Runtime run = Runtime.getRuntime();
@@ -57,31 +58,32 @@ public class MCare extends Driver {
 	}
 
 	public static String verifyMCareLogin() {
-		String Test_OutPut = "", Status = "", DeviceName;
+		String Test_OutPut = "", Status = "";
 		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
 		try {
-			DeviceName = utils.fetchData("DeviceName");
-			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			//String DeviceName = utils.fetchData("DeviceName");
+			String Env = utils.fetchData("Env");
+			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			utils.takeScreenShot();
 			Thread.sleep(1000);
-			Runtime run = Runtime.getRuntime();
-			String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
-			run.exec(cmd);
-			Thread.sleep(1000);
-			utils.takeScreenShot();
-			SetCapabilities.dr.findElement(By.id(Xpath.okButton)).click();
-			utils.takeScreenShot();
-			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 180);
-			Thread.sleep(5000);
-			SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click();
-			try {
-				if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
-					SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click();
-			} catch (Exception e) {
-
-			}
+			String activity = p.getProperty("MCare_" + Env + "_AppPackage");
+			/*
+			 * Runtime run = Runtime.getRuntime(); String cmd = "adb -s " +
+			 * p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
+			 * run.exec(cmd); Thread.sleep(1000); utils.takeScreenShot();
+			 * SetCapabilities.dr.findElement(By.id(activity+Xpath.okButton)).click();
+			 * utils.takeScreenShot(); WebDriverWait wait = new
+			 * WebDriverWait(SetCapabilities.dr, 180); Thread.sleep(5000);
+			 * SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click(); try {
+			 * if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
+			 * SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click(); } catch
+			 * (Exception e) {
+			 * 
+			 * }
+			 */
+			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 10);
 			wait.until(ExpectedConditions
 					.visibilityOfElementLocated(By.xpath("//*[@class='android.widget.ImageView' and @index='0']")));
 			if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']"))
@@ -90,7 +92,7 @@ public class MCare extends Driver {
 				Result.fUpdateLog("Avatar Verified on Dashboard");
 				Test_OutPut += "Avatar Verified on Dashboard </br>";
 				Avatar = 1;
-				if (SetCapabilities.dr.findElement(By.id(Xpath.VoV)).isDisplayed()) {
+				if (SetCapabilities.dr.findElement(By.id(activity + Xpath.VoV)).isDisplayed()) {
 					Result.fUpdateLog("VoV Verified on Dashboard");
 					Test_OutPut += "VoV Verified on Dashboard </br>";
 					VoV = 1;
@@ -100,7 +102,7 @@ public class MCare extends Driver {
 					VoV = 0;
 				}
 
-				if (SetCapabilities.dr.findElement(By.id(Xpath.BurgerMenu)).isDisplayed()) {
+				if (SetCapabilities.dr.findElement(By.id(activity + Xpath.BurgerMenu)).isDisplayed()) {
 					Result.fUpdateLog("Burger Menu is Verified on Dashboard");
 					Test_OutPut += "Burger Menu is Verified on Dashboard </br>";
 					Menu = 1;
@@ -128,7 +130,7 @@ public class MCare extends Driver {
 					MobNum = 0;
 				}
 
-				if (SetCapabilities.dr.findElement(By.id(Xpath.NeedHelp)).isDisplayed()) {
+				if (SetCapabilities.dr.findElement(By.id(activity + Xpath.NeedHelp)).isDisplayed()) {
 					Result.fUpdateLog("Need Help Verified on Dashboard");
 					Test_OutPut += "Need Help Verified on Dashboard </br>";
 					NeedHelp = 1;
@@ -137,7 +139,7 @@ public class MCare extends Driver {
 					Test_OutPut += "Need Help is not found on Dashboard </br>";
 					NeedHelp = 0;
 				}
-				if (SetCapabilities.dr.findElement(By.id(Xpath.GaugeLayout)).isDisplayed()) {
+				if (SetCapabilities.dr.findElement(By.id(activity + Xpath.GaugeLayout)).isDisplayed()) {
 					Result.fUpdateLog("Gauge Verified on Dashboard");
 					Test_OutPut += "Gauge Verified on Dashboard </br>";
 					Gauge = 1;
@@ -172,13 +174,11 @@ public class MCare extends Driver {
 	}
 
 	public static void Scroll(String Text) throws InterruptedException {
-
-        Wait("//*[@text='Calls & SMS']");
-        MobileElement radioGroup = (MobileElement) SetCapabilities.dr.findElement(MobileBy.AndroidUIAutomator(
-                "new UiScrollable(new UiSelector()).scrollIntoView(" + "new UiSelector().text(\"" + Text + "\"));"));
-        Thread.sleep(1000);
-        radioGroup.click();
-    }
+		MobileElement radioGroup = (MobileElement) SetCapabilities.dr.findElement(MobileBy.AndroidUIAutomator(
+				"new UiScrollable(new UiSelector()).scrollIntoView(" + "new UiSelector().text(\"" + Text + "\"));"));
+		Thread.sleep(1000);
+		radioGroup.click();
+	}
 
 	public static String verifyPlanNameMCare() {
 		String Test_OutPut = "", Status = "";
@@ -211,7 +211,7 @@ public class MCare extends Driver {
 	public static String billEnquiryMCare() {
 		String Test_OutPut = "", Status = "", MSISDN, ID, DeviceName, SiebelTotal;
 		try {
-			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			DeviceName = utils.fetchData("DeviceName");
@@ -309,7 +309,7 @@ public class MCare extends Driver {
 						TouchAction action = new TouchAction(SetCapabilities.dr);
 						action.press(new PointOption().withCoordinates(endX, startY)).waitAction()
 								.moveTo(new PointOption().withCoordinates(startX, startY)).release().perform();
-						Call-- ;
+						Call--;
 					}
 				}
 			}
@@ -329,7 +329,7 @@ public class MCare extends Driver {
 						TouchAction action = new TouchAction(SetCapabilities.dr);
 						action.press(new PointOption().withCoordinates(endX, startY)).waitAction()
 								.moveTo(new PointOption().withCoordinates(startX, startY)).release().perform();
-						Data-- ;
+						Data--;
 					}
 				}
 			}
@@ -349,7 +349,7 @@ public class MCare extends Driver {
 						TouchAction action = new TouchAction(SetCapabilities.dr);
 						action.press(new PointOption().withCoordinates(endX, startY)).waitAction()
 								.moveTo(new PointOption().withCoordinates(startX, startY)).release().perform();
-						SMS-- ;
+						SMS--;
 					}
 				}
 			}
@@ -363,23 +363,73 @@ public class MCare extends Driver {
 		String Test_OutPut = "", Status = "", MVA_PrepaidExtras = "";
 
 		try {
-			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
+			FileReader reader = new FileReader("Framework/config/config.properties");
+			Properties p = new Properties();
+			p.load(reader);
+			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 10);
 			MVA_PrepaidExtras = utils.fetchData("MVA_PrepaidExtras");
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//*[@class='android.widget.ImageView' and @index='1']")));
-			SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='1']")).click();
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Add-ons')]")));
-			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Add-ons')]")).click();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Xpath.BurgerMenu)));
+			utils.takeScreenShot();
+			SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).click();
+			
+			wait.until(
+					ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'My Products & Services')]")));
+			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'My Products & Services')]")).click();
+			if(TestCaseN.get().equalsIgnoreCase("Existing")) {
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
+				SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
+				utils.takeScreenShot();
+			}else{
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'More extras')]")));
+			}
+			
+			if (utils.fetchData("MVA_ProductType").toString().equals("Flex")) {
+				Scroll("Flex");
+				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Flex')]")));
+				//SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Flex')]")).click();
+			} else if (utils.fetchData("MVA_ProductType").toString().equals("Internet")) {
+				Scroll("Internet");
+				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Internet')]")));
+				//SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Internet')]")).click();
+			} else if (utils.fetchData("MVA_ProductType").toString().equals("Calls")) {
+				Scroll("Calls");
+				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Calls')]")));
+				//SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Calls')]")).click();
+			} else if (utils.fetchData("MVA_ProductType").toString().equals("Roaming")) {
+				Scroll("Roaming");
+				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Roaming')]")));
+				//SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Roaming')]")).click();
+			}
 			utils.takeScreenShot();
 			Scroll(MVA_PrepaidExtras);
-
-			SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate']")).click();
 			utils.takeScreenShot();
+			
+			
+			if(TestCaseN.get().equalsIgnoreCase("Existing")) {
+				wait.until(
+						ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate Again']")));
+				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate Again']")).click();
+				utils.takeScreenShot();
+			}else{
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate']")));
+				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate']")).click();
+			}
+			
+			
 			int i = 0;
 			do {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 				i = i + 1;
 			} while (i < 4);
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(activity + Xpath.BurgerMenu)));
+			SetCapabilities.dr.findElement(By.id(activity + Xpath.BurgerMenu)).click();
+			wait.until(
+					ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Home')]")));
+			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Home')]")).click();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(activity + Xpath.BurgerMenu)));
+			utils.takeScreenShot();
+			
 			Status = "PASS";
 
 		} catch (Exception e) {
@@ -544,14 +594,12 @@ public class MCare extends Driver {
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
 			SetCapabilities.dr.findElement(By.id(Xpath.BurgerMenu)).click();
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Recharge)).click();
-			SetCapabilities.dr.findElement(By.id("qa.vodafone.myvodafone.devel.debug:id/"+TestCaseN.get()+"")).click();
-			/*	ScrollScript*/
+			SetCapabilities.dr.findElement(By.id("qa.vodafone.myvodafone.devel.debug:id/" + TestCaseN.get() + ""))
+					.click();
+			/* ScrollScript */
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Payment)).click();
-			
-		
-			
+
 			// RechargeType = utils.fetchData("RechargeType");
-			
 
 		} catch (Exception e) {
 			Status = "FAIL";
@@ -565,7 +613,7 @@ public class MCare extends Driver {
 	public static String McareBillPayment() {
 		String Test_OutPut = "", Status = "", MSISDN = "", Amount = "";
 		try {
-			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			switch (UseCaseName.get()) {
@@ -599,60 +647,54 @@ public class MCare extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-	
+
 	public static String FlexBalance() {
-		String Test_OutPut = "", Status = "",Flextext="",Flex="",FlexBal="",FB="";
+		String Test_OutPut = "", Status = "", Flextext = "", Flex = "", FlexBal = "", FB = "";
 		try {
-			utils.takeScreenShot();	
-			if (SetCapabilities.dr.findElement(By.xpath("//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/dashboard_small_credits']"))
+			utils.takeScreenShot();
+			if (SetCapabilities.dr
+					.findElement(By
+							.xpath("//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/dashboard_small_credits']"))
 					.isDisplayed()) {
-				 Flextext =	SetCapabilities.dr .findElement(By.xpath(
-						 "//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/balance' and @index='0']//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.text')]"
-						 )) .getText().toString();
-				if(Flextext.contains("Flex"))
-				{
-					 Flex = SetCapabilities.dr .findElement(By.xpath(
-							 "//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.amount.text')]")) .getText().toString();
-						utils.takeScreenShot();	
-						
+				Flextext = SetCapabilities.dr.findElement(By.xpath(
+						"//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/balance' and @index='0']//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.text')]"))
+						.getText().toString();
+				if (Flextext.contains("Flex")) {
+					Flex = SetCapabilities.dr.findElement(By.xpath(
+							"//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.amount.text')]"))
+							.getText().toString();
+					utils.takeScreenShot();
+
+				} else if (Flextext.contains("Credit")) {
+					Flex = SetCapabilities.dr.findElement(By.xpath(
+							"//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/dashboard_small_credits']//*[@class='android.support.v7.widget.LinearLayoutCompat' and @index='1']//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.amount.text')]"))
+							.getText().toString();
+					utils.takeScreenShot();
+
 				}
-				else if(Flextext.contains("Credit"))
-				{
-					 Flex =SetCapabilities.dr .findElement(By.xpath(
-							 "//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/dashboard_small_credits']//*[@class='android.support.v7.widget.LinearLayoutCompat' and @index='1']//android.widget.TextView[contains(@content-desc,'ltr.dashboard.credit.small.amount.text')]"
-							 )) .getText().toString();
-						utils.takeScreenShot();	
-						
-				}
-				
-				FlexBal=Flex.split("FLEX")[1].trim();
+
+				FlexBal = Flex.split("FLEX")[1].trim();
 				System.out.println(FlexBal);
 				utils.takeScreenShot();
-				if(TestCaseN.get().equals("Mcare_Post_FlexVerify")) {
-						FB = Utlities.FetchStoredValue("Mcare_Post_FlexVerify", "Mcare_Post_FlexVerify",
-						"Flexbalance");
-				}else if(TestCaseN.get().equals("Mcare_Pre_FlexVerify"))
-				{
-						FB = Utlities.FetchStoredValue("Mcare_Pre_FlexVerify", "Mcare_Pre_FlexVerify",
-							"Flexbalance");
+				if (TestCaseN.get().equals("Mcare_Post_FlexVerify")) {
+					FB = Utlities.FetchStoredValue("Mcare_Post_FlexVerify", "Mcare_Post_FlexVerify", "Flexbalance");
+				} else if (TestCaseN.get().equals("Mcare_Pre_FlexVerify")) {
+					FB = Utlities.FetchStoredValue("Mcare_Pre_FlexVerify", "Mcare_Pre_FlexVerify", "Flexbalance");
 				}
-				if(FlexBal.contains(FB))
-				{
-					
+				if (FlexBal.contains(FB)) {
+
 					Status = "PASS";
 					Result.fUpdateLog("Flex bucket is verified with RTB");
-				}
-				else{
+				} else {
 					Status = "FAIL";
 					Result.fUpdateLog("Flex bucket is not as per RTB");
 				}
-			
-			}else
-			{
+
+			} else {
 				Continue.set(false);
 				Result.fUpdateLog("Flex bucket is not available");
 			}
-			
+
 		} catch (Exception e) {
 			Status = "FAIL";
 			e.printStackTrace();
@@ -660,5 +702,5 @@ public class MCare extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-package utilities;
+package mobileUtilities;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,9 +7,10 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utilities.SetCapabilities;
-import utilities.utils;
+
 import Libraries.Result;
+import mobileUtilities.SetCapabilities;
+import mobileUtilities.utils;
 import Libraries.Driver;
 
 public class USSD extends Driver{

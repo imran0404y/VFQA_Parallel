@@ -1,6 +1,6 @@
 package Libraries;
 
-import utilities.*;
+import mobileUtilities.*;
 
 public class KeyWord {
 

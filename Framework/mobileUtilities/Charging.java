@@ -1,7 +1,8 @@
-package utilities;
+package mobileUtilities;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
 import Libraries.Result;
 
 public class Charging {

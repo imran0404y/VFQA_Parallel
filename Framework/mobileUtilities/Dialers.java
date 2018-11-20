@@ -1,8 +1,7 @@
-package utilities;
+package mobileUtilities;
 
 import java.util.concurrent.TimeUnit;
-import utilities.SetCapabilities;
-import utilities.utils;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,6 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import Libraries.Driver;
 import Libraries.Result;
 import Libraries.Utlities;
+
+
 
 public class Dialers extends Driver {
 	public String MobileNumber;

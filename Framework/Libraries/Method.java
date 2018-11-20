@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
  * Last Modified Date 	: 25-Apr-2016
  --------------------------------------------------------------------------------------------------------*/
 public class Method extends Driver {
-	/*---------------------------------------------------------------------------------------------------------
+	/*----------------------------------------------------------------------------------------------------------
 	 * Method Name			: setTD
 	 * Arguments			: identifier and value
 	 * Use 					: Enters value in the Web Edit
@@ -402,6 +402,7 @@ public class Method extends Driver {
 		int i = 0;
 		Exception Error = null;
 		for (i = 0; i < identify.length;) {
+
 			try {
 				if (Continue.get() == true) {
 					switch (i) {
@@ -453,14 +454,63 @@ public class Method extends Driver {
 				Error = e;
 				Continue.set(true);
 			}
+			
+					
 		}
+		
 		if (i == identify.length) {
+			
+			if(Error.toString().contains("is not clickable at point"))
+			{
+				clickTD1(identify[0]);
+			}else {
+				Continue.set(false);
+			Result.fUpdateLog("Object does't Exists to click");
+			Error.printStackTrace();}
+		}
+	}
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: clickTD
+	 * Arguments			: identifier
+	 * Use 					: Click the Web element, Button or Link
+	 * Designed By			: AG
+	 * Last Modified Date 	: 25-Apr-2016
+	--------------------------------------------------------------------------------------------------------*/
+	public static void clickTD1(String identify) {
+		int count=0;
+		Exception Error = null;
+		do{
+			try {
+				if (Continue.get() == true) {
+					if (identify != "") {
+						Thread.sleep(1000);
+							Scroll(cDriver.get().findElement(By.xpath(identify)));
+							cDriver.get().findElement(By.xpath(identify)).click();
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					
+					}
+				
+			} catch (Exception e) {
+				Error = e;
+				Continue.set(true);
+			}
+			
+		if(!Error.toString().contains("is not clickable at point"))
+		{
+			count=17;
+		}else if(count==15) {
 			Continue.set(false);
 			Result.fUpdateLog("Object does't Exists to click");
 			Error.printStackTrace();
 		}
+		System.out.println(count);
+		
+		count++;
+		}while(count<16);
 	}
-
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: clearTD
 	 * Arguments			: identifier

@@ -1,4 +1,4 @@
-package utilities;
+package mobileUtilities;
 
 import java.text.SimpleDateFormat;
 

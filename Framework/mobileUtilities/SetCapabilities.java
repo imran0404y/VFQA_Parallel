@@ -1,12 +1,13 @@
-package utilities;
-
-import Libraries.*;
+package mobileUtilities;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Properties;
+import java.net.URL;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import Libraries.Driver;
+import Libraries.Result;
 import io.appium.java_client.android.AndroidDriver;
 
 @SuppressWarnings("rawtypes")
@@ -37,7 +38,7 @@ public class SetCapabilities extends Driver {
 	public static void setDialerCapabilities1(String DeviceName) {
 		System.out.println("*** Setting Up Dialer Capabilities ***");
 		try {
-			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -77,7 +78,7 @@ public class SetCapabilities extends Driver {
 	public static void setMessengerCapabilities1(String DeviceName) throws IOException, InterruptedException {
 		System.out.println("*** Setting Up Messenger Capabilities ***");
 		try {
-			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -118,7 +119,7 @@ public class SetCapabilities extends Driver {
 		System.out.println("*** Setting Up MCare Capabilities ***");
 		try {
 			String Env = utils.fetchData("Env");
-			FileReader reader = new FileReader("MobileFramework/config/config.properties");
+			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -128,9 +129,10 @@ public class SetCapabilities extends Driver {
 			capabilities.setCapability("platformName", "Android");
 			capabilities.setCapability("appPackage", p.getProperty("MCare_"+ Env + "_AppPackage"));
 			capabilities.setCapability("appActivity", p.getProperty("MCare_"+ Env + "_AppActivity"));
+			activity.set(p.getProperty("MCare_" + Env + "_AppPackage"));
 			dr = new AndroidDriver(new URL("http://127.0.0.1:" + p.getProperty(DeviceName + "_Port") + "/wd/hub"),
 					capabilities);
-			dr.resetApp();
+			//dr.resetApp();
 			Result.fUpdateLog("*** MCare Capabilities are now Set ***");
 		} catch (Exception e) {
 			Result.fUpdateLog("Capabilites are not set due to" + e);

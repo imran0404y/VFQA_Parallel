@@ -376,21 +376,26 @@ public class Common extends Driver {
 	 * Method Name			: Radio_None
 	 * Use 					: To select a spectific None Radio Button or to uncheck the check box
 	 * Designed By			: Vinodhini
+	 * Modified By		    :Sravanireddyc
 	 * Last Modified Date 	: 12-March-2017
 	 *--------------------------------------------------------------------------------------------------------*/
 	public void Radio_None(String Text) {
+		waitforload();
+		waitforload();
 		List<WebElement> elements = cDriver.get().findElements(
 				By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[@class='siebui-ecfg-feature-group']"));
 		int Size = elements.size();
 		System.out.println(Size);
 		boolean flag = false;
 		waitforload();
+		waitforload();
 		for (int i = 1; i <= Size; i++) {
 			List<WebElement> cellXpath = cDriver.get()
 					.findElements(By.xpath("//div[@class='siebui-ecfg-products']//div[1]//div[" + i
 							+ "]//div[1]//table//div[1]//div[1]//input"));
 			waitforload();
-			for (int t = 1; t < cellXpath.size(); t++) {
+			for (int t = 0; t < cellXpath.size(); t++) {
+				System.out.println(cellXpath.get(t).getAttribute("value"));
 				if (cellXpath.get(t).getAttribute("value").equals(Text)) {
 					if (cellXpath.get(t).getAttribute("type").equals("radio")) {
 						// Radio Button

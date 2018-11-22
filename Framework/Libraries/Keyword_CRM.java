@@ -6946,7 +6946,9 @@ public class Keyword_CRM extends Driver {
 	 * Arguments			: None
 	 * Use 					: Account360 View validating
 	 * Designed By			: Vinodhini R
-	 * Last Modified Date 	: 02-01-2018
+	* Modified By			: SravaniReddy	c
+	
+	 * Last Modified Date 	: 05-11-2018
 	--------------------------------------------------------------------------------------------------------*/
 	public String Account360() {
 		String Test_OutPut = "", Status = "";
@@ -6985,6 +6987,7 @@ public class Keyword_CRM extends Driver {
 			}
 
 			if (Browser.WebLink.exist("Activity_timeline_link")) {
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebLink.click("Activity_timeline_link");
 				Result.takescreenshot("Activity Timeline link is clicked");
 				Result.fUpdateLog("Activity Timeline link is clicked");
@@ -6994,7 +6997,9 @@ public class Keyword_CRM extends Driver {
 					Test_OutPut += "Activities are Displayed" + ",";
 					CO.waitforload();
 					CO.waitforload();
-					cDriver.get().navigate().back();
+					CO.waitforload();
+					cDriver.get().get(home);
+					
 				}
 			} else {
 				Result.takescreenshot("Activity Timeline link is not Enabled");
@@ -7011,6 +7016,8 @@ public class Keyword_CRM extends Driver {
 				Row_Count = Browser.WebTable.getRowCount("Acc_Orders");
 				if (Row_Count >= 2) {
 					Browser.WebLink.waittillvisible("Sales_order_link");
+					
+					String home =cDriver.get().getCurrentUrl();
 					Browser.WebLink.click("Sales_order_link");
 					Result.takescreenshot("Sales order link is clicked ");
 					Result.fUpdateLog("Sales order link is clicked");
@@ -7021,7 +7028,7 @@ public class Keyword_CRM extends Driver {
 						CO.waitforload();
 						CO.waitforload();
 						CO.waitforload();
-						cDriver.get().navigate().back();
+						cDriver.get().get(home);
 					}
 				}
 			} else {
@@ -7045,13 +7052,14 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("Acc_Orders");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebLink.click("open_orders_link");
 				Result.takescreenshot("Open order link is clicked ");
 				Result.fUpdateLog("Open order link is clicked");
 				CO.waitforload();
 				Result.fUpdateLog("Open order page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 			}
 
 			// Suspended Orders CO.waitforload();
@@ -7068,6 +7076,7 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("Acc_Orders");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebLink.click("suspeneded_orders_link");
 				Result.takescreenshot("suspended order link is clicked ");
 				Result.fUpdateLog("suspended order link is clicked");
@@ -7076,7 +7085,7 @@ public class Keyword_CRM extends Driver {
 
 				Result.fUpdateLog("suspended order page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 
 			}
 
@@ -7094,6 +7103,7 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("TT_Table");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebLink.click("Trouble_ticket_link");
 				Result.takescreenshot("Trouble ticket link is clicked ");
 				Result.fUpdateLog("Trouble ticket link is clicked");
@@ -7102,7 +7112,8 @@ public class Keyword_CRM extends Driver {
 
 				Result.fUpdateLog("Trouble ticket page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
+
 			}
 
 			// Open Ticket CO.waitforload();
@@ -7119,6 +7130,8 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("TT_Table");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
+
 				Browser.WebLink.click("open_ticket_link");
 				Result.takescreenshot("Open ticket link is clicked ");
 				Result.fUpdateLog("Open ticket link is clicked");
@@ -7127,7 +7140,7 @@ public class Keyword_CRM extends Driver {
 
 				Result.fUpdateLog("Open ticket page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 			}
 
 			// High priority Ticket CO.waitforload();
@@ -7144,6 +7157,8 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("TT_Table");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
+
 				Browser.WebLink.click("High_priority_link");
 				Result.takescreenshot("High priority link is clicked ");
 				Result.fUpdateLog("High priority link is clicked");
@@ -7152,7 +7167,7 @@ public class Keyword_CRM extends Driver {
 
 				Result.fUpdateLog("High priority page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 
 			}
 
@@ -7170,6 +7185,7 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("Acc_Instal_Assert");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebLink.click("Installed_Asset_link");
 				Result.takescreenshot("Installed Asset link is clicked ");
 				Result.fUpdateLog("Installed Asset link is clicked");
@@ -7178,11 +7194,12 @@ public class Keyword_CRM extends Driver {
 
 				Result.fUpdateLog("Installed Asset page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 
 			}
 
 			// Billing Profile CO.waitforload();
+			Browser.WebLink.waitTillEnabled("Billing_profile");
 			Browser.WebLink.click("Billing_profile");
 			if (Browser.WebEdit.exist("All_Billing_profile")) {
 				Result.takescreenshot(" Billing profiles are Enabled ");
@@ -7195,6 +7212,7 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("Bill_Selection");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebLink.click("Billing_profile_link");
 				Result.takescreenshot(" Billing profile link is clicked ");
 				Result.fUpdateLog("Billing profile link is clicked");
@@ -7203,7 +7221,7 @@ public class Keyword_CRM extends Driver {
 
 				Result.fUpdateLog("Billing profile page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 
 			}
 
@@ -7223,6 +7241,7 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("Bill_Selection");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebLink.click("Active_billing_link");
 				Result.takescreenshot("Active Billing link is clicked ");
 				Result.fUpdateLog("Active Billing link is clicked");
@@ -7231,7 +7250,7 @@ public class Keyword_CRM extends Driver {
 
 				Result.fUpdateLog("Active Billing page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 
 			}
 
@@ -7251,6 +7270,7 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("Bill_Selection");
 			if (Row_Count >= 2) {
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebLink.click("suspended_billing_profile_link");
 				Result.takescreenshot(" Suspended Billing profile link is clicked ");
 				Result.fUpdateLog("Suspended Billing profile link is clicked");
@@ -7259,7 +7279,7 @@ public class Keyword_CRM extends Driver {
 
 				Result.fUpdateLog("Suspended Billing profile page is Displayed");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 
 			}
 			// Account Summary
@@ -7380,12 +7400,12 @@ public class Keyword_CRM extends Driver {
 			CO.waitforload();
 			if (Browser.WebButton.exist("view_bills")) {
 				Result.fUpdateLog("View Bills Button is Enabled ");
-
+				String home =cDriver.get().getCurrentUrl();
 				Browser.WebButton.click("view_bills");
 				CO.waitforload();
 				Result.takescreenshot(" View Bills Button is clicked ");
 				CO.waitforload();
-				cDriver.get().navigate().back();
+				cDriver.get().get(home);
 				Test_OutPut += "View Bills Button is  Enabled" + ",";
 			} else {
 				Result.fUpdateLog("View Bills Button is not Enabled ");
@@ -8153,10 +8173,11 @@ public class Keyword_CRM extends Driver {
 
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: UnBarring
-	 * Arguments			: None
-	 * Use 					: UnBarring of services
+	 * Arguments			       : None
+	 * Use 				: UnBarring of services
 	 * Designed By			: Lavannya Mahalingam
-	 * Last Modified Date 	: 03-Oct-2017
+        * Modified By			: Lavannya Mahalingam
+	 * Last Modified Date 	      : 15-Nov-2018
 	--------------------------------------------------------------------------------------------------------*/
 	public String UnBarring() {
 		String Test_OutPut = "", Status = "";
@@ -8225,7 +8246,7 @@ public class Keyword_CRM extends Driver {
 
 				CO.Link_Select("Barring Options");
 
-				CO.Radio_Select(BarringOption);
+				CO.Radio_None(BarringOption);
 
 				CO.waitforload();
 				CO.waitforload();

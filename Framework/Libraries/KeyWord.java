@@ -636,12 +636,12 @@ public class KeyWord {
 		return MCare.billEnquiryMCare();
 	}
 
-	public String Addon_Activation() {
-		return MCare.Addon_Activation();
+	public String PreAddon_Activation() {
+		return MCare.PreAddon_Activation();
 	}
 
-	public String Addon_DeActivation() {
-		return MCare.Addon_DeActivation();
+	public String PreAddon_DeActivation() {
+		return MCare.PreAddon_DeActivation();
 	}
 
 	public String PostAddon_Activation() {

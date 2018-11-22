@@ -359,13 +359,10 @@ public class MCare extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	public static String Addon_Activation() {
+	public static String PreAddon_Activation() {
 		String Test_OutPut = "", Status = "", MVA_PrepaidExtras = "";
 
 		try {
-			FileReader reader = new FileReader("Framework/config/config.properties");
-			Properties p = new Properties();
-			p.load(reader);
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 10);
 			MVA_PrepaidExtras = utils.fetchData("MVA_PrepaidExtras");
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Xpath.BurgerMenu)));
@@ -473,7 +470,7 @@ public class MCare extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	public static String Addon_DeActivation() {
+	public static String PreAddon_DeActivation() {
 		String Test_OutPut = "", Status = "", MVA_PrepaidExtras = "";
 
 		try {
@@ -518,28 +515,53 @@ public class MCare extends Driver {
 	}
 
 	public static String PostAddon_Activation() {
-		String Test_OutPut = "", Status = "", MVA_PrepaidExtras = "";
+		String Test_OutPut = "", Status = "", MVA_PostpaidExtras = "";
 
 		try {
-			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
-			MVA_PrepaidExtras = utils.fetchData("MVA_PrepaidExtras");
-			wait.until(ExpectedConditions.visibilityOfElementLocated(
-					By.xpath("//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/burger_menu']")));
-			SetCapabilities.dr
-					.findElement(By.xpath("//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/burger_menu']"))
-					.click();
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Add-ons')]")));
-			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Add-ons')]")).click();
+			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 10);
+			MVA_PostpaidExtras = utils.fetchData("MVA_PostpaidExtras");
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Xpath.BurgerMenu)));
+			utils.takeScreenShot();
+			SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).click();
+			
+			wait.until(
+					ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'My Products & Services')]")));
+			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'My Products & Services')]")).click();
+			if(TestCaseN.get().equalsIgnoreCase("Existing")) {
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
+				SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
+				utils.takeScreenShot();
+			}else{
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'More extras')]")));
+			}
+			
+			if (utils.fetchData("MVA_ProductType").toString().equals("Flex")) {
+				Scroll("Flex");
+			} else if (utils.fetchData("MVA_ProductType").toString().equals("Internet")) {
+				Scroll("Internet");
+			} else if (utils.fetchData("MVA_ProductType").toString().equals("Calls")) {
+				Scroll("Calls");
+			} else if (utils.fetchData("MVA_ProductType").toString().equals("Roaming")) {
+				Scroll("Roaming");
+			}
+			utils.takeScreenShot();
+			Scroll(MVA_PostpaidExtras);
+			utils.takeScreenShot();
 			utils.timestamp = new SimpleDateFormat("M/dd/YYYY hh:mm:ss aa").format(Calendar.getInstance().getTime());
-			utils.takeScreenShot();
-			Scroll(MVA_PrepaidExtras);
-
-			SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate']")).click();
-			utils.takeScreenShot();
-
+			
+			if(TestCaseN.get().equalsIgnoreCase("Existing")) {
+				wait.until(
+						ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate Again']")));
+				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate Again']")).click();
+				utils.takeScreenShot();
+			}else{
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate']")));
+				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate']")).click();
+			}
+			
 			int i = 0;
 			do {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 				i = i + 1;
 			} while (i < 4);
 			Status = "PASS";
@@ -553,11 +575,11 @@ public class MCare extends Driver {
 	}
 
 	public static String PostAddon_Deactivation() {
-		String Test_OutPut = "", Status = "", MVA_PrepaidExtras = "";
+		String Test_OutPut = "", Status = "", MVA_PostpaidExtras = "";
 
 		try {
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
-			MVA_PrepaidExtras = utils.fetchData("MVA_PrepaidExtras");
+			MVA_PostpaidExtras = utils.fetchData("MVA_PostpaidExtras");
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.xpath("//*[@resource-id='qa.vodafone.myvodafone.devel.beta:id/burger_menu']")));
 			SetCapabilities.dr
@@ -567,7 +589,7 @@ public class MCare extends Driver {
 			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Add-ons')]")).click();
 			utils.timestamp = new SimpleDateFormat("M/dd/YYYY hh:mm:ss aa").format(Calendar.getInstance().getTime());
 			utils.takeScreenShot();
-			Scroll(MVA_PrepaidExtras);
+			Scroll(MVA_PostpaidExtras);
 
 			SetCapabilities.dr.findElement(By.xpath("//*[@text='Deactivate']")).click();
 			utils.takeScreenShot();

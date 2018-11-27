@@ -93,7 +93,7 @@ public class Siebel extends Driver {
 			Result.takescreenshot("");
 
 			CO.waitforload();
-			CO.InstalledAssertChange("New Query                   [Alt+Q]");
+			CO.InstalledAssertChange("New Query                   [Alt+Q]","Installed_Assert_Menu");
 			CO.waitforload();
 			Col = CO.Select_Cell("Installed_Assert", "Service ID");
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);

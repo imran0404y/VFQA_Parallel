@@ -621,7 +621,7 @@ public class Keyword_FixedLine extends Driver {
 				} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
 
 			} else
-				CO.InstalledAssertChange("Modify");
+				CO.InstalledAssertChange("Modify","Prod_Serv_Menu");
 
 			Result.takescreenshot("Clicking On Modify Button");
 			CO.scroll("Date_Continue", "WebButton");

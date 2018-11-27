@@ -365,7 +365,7 @@ public class Keyword_Putty extends Driver {
 						Result.fUpdateLog("latest .zip file is updated : invoice_dir");
 						Test_OutPut += "latest .zip file is updated : invoice_dir" + ",";
 						Test_OutPut += ".Zip file Name : " + str_FileContent5 + ",";
-						InvoiceZip.set(str_FileContent5);
+						InvoiceZip.set(str_FileContent5.trim());
 						List<String> commands4 = new ArrayList<String>();
 						commands4.add("test");
 						commands4.add("pvt -m0");

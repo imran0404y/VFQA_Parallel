@@ -507,6 +507,21 @@ public class Browser extends Driver {
 			}
 
 		}
+		
+		public static int getRowCount1(String objname) throws Exception {
+			try {
+				String[] objprop = Utlities.FindObject(objname, "WebTable");
+				String cellXpath = objprop[0] + "//tr";
+				List<org.openqa.selenium.WebElement> rows = cDriver.get().findElements(By.xpath(cellXpath));
+				int rowcount = rows.size();
+				Result.fUpdateLog(Batchs.get() + " :: Action getRowCount on Obj: " + objname);
+				return rowcount;
+			} catch (Exception e) {
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to getRowCount");
+				throw new Exception();
+			}
+
+		}
 
 		public static boolean exist(String objname) throws Exception {
 			String objtype = "WebTable";

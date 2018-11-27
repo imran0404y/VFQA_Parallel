@@ -3,6 +3,7 @@ package Libraries;
 import java.util.Random;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.openqa.selenium.By;
 
 public class Keyword_Guided extends Driver
 
@@ -462,7 +463,8 @@ public class Keyword_Guided extends Driver
 			CO.waitmoreforload();
 			CO.waitforload();
 			if(Category.equalsIgnoreCase("start")) {
-				Browser.WebEdit.Set("Star_Number_val", "0");
+				String Val=Utlities.cDriver.get().findElement(By.xpath("//span[@id='List_Price_Label']/../..//input")).getAttribute("value");
+				Browser.WebEdit.Set("Star_Number_val", Val);
 
 			}
 			CO.scroll("Generate_CAF", "WebButton");
@@ -824,7 +826,7 @@ public class Keyword_Guided extends Driver
 				Browser.WebLink.click("Acc_Portal");
 			}
 			CO.waitforload();
-			CO.InstalledAssertChange("New Query                   [Alt+Q]");
+			CO.InstalledAssertChange("New Query                   [Alt+Q]","Installed_Assert_Menu");
 			Col = CO.Select_Cell("Installed_Assert", "Service ID");
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");

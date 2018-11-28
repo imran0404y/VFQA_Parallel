@@ -692,6 +692,7 @@ public class Keyword_CRM extends Driver {
 						CO.scroll("Bill_Add", "WebButton");
 						int Row_Ct = Browser.WebTable.getRowCount("Bill_Prof");
 						Browser.WebButton.click("Bill_Add");
+						CO.waitforload();
 						do {
 							int Row_C = Browser.WebTable.getRowCount("Bill_Prof");
 							if (Row_C > Row_Ct) {

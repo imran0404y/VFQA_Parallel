@@ -714,7 +714,7 @@ public class Common extends Driver {
 			if (actualValue) {
 				System.out.println("Button is enabled");
 				Browser.WebButton.click("Cont_MoiValidation");
-				ConditionalWait1(cellXpath, "MOI");
+				ConditionalWait("Cont_MoiValidation", "WebButton");
 				Result.takescreenshot("");
 				// waitmoreforload();
 			}

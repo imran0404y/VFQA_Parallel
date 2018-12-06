@@ -66,11 +66,11 @@ public class KeyWord {
 	public String OrderSubmission() {
 		return KC.OrderSubmission();
 	}
-
+	
 	public String Entp_AccountCreation() {
 		return KC.Entp_AccountCreation();
 	}
-
+	
 	public String Entp_ContactCreation() {
 		return KC.Entp_ContactCreation();
 	}
@@ -666,6 +666,9 @@ public class KeyWord {
     public String SelfRecharge() {
         return MCare.SelfRecharge();
     }
+    public String MenuVerify() {
+		return MCare.MenuVerify();
+	}
 
 	// ---------------------MCare Keywords Ends------------------------//
 }

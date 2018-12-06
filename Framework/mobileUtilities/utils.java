@@ -41,7 +41,7 @@ public class utils extends Driver{
 		// Set folder name to store screenshots.
 		String destDir = UCscreenfilepth.get()+"/MobileScreenshots";
 		// Capture screenshot.
-		Thread.sleep(4000);
+		Thread.sleep(100);
 		File scrFile = ((TakesScreenshot) SetCapabilities.dr).getScreenshotAs(OutputType.FILE);
 		// Set date format to set It as screenshot file name.
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy__hh_mm_ssaa");
@@ -53,7 +53,7 @@ public class utils extends Driver{
 		try {
 			// Copy paste file at destination folder location
 			FileUtils.copyFile(scrFile, new File(destDir + "/" + destFile));
-			Thread.sleep(5000);
+			Thread.sleep(100);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

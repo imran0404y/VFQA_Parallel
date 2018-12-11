@@ -85,7 +85,7 @@ public class MobileRTBCheck extends Driver {
 				// Read the request XML File
 				SOAPMessage message = CO.readSoapMessage(XMLRequest_Path, SOAP_Action);
 				message.writeTo(System.out);
-				String URL="http://10.162.53.91:8001/soa-infra/services/vfqamrgdomain/QueryRealTimeBalanceSiebelReqABCSImpl/queryrealtimebalancesiebelreqabcsimpl_client_ep?WSDL";
+				String URL="http://10.162.53.66:8001/soa-infra/services/vfqamrgdomain/QueryRealTimeBalanceSiebelReqABCSImpl/queryrealtimebalancesiebelreqabcsimpl_client_ep?WSDL";
 				// Establish SOAP Connection and send request to End Point URL
 				SOAPMessage soapResponse = CO.XML_Request(message, URL);
 
@@ -177,7 +177,7 @@ public class MobileRTBCheck extends Driver {
 				// Read the request XML File
 				SOAPMessage message = CO.readSoapMessage(XMLRequest_Path, SOAP_Action);
 				message.writeTo(System.out);
-				String URL="http://10.162.53.91:8001/soa-infra/services/vfqamrgdomain/QueryRealTimeBalanceSiebelReqABCSImpl/queryrealtimebalancesiebelreqabcsimpl_client_ep?WSDL";
+				String URL="http://10.162.53.66:8001/soa-infra/services/vfqamrgdomain/QueryRealTimeBalanceSiebelReqABCSImpl/queryrealtimebalancesiebelreqabcsimpl_client_ep?WSDL";
 				// String
 				// URL="http://10.162.53.91:8001/soa-infra/services/vfqamrgdomain/QueryRealTimeBalanceSiebelReqABCSImpl/queryrealtimebalancesiebelreqabcsimpl_client_ep?WSDL";
 				// Establish SOAP Connection and send request to End Point URL

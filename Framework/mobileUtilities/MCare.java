@@ -6,16 +6,10 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Libraries.Driver;
@@ -176,13 +170,13 @@ public class MCare extends Driver {
 		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
 		try {
 		//	String DeviceName = utils.fetchData("DeviceName");
-			String Env = utils.fetchData("Env");
-			FileReader reader = new FileReader("Framework/config/config.properties");
-			Properties p = new Properties();
-			p.load(reader);
+			//String Env = utils.fetchData("Env");
+			//FileReader reader = new FileReader("Framework/config/config.properties");
+			//Properties p = new Properties();
+			//p.load(reader);
 			utils.takeScreenShot();
 			Thread.sleep(2000);
-			String activity = p.getProperty("MCare_" + Env + "_AppPackage");
+			//String activity = p.getProperty("MCare_" + Env + "_AppPackage");
 			/*
 			 * Runtime run = Runtime.getRuntime(); String cmd = "adb -s " +
 			 * p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";

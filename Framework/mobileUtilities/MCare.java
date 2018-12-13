@@ -4,20 +4,30 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Libraries.Driver;
 import Libraries.Result;
 import Libraries.Utlities;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 
 public class MCare extends Driver {
@@ -169,28 +179,52 @@ public class MCare extends Driver {
 		String Test_OutPut = "", Status = "";
 		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
 		try {
-		//	String DeviceName = utils.fetchData("DeviceName");
-			//String Env = utils.fetchData("Env");
-			//FileReader reader = new FileReader("Framework/config/config.properties");
-			//Properties p = new Properties();
-			//p.load(reader);
+			String DeviceName = utils.fetchData("DeviceName");
+			String Env = utils.fetchData("Env");
+			FileReader reader = new FileReader("Framework/config/config.properties");
+			Properties p = new Properties();
+			p.load(reader);
 			utils.takeScreenShot();
 			Thread.sleep(2000);
-			//String activity = p.getProperty("MCare_" + Env + "_AppPackage");
-			/*
-			 * Runtime run = Runtime.getRuntime(); String cmd = "adb -s " +
-			 * p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
-			 * run.exec(cmd); Thread.sleep(1000); utils.takeScreenShot();
-			 * SetCapabilities.dr.findElement(By.id(activity+Xpath.okButton)).click();
-			 * utils.takeScreenShot(); WebDriverWait wait = new
-			 * WebDriverWait(SetCapabilities.dr, 180); Thread.sleep(5000);
-			 * SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click(); try {
-			 * if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
-			 * SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click(); } catch
-			 * (Exception e) {
-			 * 
-			 * }
-			 */
+			String activity = p.getProperty("MCare_" + Env + "_AppPackage");
+			
+			 Runtime run = Runtime.getRuntime();
+			 String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
+			 run.exec(cmd);
+			 Thread.sleep(1000); 
+			 //utils.takeScreenShot();
+			 Scroll("OK");
+			 utils.takeScreenShot(); 
+			 Wait(Xpath.Menu);
+			 SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
+			 Scroll("Switcher");
+			 utils.takeScreenShot();
+			 Wait(Xpath.Env);
+			 ((WebElement) SetCapabilities.dr.findElements(By.xpath(Xpath.Env)).get(1)).click();
+			 
+			// SetCapabilities.dr.findElement(By.xpath(Xpath.Env)).click();
+			 SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'UAT')]")).click();
+			 String MSISDN1 = utils.fetchData("MSISDN");
+			 MSISDN1 = MSISDN1.substring(3, 11);
+			 
+			 SetCapabilities.dr.findElement(By.xpath(Xpath.MsisdnEntry)).sendKeys(MSISDN1);
+			 Wait(Xpath.Switchbutton);
+			 SetCapabilities.dr.findElement(By.xpath(Xpath.Switchbutton)).click();
+			 SetCapabilities.dr.findElement(By.xpath(Xpath.Login)).click();			 
+			 utils.takeScreenShot();
+			 Wait(Xpath.Menu);
+			 SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
+			 swipeVertical((AppiumDriver)SetCapabilities.dr,0.1,0.9,0.5,3000);
+			 SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
+			 utils.takeScreenShot();
+			 Wait(Xpath.SkipTutorial);	 
+			 SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click();
+			 try {
+			 if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
+			 SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click(); } catch
+			(Exception e) {
+			}
+			 
 			Wait("//*[@class='android.widget.ImageView' and @index='0']");
 			if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']")).isDisplayed()) {
 				Result.fUpdateLog("Home Page Loaded Successfully, Verifying other objects.");
@@ -284,6 +318,12 @@ public class MCare extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+	
+	private static Object TouchAction() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 	public static String MenuVerify() {
 		String Test_OutPut = "", Status = "";
 		int a=0,b = 0,c=0,d=0,e1=0,f=0,g=0,h=0;
@@ -433,6 +473,16 @@ public class MCare extends Driver {
 		radioGroup.click();
 	}
 
+
+public static void swipeVertical(AppiumDriver driver, double startPercentage, double finalPercentage, double anchorPercentage, int duration) throws Exception {
+		Dimension size = SetCapabilities.dr.manage().window().getSize();
+		WebElement ele1=SetCapabilities.dr.findElement(By.xpath(Xpath.NeedHp));
+		WebElement ele2=SetCapabilities.dr.findElement(By.xpath(Xpath.Home));
+		int anchor = (int) (size.width * anchorPercentage);
+		int startPoint = (int) (size.height * startPercentage);
+		int endPoint = (int) (size.height * finalPercentage);
+		new TouchAction(driver).press(ElementOption.element(ele1, anchor, startPoint)).waitAction().moveTo(ElementOption.element(ele2, anchor, endPoint)).release().perform();
+}
 	public static String verifyPlanNameMCare() {
 		String Test_OutPut = "", Status = "";
 		try {
@@ -674,13 +724,12 @@ public class MCare extends Driver {
 			} while (i < 4);*/
 			Wait("//*[contains(@text='product has been activated')]");
 		//	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(activity + Xpath.BurgerMenu)));
-			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
+			/*SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 			wait.until(
 					ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Home')]")));
 			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Home')]")).click();
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(activity + Xpath.BurgerMenu)));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(activity + Xpath.BurgerMenu)));*/
 			utils.takeScreenShot();
-			
 			Status = "PASS";
 
 		} catch (Exception e) {

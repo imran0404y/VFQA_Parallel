@@ -132,7 +132,7 @@ public class SetCapabilities extends Driver {
 			activity.set(p.getProperty("MCare_" + Env + "_AppPackage"));
 			dr = new AndroidDriver(new URL("http://127.0.0.1:" + p.getProperty(DeviceName + "_Port") + "/wd/hub"),
 					capabilities);
-			//dr.resetApp();
+			dr.resetApp();
 			Result.fUpdateLog("*** MCare Capabilities are now Set ***");
 		} catch (Exception e) {
 			Result.fUpdateLog("Capabilites are not set due to" + e);

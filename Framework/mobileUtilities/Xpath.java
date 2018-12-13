@@ -48,14 +48,16 @@ public class Xpath extends Driver{
 	static String PS_Phone="//android.widget.TextView[contains(@text,'Your phone')]";
 	static String TT="//android.widget.TextView[contains(@text,'Trouble tickets')]";
 	static String TT1="//android.widget.TextView[contains(@text,'Trouble Tickets')]";
-	//static String TT1="//*[@text,'Trouble Tickets' and @Index='0']";
-	
-	
+	static String Env="//*[@class='android.widget.ImageView']";
+	static String MsisdnEntry="//android.widget.EditText[@NAF='true' and @index='1']";
+	static String Switchbutton="//*[contains(@text,'Mobile Data Internet Conn')]/..//*[contains(@text,'OFF')]";
+	static String Login= "//android.widget.TextView[contains(@text,'Login')]";	
 	static String QuickPay1= "//android.widget.TextView[contains(@text,'Quick pay')]";
 	static String MyInbox= "//android.widget.TextView[contains(@text,'My Inbox')]";
 	static String NeedHp= "//android.widget.TextView[contains(@text,'Need Help?')]";
 	static String Tutorial= "//android.widget.TextView[contains(@text,'Tutorial')]";
 	static String Settings= "//android.widget.TextView[contains(@text,'Settings')]";
+	static String Home= "//android.widget.TextView[contains(@text,'Home')]";
 	static String AskHani="//*[@text='Ask Hani' and @index='0']";
 	static String Cancel="//*[@NAF='true']";
 	static String Menu="//*[@resource-id='"+activity.get()+":id/burger_menu' and @index='1']";

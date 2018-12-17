@@ -4,18 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Libraries.Driver;
@@ -25,8 +20,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 
@@ -66,167 +59,59 @@ public class MCare extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-/*	public static String verifyMCareLogin() {
-		String Test_OutPut = "", Status = "";
-		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
-		try {
-		//	String DeviceName = utils.fetchData("DeviceName");
-			String Env = utils.fetchData("Env");
-			FileReader reader = new FileReader("Framework/config/config.properties");
-			Properties p = new Properties();
-			p.load(reader);
-			utils.takeScreenShot();
-			Thread.sleep(1000);
-			String activity = p.getProperty("MCare_" + Env + "_AppPackage");
-			
-			 * Runtime run = Runtime.getRuntime(); String cmd = "adb -s " +
-			 * p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
-			 * run.exec(cmd); Thread.sleep(1000); utils.takeScreenShot();
-			 * SetCapabilities.dr.findElement(By.id(activity+Xpath.okButton)).click();
-			 * utils.takeScreenShot(); WebDriverWait wait = new
-			 * WebDriverWait(SetCapabilities.dr, 180); Thread.sleep(5000);
-			 * SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click(); try {
-			 * if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
-			 * SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click(); } catch
-			 * (Exception e) {
-			 * 
-			 * }
-			 
-			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 10);
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//*[@class='android.widget.ImageView' and @index='0']")));
-			if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']"))
-					.isDisplayed()) {
-				Result.fUpdateLog("Home Page Loaded Successfully, Verifying other objects.");
-				Result.fUpdateLog("Avatar Verified on Dashboard");
-				Test_OutPut += "Avatar Verified on Dashboard </br>";
-				Avatar = 1;
-				if (SetCapabilities.dr.findElement(By.xpath( Xpath.VoV)).isDisplayed()) {
-					Result.fUpdateLog("VoV Verified on Dashboard");
-					Test_OutPut += "VoV Verified on Dashboard </br>";
-					VoV = 1;
-				} else {
-					Result.fUpdateLog("VoV is not found on Dashboard");
-					Test_OutPut += "VoV is not found on Dashboard </br>";
-					VoV = 0;
-				}
 
-				if (SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).isDisplayed()) {
-					Result.fUpdateLog("Burger Menu is Verified on Dashboard");
-					Test_OutPut += "Burger Menu is Verified on Dashboard </br>";
-					Menu = 1;
-				} else {
-					Result.fUpdateLog("Burger Menu is not found on Dashboard");
-					Test_OutPut += "Burger Menu is not found on Dashboard </br>";
-					Menu = 0;
-				}
-
-				String Mob = SetCapabilities.dr
-						.findElement(By.xpath("//android.widget.TextView[contains(@text,'+974')]")).getText()
-						.toString();
-				System.out.println(Mob);
-				Test_OutPut += "Avatar Icon Verified. </br>";
-				Mob = Mob.substring(5, 13).trim();
-				String MSISDN = utils.fetchData("MSISDN");
-				MSISDN = MSISDN.substring(3, 11);
-				if (Mob.equals(MSISDN)) {
-					Result.fUpdateLog("Mobile No. Verified on Dashboard");
-					Test_OutPut += "Mobile No. Verified on Dashboard </br>";
-					MobNum = 1;
-				} else {
-					Result.fUpdateLog("Mobile No. is wrong on Dashboard");
-					Test_OutPut += "Mobile No. is wrong on Dashboard </br>";
-					MobNum = 0;
-				}
-
-				if (SetCapabilities.dr.findElement(By.xpath(Xpath.NeedHelp)).isDisplayed()) {
-					Result.fUpdateLog("Need Help Verified on Dashboard");
-					Test_OutPut += "Need Help Verified on Dashboard </br>";
-					NeedHelp = 1;
-				} else {
-					Result.fUpdateLog("Need Help is not found on Dashboard");
-					Test_OutPut += "Need Help is not found on Dashboard </br>";
-					NeedHelp = 0;
-				}
-				if (SetCapabilities.dr.findElement(By.xpath(Xpath.GaugeLayout)).isDisplayed()) {
-					Result.fUpdateLog("Gauge Verified on Dashboard");
-					Test_OutPut += "Gauge Verified on Dashboard </br>";
-					Gauge = 1;
-				} else {
-					Result.fUpdateLog("Gauge is not found on Dashboard");
-					Test_OutPut += "Gauge is not found on Dashboard </br>";
-					Gauge = 0;
-				}
-				utils.takeScreenShot();
-			} else {
-				Result.fUpdateLog("For some reasons, MCare Dashboard is not loaded properly");
-				Test_OutPut += "For some reasons, MCare Dashboard is not loaded properly </br>";
-				Avatar = 0;
-			}
-			if ((Avatar + VoV + NeedHelp + Gauge + MobNum + Menu) == 6)
-				Status = "PASS";
-			else
-				Status = "FAIL";
-		} catch (Exception e) {
-			Status = "FAIL";
-			e.printStackTrace();
-			Result.fUpdateLog("Exception Occured ");
-		}
-		return Status + "@@" + Test_OutPut + "<br/>";
-	}*/
-
+	@SuppressWarnings("rawtypes")
 	public static String verifyMCareLogin() {
 		String Test_OutPut = "", Status = "";
 		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
 		try {
 			String DeviceName = utils.fetchData("DeviceName");
-			String Env = utils.fetchData("Env");
 			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			utils.takeScreenShot();
 			Thread.sleep(2000);
-			String activity = p.getProperty("MCare_" + Env + "_AppPackage");
-			
-			 Runtime run = Runtime.getRuntime();
-			 String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
-			 run.exec(cmd);
-			 Thread.sleep(1000); 
-			 //utils.takeScreenShot();
-			 Scroll("OK");
-			 utils.takeScreenShot(); 
-			 Wait(Xpath.Menu);
-			 SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-			 Scroll("Switcher");
-			 utils.takeScreenShot();
-			 Wait(Xpath.Env);
-			 ((WebElement) SetCapabilities.dr.findElements(By.xpath(Xpath.Env)).get(1)).click();
-			 
+
+			Runtime run = Runtime.getRuntime();
+			String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
+			run.exec(cmd);
+			Thread.sleep(1000);
+			// utils.takeScreenShot();
+			Scroll("OK");
+			utils.takeScreenShot();
+			Wait(Xpath.Menu);
+			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
+			Scroll("Switcher");
+			utils.takeScreenShot();
+			Wait(Xpath.Env);
+			((WebElement) SetCapabilities.dr.findElements(By.xpath(Xpath.Env)).get(1)).click();
+
 			// SetCapabilities.dr.findElement(By.xpath(Xpath.Env)).click();
-			 SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'UAT')]")).click();
-			 String MSISDN1 = utils.fetchData("MSISDN");
-			 MSISDN1 = MSISDN1.substring(3, 11);
-			 
-			 SetCapabilities.dr.findElement(By.xpath(Xpath.MsisdnEntry)).sendKeys(MSISDN1);
-			 Wait(Xpath.Switchbutton);
-			 SetCapabilities.dr.findElement(By.xpath(Xpath.Switchbutton)).click();
-			 SetCapabilities.dr.findElement(By.xpath(Xpath.Login)).click();			 
-			 utils.takeScreenShot();
-			 Wait(Xpath.Menu);
-			 SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-			 swipeVertical((AppiumDriver)SetCapabilities.dr,0.1,0.9,0.5,3000);
-			 SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
-			 utils.takeScreenShot();
-			 Wait(Xpath.SkipTutorial);	 
-			 SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click();
-			 try {
-			 if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
-			 SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click(); } catch
-			(Exception e) {
+			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'UAT')]")).click();
+			String MSISDN1 = utils.fetchData("MSISDN");
+			MSISDN1 = MSISDN1.substring(3, 11);
+
+			SetCapabilities.dr.findElement(By.xpath(Xpath.MsisdnEntry)).sendKeys(MSISDN1);
+			Wait(Xpath.Switchbutton);
+			SetCapabilities.dr.findElement(By.xpath(Xpath.Switchbutton)).click();
+			SetCapabilities.dr.findElement(By.xpath(Xpath.Login)).click();
+			utils.takeScreenShot();
+			Wait(Xpath.Menu);
+			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
+			swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
+			SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
+			utils.takeScreenShot();
+			Wait(Xpath.SkipTutorial);
+			SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click();
+			try {
+				if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
+					SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click();
+			} catch (Exception e) {
 			}
-			 
+
 			Wait("//*[@class='android.widget.ImageView' and @index='0']");
-			if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']")).isDisplayed()) {
+			if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']"))
+					.isDisplayed()) {
 				Result.fUpdateLog("Home Page Loaded Successfully, Verifying other objects.");
 				Result.fUpdateLog("Avatar Verified on Dashboard");
 				Test_OutPut += "Avatar Verified on Dashboard </br>";
@@ -242,11 +127,11 @@ public class MCare extends Driver {
 					Test_OutPut += "VoV is not found on Dashboard </br>";
 					VoV = 0;
 				}
-				
+
 				if (SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).isDisplayed()) {
 					Result.fUpdateLog("Burger Menu is Verified on Dashboard");
 					Test_OutPut += "Burger Menu is Verified on Dashboard </br>";
-				//	utils.takeScreenShot();
+					// utils.takeScreenShot();
 					Menu = 1;
 				} else {
 					Result.fUpdateLog("Burger Menu is not found on Dashboard");
@@ -264,7 +149,7 @@ public class MCare extends Driver {
 				MSISDN = MSISDN.substring(3, 11);
 				if (Mob.equals(MSISDN)) {
 					Result.fUpdateLog("Mobile No. Verified on Dashboard");
-					//utils.takeScreenShot();
+					// utils.takeScreenShot();
 					Test_OutPut += "Mobile No. Verified on Dashboard </br>";
 					MobNum = 1;
 				} else {
@@ -275,15 +160,14 @@ public class MCare extends Driver {
 
 				if (SetCapabilities.dr.findElement(By.xpath(Xpath.NeedHelp)).isDisplayed()) {
 					SetCapabilities.dr.findElement(By.xpath(Xpath.NeedHelp)).click();
-					if(SetCapabilities.dr.findElement(By.xpath(Xpath.AskHani)).isDisplayed())
-					{
+					if (SetCapabilities.dr.findElement(By.xpath(Xpath.AskHani)).isDisplayed()) {
 						Result.fUpdateLog("Need Help Verified on Dashboard");
 						utils.takeScreenShot();
 						Test_OutPut += "Need Help Verified on Dashboard </br>";
 						NeedHelp = 1;
 						SetCapabilities.dr.findElement(By.xpath(Xpath.Cancel)).click();
 					}
-					
+
 				} else {
 					Result.fUpdateLog("Need Help is not found on Dashboard");
 					Test_OutPut += "Need Help is not found on Dashboard </br>";
@@ -291,7 +175,7 @@ public class MCare extends Driver {
 				}
 				if (SetCapabilities.dr.findElement(By.xpath(Xpath.GaugeLayout)).isDisplayed()) {
 					Result.fUpdateLog("Gauge Verified on Dashboard");
-					//utils.takeScreenShot();
+					// utils.takeScreenShot();
 					Test_OutPut += "Gauge Verified on Dashboard </br>";
 					Gauge = 1;
 				} else {
@@ -305,12 +189,12 @@ public class MCare extends Driver {
 				Test_OutPut += "For some reasons, MCare Dashboard is not loaded properly </br>";
 				Avatar = 0;
 			}
-			
+
 			if ((Avatar + VoV + NeedHelp + Gauge + MobNum + Menu) == 6)
 				Status = "PASS";
 			else
 				Status = "FAIL";
-			//MenuVerify();
+			// MenuVerify();
 		} catch (Exception e) {
 			Status = "FAIL";
 			e.printStackTrace();
@@ -318,15 +202,15 @@ public class MCare extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-	
-	private static Object TouchAction() {
-	// TODO Auto-generated method stub
-	return null;
-}
+
+	/*private static Object TouchAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
 
 	public static String MenuVerify() {
 		String Test_OutPut = "", Status = "";
-		int a=0,b = 0,c=0,d=0,e1=0,f=0,g=0,h=0;
+		int a = 0, b = 0, c = 0, d = 0, e1 = 0, f = 0, g = 0, h = 0;
 		try {
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 			Wait(Xpath.ProductServices);
@@ -341,21 +225,19 @@ public class MCare extends Driver {
 			} else {
 				Result.fUpdateLog("ProductServices is not found on Dashboard");
 				Test_OutPut += "ProductServices is not found on Dashboard </br>";
-			}			
-			//Wait(Xpath.BillingPayments);
-			
+			}
+			// Wait(Xpath.BillingPayments);
+
 			if (SetCapabilities.dr.findElement(By.xpath(Xpath.BillingPayments)).isDisplayed()) {
 				SetCapabilities.dr.findElement(By.xpath(Xpath.BillingPayments)).click();
-				//Wait(Xpath.MyBill);
-			/*	if (SetCapabilities.dr.findElement(By.xpath(Xpath.MyBill)).isDisplayed()) {
-					SetCapabilities.dr.findElement(By.xpath(Xpath.MyBill)).click();
-					Wait(Xpath.CurrentSP);
-					Result.fUpdateLog("MyBill Page is loaded");
-					utils.takeScreenShot();
-					Test_OutPut += "MyBill Page is loaded </br>";
-					SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-					b=1;
-				}		*/
+				// Wait(Xpath.MyBill);
+				/*
+				 * if (SetCapabilities.dr.findElement(By.xpath(Xpath.MyBill)).isDisplayed()) {
+				 * SetCapabilities.dr.findElement(By.xpath(Xpath.MyBill)).click();
+				 * Wait(Xpath.CurrentSP); Result.fUpdateLog("MyBill Page is loaded");
+				 * utils.takeScreenShot(); Test_OutPut += "MyBill Page is loaded </br>";
+				 * SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click(); b=1; }
+				 */
 				Wait(Xpath.QuickPay);
 				if (SetCapabilities.dr.findElement(By.xpath(Xpath.QuickPay)).isDisplayed()) {
 					SetCapabilities.dr.findElement(By.xpath(Xpath.QuickPay)).click();
@@ -364,10 +246,10 @@ public class MCare extends Driver {
 					utils.takeScreenShot();
 					Test_OutPut += "QuickPay page isloaded </br>";
 					SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-					b=c=1;
-				}	
+					b = c = 1;
+				}
 				SetCapabilities.dr.findElement(By.xpath(Xpath.BillingPayments)).click();
-				} else {
+			} else {
 				Result.fUpdateLog("ProductServices is not found on Dashboard");
 				Test_OutPut += "ProductServices is not found on Dashboard </br>";
 			}
@@ -384,9 +266,9 @@ public class MCare extends Driver {
 				Result.fUpdateLog("Recharge page not found on Dashboard");
 				Test_OutPut += "Recharge page not found on Dashboard </br>";
 			}
-			//Wait(Xpath.TT);
-			
-			//Scroll("Trouble tickets");
+			// Wait(Xpath.TT);
+
+			// Scroll("Trouble tickets");
 			Wait(Xpath.MyInbox);
 			if (SetCapabilities.dr.findElement(By.xpath(Xpath.MyInbox)).isDisplayed()) {
 				SetCapabilities.dr.findElement(By.xpath(Xpath.MyInbox)).click();
@@ -403,8 +285,8 @@ public class MCare extends Driver {
 			Scroll("Trouble tickets");
 			Wait(Xpath.TT1);
 			if (SetCapabilities.dr.findElement(By.xpath(Xpath.TT1)).isDisplayed()) {
-				//SetCapabilities.dr.findElement(By.xpath(Xpath.TT)).click();
-				//Wait(Xpath.TT1);
+				// SetCapabilities.dr.findElement(By.xpath(Xpath.TT)).click();
+				// Wait(Xpath.TT1);
 				Result.fUpdateLog("Trouble Ticket page is loaded");
 				utils.takeScreenShot();
 				Test_OutPut += "Trouble Ticket page is  loaded </br>";
@@ -417,8 +299,8 @@ public class MCare extends Driver {
 			Scroll("Settings");
 			Wait(Xpath.Settings);
 			if (SetCapabilities.dr.findElement(By.xpath(Xpath.Settings)).isDisplayed()) {
-				//SetCapabilities.dr.findElement(By.xpath(Xpath.Settings)).click();
-				//Wait(Xpath.Settings);
+				// SetCapabilities.dr.findElement(By.xpath(Xpath.Settings)).click();
+				// Wait(Xpath.Settings);
 				Result.fUpdateLog("Settings page is loaded");
 				utils.takeScreenShot();
 				Test_OutPut += "Settings page is  loaded </br>";
@@ -428,7 +310,7 @@ public class MCare extends Driver {
 				Result.fUpdateLog("Settings page not found on Dashboard");
 				Test_OutPut += "SettingsTT page not found on Dashboard </br>";
 			}
-			
+
 			Scroll("Need Help?");
 			Wait(Xpath.Tutorial);
 			if (SetCapabilities.dr.findElement(By.xpath(Xpath.Tutorial)).isDisplayed()) {
@@ -438,14 +320,14 @@ public class MCare extends Driver {
 				Result.fUpdateLog("Tutorial page is loaded");
 				utils.takeScreenShot();
 				Test_OutPut += "Tutorial page is  loaded </br>";
-			//	SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
+				// SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 				h = 1;
-				
+
 			} else {
 				Result.fUpdateLog("TT page not found on Dashboard");
 				Test_OutPut += "TT page not found on Dashboard </br>";
 			}
-			if ((a + b + c + d + e1+ f + g + h) == 8)
+			if ((a + b + c + d + e1 + f + g + h) == 8)
 				Status = "PASS";
 			else
 				Status = "FAIL";
@@ -457,12 +339,8 @@ public class MCare extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-
-
 	public static void Wait(String Path) {
-
 		WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
-
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Path)));
 	}
 
@@ -473,16 +351,19 @@ public class MCare extends Driver {
 		radioGroup.click();
 	}
 
-
-public static void swipeVertical(AppiumDriver driver, double startPercentage, double finalPercentage, double anchorPercentage, int duration) throws Exception {
+	@SuppressWarnings("rawtypes")
+	public static void swipeVertical(AppiumDriver driver, double startPercentage, double finalPercentage,
+			double anchorPercentage, int duration) throws Exception {
 		Dimension size = SetCapabilities.dr.manage().window().getSize();
-		WebElement ele1=SetCapabilities.dr.findElement(By.xpath(Xpath.NeedHp));
-		WebElement ele2=SetCapabilities.dr.findElement(By.xpath(Xpath.Home));
+		WebElement ele1 = SetCapabilities.dr.findElement(By.xpath(Xpath.NeedHp));
+		WebElement ele2 = SetCapabilities.dr.findElement(By.xpath(Xpath.Home));
 		int anchor = (int) (size.width * anchorPercentage);
 		int startPoint = (int) (size.height * startPercentage);
 		int endPoint = (int) (size.height * finalPercentage);
-		new TouchAction(driver).press(ElementOption.element(ele1, anchor, startPoint)).waitAction().moveTo(ElementOption.element(ele2, anchor, endPoint)).release().perform();
-}
+		new TouchAction(driver).press(ElementOption.element(ele1, anchor, startPoint)).waitAction()
+				.moveTo(ElementOption.element(ele2, anchor, endPoint)).release().perform();
+	}
+
 	public static String verifyPlanNameMCare() {
 		String Test_OutPut = "", Status = "";
 		try {
@@ -672,63 +553,68 @@ public static void swipeVertical(AppiumDriver driver, double startPercentage, do
 			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).click();
 			Scroll("My Products & Services");
-/*			wait.until(
-					ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'My Products & Services')]")));
-			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'My Products & Services')]")).click();*/
+			/*
+			 * wait.until( ExpectedConditions.visibilityOfElementLocated(By.
+			 * xpath("//*[contains(@text,'My Products & Services')]")));
+			 * SetCapabilities.dr.findElement(By.
+			 * xpath("//*[contains(@text,'My Products & Services')]")).click();
+			 */
 			Wait(Xpath.PS_Phone);
-			if(TestCaseN.get().equalsIgnoreCase("Existing")) {
-				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
+			if (TestCaseN.get().equalsIgnoreCase("Existing")) {
+				wait.until(ExpectedConditions
+						.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
 				SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
 				utils.takeScreenShot();
-			}else{
-				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[contains(@text,'More extras')]")));
+			} else {
+				wait.until(ExpectedConditions.visibilityOfElementLocated(
+						By.xpath("//android.widget.TextView[contains(@text,'More extras')]")));
 			}
-			
+
 			if (utils.fetchData("MVA_ProductType").toString().equals("Flex")) {
 				Scroll("Flex");
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Flex')]")));
-				//SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Flex')]")).click();
+				// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Flex')]")));
+				// SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Flex')]")).click();
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Internet")) {
 				Scroll("Internet");
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Internet')]")));
-				//SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Internet')]")).click();
+				// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Internet')]")));
+				// SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Internet')]")).click();
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Calls")) {
 				Scroll("Calls");
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Calls')]")));
-				//SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Calls')]")).click();
+				// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Calls')]")));
+				// SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Calls')]")).click();
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Roaming")) {
 				Scroll("Roaming");
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Roaming')]")));
-				//SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Roaming')]")).click();
+				// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Roaming')]")));
+				// SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Roaming')]")).click();
 			}
 			utils.takeScreenShot();
 			Scroll(MVA_PrepaidExtras);
 			utils.takeScreenShot();
-			
-			
-			if(TestCaseN.get().equalsIgnoreCase("Existing")) {
-				wait.until(
-						ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate Again']")));
+
+			if (TestCaseN.get().equalsIgnoreCase("Existing")) {
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate Again']")));
 				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate Again']")).click();
 				utils.takeScreenShot();
-			}else{
+			} else {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate']")));
 				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate']")).click();
 			}
-			
-			
-		/*	int i = 0;
-			do {
-				Thread.sleep(1000);
-				i = i + 1;
-			} while (i < 4);*/
+
+			/*
+			 * int i = 0; do { Thread.sleep(1000); i = i + 1; } while (i < 4);
+			 */
 			Wait("//*[contains(@text='product has been activated')]");
-		//	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(activity + Xpath.BurgerMenu)));
-			/*SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-			wait.until(
-					ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Home')]")));
-			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Home')]")).click();
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(activity + Xpath.BurgerMenu)));*/
+			// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(activity +
+			// Xpath.BurgerMenu)));
+			/*
+			 * SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click(); wait.until(
+			 * ExpectedConditions.visibilityOfElementLocated(By.xpath(
+			 * "//*[contains(@text,'Home')]")));
+			 * SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Home')]")).click
+			 * ();
+			 * wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(activity +
+			 * Xpath.BurgerMenu)));
+			 */
 			utils.takeScreenShot();
 			Status = "PASS";
 
@@ -826,19 +712,21 @@ public static void swipeVertical(AppiumDriver driver, double startPercentage, do
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Xpath.BurgerMenu)));
 			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).click();
-			
-			wait.until(
-					ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'My Products & Services')]")));
+
+			wait.until(ExpectedConditions
+					.visibilityOfElementLocated(By.xpath("//*[contains(@text,'My Products & Services')]")));
 			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'My Products & Services')]")).click();
 			Wait(Xpath.PS_Phone);
-			if(TestCaseN.get().equalsIgnoreCase("Existing")) {
-				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
+			if (TestCaseN.get().equalsIgnoreCase("Existing")) {
+				wait.until(ExpectedConditions
+						.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
 				SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
 				utils.takeScreenShot();
-			}else{
-				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'More extras')]")));
+			} else {
+				wait.until(
+						ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'More extras')]")));
 			}
-			
+
 			if (utils.fetchData("MVA_ProductType").toString().equals("Flex")) {
 				Scroll("Flex");
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Internet")) {
@@ -852,17 +740,16 @@ public static void swipeVertical(AppiumDriver driver, double startPercentage, do
 			Scroll(MVA_PostpaidExtras);
 			utils.takeScreenShot();
 			utils.timestamp = new SimpleDateFormat("M/dd/YYYY hh:mm:ss aa").format(Calendar.getInstance().getTime());
-			
-			if(TestCaseN.get().equalsIgnoreCase("Existing")) {
-				wait.until(
-						ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate Again']")));
+
+			if (TestCaseN.get().equalsIgnoreCase("Existing")) {
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate Again']")));
 				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate Again']")).click();
 				utils.takeScreenShot();
-			}else{
+			} else {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate']")));
 				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate']")).click();
 			}
-			
+
 			int i = 0;
 			do {
 				Thread.sleep(1000);
@@ -1021,6 +908,79 @@ public static void swipeVertical(AppiumDriver driver, double startPercentage, do
 				Result.fUpdateLog("Flex bucket is not available");
 			}
 
+		} catch (Exception e) {
+			Status = "FAIL";
+			e.printStackTrace();
+			Result.fUpdateLog("Exception Occured ");
+		}
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	public static String Test() {
+		String Test_OutPut = "", Status = "";
+		try {
+			// Click on Accept button
+			SetCapabilities.dr
+					.findElement(By.xpath("//android.widget.Button[@resource-id='com.pcloudy.appiumdemo:id/accept']"))
+					.click();
+			utils.takeScreenShot();
+
+			// Click on Flight button
+			SetCapabilities.dr
+					.findElement(
+							By.xpath("//android.widget.Button[@resource-id='com.pcloudy.appiumdemo:id/flightButton']"))
+					.click();
+			utils.takeScreenShot();
+
+			// Select from location
+			SetCapabilities.dr
+					.findElement(
+							By.xpath("//android.widget.Spinner[@resource-id='com.pcloudy.appiumdemo:id/spinnerfrom']"))
+					.click();
+			utils.takeScreenShot();
+			SetCapabilities.dr.findElement(By.xpath(
+					"//android.widget.CheckedTextView[@resource-id='android:id/text1' and @text='Bangalore, India (BLR)']"))
+					.click();
+			utils.takeScreenShot();
+
+			// Select to location
+			SetCapabilities.dr
+					.findElement(
+							By.xpath("//android.widget.Spinner[@resource-id='com.pcloudy.appiumdemo:id/spinnerto']"))
+					.click();
+			utils.takeScreenShot();
+			SetCapabilities.dr.findElement(By.xpath(
+					"//android.widget.CheckedTextView[@resource-id='android:id/text1' and @text='Pune, India (PNQ)']"))
+					.click();
+			utils.takeScreenShot();
+
+			// Select one way trip
+			SetCapabilities.dr
+					.findElement(By
+							.xpath("//android.widget.RadioButton[@resource-id='com.pcloudy.appiumdemo:id/singleTrip']"))
+					.click();
+
+			// Select departure time
+			SetCapabilities.dr
+					.findElement(
+							By.xpath("//android.widget.TextView[@resource-id='com.pcloudy.appiumdemo:id/txtdepart']"))
+					.click();
+			utils.takeScreenShot();
+			SetCapabilities.dr
+					.findElement(By.xpath("//android.widget.Button[@resource-id='android:id/button1' and @text='OK']"))
+					.click();
+			utils.takeScreenShot();
+
+			// Click on search flights button
+			SetCapabilities.dr
+					.findElement(
+							By.xpath("//android.widget.Button[@resource-id='com.pcloudy.appiumdemo:id/searchFlights']"))
+					.click();
+			utils.takeScreenShot();
+
+			SetCapabilities.dr.quit();
+			Status = "PASS";
+			Result.fUpdateLog("Completed");
 		} catch (Exception e) {
 			Status = "FAIL";
 			e.printStackTrace();

@@ -103,6 +103,7 @@ public class SetCapabilities extends Driver {
 				DeviceName = getdata("DeviceName");
 				Result.fUpdateLog("Device Name is set to " + DeviceName);
 				setMCareCapabilities1(DeviceName);
+				//setMCareCapabilities_Pcloudy();
 				Status = "PASS";
 			} else {
 				Result.fUpdateLog("Device " + DeviceName + " not found");
@@ -136,6 +137,36 @@ public class SetCapabilities extends Driver {
 			Result.fUpdateLog("*** MCare Capabilities are now Set ***");
 		} catch (Exception e) {
 			Result.fUpdateLog("Capabilites are not set due to" + e);
+		}
+	}
+	
+	public static void setMCareCapabilities_Pcloudy() throws IOException, InterruptedException {
+		System.out.println("*** Setting Up MCare Pcloudy Capabilities ***");
+		try {
+			String Env = utils.fetchData("Env");
+			FileReader reader = new FileReader("Framework/config/config.properties");
+			Properties p = new Properties();
+			p.load(reader);
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setCapability("pCloudy_Username", "haleemimranb@maveric-systems.com");
+			capabilities.setCapability("pCloudy_ApiKey", "rrjqbt6d7z4x8kvjmprm4k9p");
+			capabilities.setCapability("pCloudy_ApplicationName", "pCloudyAppiumDemo.apk");
+			capabilities.setCapability("pCloudy_DurationInMinutes", 3);
+			capabilities.setCapability("pCloudy_DeviceManafacturer", "Samsung");
+			//capabilities.setCapability("pCloudy_DeviceVersion", "8.0.0");
+			//capabilities.setCapability("pCloudy_DeviceFullName", "Samsung_GalaxyTabA_Android_7.1.1");
+			capabilities.setCapability("newCommandTimeout", 600);
+			capabilities.setCapability("launchTimeout", 90000);
+			capabilities.setCapability("appPackage", p.getProperty("MCare_"+ Env + "_AppPackage"));
+			capabilities.setCapability("appActivity", p.getProperty("MCare_"+ Env + "_AppActivity"));
+			//capabilities.setCapability("appPackage", "com.pcloudy.appiumdemo");
+			//capabilities.setCapability("appActivity", "com.ba.mobile.LaunchActivity");
+			activity.set(p.getProperty("MCare_" + Env + "_AppPackage"));
+			dr = new AndroidDriver(new URL("https://device.pcloudy.com/appiumcloud/wd/hub"), capabilities);
+			dr.resetApp();
+			Result.fUpdateLog("*** MCare Pcloudy Capabilities are now Set ***");
+		} catch (Exception e) {
+			Result.fUpdateLog("MCare Pcloudy Capabilites are not set due to" + e);
 		}
 	}
 

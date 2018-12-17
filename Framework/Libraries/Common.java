@@ -76,7 +76,7 @@ public class Common extends Driver {
 		String[] objprop = Utlities.FindObject(objname, ObjTyp);
 		int count = 0;
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(cDriver.get()).withTimeout(100, TimeUnit.SECONDS)
-				.pollingEvery(50, TimeUnit.MILLISECONDS).ignoring(NoSuchElementException.class);
+				.pollingEvery(100, TimeUnit.MILLISECONDS).ignoring(NoSuchElementException.class);
 		WebElement element = wait.until(new Function<WebDriver, WebElement>() {
 			public WebElement apply(WebDriver driver) {
 				WebElement scr1 = driver.findElement(By.xpath(objprop[0]));
@@ -116,16 +116,24 @@ public class Common extends Driver {
 
 	@SuppressWarnings("deprecation")
 	public static void ConditionalWait1(String obj, String objname) {
-
-		Wait<WebDriver> wait = new FluentWait<WebDriver>(cDriver.get()).withTimeout(100, TimeUnit.SECONDS)
-				.pollingEvery(50, TimeUnit.MILLISECONDS).ignoring(NoSuchElementException.class);
-		WebElement element = wait.until(new Function<WebDriver, WebElement>() {
-			public WebElement apply(WebDriver driver) {
-				WebElement scr1 = driver.findElement(By.xpath(obj));
-				return scr1;
+		WebElement element;
+		int count = 0;
+		do {
+			if (count < 10) {
+				Wait<WebDriver> wait = new FluentWait<WebDriver>(cDriver.get()).withTimeout(100, TimeUnit.SECONDS)
+						.pollingEvery(100, TimeUnit.MILLISECONDS).ignoring(NoSuchElementException.class);
+				element = wait.until(new Function<WebDriver, WebElement>() {
+					public WebElement apply(WebDriver driver) {
+						WebElement scr1 = driver.findElement(By.xpath(obj));
+						return scr1;
+					}
+				});
+				count = count + 1;
+				Result.fUpdateLog("Final visible status is " + objname + " >>>>> " + element.isDisplayed());
+			} else {
+				break;
 			}
-		});
-		Result.fUpdateLog("Final visible status is " + objname + " >>>>> " + element.isDisplayed());
+		} while (!element.isDisplayed());
 
 	}
 
@@ -634,7 +642,8 @@ public class Common extends Driver {
 		try {
 			// waitforload();
 			Result.fUpdateLog("MSISDN : " + MSISDN);
-			Title_Select("a", "Home");
+			Browser.WebButton.click("Homepage");
+			ConditionalWait("Homepage", "webbutton");
 			// waitforload();
 			// waitforload();
 			int Row = 2, Col;
@@ -660,7 +669,7 @@ public class Common extends Driver {
 			if (Assert_Row_Count > 1) {
 				Col = Select_Cell("Assert", "Account");
 				Browser.WebTable.clickL("Assert", Row, Col);
-				
+
 				// Comment for QA6
 
 				/*
@@ -680,12 +689,11 @@ public class Common extends Driver {
 
 				Result.takescreenshot("");
 				// waitforload();
-			}else {
+			} else {
 				Continue.set(false);
 				Result.fUpdateLog("Asset record is not available");
 				MSG = false;
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -705,8 +713,8 @@ public class Common extends Driver {
 
 			// waitforload();
 			TabNavigator("Contacts");
-			//waitforload();
-			//waitforload();
+			// waitforload();
+			// waitforload();
 			String cellXpath = "//button[.='MOI Validation']";
 			ConditionalWait1(cellXpath, "MOI");
 			WebElement e = cDriver.get().findElement(By.xpath(cellXpath));
@@ -1018,7 +1026,9 @@ public class Common extends Driver {
 			waitforload();
 			int Row = 2, Col, flag = 1, Count = 1;
 			String Pay_Type = null;
-			Title_Select("a", "Home");
+			Browser.WebButton.click("Homepage");
+			waitforload();
+			Browser.WebLink.waittillvisible("VQ_Assert");
 			// waitforload();
 			// Browser.WebLink.waittillvisible("VQ_Assert");
 			ConditionalWait("VQ_Assert", "WebLink");
@@ -1076,11 +1086,12 @@ public class Common extends Driver {
 			}
 			if (Browser.WebButton.exist("Acc_Installed_Show")) {
 				Browser.WebButton.click("Acc_Installed_Show");
-				// waitforload();
+				waitforload();
+				ConditionalWait("Acc_Installed_Less", "WebButton");
 				Result.takescreenshot("");
-
 				Browser.WebButton.click("Acc_Installed_Less");
-
+				waitforload();
+				ConditionalWait("Acc_Installed_Show", "WebButton");
 			} else {
 				Result.takescreenshot("");
 			}
@@ -1097,8 +1108,8 @@ public class Common extends Driver {
 					Common.ConditionalWait1(cellXpath, "Billing Profile");
 					WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 					((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
-					cDriver.get().findElement(By.xpath(cellXpath)).click();					
-					//Text_Select("a", "Billing Profile");
+					cDriver.get().findElement(By.xpath(cellXpath)).click();
+					// Text_Select("a", "Billing Profile");
 					// waitforload();
 				}
 
@@ -1224,7 +1235,8 @@ public class Common extends Driver {
 		try {
 			// waitforload();
 			int Row = 2, Col;
-			Title_Select("a", "Home");
+			Browser.WebButton.click("Homepage");
+			ConditionalWait("Homepage", "webbutton");
 			// waitforload();
 			// Browser.WebLink.waittillvisible("VQ_Assert");
 			Browser.WebLink.click("VQ_Assert");
@@ -1666,7 +1678,7 @@ public class Common extends Driver {
 		ConditionalWait1(cellXpath, Text);
 		WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 		((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
-		waitforload();
+		ConditionalWait1(cellXpath, Text);
 		cDriver.get().findElement(By.xpath(cellXpath)).click();
 	}
 

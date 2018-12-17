@@ -76,6 +76,14 @@
 			<scope>system</scope>
 			<systemPath>${.basedir}/SeleniumJars/ojdbc8.jar</systemPath> <!-- must match file name -->
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.carbonfive.com.oracle/ojdbc8 -->
+		<dependency>
+			<groupId>com.pcloudy</groupId>
+			<artifactId>pcloudy</artifactId>
+			<version>11.0</version>
+			<scope>system</scope>
+			<systemPath>${.basedir}/SeleniumJars/pCloudy-java-connector-11.0.5.jar</systemPath> <!-- must match file name -->
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>

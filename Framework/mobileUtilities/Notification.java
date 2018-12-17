@@ -28,6 +28,7 @@ public class Notification extends Driver {
 			}
 			else
 				Status = "FAIL";
+			SetCapabilities.dr.quit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 

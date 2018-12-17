@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Keyword_FixedLine extends Driver {
 	Common CO = new Common();
@@ -359,10 +361,18 @@ public class Keyword_FixedLine extends Driver {
 
 			Browser.WebButton.waittillvisible("Validate");
 			Browser.WebButton.click("Validate");
-			if (CO.isAlertExist()) {
-				Continue.set(false);
-			}
-			CO.waitmoreforload();
+			try {
+			    WebDriverWait wait = new WebDriverWait(cDriver.get(), 60);
+			    if (!(wait.until(ExpectedConditions.alertIsPresent()) == null)) {
+			     String popup = cDriver.get().switchTo().alert().getText();
+			     Result.fUpdateLog(popup);
+			    }
+			    Browser.alert.accept();
+			    Browser.Readystate();
+			    Continue.set(false);
+			   } catch (Exception e) {
+			    Result.fUpdateLog("No Alert Exist");
+			   }
 			CO.waitforload();
 			if (Continue.get()) {
 				Browser.WebButton.waittillvisible("Submit");

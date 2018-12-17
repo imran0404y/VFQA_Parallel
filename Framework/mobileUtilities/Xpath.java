@@ -1,18 +1,5 @@
 package mobileUtilities;
-
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-
 import Libraries.Driver;
-import Libraries.Result;
-import Libraries.Utlities;
 
 public class Xpath extends Driver{
 	// verifyMCareLogin Paths

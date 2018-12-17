@@ -66,11 +66,11 @@ public class KeyWord {
 	public String OrderSubmission() {
 		return KC.OrderSubmission();
 	}
-	
+
 	public String Entp_AccountCreation() {
 		return KC.Entp_AccountCreation();
 	}
-	
+
 	public String Entp_ContactCreation() {
 		return KC.Entp_ContactCreation();
 	}
@@ -210,11 +210,10 @@ public class KeyWord {
 	public String LanguageChange() {
 		return KC.LanguageChange();
 	}
-	
+
 	public String Activities() {
 		return KC.Activities();
 	}
-
 
 	public String CreditLimit() {
 		return KC.CreditLimit();
@@ -283,6 +282,7 @@ public class KeyWord {
 	public String ReplicateOrder() {
 		return KC.ReplicateOrder();
 	}
+
 	public String Spendlimit() {
 		return KC.Spendlimit();
 	}
@@ -653,21 +653,27 @@ public class KeyWord {
 	}
 
 	public String MVACookies() {
-        return MCare.MVACookies();
-    }
-    
-    public String verifyMCareBuckets() {
-        return MCare.verifyMCareBuckets();
-    }
-    
-    public String McareBillPayment() {
-        return MCare.McareBillPayment();
-    }
-    public String SelfRecharge() {
-        return MCare.SelfRecharge();
-    }
-    public String MenuVerify() {
+		return MCare.MVACookies();
+	}
+
+	public String verifyMCareBuckets() {
+		return MCare.verifyMCareBuckets();
+	}
+
+	public String McareBillPayment() {
+		return MCare.McareBillPayment();
+	}
+
+	public String SelfRecharge() {
+		return MCare.SelfRecharge();
+	}
+
+	public String MenuVerify() {
 		return MCare.MenuVerify();
+	}
+
+	public String Test() {
+		return MCare.Test();
 	}
 
 	// ---------------------MCare Keywords Ends------------------------//

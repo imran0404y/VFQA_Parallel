@@ -69,13 +69,12 @@ public class MCare extends Driver {
 			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
-			utils.takeScreenShot();
 			Thread.sleep(2000);
-
-			Runtime run = Runtime.getRuntime();
+			utils.takeScreenShot();
+			/*Runtime run = Runtime.getRuntime();
 			String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
 			run.exec(cmd);
-			Thread.sleep(1000);
+			Thread.sleep(1000);*/
 			// utils.takeScreenShot();
 			Scroll("OK");
 			utils.takeScreenShot();

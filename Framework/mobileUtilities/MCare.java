@@ -65,7 +65,7 @@ public class MCare extends Driver {
 		String Test_OutPut = "", Status = "";
 		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
 		try {
-			String DeviceName = utils.fetchData("DeviceName");
+			//String DeviceName = utils.fetchData("DeviceName");
 			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);

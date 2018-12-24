@@ -911,8 +911,8 @@ public class Keyword_CRM extends Driver {
 		try {
 
 			int Row_Val = 3, Col_V, COl_STyp, Col_Res, Col_S, Col_pri, Col_cat;
-			String Reserve, Category, GetData, Add_Addon, Remove_Addon, StarNumber = null, SIM, Spendlimit = "",
-					Smartlimit = "", ReservationToken, MSISDN = null, SData = "SIM Card";
+			String Reserve, Service_Type, Category, GetData, Add_Addon, Remove_Addon, StarNumber = null, SIM,
+					Spendlimit = "", Smartlimit = "", ReservationToken, MSISDN = null, SData = "SIM Card";
 
 			// CO.waitforload();
 
@@ -1014,7 +1014,11 @@ public class Keyword_CRM extends Driver {
 			} else {
 				Smartlimit = pulldata("Smartlimit");
 			}
-
+			if (!(getdata("Service_Type").equals(""))) {
+				Service_Type = getdata("Service_Type");
+			} else {
+				Service_Type = pulldata("Service_Type");
+			}
 			if (Smartlimit != "") {
 				Row_Count = Browser.WebTable.getRowCount("Line_Items");
 				if (Row_Count <= 3) {
@@ -1126,7 +1130,13 @@ public class Keyword_CRM extends Driver {
 				Col_Res = CO.Select_Cell("Numbers", "(Start) Number");
 				Col_cat = CO.Select_Cell("Numbers", "Category");
 				Col_pri = CO.Select_Cell("Numbers", "Price From");
-				Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", "Mobile");
+				if (Service_Type.equals("IOT")) {
+					Browser.WebLink.click("NumberBlockUser");
+					CO.waitforload();
+					Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", "IOT");
+				} else {
+					Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", Service_Type);
+				}
 
 				if (!MSISDN.equals("")) {
 					Reserve = MSISDN.substring(3, MSISDN.length());
@@ -2898,7 +2908,7 @@ public class Keyword_CRM extends Driver {
 		String Test_OutPut = "", Status = "";
 		String Order_no, GetData, New_MSISDN;
 		int Row_Val = 3, Col_V, COl_STyp, Col_Res, Col_S, Col_cat, Col_pri;
-		String Reserve, Category = "", StarNumber = null, ReservationToken = "", MSISDN = null;
+		String Reserve, Service_Type, Category = "", StarNumber = null, ReservationToken = "", MSISDN = null;
 		int Inst_RowCount, Col, Col_P, Col_SID, Row_Count;
 
 		Result.fUpdateLog("------Change MSISDN services------");
@@ -2934,9 +2944,17 @@ public class Keyword_CRM extends Driver {
 				StarNumber = pulldata("StarNumber");
 			}
 
+			if (!(getdata("Service_Type").equals(""))) {
+				Service_Type = getdata("Service_Type");
+			} else {
+				Service_Type = pulldata("Service_Type");
+			}
+
 			CO.RTBScreen(MSISDN, "Active");
 			// CO.waitforload();
-			CO.Title_Select("a", "Home");
+			Browser.WebButton.click("Homepage");
+			CO.waitforload();
+			Common.ConditionalWait("Homepage", "WebButton");
 
 			if (CO.Assert_Search(MSISDN, "Active")) {
 				// CO.waitforload();
@@ -3029,12 +3047,12 @@ public class Keyword_CRM extends Driver {
 					Col_Res = CO.Select_Cell("Numbers", "(Start) Number");
 					Col_cat = CO.Select_Cell("Numbers", "Category");
 					Col_pri = CO.Select_Cell("Numbers", "Price From");
-					if (TestCaseN.get().equalsIgnoreCase("IOT")) {
+					if (Service_Type.equals("IOT")) {
 						Browser.WebLink.click("NumberBlockUser");
 						CO.waitforload();
 						Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", "IOT");
 					} else {
-						Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", "Mobile");
+						Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", Service_Type);
 					}
 
 					if (!New_MSISDN.equals("")) {
@@ -3044,11 +3062,11 @@ public class Keyword_CRM extends Driver {
 						// Browser.WebButton.click("Number_Go");
 						// CO.waitforload();
 					} else {
+						Browser.WebTable.SetData("Numbers", Row, Col_cat, "Category", "FREE");
 						Browser.WebButton.click("Number_Go");
 						// CO.waitforload();
-						// CO.waitforload();
 						Browser.WebTable.click("Numbers", (Row + 1), Col);
-						MSISDN = Browser.WebTable.getCellData("Numbers", (Row + 1), Col_Res);
+						New_MSISDN = Browser.WebTable.getCellData("Numbers", (Row + 1), Col_Res);
 					}
 
 					Category = Browser.WebTable.getCellData("Numbers", Row, Col_cat);
@@ -3176,7 +3194,6 @@ public class Keyword_CRM extends Driver {
 				if (Continue.get())
 					CO.RTBScreen(New_MSISDN, "Active");
 				CO.ToWait();
-
 			} else {
 				Test_OutPut += "Assert not found";
 			}
@@ -12652,11 +12669,11 @@ public class Keyword_CRM extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public String ReplicateOrder() {
 		String Test_OutPut = "", Status = "";
-		String AccountNo, Order_no, MSISDN, SIM, ReservationToken, GetData, StarNumber = null;// ,GetData
+		String AccountNo, Order_no, MSISDN, SIM, Service_Type, OrderNo, ReservationToken, GetData, StarNumber = null;// ,GetData
 		Result.fUpdateLog("------ Replicate Order - Siebel ---------");
 		try {
 			int Row = 2, Col_Res, Row_Count, Col, Row_Val = 3;
-
+			// 1-79521527457
 			if (!(getdata("AccountNo").equals(""))) {
 				AccountNo = getdata("AccountNo");
 			} else {
@@ -12696,6 +12713,12 @@ public class Keyword_CRM extends Driver {
 				ReservationToken = pulldata("ReservationToken");
 			}
 
+			if (!(getdata("Service_Type").equals(""))) {
+				Service_Type = getdata("Service_Type");
+			} else {
+				Service_Type = pulldata("Service_Type");
+			}
+
 			CO.Account_Search(AccountNo);
 
 			Result.takescreenshot("Account : " + AccountNo + " Navigation ");
@@ -12716,11 +12739,22 @@ public class Keyword_CRM extends Driver {
 			Result.takescreenshot("Orders Tab Navigation");
 			Result.fUpdateLog("Orders Tab Navigation");
 
+			if (!(getdata("OrderNo").equals(""))) {
+				OrderNo = getdata("OrderNo");
+			} else {
+				OrderNo = pulldata("OrderNo");
+			}
+			Col = CO.Actual_Cell("Order_Table", "Order #");
+			Browser.WebButton.click("Acc_Order_Query");
+			CO.waitforload();
+			Browser.WebTable.SetData("Order_Table", 2, Col, "Order_Number", OrderNo);
+			CO.waitforload();
+
 			Actions a = new Actions(cDriver.get());
 			WebElement we = cDriver.get().findElement(By.xpath("//body"));
 			a.sendKeys(we, Keys.chord(Keys.CONTROL, "b")).perform();
 
-			CO.waitmoreforload();
+			CO.waitforload();
 			CO.waitforload();
 			int Col_new = CO.Actual_Cell("Order_Table", "Status");
 			boolean flag = true;
@@ -12781,15 +12815,21 @@ public class Keyword_CRM extends Driver {
 					Browser.WebButton.click("Number_Query");
 				Browser.WebLink.click("Num_Manage");
 				CO.waitforload();
-				Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", "Mobile");
+				if (Service_Type.equals("IOT")) {
+					Browser.WebLink.click("NumberBlockUser");
+					CO.waitforload();
+					Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", "IOT");
+				} else {
+					Browser.WebTable.SetData("Numbers", Row, COl_STyp, "Service_Type", Service_Type);
+				}
 
 				if (!MSISDN.equals("")) {
-
 					String Reserve = MSISDN.substring(3, MSISDN.length());
 					Browser.WebTable.SetData("Numbers", Row, Col_Res, "Service_Id", Reserve);
 					// Browser.WebButton.click("Number_Go");
 					CO.waitforload();
 				} else {
+					Browser.WebTable.SetData("Numbers", Row, Col_cat, "Category", "FREE");
 					Browser.WebButton.click("Number_Go");
 					CO.waitforload();
 					CO.waitforload();

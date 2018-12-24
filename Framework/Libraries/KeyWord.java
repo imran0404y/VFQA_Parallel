@@ -671,6 +671,10 @@ public class KeyWord {
 	public String MenuVerify() {
 		return MCare.MenuVerify();
 	}
+	
+	public String OTP_MCareLogin() {
+		return MCare.OTP_MCareLogin();
+	}
 
 	public String Test() {
 		return MCare.Test();

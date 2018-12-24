@@ -74,7 +74,7 @@ public class SetCapabilities extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-	
+
 	public static void setMessengerCapabilities1(String DeviceName) throws IOException, InterruptedException {
 		System.out.println("*** Setting Up Messenger Capabilities ***");
 		try {
@@ -95,7 +95,7 @@ public class SetCapabilities extends Driver {
 			Result.fUpdateLog("Capabilites are not set due to" + e);
 		}
 	}
-	
+
 	public String setMCareCapabilities() {
 		String Test_OutPut = "", Status = "";
 		try {
@@ -103,7 +103,7 @@ public class SetCapabilities extends Driver {
 				DeviceName = getdata("DeviceName");
 				Result.fUpdateLog("Device Name is set to " + DeviceName);
 				setMCareCapabilities1(DeviceName);
-				//setMCareCapabilities_Pcloudy();
+				// setMCareCapabilities_Pcloudy();
 				Status = "PASS";
 			} else {
 				Result.fUpdateLog("Device " + DeviceName + " not found");
@@ -115,7 +115,7 @@ public class SetCapabilities extends Driver {
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-	
+
 	public static void setMCareCapabilities1(String DeviceName) throws IOException, InterruptedException {
 		System.out.println("*** Setting Up MCare Capabilities ***");
 		try {
@@ -126,20 +126,28 @@ public class SetCapabilities extends Driver {
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability("deviceName", p.getProperty(DeviceName + "_Name"));
 			capabilities.setCapability("udid", p.getProperty(DeviceName + "_Id"));
+			if (Env.equals("Prod")) {
+				capabilities.setCapability("app", WorkingDir.get() + "/APK/My-Vodafone-Prod.apk");
+			} else {
+				capabilities.setCapability("app", WorkingDir.get() + "/APK/My-Vodafone-Devel-Beta.apk");
+			}
 			capabilities.setCapability("platformVersion", p.getProperty(DeviceName + "_Android_Version"));
 			capabilities.setCapability("platformName", "Android");
-			capabilities.setCapability("appPackage", p.getProperty("MCare_"+ Env + "_AppPackage"));
-			capabilities.setCapability("appActivity", p.getProperty("MCare_"+ Env + "_AppActivity"));
+			capabilities.setCapability("appPackage", p.getProperty("MCare_" + Env + "_AppPackage"));
+			capabilities.setCapability("appActivity", p.getProperty("MCare_" + Env + "_AppActivity"));
+			capabilities.setCapability("autoGrantPermissions", "true");
+			// capabilities.setCapability("autoAcceptAlerts", "true");
 			activity.set(p.getProperty("MCare_" + Env + "_AppPackage"));
 			dr = new AndroidDriver(new URL("http://127.0.0.1:" + p.getProperty(DeviceName + "_Port") + "/wd/hub"),
 					capabilities);
+			// dr.installApp("D:/Apk/My-Vodafone-Devel-Beta.apk");
 			dr.resetApp();
 			Result.fUpdateLog("*** MCare Capabilities are now Set ***");
 		} catch (Exception e) {
 			Result.fUpdateLog("Capabilites are not set due to" + e);
 		}
 	}
-	
+
 	public static void setMCareCapabilities_Pcloudy() throws IOException, InterruptedException {
 		System.out.println("*** Setting Up MCare Pcloudy Capabilities ***");
 		try {
@@ -150,17 +158,19 @@ public class SetCapabilities extends Driver {
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability("pCloudy_Username", "haleemimranb@maveric-systems.com");
 			capabilities.setCapability("pCloudy_ApiKey", "rrjqbt6d7z4x8kvjmprm4k9p");
-			capabilities.setCapability("pCloudy_ApplicationName", "pCloudyAppiumDemo.apk");
-			capabilities.setCapability("pCloudy_DurationInMinutes", 3);
-			capabilities.setCapability("pCloudy_DeviceManafacturer", "Samsung");
-			//capabilities.setCapability("pCloudy_DeviceVersion", "8.0.0");
-			//capabilities.setCapability("pCloudy_DeviceFullName", "Samsung_GalaxyTabA_Android_7.1.1");
+			// capabilities.setCapability("pCloudy_AppPath",
+			// "D:/Apk/My-Vodafone-Devel-Beta.apk");
+			capabilities.setCapability("pCloudy_ApplicationName", "My-Vodafone-Devel-Beta.apk");
+			capabilities.setCapability("pCloudy_DurationInMinutes", 7);
+			capabilities.setCapability("pCloudy_DeviceManafacturer", utils.fetchData("Device"));
+			capabilities.setCapability("pCloudy_DeviceVersion", utils.fetchData("Version"));
+			// capabilities.setCapability("pCloudy_DeviceFullName",
+			// "Samsung_GalaxyTabA_Android_7.1.1");
 			capabilities.setCapability("newCommandTimeout", 600);
 			capabilities.setCapability("launchTimeout", 90000);
-			capabilities.setCapability("appPackage", p.getProperty("MCare_"+ Env + "_AppPackage"));
-			capabilities.setCapability("appActivity", p.getProperty("MCare_"+ Env + "_AppActivity"));
-			//capabilities.setCapability("appPackage", "com.pcloudy.appiumdemo");
-			//capabilities.setCapability("appActivity", "com.ba.mobile.LaunchActivity");
+			capabilities.setCapability("appPackage", p.getProperty("MCare_" + Env + "_AppPackage"));
+			capabilities.setCapability("appActivity", p.getProperty("MCare_" + Env + "_AppActivity"));
+			capabilities.setCapability("autoGrantPermissions", "true");
 			activity.set(p.getProperty("MCare_" + Env + "_AppPackage"));
 			dr = new AndroidDriver(new URL("https://device.pcloudy.com/appiumcloud/wd/hub"), capabilities);
 			dr.resetApp();

@@ -2,6 +2,7 @@ package mobileUtilities;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -60,54 +61,65 @@ public class MCare extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static String verifyMCareLogin() {
 		String Test_OutPut = "", Status = "";
 		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
 		try {
-			//String DeviceName = utils.fetchData("DeviceName");
+			// String DeviceName = utils.fetchData("DeviceName");
 			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			Thread.sleep(2000);
 			utils.takeScreenShot();
-			/*Runtime run = Runtime.getRuntime();
-			String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
-			run.exec(cmd);
-			Thread.sleep(1000);*/
+			/*
+			 * Runtime run = Runtime.getRuntime(); String cmd = "adb -s " +
+			 * p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
+			 * run.exec(cmd); Thread.sleep(1000);
+			 */
 			// utils.takeScreenShot();
-			Scroll("OK");
+			if (utils.fetchData("Env").equals("Test")) {
+				Scroll("OK");
+			} else {
+				Scroll("OK! Let's Start!");
+			}
+			Thread.sleep(1000);
+			allowAppPermission();
 			utils.takeScreenShot();
 			Wait(Xpath.Menu);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 			Scroll("Switcher");
 			utils.takeScreenShot();
-			Wait(Xpath.Env);
-			((WebElement) SetCapabilities.dr.findElements(By.xpath(Xpath.Env)).get(1)).click();
-
-			// SetCapabilities.dr.findElement(By.xpath(Xpath.Env)).click();
-			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'UAT')]")).click();
 			String MSISDN1 = utils.fetchData("MSISDN");
 			MSISDN1 = MSISDN1.substring(3, 11);
-
+			Wait(Xpath.MsisdnEntry);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.MsisdnEntry)).sendKeys(MSISDN1);
+
+			Wait(Xpath.Env);
+			((WebElement) SetCapabilities.dr.findElements(By.xpath(Xpath.Env)).get(1)).click();
+			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'UAT')]")).click();
+
 			Wait(Xpath.Switchbutton);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Switchbutton)).click();
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Login)).click();
 			utils.takeScreenShot();
+
 			Wait(Xpath.Menu);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-			swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
-			SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
-			utils.takeScreenShot();
+			Scroll("Home");
+			// swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
+			// SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
+
 			Wait(Xpath.SkipTutorial);
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click();
+			Thread.sleep(3000);
 			try {
 				if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
 					SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click();
 			} catch (Exception e) {
 			}
 
+			Thread.sleep(1000);
 			Wait("//*[@class='android.widget.ImageView' and @index='0']");
 			if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']"))
 					.isDisplayed()) {
@@ -191,21 +203,162 @@ public class MCare extends Driver {
 
 			if ((Avatar + VoV + NeedHelp + Gauge + MobNum + Menu) == 6)
 				Status = "PASS";
-			else
+			else {
+				SetCapabilities.dr.quit();
 				Status = "FAIL";
+			}
+
 			// MenuVerify();
 		} catch (Exception e) {
 			Status = "FAIL";
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured ");
+			SetCapabilities.dr.quit();
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	/*private static Object TouchAction() {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
+	public static String OTP_MCareLogin() {
+		String Test_OutPut = "", Status = "";
+		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
+		try {
+			// String DeviceName = utils.fetchData("DeviceName");
+			FileReader reader = new FileReader("Framework/config/config.properties");
+			Properties p = new Properties();
+			p.load(reader);
+			Thread.sleep(2000);
+			String MSISDN1 = utils.fetchData("MSISDN");
+			MSISDN1 = MSISDN1.substring(3, 11);
+			utils.takeScreenShot();
+			if (utils.fetchData("Env").equals("Test")) {
+				Scroll("OK");
+			} else {
+				Scroll("OK! Let's Start!");
+			}
+			Thread.sleep(1000);
+			allowAppPermission();
+			utils.takeScreenShot();
+			Wait(Xpath.LoginwithSMS);
+			SetCapabilities.dr.findElement(By.xpath(Xpath.LoginwithSMS)).click();
+			utils.takeScreenShot();
+			Wait(Xpath.MSISDN_OTP);
+			SetCapabilities.dr.findElement(By.xpath(Xpath.MSISDN_OTP)).sendKeys(MSISDN1);
+			utils.takeScreenShot();
+			Scroll("Get SMS passcode");
+			Thread.sleep(15000);
+
+			// Wait(Xpath.Login);
+			Scroll("Login");
+			// SetCapabilities.dr.findElement(By.xpath(Xpath.Login)).click();
+
+			Wait(Xpath.SkipTutorial);
+			utils.takeScreenShot();
+			SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click();
+			Thread.sleep(3000);
+			try {
+				if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
+					SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click();
+			} catch (Exception e) {
+				System.out.println("No alert");
+			}
+			Thread.sleep(1000);
+			Wait("//*[@class='android.widget.ImageView' and @index='0']");
+			if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']"))
+					.isDisplayed()) {
+				Result.fUpdateLog("Home Page Loaded Successfully, Verifying other objects.");
+				Result.fUpdateLog("Avatar Verified on Dashboard");
+				Test_OutPut += "Avatar Verified on Dashboard </br>";
+				Avatar = 1;
+				Wait(Xpath.VoV);
+				if (SetCapabilities.dr.findElement(By.xpath(Xpath.VoV)).isDisplayed()) {
+					Result.fUpdateLog("VoV Verified on Dashboard");
+					utils.takeScreenShot();
+					Test_OutPut += "VoV Verified on Dashboard </br>";
+					VoV = 1;
+				} else {
+					Result.fUpdateLog("VoV is not found on Dashboard");
+					Test_OutPut += "VoV is not found on Dashboard </br>";
+					VoV = 0;
+				}
+
+				if (SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).isDisplayed()) {
+					Result.fUpdateLog("Burger Menu is Verified on Dashboard");
+					Test_OutPut += "Burger Menu is Verified on Dashboard </br>";
+					// utils.takeScreenShot();
+					Menu = 1;
+				} else {
+					Result.fUpdateLog("Burger Menu is not found on Dashboard");
+					Test_OutPut += "Burger Menu is not found on Dashboard </br>";
+					Menu = 0;
+				}
+
+				String Mob = SetCapabilities.dr
+						.findElement(By.xpath("//android.widget.TextView[contains(@text,'+974')]")).getText()
+						.toString();
+				System.out.println(Mob);
+				Test_OutPut += "Avatar Icon Verified. </br>";
+				Mob = Mob.substring(5, 13).trim();
+				String MSISDN = utils.fetchData("MSISDN");
+				MSISDN = MSISDN.substring(3, 11);
+				if (Mob.equals(MSISDN)) {
+					Result.fUpdateLog("Mobile No. Verified on Dashboard");
+					// utils.takeScreenShot();
+					Test_OutPut += "Mobile No. Verified on Dashboard </br>";
+					MobNum = 1;
+				} else {
+					Result.fUpdateLog("Mobile No. is wrong on Dashboard");
+					Test_OutPut += "Mobile No. is wrong on Dashboard </br>";
+					MobNum = 0;
+				}
+
+				if (SetCapabilities.dr.findElement(By.xpath(Xpath.NeedHelp)).isDisplayed()) {
+					SetCapabilities.dr.findElement(By.xpath(Xpath.NeedHelp)).click();
+					if (SetCapabilities.dr.findElement(By.xpath(Xpath.AskHani)).isDisplayed()) {
+						Result.fUpdateLog("Need Help Verified on Dashboard");
+						utils.takeScreenShot();
+						Test_OutPut += "Need Help Verified on Dashboard </br>";
+						NeedHelp = 1;
+						SetCapabilities.dr.findElement(By.xpath(Xpath.Cancel)).click();
+					}
+
+				} else {
+					Result.fUpdateLog("Need Help is not found on Dashboard");
+					Test_OutPut += "Need Help is not found on Dashboard </br>";
+					NeedHelp = 0;
+				}
+				if (SetCapabilities.dr.findElement(By.xpath(Xpath.GaugeLayout)).isDisplayed()) {
+					Result.fUpdateLog("Gauge Verified on Dashboard");
+					// utils.takeScreenShot();
+					Test_OutPut += "Gauge Verified on Dashboard </br>";
+					Gauge = 1;
+				} else {
+					Result.fUpdateLog("Gauge is not found on Dashboard");
+					Test_OutPut += "Gauge is not found on Dashboard </br>";
+					Gauge = 0;
+				}
+				utils.takeScreenShot();
+			} else {
+				Result.fUpdateLog("For some reasons, MCare Dashboard is not loaded properly");
+				Test_OutPut += "For some reasons, MCare Dashboard is not loaded properly </br>";
+				Avatar = 0;
+			}
+
+			if ((Avatar + VoV + NeedHelp + Gauge + MobNum + Menu) == 6)
+				Status = "PASS";
+			else {
+				SetCapabilities.dr.quit();
+				Status = "FAIL";
+			}
+
+			// MenuVerify();
+		} catch (Exception e) {
+			Status = "FAIL";
+			e.printStackTrace();
+			Result.fUpdateLog("Exception Occured ");
+			SetCapabilities.dr.quit();
+		}
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
 
 	public static String MenuVerify() {
 		String Test_OutPut = "", Status = "";
@@ -328,9 +481,13 @@ public class MCare extends Driver {
 			}
 			if ((a + b + c + d + e1 + f + g + h) == 8)
 				Status = "PASS";
-			else
+			else {
 				Status = "FAIL";
+				SetCapabilities.dr.quit();
+			}
+
 		} catch (Exception e) {
+			SetCapabilities.dr.quit();
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured" + e);
 			Status = "FAIL";
@@ -339,14 +496,15 @@ public class MCare extends Driver {
 	}
 
 	public static void Wait(String Path) {
-		WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 120);
+		WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Path)));
 	}
 
-	public static void Scroll(String Text) throws InterruptedException {
+	public static void Scroll(String Text) throws InterruptedException, IOException {
 		MobileElement radioGroup = (MobileElement) SetCapabilities.dr.findElement(MobileBy.AndroidUIAutomator(
 				"new UiScrollable(new UiSelector()).scrollIntoView(" + "new UiSelector().text(\"" + Text + "\"));"));
 		Thread.sleep(1000);
+		utils.takeScreenShot();
 		radioGroup.click();
 	}
 
@@ -593,16 +751,17 @@ public class MCare extends Driver {
 			if (TestCaseN.get().equalsIgnoreCase("Existing")) {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate Again']")));
 				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate Again']")).click();
-				utils.takeScreenShot();
+				Thread.sleep(1000);
 			} else {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate']")));
 				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate']")).click();
+				Thread.sleep(1000);
 			}
 
 			/*
 			 * int i = 0; do { Thread.sleep(1000); i = i + 1; } while (i < 4);
 			 */
-			Wait("//*[contains(@text='product has been activated')]");
+			Wait("//android.widget.TextView[contains(@text,'product has been activated')]");
 			// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(activity +
 			// Xpath.BurgerMenu)));
 			/*
@@ -760,6 +919,7 @@ public class MCare extends Driver {
 			Status = "FAIL";
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured ");
+			SetCapabilities.dr.quit();
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
@@ -986,6 +1146,15 @@ public class MCare extends Driver {
 			Result.fUpdateLog("Exception Occured ");
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+
+	public static void allowAppPermission() {
+		int i = 0;
+		while (SetCapabilities.dr.findElements(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).size() > 0) {
+			i += 1;
+			System.out.println("permisiion : " + i);
+			SetCapabilities.dr.findElement(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).click();
+		}
 	}
 
 }

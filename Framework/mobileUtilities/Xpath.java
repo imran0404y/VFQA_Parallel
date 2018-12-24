@@ -48,5 +48,9 @@ public class Xpath extends Driver{
 	static String AskHani="//*[@text='Ask Hani' and @index='0']";
 	static String Cancel="//*[@NAF='true']";
 	static String Menu="//*[@resource-id='"+activity.get()+":id/burger_menu' and @index='1']";
+	static String MSISDN_OTP="//*[@resource-id='"+activity.get()+":id/connect_msisdn_input']";
+	static String LoginwithSMS="//*[@resource-id='qa.vodafone.myvodafone:id/connect_login_with_otp_button']";
+	static String GetOTP="//*[@resource-id='"+activity.get()+":id/connect_get_otp_button']";
+	static String OKButton="//*[@resource-id='"+activity.get()+":id/permission_accept_button']";
 	
 }

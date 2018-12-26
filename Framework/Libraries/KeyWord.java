@@ -679,6 +679,10 @@ public class KeyWord {
 	public String Test() {
 		return MCare.Test();
 	}
+	public String Billpay() {
+		return MCare.Billpay();
+	}
+	
 
 	// ---------------------MCare Keywords Ends------------------------//
 }

@@ -52,5 +52,18 @@ public class Xpath extends Driver{
 	static String LoginwithSMS="//*[@resource-id='qa.vodafone.myvodafone:id/connect_login_with_otp_button']";
 	static String GetOTP="//*[@resource-id='"+activity.get()+":id/connect_get_otp_button']";
 	static String OKButton="//*[@resource-id='"+activity.get()+":id/permission_accept_button']";
-	
+	static String PayBill = "//android.widget.TextView[contains(@text,'Pay your bill')]";
+	static String Retrivepay = "//android.widget.TextView[contains(@text,'Pay bill')]";
+	static String Oustanding="//*[contains(@text,'Total outstanding on')]/..//*[@index='1']";
+	static String Logout="//android.widget.TextView[contains(@text,'Logout')]";
+	static String AvatarScreen="//android.widget.TextView[contains(@text,'Change avatar')]";
+	static String LogoutConfirmation="//android.widget.TextView[contains(@text,'Confirm')]";
+    static String retrivebill= "//android.widget.TextView[contains(@text,'Retrieve a bill & pay')]";
+    static String ACCNum= "//android.widget.EditText[contains(@text,'Vodafone number or Account number')]";
+    static String IDNum= "//android.widget.EditText[contains(@text,'Qatari I.D. or Passport Number')]";
+    static String Retrive= "//android.widget.TextView[contains(@text,'Retrieve & Pay')]";
+    static String Debit="//*[@class='android.widget.FrameLayout' and @index='0']/[@NAF='true' and index='8']";
+    static String Credit="//*[@class='android.widget.FrameLayout' and @index='1']/[@NAF='true' and index='10']";
+    static String Debitcard="//*[contains(@text,'Debit card')]/..//*[@NAF='true']";
+    static String Creditcard="//*[contains(@text,'Credit card')]/..//*[@NAF='true']";
 }

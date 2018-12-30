@@ -36,12 +36,14 @@ public class Dialers extends Driver {
 				SetCapabilities.dr.quit();
 				Status = "PASS";
 			} catch (Exception e) {
+				SetCapabilities.dr.quit();
 				Status = "FAIL";
 				Test_OutPut += "Call was failed due to Other Party Has not Picked Up the Call or No Network/SIM Found on the mobile";
 				Result.fUpdateLog(
 						"Call was failed due to Other Party Has not Picked Up the Call or No Network/SIM Found on the mobile or \n");
 			}
 		} catch (Exception e) {
+			SetCapabilities.dr.quit();
 			System.out.println(e);
 			Status = "FAIL";
 		}
@@ -102,12 +104,14 @@ public class Dialers extends Driver {
 				SetCapabilities.dr.quit();
 				Status = "PASS";
 			} catch (Exception e) {
+				SetCapabilities.dr.quit();
 				Status = "FAIL";
 				Test_OutPut += "Balance Check was failed due to USSD Code is not working or No Network/SIM Found on the mobile";
 				Result.fUpdateLog(
 						"Balance Check was failed due to USSD Code is not working or No Network/SIM Found on the mobile");
 			}
 		} catch (Exception e) {
+			SetCapabilities.dr.quit();
 			System.out.println(e);
 			Status = "FAIL";
 		}
@@ -273,12 +277,14 @@ public class Dialers extends Driver {
 				if ((DueNow == SiebelDueNow) && (Unbilled == SiebelUnbilled) && ((DueNow + Unbilled) == SiebelTotal)) {
 					Status = "PASS";
 				} else {
+					SetCapabilities.dr.quit();
 					Result.fUpdateLog("There is some mismatch in RTB and USSD values");
 					Test_OutPut += "There is some mismatch in RTB and USSD values";
 					Status = "FAIL";
 				}
 
 			} catch (Exception e) {
+				SetCapabilities.dr.quit();
 				Test_OutPut += "Bill Enquiry was failed due to USSD Code is not working or No Network/SIM Found on the mobile";
 				Result.fUpdateLog(
 						"Bill Enquiry was failed due to USSD Code is not working or No Network/SIM Found on the mobile");

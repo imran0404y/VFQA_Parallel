@@ -30,6 +30,7 @@ public class Notification extends Driver {
 				Status = "FAIL";
 			SetCapabilities.dr.quit();
 		} catch (Exception e) {
+			SetCapabilities.dr.quit();
 			e.printStackTrace();
 		} 
 		return Status + "@@" + Test_OutPut + "<br/>"; 

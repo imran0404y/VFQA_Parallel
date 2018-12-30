@@ -134,12 +134,14 @@ public class Dialers extends Driver {
 				SetCapabilities.dr.quit();
 				Status = "PASS";
 			} catch (Exception e) {
+				SetCapabilities.dr.quit();
 				Status = "FAIL";
 				Test_OutPut += "Recharge didn't worked to USSD Code is not working or No Network/SIM Found on the mobile";
 				Result.fUpdateLog(
 						"Recharge didn't worked to USSD Code is not working or No Network/SIM Found on the mobile");
 			}
 		} catch (Exception e) {
+			SetCapabilities.dr.quit();
 			System.out.println(e);
 			Status = "FAIL";
 		}

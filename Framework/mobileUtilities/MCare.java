@@ -66,43 +66,51 @@ public class MCare extends Driver {
 		String Test_OutPut = "", Status = "";
 		int MobNum = 0, VoV = 0, Avatar = 0, NeedHelp = 0, Gauge = 0, Menu = 0;
 		try {
-			String DeviceName = utils.fetchData("DeviceName");
+			// String DeviceName = utils.fetchData("DeviceName");
 			FileReader reader = new FileReader("Framework/config/config.properties");
 			Properties p = new Properties();
 			p.load(reader);
 			Thread.sleep(2000);
 			utils.takeScreenShot();
-			Runtime run = Runtime.getRuntime();
-			String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input swipe 100 1100 100 100";
-			run.exec(cmd);
-			Thread.sleep(1000);
-			 utils.takeScreenShot();
-			Scroll("OK");
+			// Runtime run = Runtime.getRuntime();
+			// String cmd = "adb -s " + p.getProperty(DeviceName + "_Id") + " shell input
+			// swipe 100 1100 100 100";
+			// run.exec(cmd);
+			// Thread.sleep(1000);
+			// utils.takeScreenShot();
+			if (utils.fetchData("Env").equals("Test")) {
+				Scroll("OK");
+			} else {
+				Scroll("OK! Let's Start!");
+			}
+			allowAppPermission();
 			utils.takeScreenShot();
 			Wait(Xpath.Menu);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 			Scroll("Switcher");
 			utils.takeScreenShot();
+			String MSISDN1 = utils.fetchData("MSISDN");
+			MSISDN1 = MSISDN1.substring(3, 11);
+			Wait(Xpath.MsisdnEntry);
+			SetCapabilities.dr.findElement(By.xpath(Xpath.MsisdnEntry)).sendKeys(MSISDN1);
 			Wait(Xpath.Env);
 			((WebElement) SetCapabilities.dr.findElements(By.xpath(Xpath.Env)).get(1)).click();
 
 			// SetCapabilities.dr.findElement(By.xpath(Xpath.Env)).click();
 			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'UAT')]")).click();
-			String MSISDN1 = utils.fetchData("MSISDN");
-			MSISDN1 = MSISDN1.substring(3, 11);
-
-			SetCapabilities.dr.findElement(By.xpath(Xpath.MsisdnEntry)).sendKeys(MSISDN1);
 			Wait(Xpath.Switchbutton);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Switchbutton)).click();
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Login)).click();
 			utils.takeScreenShot();
 			Wait(Xpath.Menu);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-			swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
-			SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
+			Scroll("Home");
+			// swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
+			// SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
 			utils.takeScreenShot();
 			Wait(Xpath.SkipTutorial);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.SkipTutorial)).click();
+			Thread.sleep(3000);
 			try {
 				if (SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).isDisplayed())
 					SetCapabilities.dr.findElement(By.id(Xpath.AlertCancel)).click();
@@ -110,24 +118,25 @@ public class MCare extends Driver {
 			}
 
 			Wait("//android.widget.TextView[contains(@text,'+974')]");
-			
-			
+
 			if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']"))
 					.isDisplayed()) {
-				
+
 				Result.fUpdateLog("Home Page Loaded Successfully, Verifying other objects.");
-				if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']")).isDisplayed()) {
-					SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']")).click();
-				
+				if (SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']"))
+						.isDisplayed()) {
+					SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.ImageView' and @index='0']"))
+							.click();
+
 					Wait(Xpath.AvatarScreen);
-					//Wait(Xpath.QuickPay1);
+					// Wait(Xpath.QuickPay1);
 					Result.fUpdateLog("Avatar Screen is loaded");
 					utils.takeScreenShot();
 					Test_OutPut += "Avatar Screen isloaded </br>";
 					SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 					SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
-					
-				} 
+
+				}
 				Result.fUpdateLog("Avatar Verified on Dashboard");
 				Test_OutPut += "Avatar Verified on Dashboard </br>";
 				Avatar = 1;
@@ -207,20 +216,23 @@ public class MCare extends Driver {
 
 			if ((Avatar + VoV + NeedHelp + Gauge + MobNum + Menu) == 6)
 				Status = "PASS";
-			else
+			else {
+				SetCapabilities.dr.quit();
 				Status = "FAIL";
+			}
 			// MenuVerify();
 		} catch (Exception e) {
 			Status = "FAIL";
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured ");
+			SetCapabilities.dr.quit();
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+
 	@SuppressWarnings("deprecation")
 	public static String Billpay() {
 		String Test_OutPut = "", Status = "";
-		int a = 0, b = 0, c = 0, d = 0, e1 = 0, f = 0, g = 0, h = 0;
 		try {
 			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
@@ -230,61 +242,56 @@ public class MCare extends Driver {
 				SetCapabilities.dr.findElement(By.xpath(Xpath.BillingPayments)).click();
 				Wait(Xpath.retrivebill);
 				utils.takeScreenShot();
-			//	String home = cDriver.get().getCurrentUrl(); 
+				// String home = cDriver.get().getCurrentUrl();
 				if (SetCapabilities.dr.findElement(By.xpath(Xpath.retrivebill)).isDisplayed()) {
-				 SetCapabilities.dr.findElement(By.xpath(Xpath.retrivebill)).click();
-				 Wait(Xpath.retrivebill);
-				 utils.takeScreenShot();
-				 
-				 SetCapabilities.dr.findElement(By.xpath(Xpath.IDNum)).sendKeys(utils.fetchData("IDNumber"));
-				 SetCapabilities.dr.findElement(By.xpath(Xpath.ACCNum)).sendKeys(utils.fetchData("MSISDN"));
-			
-				 SetCapabilities.dr.hideKeyboard();
-				 SetCapabilities.dr.findElement(By.xpath(Xpath.Retrive)).click();
-				 Wait(Xpath.Retrivepay);
-				 utils.takeScreenShot();
-				 SetCapabilities.dr.findElement(By.xpath(Xpath.Retrivepay)).click();
-				 String Card=utils.fetchData("CardType");
-				 String Mob = SetCapabilities.dr
-							.findElement(By.xpath(Xpath.Oustanding)).getText()
-							.toString();
-				 
-				 Result.fUpdateLog("Oustanding Amount" + Mob);
-				 Test_OutPut += "Oustanding Amount"+Mob;
-				 
-				 if(Card.equalsIgnoreCase("Credit"))
-				 {
-					 SetCapabilities.dr.findElement(By.xpath(Xpath.Creditcard)).click();
-				 }else
-				 {
-					 SetCapabilities.dr.findElement(By.xpath(Xpath.Debitcard)).click();
-				 }
-				 
-				 SetCapabilities.dr.findElement(By.xpath(Xpath.Retrive)).click();
-				 utils.takeScreenShot();
-				 Wait(Xpath.Cancel);
-				 utils.takeScreenShot();
-				 
-				 SetCapabilities.dr.findElement(By.xpath(Xpath.Cancel)).click();
-				 Thread.sleep(5000);
-				 utils.takeScreenShot();
-				 
-				 Wait(Xpath.retrivebill);
-				
-				
-				 utils.takeScreenShot();
-				 SetCapabilities.dr.pressKeyCode(AndroidKeyCode.KEYCODE_MENU);
-				
-				 Scroll("Logout");
-				 SetCapabilities.dr.findElement(By.xpath(Xpath.LogoutConfirmation)).click();
-				 SetCapabilities.dr.closeApp();
+					SetCapabilities.dr.findElement(By.xpath(Xpath.retrivebill)).click();
+					Wait(Xpath.retrivebill);
+					utils.takeScreenShot();
 
+					SetCapabilities.dr.findElement(By.xpath(Xpath.IDNum)).sendKeys(utils.fetchData("IDNumber"));
+					SetCapabilities.dr.findElement(By.xpath(Xpath.ACCNum)).sendKeys(utils.fetchData("MSISDN"));
 
-				 }
+					SetCapabilities.dr.hideKeyboard();
+					SetCapabilities.dr.findElement(By.xpath(Xpath.Retrive)).click();
+					Wait(Xpath.Retrivepay);
+					utils.takeScreenShot();
+					SetCapabilities.dr.findElement(By.xpath(Xpath.Retrivepay)).click();
+					String Card = utils.fetchData("CardType");
+					String Mob = SetCapabilities.dr.findElement(By.xpath(Xpath.Oustanding)).getText().toString();
+
+					Result.fUpdateLog("Oustanding Amount" + Mob);
+					Test_OutPut += "Oustanding Amount" + Mob;
+
+					if (Card.equalsIgnoreCase("Credit")) {
+						SetCapabilities.dr.findElement(By.xpath(Xpath.Creditcard)).click();
+					} else {
+						SetCapabilities.dr.findElement(By.xpath(Xpath.Debitcard)).click();
+					}
+
+					SetCapabilities.dr.findElement(By.xpath(Xpath.Retrive)).click();
+					utils.takeScreenShot();
+					Wait(Xpath.Cancel);
+					utils.takeScreenShot();
+
+					SetCapabilities.dr.findElement(By.xpath(Xpath.Cancel)).click();
+					Thread.sleep(5000);
+					utils.takeScreenShot();
+
+					Wait(Xpath.retrivebill);
+
+					utils.takeScreenShot();
+					SetCapabilities.dr.pressKeyCode(AndroidKeyCode.KEYCODE_MENU);
+
+					Scroll("Logout");
+					SetCapabilities.dr.findElement(By.xpath(Xpath.LogoutConfirmation)).click();
+					SetCapabilities.dr.closeApp();
+
+				}
 			}
-			Status="Pass";
-		
+			Status = "Pass";
+
 		} catch (Exception e) {
+			SetCapabilities.dr.quit();
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured" + e);
 			Status = "FAIL";
@@ -774,7 +781,7 @@ public class MCare extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-public static String PreAddon_Activation() {
+	public static String PreAddon_Activation() {
 		String Test_OutPut = "", Status = "", MVA_PrepaidExtras = "";
 
 		try {
@@ -795,6 +802,7 @@ public static String PreAddon_Activation() {
 				wait.until(ExpectedConditions
 						.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
 				SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
+				Thread.sleep(1000);
 				utils.takeScreenShot();
 			} else {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -825,22 +833,25 @@ public static String PreAddon_Activation() {
 			if (TestCaseN.get().equalsIgnoreCase("Existing")) {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate Again']")));
 				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate Again']")).click();
+				Thread.sleep(1000);
 				utils.takeScreenShot();
 			} else {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='Activate']")));
 				SetCapabilities.dr.findElement(By.xpath("//*[@text='Activate']")).click();
+				Thread.sleep(1000);
 			}
 
 			/*
 			 * int i = 0; do { Thread.sleep(1000); i = i + 1; } while (i < 4);
 			 */
-			Wait("//*[contains(@text='product has been activated')]");
-		
+			Wait("//android.widget.TextView[contains(@text,'product has been activated')]");
+
 			utils.takeScreenShot();
 			Status = "PASS";
 
 		} catch (Exception e) {
 			Status = "FAIL";
+			SetCapabilities.dr.quit();
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured ");
 		}
@@ -874,17 +885,18 @@ public static String PreAddon_Activation() {
 
 		} catch (Exception e) {
 			Status = "FAIL";
+			SetCapabilities.dr.quit();
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured ");
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-public static String PreAddon_DeActivation() {
+	public static String PreAddon_DeActivation() {
 		String Test_OutPut = "", Status = "", MVA_PrepaidExtras = "";
 
 		try {
-					
+
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 10);
 			MVA_PrepaidExtras = utils.fetchData("MVA_PrepaidExtras");
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Xpath.BurgerMenu)));
@@ -892,18 +904,17 @@ public static String PreAddon_DeActivation() {
 			SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).click();
 			Scroll("My Products & Services");
 			Wait(Xpath.PS_Phone);
-			wait.until(ExpectedConditions
-						.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
-				SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
-				utils.takeScreenShot();
-			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
+			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
+			utils.takeScreenShot();
+
 			if (utils.fetchData("MVA_ProductType").toString().equals("Flex")) {
 				Scroll("Flex");
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Internet")) {
 				Scroll("Internet");
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Calls")) {
 				Scroll("Calls");
-			
+
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Roaming")) {
 				Scroll("Roaming");
 			}
@@ -915,37 +926,33 @@ public static String PreAddon_DeActivation() {
 			SetCapabilities.dr.findElement(By.xpath("//*[@text='Deactivate']")).click();
 			utils.takeScreenShot();
 
-			
 			int i = 0;
 			do {
 				Thread.sleep(1000);
 				i = i + 1;
 			} while (i < 4);
 			Status = "PASS";
-			
+
 			utils.takeScreenShot();
 			Wait(Xpath.Menu);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 			Wait(Xpath.Home);
-		//	swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
+			// swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
 			utils.takeScreenShot();
-/*
-			Status = "PASS";
-
-			String MSG = SetCapabilities.dr
-					.findElement(
-							By.xpath("//android.widget.TextView[contains(@content-desc,'ltr.activate_products.text')]"))
-					.getText().toString();
-			if (MSG.contains("has been deactivated and wait for confirmation by SMS")) {
-				Status = "PartiallyPass";
-			} else {
-				Status = "FAIL";
-				Result.fUpdateLog("Production Deactivation failed ");
-			}
-*/
+			/*
+			 * Status = "PASS";
+			 * 
+			 * String MSG = SetCapabilities.dr .findElement( By.xpath(
+			 * "//android.widget.TextView[contains(@content-desc,'ltr.activate_products.text')]"
+			 * )) .getText().toString(); if
+			 * (MSG.contains("has been deactivated and wait for confirmation by SMS")) {
+			 * Status = "PartiallyPass"; } else { Status = "FAIL";
+			 * Result.fUpdateLog("Production Deactivation failed "); }
+			 */
 		} catch (Exception e) {
 			Status = "FAIL";
+			SetCapabilities.dr.quit();
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured ");
 		}
@@ -979,7 +986,7 @@ public static String PreAddon_DeActivation() {
 				Scroll("Internet");
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Calls")) {
 				Scroll("Calls");
-			
+
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Roaming")) {
 				Scroll("Roaming");
 			}
@@ -1003,29 +1010,29 @@ public static String PreAddon_DeActivation() {
 				i = i + 1;
 			} while (i < 4);
 			Status = "PASS";
-			
+
 			utils.takeScreenShot();
 			Wait(Xpath.Menu);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 			Wait(Xpath.Home);
-		//	swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
+			// swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
 			utils.takeScreenShot();
 
 		} catch (Exception e) {
 			Status = "FAIL";
+			SetCapabilities.dr.quit();
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured ");
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-public static String PostAddon_Deactivation() {
+	public static String PostAddon_Deactivation() {
 		String Test_OutPut = "", Status = "", MVA_PostpaidExtras = "";
 
 		try {
-			
-			
+
 			WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 10);
 			MVA_PostpaidExtras = utils.fetchData("MVA_PostpaidExtras");
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Xpath.BurgerMenu)));
@@ -1033,18 +1040,17 @@ public static String PostAddon_Deactivation() {
 			SetCapabilities.dr.findElement(By.xpath(Xpath.BurgerMenu)).click();
 			Scroll("My Products & Services");
 			Wait(Xpath.PS_Phone);
-			wait.until(ExpectedConditions
-						.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
-				SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
-				utils.takeScreenShot();
-			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@text,'Active extras')]")));
+			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'Active extras')]")).click();
+			utils.takeScreenShot();
+
 			if (utils.fetchData("MVA_ProductType").toString().equals("Flex")) {
 				Scroll("Flex");
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Internet")) {
 				Scroll("Internet");
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Calls")) {
 				Scroll("Calls");
-			
+
 			} else if (utils.fetchData("MVA_ProductType").toString().equals("Roaming")) {
 				Scroll("Roaming");
 			}
@@ -1056,24 +1062,24 @@ public static String PostAddon_Deactivation() {
 			SetCapabilities.dr.findElement(By.xpath("//*[@text='Deactivate']")).click();
 			utils.takeScreenShot();
 
-			
 			int i = 0;
 			do {
 				Thread.sleep(1000);
 				i = i + 1;
 			} while (i < 4);
 			Status = "PASS";
-			
+
 			utils.takeScreenShot();
 			Wait(Xpath.Menu);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
 			Wait(Xpath.Home);
-		//	swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
+			// swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
 			SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
 			utils.takeScreenShot();
 
-	} catch (Exception e) {
+		} catch (Exception e) {
 			Status = "FAIL";
+			SetCapabilities.dr.quit();
 			e.printStackTrace();
 			Result.fUpdateLog("Exception Occured ");
 		}

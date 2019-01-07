@@ -912,7 +912,8 @@ public class Keyword_CRM extends Driver {
 
 			int Row_Val = 3, Col_V, COl_STyp, Col_Res, Col_S, Col_pri, Col_cat;
 			String Reserve, Service_Type, Category, GetData, Add_Addon, Remove_Addon, StarNumber = null, SIM,
-					Spendlimit = "", Smartlimit = "", ReservationToken, MSISDN = null, SData = "SIM Card";
+					Spendlimit = "", PlanBundle = "", Smartlimit = "", ReservationToken, MSISDN = null,
+					SData = "SIM Card";
 
 			// CO.waitforload();
 
@@ -1019,6 +1020,9 @@ public class Keyword_CRM extends Driver {
 			} else {
 				Service_Type = pulldata("Service_Type");
 			}
+			if (!(getdata("PlanBundle").equals(""))) {
+				PlanBundle = getdata("PlanBundle");
+			}
 			if (Smartlimit != "") {
 				Row_Count = Browser.WebTable.getRowCount("Line_Items");
 				if (Row_Count <= 3) {
@@ -1065,18 +1069,21 @@ public class Keyword_CRM extends Driver {
 					}
 				}
 			}
-			if (Add_Addon != "" || Remove_Addon != "" || ReservationToken != "" || Spendlimit != "") {
+			if (Add_Addon != "" || Remove_Addon != "" || ReservationToken != "" || PlanBundle != ""
+					|| Spendlimit != "") {
 
 				Browser.WebButton.click("Customize");
 				if (ReservationToken != "") {
+					if (ReservationToken.equalsIgnoreCase("FetchRT")) {
+						ReservationToken = Utlities.FetchRT(MSISDN);
+					}
 					// Browser.WebEdit.waittillvisible("NumberReservationToken");
 					Browser.WebEdit.Set("NumberReservationToken", ReservationToken);
 					Result.takescreenshot("Providing Number Reservation Token");
 				}
 
-				if (!(getdata("PlanBundle").equals(""))) {
+				if (PlanBundle != "") {
 					Result.fUpdateLog("------Customising to Add Plan Discount ------");
-					String PlanBundle = getdata("PlanBundle");
 					// CO.waitforload();
 					CO.Text_Select("a", "Mobile Plans");
 					// CO.waitforload();

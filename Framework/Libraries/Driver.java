@@ -97,7 +97,8 @@ public class Driver {
 	public static ThreadLocal<String> Acc_Number = new ThreadLocal<String>();
 	public static ThreadLocal<String> Total_DueAmt = new ThreadLocal<String>();
 	public static ThreadLocal<String> activity = new ThreadLocal<String>();
-
+	public static ThreadLocal<String> NRT_File = new ThreadLocal<String>();
+	
 	public static DateFormat For = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 	public static Calendar cal = Calendar.getInstance();
 	public static String SRT_Time = For.format(cal.getTime()).toString();
@@ -118,6 +119,7 @@ public class Driver {
 			Database_File.set(Storage_FLD.get() + "/CommonDirectory.xlsx");
 			Directory_FLD.set(Base_Path.get() + "/Database");
 			TestDataDB_File.set(Directory_FLD.get() + "/TestDataDB.xlsx");
+			NRT_File.set(Directory_FLD.get() + "/Mobile_Reservation_Token.csv");
 			Result_FLD.set(WorkingDir.get() + "/Results");
 			Templete_FLD.set(Base_Path.get() + "/Templates");
 			Temp_FLD.set(Base_Path.get() + "/Temp");
@@ -175,6 +177,7 @@ public class Driver {
 		OR_File.set(Temp_FLD.get() + "/" + Batch + "/ObjectRepository.xlsx");
 		StoreDB_File.set(Temp_FLD.get() + "/" + Batch + "/StoreDB.xlsx");
 		TestDataDB_File.set(Temp_FLD.get() + "/" + Batch + "/TestDataDB.xlsx");
+		NRT_File.set(Temp_FLD.get() + "/" + Batch + "/Mobile_Reservation_Token.csv");
 		Storage_FLD.set(Temp_FLD.get() + "/" + Batch);
 		browser.set("Chrome");
 		int totalUC = 0;

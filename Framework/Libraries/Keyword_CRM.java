@@ -295,9 +295,15 @@ public class Keyword_CRM extends Driver {
 				 * Browser.WebLink.waittillvisible("Con_Link");
 				 * Browser.WebLink.click("Con_Link");
 				 */
+				WebElement ele = cDriver.get().findElement(By.xpath("//input[starts-with(@aria-label,'Cellular Phone #')]"));
+				//simulate Ctl+S for "save as"
+				ele.sendKeys(Keys.CONTROL + "s");
+				if (CO.isAlertExist())
+					CO.waitforload();
+				
 				int Col = CO.Select_Cell("Contact", "Last_Name");
 				Browser.WebTable.clickA("Contact", 2, Col);
-
+				CO.waitforload();
 				// Handles Alerts
 				if (CO.isAlertExist())
 					CO.waitforload();

@@ -455,7 +455,19 @@ public class KeyWord {
 	public String OSM_Pearl_data() {
 		return KO.OSM_Pearl_data();
 	}
+	public String RePush_SOM() {
+		return KO.RePush_SOM();
+	}
 
+	public String RePush_COM() {
+		return KO.RePush_COM();
+	}
+	public String RePush_TOM() {
+		return KO.RePush_TOM();
+	}
+	public String OSM_Logout() {
+		return KO.OSM_Logout();
+	}
 	// ---------------------Keyword_OSM------------------------//
 
 	// ---------------------Keyword CRM/BRM DB------------------------//

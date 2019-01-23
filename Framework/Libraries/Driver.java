@@ -12,7 +12,10 @@ import java.util.Dictionary;
 import java.util.HashMap;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelShell;
@@ -106,7 +109,8 @@ public class Driver {
 	public static String[] Batches;
 	public static int TotExeCount = 0;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args)
+	{
 		System.out.println("Intialization");
 		killexeTask();
 
@@ -327,7 +331,7 @@ public class Driver {
 
 			if (TotExeCount == totalUCount) {
 				// Result.DisplayHTMLReport();
-				Browser.OpenBrowser(browser.get(), masterrephtml.get());
+				Browser.OpenBrowser("chrome", masterrephtml.get());
 				killexeTask();
 			}
 

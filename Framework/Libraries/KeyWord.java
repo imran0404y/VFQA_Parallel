@@ -20,7 +20,7 @@ public class KeyWord {
 	Keyword_DAPN KD = new Keyword_DAPN();
 	Keyword_PJM KJ = new Keyword_PJM();
 	Keyword_MPLS MP = new Keyword_MPLS();
-
+	Keyword_IPTV IPTV = new Keyword_IPTV();
 	Dialers KDialers = new Dialers();
 	SetCapabilities KSetCapabilities = new SetCapabilities();
 	MobileRTBCheck KRTB = new MobileRTBCheck();
@@ -455,6 +455,7 @@ public class KeyWord {
 	public String OSM_Pearl_data() {
 		return KO.OSM_Pearl_data();
 	}
+	
 	public String RePush_SOM() {
 		return KO.RePush_SOM();
 	}
@@ -468,6 +469,7 @@ public class KeyWord {
 	public String OSM_Logout() {
 		return KO.OSM_Logout();
 	}
+
 	// ---------------------Keyword_OSM------------------------//
 
 	// ---------------------Keyword CRM/BRM DB------------------------//
@@ -683,7 +685,6 @@ public class KeyWord {
 	public String MenuVerify() {
 		return MCare.MenuVerify();
 	}
-	
 	public String OTP_MCareLogin() {
 		return MCare.OTP_MCareLogin();
 	}
@@ -691,10 +692,23 @@ public class KeyWord {
 	public String Test() {
 		return MCare.Test();
 	}
+
 	public String Billpay() {
 		return MCare.Billpay();
 	}
-	
-
 	// ---------------------MCare Keywords Ends------------------------//
+
+	// ---------------------IPTV Keywords Starts------------------------//
+	public String PlanSelection_IPTV() {
+		return IPTV.PlanSelection_IPTV();
+	}
+	
+	public String PlanSelection_NewFL() {
+		return IPTV.PlanSelection_NewFL();
+	}
+	
+	public String IPTV_Disconnection() {
+		return IPTV.IPTV_Disconnection();
+	}
+	// ---------------------IPTV Keywords Ends------------------------//
 }

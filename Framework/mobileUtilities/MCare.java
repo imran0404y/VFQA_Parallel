@@ -25,6 +25,7 @@ import io.appium.java_client.android.AndroidKeyCode;
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 
+@SuppressWarnings("deprecation")
 public class MCare extends Driver {
 
 	public static String installMyVodafoneApp() {
@@ -230,7 +231,6 @@ public class MCare extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	@SuppressWarnings("deprecation")
 	public static String Billpay() {
 		String Test_OutPut = "", Status = "";
 		try {

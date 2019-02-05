@@ -1985,6 +1985,8 @@ public class Common extends Driver {
 		}
 		RadioL(Disc_Addon);
 		waitforload();
+		waitforload();
+		waitforload();
 		String cellXpath = "//input[@value='" + Discount + "']";
 
 		if (cDriver.get().findElement(By.xpath(cellXpath)).isDisplayed()) {
@@ -2846,8 +2848,9 @@ public class Common extends Driver {
 
 	public void RadioL(String Text) {
 		Radio_Select(Text);
-		// waitforload();
-		// waitforload();
+		waitforload();
+		waitforload();
+		waitforload();
 		String cellXpath = "//div[@class='div-table siebui-ecfg-table-collapse']//a[text()='" + Text + "']";
 		ConditionalWait1(cellXpath, Text);
 		cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -3038,5 +3041,73 @@ public class Common extends Driver {
 
 		}
 		return Col;
+	}
+	
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: LineItemsSelect
+	 * Arguments			: MSISDN,SData
+	 * Use 					: To take screenshots of all the line items with expand
+	 * Modified By			: IMRAN
+	 * Last Modified Date 	: 31-JAN-2019
+	--------------------------------------------------------------------------------------------------------*/
+	public void LineItemsSelect(String MSISDN, String SData) {
+		int treecount, rowcount = 0;
+		try {
+			List<WebElement> tree = cDriver.get()
+					.findElements(By.xpath("//*[@class='ui-icon ui-icon-triangle-1-e tree-plus treeclick']"));
+
+			treecount = tree.size();
+			System.out.println(treecount);
+			int Col = Select_Cell("Line_Items", "Product");
+			int Col_S = Actual_Cell("Line_Items", "Service Id");
+			Result.takescreenshot("LineItems");
+			while (treecount >= 1) {
+
+				rowcount = Browser.WebTable.getRowCount("Line_Items");
+
+				for (int i = 2; i <= rowcount; i++) {
+					String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+					if (SData.equals(LData.trim())) {
+						Browser.WebTable.click("Line_Items", i, Col_S);
+						Browser.WebTable.SetData("Line_Items", i, Col_S, "Service_Id", MSISDN);
+						break;
+					}
+				}
+
+				if (treecount == 1) {
+					Browser.WebButton.click("Expand");
+					Result.takescreenshot("");
+					rowcount = Browser.WebTable.getRowCount("Line_Items");
+					if (rowcount > 10) {
+						Browser.WebButton.click("LineItem_RecordSet");
+						waitforload();
+					}
+					List<WebElement> tree1 = cDriver.get()
+							.findElements(By.xpath("//*[@class='ui-icon ui-icon-triangle-1-e tree-plus treeclick']"));
+					treecount = tree1.size();
+					System.out.println(treecount);
+				} else {
+					Browser.WebButton.waittillvisible("Expand");
+					Browser.WebButton.click("Expand");
+					Result.takescreenshot("");
+					rowcount = Browser.WebTable.getRowCount("Line_Items");
+					if (rowcount > 10) {
+						Browser.WebButton.click("LineItem_RecordSet");
+						waitforload();
+					}
+					List<WebElement> tree1 = cDriver.get()
+							.findElements(By.xpath("//*[@class='ui-icon ui-icon-triangle-1-e tree-plus treeclick']"));
+					treecount = tree1.size();
+					System.out.println(treecount);
+				}
+
+			}
+			Result.takescreenshot("");
+		} catch (Exception e) {
+			Result.fUpdateLog("Failed in LineItemsSelect");
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+			e.printStackTrace();
+		}
+
 	}
 }

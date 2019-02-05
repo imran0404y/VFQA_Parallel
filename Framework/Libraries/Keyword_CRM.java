@@ -290,21 +290,23 @@ public class Keyword_CRM extends Driver {
 				} else {
 					Browser.WebEdit.Set("Phone", pulldata("Phone"));
 				}
-
+				Result.takescreenshot("Customer Creation with Customer ID : " + IDNumber);
 				/*
 				 * Browser.WebLink.waittillvisible("Con_Link");
 				 * Browser.WebLink.click("Con_Link");
 				 */
-				WebElement ele = cDriver.get().findElement(By.xpath("//input[starts-with(@aria-label,'Cellular Phone #')]"));
 				//simulate Ctl+S for "save as"
+				/*WebElement ele = cDriver.get().findElement(By.xpath("//input[starts-with(@aria-label,'Cellular Phone #')]"));
 				ele.sendKeys(Keys.CONTROL + "s");
 				if (CO.isAlertExist())
-					CO.waitforload();
+					CO.waitforload();*/
 				
 				int Col = CO.Select_Cell("Contact", "Last_Name");
 				Browser.WebTable.clickA("Contact", 2, Col);
 				CO.waitforload();
 				// Handles Alerts
+				if (CO.isAlertExist())
+					CO.waitforload();
 				if (CO.isAlertExist())
 					CO.waitforload();
 
@@ -321,7 +323,7 @@ public class Keyword_CRM extends Driver {
 				} else {
 					Address = pulldata("Address");
 				}
-				Result.takescreenshot("Customer Creation with Customer ID : " + IDNumber);
+				
 
 				if (!(Address.equals(""))) {
 					// Common.ConditionalWait("Add_Address", "WebButton");
@@ -414,7 +416,6 @@ public class Keyword_CRM extends Driver {
 						loop = 100;
 					}
 				} while (!(Row_Count > 1) && !(loop > 7));
-
 				if (Row_Count > 1) {
 					// Browser.WebButton.waittillvisible("Create_A/c");
 					// CO.waitforobj("Create_A/c", "WebButton");
@@ -844,7 +845,7 @@ public class Keyword_CRM extends Driver {
 					break;
 				}
 			} while (flag);
-
+			Result.takescreenshot("");
 			Col = CO.Get_Col("Order_Table", Row, "Sales Order");
 			Browser.WebTable.click("Order_Table", Row, Col);
 			Order_No = Browser.WebTable.getCellData("Order_Table", 2, (Col - 1));
@@ -1792,15 +1793,6 @@ public class Keyword_CRM extends Driver {
 				}
 				int Row = 2, Col;
 
-				Col = CO.Select_Cell("Acc_Contact", "ID Number");
-				if (!(getdata("IDNumber").equals(""))) {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Number", getdata("IDNumber"));
-				} else {
-					Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Number",
-							pulldata("IDNumber") + R.nextInt(10000000));
-
-				}
-
 				String IDType = "";
 				Col = CO.Select_Cell("Acc_Contact", "ID Type");
 				if (!(getdata("IDType").equals(""))) {
@@ -1906,16 +1898,11 @@ public class Keyword_CRM extends Driver {
 					// CO.scroll("Contact_ACC", "WebTable");
 
 					// Col = CO.Select_Cell("Acc_Contact", "ID Type");
-					Col++;
-					if (!(getdata("IDType").equals(""))) {
-						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Type", getdata("IDType"));
-					} else {
-						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_ID_Type", pulldata("IDType"));
-					}
+					//Col++;
 
-					Col++;
-					Col++;
-					// Col = CO.Select_Cell("Acc_Contact", "Nationality");
+					//Col++;
+					//Col++;
+					Col = CO.Actual_Cell("Acc_Contact", "Nationality");
 					if (!(getdata("Nationality").equals(""))) {
 						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_Nationality", getdata("Nationality"));
 					} else {
@@ -6979,10 +6966,30 @@ public class Keyword_CRM extends Driver {
 
 	public String ServicePoint() {
 		String Test_OutPut = "", Status = "";
-		int Col;
+		int Row =2, Col;
 		Result.fUpdateLog("------ServicePoint Event Details------");
 		try {
-
+			if(UseCaseName.get().contains("EnterpriseFL")) {
+				do {
+					CO.TabNavigator("Contacts");
+					// CO.waitforload();
+					/*
+					 * if (Browser.WebEdit.waitTillEnabled("Contact_Valid_Name")) { j = 0; break; }
+					 */
+				} while (!Browser.WebEdit.waitTillEnabled("Contact_Valid_Name"));
+				Col = CO.Select_Cell("Acc_Contact", "Last Name");
+				Browser.WebTable.clickA("Acc_Contact", Row, Col);
+				
+				Browser.WebButton.click("Add_Address");
+				CO.scroll("Popup_Go", "WebButton");
+				String Address= getdata("Kahramaa_ID");
+				Browser.ListBox.select("PopupQuery_List", "Kahramaa ID");
+				Browser.WebEdit.Set("PopupQuery_Search", Address);
+				Browser.WebButton.click("Popup_Go");
+				CO.scroll("Add_OK", "WebButton");
+				Browser.WebButton.click("Add_OK");
+					
+			}
 			CO.waitforload();
 			CO.scroll("Con_ServicePoint", "WebTable");
 			int Row_Count1 = Browser.WebTable.getRowCount("Con_ServicePoint");
@@ -7036,6 +7043,16 @@ public class Keyword_CRM extends Driver {
 
 			}
 			Browser.WebButton.waittillvisible("Create_A/c");
+			
+			if(UseCaseName.get().contains("EnterpriseFL")) {
+				CO.waitforload();
+				CO.scroll("Cont_Account", "WebTable");
+				Row = Browser.WebTable.getRowCount("Cont_Account");
+				if (Row == 2) {
+					Col = CO.Actual_tab_Cell("Cont_Account_Tab", "Name");
+					Browser.WebTable.clickA("Cont_Account", Row, Col);
+				}
+			}
 			CO.ToWait();
 
 			if (Continue.get()) {

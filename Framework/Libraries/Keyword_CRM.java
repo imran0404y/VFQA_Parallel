@@ -5462,7 +5462,7 @@ public class Keyword_CRM extends Driver {
 				}
 				CO.Action_Update("Suspend", MSISDN);
 				Result.takescreenshot("");
-				//Test_OutPut += OrderSubmission().split("@@")[1];
+				Test_OutPut += OrderSubmission().split("@@")[1];
 				// fetching Order_no
 				Order_no = CO.Order_ID();
 				Utlities.StoreValue("Order_no", Order_no);

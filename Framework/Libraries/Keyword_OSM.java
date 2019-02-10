@@ -119,6 +119,13 @@ public class Keyword_OSM extends Driver {
 					Browser.WebButton.click("OSM_Search");
 					CO.waitforload();
 					CO.waitforload();
+					if (!(getdata("STB_SerialNumber").equals(""))) {
+						CO.scroll("OSM_STB_SerialNumber", "WebEdit");
+						Browser.WebEdit.Set("OSM_STB_SerialNumber", getdata("STB_SerialNumber"));
+						Result.fUpdateLog("Entering STB Serial Number " + getdata("STB_SerialNumber"));
+						Result.takescreenshot("Entering STB Serial Number " + getdata("STB_SerialNumber"));
+					}
+					
 					if (!(getdata("OSM_CPE").equals("")) || (!(pulldata("OSM_CPE").equals("")))) {
 						CO.scroll("OSM_CPE", "WebEdit");
 						Browser.WebEdit.Set("OSM_CPE", getdata("OSM_CPE"));
@@ -151,9 +158,11 @@ public class Keyword_OSM extends Driver {
 						CO.scroll("OSM_PortID", "WebEdit");
 						Browser.WebEdit.Set("OSM_PortID", getdata("OSM_PortID"));
 						Result.fUpdateLog("Entering PortID Number " + getdata("OSM_PortID"));
-
 						Result.takescreenshot("Entering PortID Number " + getdata("OSM_PortID"));
 					}
+					
+					
+					
 					Select dropdown = new Select(cDriver.get().findElement(
 							By.xpath("//form[@name='orderEditorMenu']//select[@id='completionStatusList']")));
 					dropdown.selectByVisibleText("Finish");

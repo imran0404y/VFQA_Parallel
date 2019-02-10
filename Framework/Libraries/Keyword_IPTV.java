@@ -23,7 +23,7 @@ public class Keyword_IPTV extends Driver {
 		try {
 
 			int Row_Val = 3, Col_V, COl_STyp, Col_Res, Col_S, Col_pri, Col_cat;
-			String Reserve, Category, GetData, IPData, CData, Add_Addon, Remove_Addon, IDMID, ReservationToken,
+			String Reserve, Category, CreditLimit, GetData, IPData, CData, Add_Addon, Remove_Addon, IDMID, ReservationToken,
 					StarNumber = null, MSISDN = null, SData = "SIM Card";
 
 			CO.waitforload();
@@ -310,6 +310,18 @@ public class Keyword_IPTV extends Driver {
 			CO.Action_Update("Add", "MSISDN");
 
 			CO.scroll("Service", "WebButton");
+			if (!(getdata("CreditLimit").equals(""))) {
+				CreditLimit = getdata("CreditLimit");
+			} else {
+				CreditLimit = pulldata("CreditLimit");
+			}
+			if (CreditLimit != "") {
+				CO.scroll("Ent_CreditLimit", "WebEdit");
+				Browser.WebEdit.click("Ent_CreditLimit");
+				Browser.WebEdit.Set("Ent_CreditLimit", CreditLimit);
+				// Browser.WebEdit.Set("Ent_CreditLimit", "100");
+			}
+			
 
 			Browser.WebButton.waittillvisible("Validate");
 			Browser.WebButton.click("Validate");

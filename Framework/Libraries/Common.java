@@ -1023,6 +1023,13 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public void RTBScreen(String MSISDN, String Status) throws Exception {
 		try {
+			String GetData;
+			if (!(getdata("GetData").equals(""))) {
+				GetData = getdata("GetData");
+			} else {
+				GetData = pulldata("GetData");
+			}
+			
 			waitforload();
 			int Row = 2, Col, flag = 1, Count = 1;
 			String Pay_Type = null;
@@ -1071,7 +1078,7 @@ public class Common extends Driver {
 			Col = Select_Cell("Installed_Assert", "Product");
 			for (int i = 2; i <= Row_Count; i++) {
 				String LData = Browser.WebTable.getCellData("Installed_Assert", i, Col);
-				if (LData.equalsIgnoreCase("Mobile Service Bundle"))
+				if (LData.equalsIgnoreCase(GetData))
 					Row_Val = i;
 			}
 			int Col_S = Actual_Cell("Installed_Assert", "Asset Description");
@@ -1558,20 +1565,20 @@ public class Common extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public String Prorated(int TotalDays, int Remaingdays, String Benifit) {
 
-		String Units[] = Benifit.split("_"), Unit_VAL, Unit;
+		String Units[] = Benifit.split(" "), Unit_VAL, Unit;
 		Unit = Units[0];
 		double ben = Double.parseDouble(Unit);
 
 		if (Units.length > 1) {
 			Unit_VAL = Units[1].toLowerCase();
 			switch (Unit_VAL) {
-			case "gb":
+			case "GB":
 				ben = ben * 1024 * 1024;
 				break;
-			case "mb":
+			case "MB":
 				ben = ben * 1024;
 				break;
-			case "tb":
+			case "TB":
 				ben = ben * 1024 * 1024 * 1024;
 				break;
 			}
@@ -1609,8 +1616,8 @@ public class Common extends Driver {
 			break;
 		}
 		double Prorateq = (ben * Remaingdays / TotalDays);
-		if (Benifit.contains("_Flex")) {
-			String x = Benifit.split("_")[0];
+		if (Benifit.contains(" Flex")) {
+			String x = Benifit.split(" ")[0];
 			if (!x.equals("0")) {
 				Double toBeTruncated = new Double(Prorateq);
 				Double truncatedDouble = new BigDecimal(toBeTruncated).setScale(1, BigDecimal.ROUND_HALF_UP)

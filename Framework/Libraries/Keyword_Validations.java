@@ -112,19 +112,19 @@ public class Keyword_Validations extends Driver {
 				Prorate = CO.Prorated(Total_Days, difInDays, Benifit, BucketValue, BucketUsageType);
 				Expiry = billcycledate;
 				break;
-			case "day":
+			case "daily":
 				// Prorate = CO.Prorated(1, 1, Benifit);
 				Prorate = CO.Prorated(1, 1, Benifit, BucketValue, BucketUsageType);
 				Expiry = orderdate;
 				break;
-			case "month":
-			case "black":
+			case "monthly":
+			case "continuous":
 				// Prorate = CO.Prorated(Total_Days, Total_Days, Benifit);
 				Prorate = CO.Prorated(Total_Days, difInDays, Benifit, BucketValue, BucketUsageType);
 				cals.add(Calendar.DATE, Total_Days);
 				Expiry = Date_Format.format(cals.getTime());// Total_Days+Month
 				break;
-			case "week":
+			case "weekly":
 				Prorate = CO.Prorated(7, 7, Benifit, BucketValue, BucketUsageType);
 				cals.add(Calendar.DATE, 7);
 				Expiry = Date_Format.format(cals.getTime());

@@ -295,12 +295,13 @@ public class Keyword_CRM extends Driver {
 				 * Browser.WebLink.waittillvisible("Con_Link");
 				 * Browser.WebLink.click("Con_Link");
 				 */
-				//simulate Ctl+S for "save as"
-				/*WebElement ele = cDriver.get().findElement(By.xpath("//input[starts-with(@aria-label,'Cellular Phone #')]"));
-				ele.sendKeys(Keys.CONTROL + "s");
-				if (CO.isAlertExist())
-					CO.waitforload();*/
-				
+				// simulate Ctl+S for "save as"
+				/*
+				 * WebElement ele = cDriver.get().findElement(By.
+				 * xpath("//input[starts-with(@aria-label,'Cellular Phone #')]"));
+				 * ele.sendKeys(Keys.CONTROL + "s"); if (CO.isAlertExist()) CO.waitforload();
+				 */
+
 				int Col = CO.Select_Cell("Contact", "Last_Name");
 				Browser.WebTable.clickA("Contact", 2, Col);
 				CO.waitforload();
@@ -323,7 +324,6 @@ public class Keyword_CRM extends Driver {
 				} else {
 					Address = pulldata("Address");
 				}
-				
 
 				if (!(Address.equals(""))) {
 					// Common.ConditionalWait("Add_Address", "WebButton");
@@ -1898,10 +1898,10 @@ public class Keyword_CRM extends Driver {
 					// CO.scroll("Contact_ACC", "WebTable");
 
 					// Col = CO.Select_Cell("Acc_Contact", "ID Type");
-					//Col++;
+					// Col++;
 
-					//Col++;
-					//Col++;
+					// Col++;
+					// Col++;
 					Col = CO.Actual_Cell("Acc_Contact", "Nationality");
 					if (!(getdata("Nationality").equals(""))) {
 						Browser.WebTable.SetDataE("Acc_Contact", Row, Col, "VFQ_Nationality", getdata("Nationality"));
@@ -2037,14 +2037,26 @@ public class Keyword_CRM extends Driver {
 					Col_SID = CO.Select_Cell("Acc_Installed_Assert", "Service ID");
 					int Col_SR = CO.Actual_Cell("Acc_Installed_Assert", "Status");
 					// To Find the Record with Mobile Service Bundle and MSISDN
-					for (int i = 2; i <= Inst_RowCount; i++)
-						if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P).equalsIgnoreCase(GetData)
-								& Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_SID)
-										.equalsIgnoreCase(MSISDN)) {
-							// CO.waitforload();
-							Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
-							break;
+					for (int i = 2; i <= Inst_RowCount; i++) {
+						if (TestCaseN.get().contains("FL")) {
+							if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P)
+									.equalsIgnoreCase(GetData)) {
+								// CO.waitforload();
+								Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
+								break;
+							}
+						} else {
+							if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P).equalsIgnoreCase(GetData)
+									& Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_SID)
+											.equalsIgnoreCase(MSISDN)) {
+								// CO.waitforload();
+								Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
+								break;
+							}
 						}
+
+					}
+
 					do {
 						Browser.WebButton.click("Assert_Modify");
 						// CO.waitforload();
@@ -5371,7 +5383,7 @@ public class Keyword_CRM extends Driver {
 				Resume_Date = getdata("ResumeDate");
 			}
 			if (CO.Assert_Search(MSISDN, "Active")) {
-				CO.Moi_Validation();
+				//CO.Moi_Validation();
 				// CO.waitforload();
 				CO.Text_Select("a", GetData);
 				// CO.waitforload();
@@ -5386,13 +5398,13 @@ public class Keyword_CRM extends Driver {
 
 					Result.fUpdateLog(Col_P + "," + Col_SID);
 					Result.fUpdateLog(Browser.WebTable.getCellData("Acc_Installed_Assert", 3, Col_P));
-					for (int i = 2; i <= Inst_RowCount; i++)
+					for (int i = 2; i <= Inst_RowCount; i++) {
 						if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P)
-								.equalsIgnoreCase("Mobile Service Bundle")) {
+								.equalsIgnoreCase(GetData)) {
 							Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
 							break;
 						}
-
+					}
 					// CO.InstalledAssertChange("Suspend");
 					CO.scroll("Suspend", "WebButton");
 					Browser.WebButton.click("Suspend");
@@ -5449,8 +5461,8 @@ public class Keyword_CRM extends Driver {
 					Browser.WebButton.click("Expand");
 				}
 				CO.Action_Update("Suspend", MSISDN);
-
-				Test_OutPut += OrderSubmission().split("@@")[1];
+				Result.takescreenshot("");
+				//Test_OutPut += OrderSubmission().split("@@")[1];
 				// fetching Order_no
 				Order_no = CO.Order_ID();
 				Utlities.StoreValue("Order_no", Order_no);
@@ -5518,7 +5530,7 @@ public class Keyword_CRM extends Driver {
 					int Col_SR = CO.Actual_Cell("Acc_Installed_Assert", "Status");
 					for (int i = 2; i <= Inst_RowCount; i++) {
 						if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P)
-								.equalsIgnoreCase("Mobile Service Bundle")) {
+								.equalsIgnoreCase(GetData)) {
 							Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
 							break;
 						}
@@ -6966,10 +6978,10 @@ public class Keyword_CRM extends Driver {
 
 	public String ServicePoint() {
 		String Test_OutPut = "", Status = "";
-		int Row =2, Col;
+		int Row = 2, Col;
 		Result.fUpdateLog("------ServicePoint Event Details------");
 		try {
-			if(UseCaseName.get().contains("EnterpriseFL")) {
+			if (UseCaseName.get().contains("EnterpriseFL")) {
 				do {
 					CO.TabNavigator("Contacts");
 					// CO.waitforload();
@@ -6979,16 +6991,16 @@ public class Keyword_CRM extends Driver {
 				} while (!Browser.WebEdit.waitTillEnabled("Contact_Valid_Name"));
 				Col = CO.Select_Cell("Acc_Contact", "Last Name");
 				Browser.WebTable.clickA("Acc_Contact", Row, Col);
-				
+
 				Browser.WebButton.click("Add_Address");
 				CO.scroll("Popup_Go", "WebButton");
-				String Address= getdata("Kahramaa_ID");
+				String Address = getdata("Kahramaa_ID");
 				Browser.ListBox.select("PopupQuery_List", "Kahramaa ID");
 				Browser.WebEdit.Set("PopupQuery_Search", Address);
 				Browser.WebButton.click("Popup_Go");
 				CO.scroll("Add_OK", "WebButton");
 				Browser.WebButton.click("Add_OK");
-					
+
 			}
 			CO.waitforload();
 			CO.scroll("Con_ServicePoint", "WebTable");
@@ -7043,8 +7055,8 @@ public class Keyword_CRM extends Driver {
 
 			}
 			Browser.WebButton.waittillvisible("Create_A/c");
-			
-			if(UseCaseName.get().contains("EnterpriseFL")) {
+
+			if (UseCaseName.get().contains("EnterpriseFL")) {
 				CO.waitforload();
 				CO.scroll("Cont_Account", "WebTable");
 				Row = Browser.WebTable.getRowCount("Cont_Account");

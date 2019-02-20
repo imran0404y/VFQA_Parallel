@@ -362,17 +362,17 @@ public class Keyword_FixedLine extends Driver {
 			Browser.WebButton.waittillvisible("Validate");
 			Browser.WebButton.click("Validate");
 			try {
-			    WebDriverWait wait = new WebDriverWait(cDriver.get(), 60);
-			    if (!(wait.until(ExpectedConditions.alertIsPresent()) == null)) {
-			     String popup = cDriver.get().switchTo().alert().getText();
-			     Result.fUpdateLog(popup);
-			    }
-			    Browser.alert.accept();
-			    Browser.Readystate();
-			    Continue.set(false);
-			   } catch (Exception e) {
-			    Result.fUpdateLog("No Alert Exist");
-			   }
+				WebDriverWait wait = new WebDriverWait(cDriver.get(), 60);
+				if (!(wait.until(ExpectedConditions.alertIsPresent()) == null)) {
+					String popup = cDriver.get().switchTo().alert().getText();
+					Result.fUpdateLog(popup);
+				}
+				Browser.alert.accept();
+				Browser.Readystate();
+				Continue.set(false);
+			} catch (Exception e) {
+				Result.fUpdateLog("No Alert Exist");
+			}
 			CO.waitforload();
 			if (Continue.get()) {
 				Browser.WebButton.waittillvisible("Submit");
@@ -631,7 +631,7 @@ public class Keyword_FixedLine extends Driver {
 				} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
 
 			} else
-				CO.InstalledAssertChange("Modify","Prod_Serv_Menu");
+				CO.InstalledAssertChange("Modify", "Prod_Serv_Menu");
 
 			Result.takescreenshot("Clicking On Modify Button");
 			CO.scroll("Date_Continue", "WebButton");
@@ -750,25 +750,31 @@ public class Keyword_FixedLine extends Driver {
 		int Row = 2, Col;
 		try {
 			String Sales_Od = SalesOrder_No.get();
-			// String Sales_Od = "1-10518905394";
+			// Sales_Od = "1-12399393964";
 			Result.takescreenshot("Searching Order in Seibel");
 			Browser.WebLink.click("SalesOrder");
 			Browser.WebLink.click("All_Orders");
 			Browser.WebButton.click("SD_Query");
 			Result.takescreenshot("Order Search");
 			CO.waitforload();
-			Col = CO.Select_Cell("SalesOrderTable", "Order #");
-			Browser.WebTable.SetDataE("SalesOrderTable", Row, Col, "Order_Number", Sales_Od);
+			CO.waitforload();
+			Col = CO.Select_Cell("Orders", "Order #");
+			Browser.WebTable.SetDataE("Orders", Row, Col, "Order_Number", Sales_Od);
 			Browser.WebButton.click("SD_Go");
 			CO.waitforload();
-			Browser.WebTable.click("SalesOrderTable", Row, Col);
+			Browser.WebTable.click("Orders", Row, Col);
 			CO.waitforload();
-			Col = CO.Select_Cell("SalesOrderTable", "Status");
-			String status = Browser.WebTable.getCellData("SalesOrderTable", Row, Col);
+			Col = CO.Select_Cell("Orders", "Status");
+			String status = Browser.WebTable.getCellData("Orders", Row, Col);
+			Browser.WebTable.click("Orders", Row, Col);
+			Col = CO.Select_Cell("Orders", "Order #");
+			Result.takescreenshot("");
 			if (status.equalsIgnoreCase("Complete")) {
+				Browser.WebTable.clickA("Orders", Row, Col);
 				Result.fUpdateLog("Seibel status has been updated Successfully");
-
+				Result.takescreenshot("Seibel status updation Completed");
 			} else {
+				Browser.WebTable.clickA("Orders", Row, Col);
 				Test_OutPut += "Seibel status updation Failed" + ",";
 				Result.takescreenshot("Seibel status updation Failed");
 			}

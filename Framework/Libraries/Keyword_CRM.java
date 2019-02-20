@@ -304,7 +304,7 @@ public class Keyword_CRM extends Driver {
 
 				int Col = CO.Select_Cell("Contact", "Last_Name");
 				Browser.WebTable.clickA("Contact", 2, Col);
-				CO.waitforload();
+				//CO.waitforload();
 				// Handles Alerts
 				if (CO.isAlertExist())
 					CO.waitforload();

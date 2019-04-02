@@ -81,19 +81,16 @@ public class Siebel extends Driver {
 				Browser.WebTable.clickL("Assert", Row, Col);
 			else
 				Continue.set(false);
-			
-			
-			
-			
+
 			// Browser.WebLink.waittillvisible("Acc_Portal");
 			// CO.waitforload();
 			// Browser.WebLink.click("Acc_Portal");
 			Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
-			
+
 			Result.takescreenshot("");
 
 			CO.waitforload();
-			CO.InstalledAssertChange("New Query                   [Alt+Q]","Installed_Assert_Menu");
+			CO.InstalledAssertChange("New Query                   [Alt+Q]", "Installed_Assert_Menu");
 			CO.waitforload();
 			Col = CO.Select_Cell("Installed_Assert", "Service ID");
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
@@ -101,21 +98,20 @@ public class Siebel extends Driver {
 
 			Result.takescreenshot("");
 			Col = CO.Actual_Cell("Installed_Assert", "Available Cookies");
-			String Cookie=Browser.WebTable.getCellData("Installed_Assert", 2, Col);
-			
+			String Cookie = Browser.WebTable.getCellData("Installed_Assert", 2, Col);
+
 			Utlities.StoreValue("Cookie", Cookie);
-		
-		
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+
 	public String CheckOrder() {
-		String Test_OutPut = "", Status = "",OrderNo,OS_Status = "",EStatus = "Complete", FStatus = "Failed", Bill_Cycle,Action;
-		int Col, Wait=0,Row_Count,Complete_Status = 0,Bill_Col,Row = 2;
+		String Test_OutPut = "", Status = "", OrderNo, OS_Status = "", EStatus = "Complete", FStatus = "Failed",
+				Bill_Cycle, Action;
+		int Col, Wait = 0, Row_Count, Complete_Status = 0, Bill_Col, Row = 2;
 
 		try {
 			do {
@@ -124,7 +120,7 @@ public class Siebel extends Driver {
 				if (CO.isAlertExist())
 					Browser.WebButton.click("Orders_Tab");
 			} while (!Browser.WebTable.waitTillEnabled("Order_Table"));
-			
+
 			CO.waitforload();
 			CO.Text_Select("div", "Order Date");
 			CO.waitforload();
@@ -137,10 +133,10 @@ public class Siebel extends Driver {
 			Col = CO.Select_Cell("Order_Table", "Order Date");
 			String LastOrderTime = Browser.WebTable.getCellData("Order_Table", 2, Col);
 			SimpleDateFormat sdf = new SimpleDateFormat("M/dd/YYYY hh:mm:ss aa");
-			//utils.timestamp = "2/12/2018 02:25:58 PM";
+			// utils.timestamp = "2/12/2018 02:25:58 PM";
 			Result.fUpdateLog(LastOrderTime + " and timestamp is " + utils.timestamp);
 			do {
-				if(sdf.parse(LastOrderTime).after(sdf.parse(utils.timestamp))) {
+				if (sdf.parse(LastOrderTime).after(sdf.parse(utils.timestamp))) {
 					Col = CO.Select_Cell("Order_Table", "Order #");
 					OrderNo = Browser.WebTable.getCellData("Order_Table", 2, Col);
 					Test_OutPut += "OrderNo : " + OrderNo + ",";
@@ -154,7 +150,7 @@ public class Siebel extends Driver {
 					}
 					LineItemData.clear();
 					Action = utils.pulldata("Action");
-					Result.fUpdateLog("Value of Action is  -->"+Action);
+					Result.fUpdateLog("Value of Action is  -->" + Action);
 					CO.Status(Action);
 					do {
 						Complete_Status = 0;
@@ -220,23 +216,21 @@ public class Siebel extends Driver {
 						Status = "FAIL";
 						Wait += 101;
 					}
-				}else {
+				} else {
 					Result.fUpdateLog("Order has not reached to Siebel yet, Waiting...");
 					Thread.sleep(30000);
 					Wait += 5;
 					Status = "FAIL";
 				}
-			}while(Wait<100);
+			} while (Wait < 100);
 			Result.fUpdateLog("test ----->");
 
 		} catch (Exception e) {
 			Status = "FAIL";
-			Result.fUpdateLog("Faile due to Exception "+ e);
+			Result.fUpdateLog("Faile due to Exception " + e);
 
 		}
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-
-	
 }

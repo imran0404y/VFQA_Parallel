@@ -78,8 +78,7 @@ public class Keyword_PJM extends Driver {
 			// cDriver.get().findElement(By.xpath("//a[@class='x-btn x-form-file-btn
 			// x-unselectable x-btn-default-small x-noicon x-btn-noicon
 			// x-btn-default-small-noicon']")).click();
-			cDriver.get().findElement(By.name("fileData"))
-					.sendKeys(UCscreenfilepth.get() +"/"+ InvoiceZip.get());
+			cDriver.get().findElement(By.name("fileData")).sendKeys(UCscreenfilepth.get() + "/" + InvoiceZip.get());
 			Result.takescreenshot("FileUPload");
 			Browser.WebButton.click("PJM_Submit");
 			CO.waitforload();

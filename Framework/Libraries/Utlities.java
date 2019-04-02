@@ -488,25 +488,26 @@ public class Utlities extends Driver {
 			return "";
 		}
 	}
-	
+
 	public static String FetchRT(String MSISDN) {
 		try {
 			String returnValue = "";
 			String StoreDBpth = NRT_File.get();
-			//String StoreDBpth = "C:/Users/haleemimranb/OneDrive - Maveric Systems Limited/Desktop/Imran/Workspace_VF/olympus_test/VFQA-Parallel/Framework/Database/Mobile_Reservation_Token.csv";
-	        String line = "";
-	        String cvsSplitBy = ",";
+			// String StoreDBpth = "C:/Users/haleemimranb/OneDrive - Maveric Systems
+			// Limited/Desktop/Imran/Workspace_VF/olympus_test/VFQA-Parallel/Framework/Database/Mobile_Reservation_Token.csv";
+			String line = "";
+			String cvsSplitBy = ",";
 
-	        BufferedReader br = new BufferedReader(new FileReader(StoreDBpth));
-	        while ((line = br.readLine()) != null) {
-	        	String[] Text = line.split(cvsSplitBy);
-                if(Text[0].equals(MSISDN)) {
-                	System.out.println("MSISDN : " + Text[0] + " , RT : " + Text[2] + "]");
-                	returnValue = Text[2];
-                	break;
-                }
-            }
-            br.close();
+			BufferedReader br = new BufferedReader(new FileReader(StoreDBpth));
+			while ((line = br.readLine()) != null) {
+				String[] Text = line.split(cvsSplitBy);
+				if (Text[0].equals(MSISDN)) {
+					System.out.println("MSISDN : " + Text[0] + " , RT : " + Text[2] + "]");
+					returnValue = Text[2];
+					break;
+				}
+			}
+			br.close();
 			return returnValue;
 		} catch (Exception e) {
 			return null;

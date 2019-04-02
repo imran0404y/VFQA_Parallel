@@ -27,7 +27,6 @@ public class Keyword_API extends Driver {
 			String RTB = Validatedata("RTB_Validation");
 			if (RTB.equalsIgnoreCase("yes")) {
 				URL.set(getdata("URL/HOST"));
-				
 
 				if (!URL.get().equals("")) {
 					Result.fUpdateLog("Successfully set the End Point URL: " + URL.get());
@@ -358,6 +357,5 @@ public class Keyword_API extends Driver {
 		Result.fUpdateLog("------RTB_Compare Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
-	
-	
+
 }

@@ -26,7 +26,7 @@ public class Keyword_ETHERNET extends Driver {
 
 			@SuppressWarnings("unused")
 			String Layer2_Feature;
-	
+
 			Network = pulldata("Network");
 			VPN_Access1 = pulldata("VPN Access 1");
 			VPN_Access2 = pulldata("VPN Access 2");
@@ -34,10 +34,10 @@ public class Keyword_ETHERNET extends Driver {
 			VPN_Node_2 = pulldata("VPN Node2");
 			Virtual_Connection = pulldata("Virtual Connection");
 			Layer2_Feature = pulldata("Layer2 Features");
-			
+
 			KC.Entp_AccountCreation();
 			KC.Entp_ContactCreation();
-			 
+
 			// sub Account
 			Result.takescreenshot("");
 			CO.TabNavigator("Sub-Accounts");
@@ -49,7 +49,7 @@ public class Keyword_ETHERNET extends Driver {
 			Col = CO.Select_Cell("Sub_Account", "Account");
 			Browser.WebTable.click("Sub_Account", Row, Col);
 			CO.waitforload();
-			String ChildAccount1="ETHERNET_1"+ Utlities.randname();
+			String ChildAccount1 = "ETHERNET_1" + Utlities.randname();
 			cDriver.get().findElement(By.name("Name")).sendKeys(ChildAccount1);
 			CO.waitforload();
 			Result.takescreenshot("");
@@ -68,9 +68,8 @@ public class Keyword_ETHERNET extends Driver {
 
 			CO.TabNavigator("Account Hierarchy");
 			Result.takescreenshot("");
-			String ParentAccount=Acc_Number.get();
+			String ParentAccount = Acc_Number.get();
 			CO.Account_Search(ParentAccount);
-			
 
 			CO.waitforload();
 			Result.takescreenshot("");
@@ -82,12 +81,11 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 			Browser.WebTable.click("Sub_Account", Row, Col);
 			CO.waitforload();
-			
-			String ChildAccount2="ETHERNET_2"+ Utlities.randname();
+
+			String ChildAccount2 = "ETHERNET_2" + Utlities.randname();
 			cDriver.get().findElement(By.name("Name")).sendKeys(ChildAccount2);
 			CO.waitforload();
-			
-			
+
 			Browser.WebTable.click("Sub_Account", Row, Col1);
 			Result.takescreenshot("");
 			CO.waitforload();
@@ -103,9 +101,10 @@ public class Keyword_ETHERNET extends Driver {
 			CO.TabNavigator("Account Hierarchy");
 			Result.takescreenshot("");
 			CO.waitforload();
-		//	String ParentAccount="12644131307",ChildAccount1="ETHERNET_1VFQA_Test_Chad",ChildAccount2="ETHERNET2_y";
-			
-			ParentAccount=Acc_Number.get();
+			// String
+			// ParentAccount="12644131307",ChildAccount1="ETHERNET_1VFQA_Test_Chad",ChildAccount2="ETHERNET2_y";
+
+			ParentAccount = Acc_Number.get();
 			CO.Account_Search(ParentAccount);
 			// Account Summary
 
@@ -137,10 +136,10 @@ public class Keyword_ETHERNET extends Driver {
 			int a = 2;
 			CO.waitforload();
 			Browser.WebTable.SetDataE("Line_Items", a, b, "Product", Network);
-			Browser.WebTable.click("Line_Items", a,ColSid);
+			Browser.WebTable.click("Line_Items", a, ColSid);
 			CO.waitforload();
 			CO.waitforload();
-			
+
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Access1);
 			Browser.WebButton.click("LI_New");
@@ -151,7 +150,7 @@ public class Keyword_ETHERNET extends Driver {
 			Browser.WebTable.click("Line_Items", a1, ColSid);
 			CO.waitforload();
 			CO.waitforload();
-			
+
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Access2);
 			Browser.WebButton.click("LI_New");
@@ -159,10 +158,10 @@ public class Keyword_ETHERNET extends Driver {
 			int a2 = 4;
 			CO.waitforload();
 			Browser.WebTable.SetDataE("Line_Items", a2, b, "Product", VPN_Access2);
-			Browser.WebTable.click("Line_Items", a2,ColSid);
+			Browser.WebTable.click("Line_Items", a2, ColSid);
 			CO.waitforload();
 			CO.waitforload();
-			
+
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Node_1);
 			Browser.WebButton.click("LI_New");
@@ -173,7 +172,7 @@ public class Keyword_ETHERNET extends Driver {
 			Browser.WebTable.click("Line_Items", a3, ColSid);
 			CO.waitforload();
 			CO.waitforload();
-			
+
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Node_2);
 			Browser.WebButton.click("LI_New");
@@ -183,7 +182,7 @@ public class Keyword_ETHERNET extends Driver {
 			Browser.WebTable.click("Line_Items", a4, ColSid);
 			CO.waitforload();
 			CO.waitforload();
-			
+
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Node_2);
 			Browser.WebButton.click("LI_New");
@@ -203,7 +202,7 @@ public class Keyword_ETHERNET extends Driver {
 			CO.Text_Select("span", "Customize");
 			CO.waitforload();
 			Result.takescreenshot("");
-			String Netwk =getdata("Layer2_Ethernet_Network");
+			String Netwk = getdata("Layer2_Ethernet_Network");
 			CO.Radio_Select1(Netwk);
 			CO.waitforload();
 			CO.Text_Select("button", "Verify");
@@ -215,22 +214,21 @@ public class Keyword_ETHERNET extends Driver {
 			CO.Text_Select("a", "Network Line Detail");
 			CO.waitforload();
 			CO.scroll("LI_New", "WebButton");
-			
 
 			// node 1
-/*			CO.scroll("LI_New", "WebButton");
-			Browser.WebTable.click("Line_Items", 5, Col_S);
-			Result.takescreenshot("");*/
+			/*
+			 * CO.scroll("LI_New", "WebButton"); Browser.WebTable.click("Line_Items", 5,
+			 * Col_S); Result.takescreenshot("");
+			 */
 			// Node service account
 			int Col_S;
-	
+
 			Col_S = CO.Select_Cell("Line_Items", "Net Price");
 			CO.waitforload();
 			Browser.WebLink.click("Node_Service_Acc");
 			CO.waitforload();
-			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount1);
+			CO.Popup_Selection("Pick_Account", "Account", "Name", ChildAccount1);
 			CO.waitforload();
-			
 
 			// Node from address
 			CO.waitforload();
@@ -247,11 +245,11 @@ public class Keyword_ETHERNET extends Driver {
 			Result.takescreenshot("");
 
 			// from acc
-			
+
 			CO.waitforload();
 			Browser.WebLink.click("Node_Service_Acc");
 			CO.waitforload();
-			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount2);
+			CO.Popup_Selection("Pick_Account", "Account", "Name", ChildAccount2);
 			CO.waitforload();
 			Result.takescreenshot("");
 
@@ -284,11 +282,10 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Acc");
 			CO.waitforload();
-			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount1);
+			CO.Popup_Selection("Pick_Account", "Account", "Name", ChildAccount1);
 			CO.waitforload();
 			Result.takescreenshot("");
 
-						
 			// from add
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Addr");
@@ -297,9 +294,7 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 			Result.takescreenshot("");
 			// access two
-			
-			
-			
+
 			CO.scroll("LI_New", "WebButton");
 			Browser.WebTable.click("Line_Items", 4, Col_S);
 			Result.takescreenshot("");
@@ -322,7 +317,7 @@ public class Keyword_ETHERNET extends Driver {
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Acc");
 			CO.waitforload();
-			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount2);
+			CO.Popup_Selection("Pick_Account", "Account", "Name", ChildAccount2);
 			CO.waitforload();
 
 			// from add
@@ -352,7 +347,7 @@ public class Keyword_ETHERNET extends Driver {
 			int Col_N1;
 
 			Col_N1 = CO.Select_Cell("Pick_network", "Node");
-			Browser.WebTable.click("Pick_network",2, Col_N1);
+			Browser.WebTable.click("Pick_network", 2, Col_N1);
 
 			CO.waitforload();
 			CO.scroll("Popup_OK", "WebButton");
@@ -379,24 +374,20 @@ public class Keyword_ETHERNET extends Driver {
 
 			// from acc
 
-			
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Acc");
 			CO.waitforload();
-			CO.Popup_Selection("Pick_Account","Account","Name", ChildAccount1);
+			CO.Popup_Selection("Pick_Account", "Account", "Name", ChildAccount1);
 			CO.waitforload();
-			
-		
 
 			// to acc
-			
+
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Acc");
 			CO.waitforload();
-			CO.Popup_Selection("Pick_Account", "Account","Name", ChildAccount2);
+			CO.Popup_Selection("Pick_Account", "Account", "Name", ChildAccount2);
 			CO.waitforload();
 
-			
 			// from add
 			CO.waitforload();
 			Browser.WebLink.click("Access_From_Service_Addr");
@@ -413,50 +404,43 @@ public class Keyword_ETHERNET extends Driver {
 			Result.takescreenshot("");
 			// Access 1 Customize
 			Col_S = CO.Select_Cell("Line_Items", "Net Price");
-			if (!!(getdata("Layer2_Ethernet_Services").equals(""))
-					|| !(getdata("Layer2_Ethernet_Charges").equals(""))
+			if (!!(getdata("Layer2_Ethernet_Services").equals("")) || !(getdata("Layer2_Ethernet_Charges").equals(""))
 					|| !(getdata("Layer2_Ethernet_Charges").equals(""))) {
-				
 
-				Browser.WebTable.click("Line_Items",3, Col_S);
+				Browser.WebTable.click("Line_Items", 3, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
-
 
 				if (!(getdata("Layer2_Ethernet_Services").equals(""))) {
-					
 
-					String Addon =getdata("Layer2_Ethernet_Services");
-					CO.Text_Select("a","Layer2 Ethernet Services");
+					String Addon = getdata("Layer2_Ethernet_Services");
+					CO.Text_Select("a", "Layer2 Ethernet Services");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
 				if (!(getdata("Layer2_Ethernet_Charges").equals(""))) {
 
-					String Addon =getdata("Layer2_Ethernet_Charges");
-					CO.Text_Select("a","Layer2 Ethernet Charges");
+					String Addon = getdata("Layer2_Ethernet_Charges");
+					CO.Text_Select("a", "Layer2 Ethernet Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("Layer2_Ethernet_Features").equals(""))) {
 
-					String Addon =getdata("Layer2_Ethernet_Features");
-					CO.Text_Select("a","Layer2 Ethernet Features");
+					String Addon = getdata("Layer2_Ethernet_Features");
+					CO.Text_Select("a", "Layer2 Ethernet Features");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -467,53 +451,45 @@ public class Keyword_ETHERNET extends Driver {
 
 			}
 
-	
 			// Access 2 Customize
-			
-			if (!!(getdata("Layer2_Ethernet_Services").equals(""))
-					|| !(getdata("Layer2_Ethernet_Charges").equals(""))
-					|| !(getdata("Layer2_Ethernet_Charges").equals(""))) {
-				
 
-				Browser.WebTable.click("Line_Items",4, Col_S);
+			if (!!(getdata("Layer2_Ethernet_Services").equals("")) || !(getdata("Layer2_Ethernet_Charges").equals(""))
+					|| !(getdata("Layer2_Ethernet_Charges").equals(""))) {
+
+				Browser.WebTable.click("Line_Items", 4, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
-
 
 				if (!(getdata("Layer2_Ethernet_Services").equals(""))) {
-					
 
-					String Addon =getdata("Layer2_Ethernet_Services");
-					CO.Text_Select("a","Layer2 Ethernet Services");
+					String Addon = getdata("Layer2_Ethernet_Services");
+					CO.Text_Select("a", "Layer2 Ethernet Services");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
 				if (!(getdata("Layer2_Ethernet_Charges").equals(""))) {
 
-					String Addon =getdata("Layer2_Ethernet_Charges");
-					CO.Text_Select("a","Layer2 Ethernet Charges");
+					String Addon = getdata("Layer2_Ethernet_Charges");
+					CO.Text_Select("a", "Layer2 Ethernet Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("Layer2_Ethernet_Features").equals(""))) {
 
-					String Addon =getdata("Layer2_Ethernet_Features");
-					CO.Text_Select("a","Layer2 Ethernet Features");
+					String Addon = getdata("Layer2_Ethernet_Features");
+					CO.Text_Select("a", "Layer2 Ethernet Features");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -523,23 +499,20 @@ public class Keyword_ETHERNET extends Driver {
 				CO.waitforload();
 
 			}
-			
+
 			// Node 1 Customize
-			
-			
+
 			if (!(getdata("Layer2_Ethernet_Node_Features").equals(""))
 					|| !(getdata("Layer2_Ethernet_Node_Charges").equals(""))) {
-				
 
 				Browser.WebTable.click("Line_Items", 5, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("Layer2_Ethernet_Node_Features").equals(""))) {
 
-					String Addon =getdata("LLNodeFeatures");
+					String Addon = getdata("LLNodeFeatures");
 					CO.Radio_Select1(Addon);
 					CO.scroll("Ecofig_Add", "WebButton");
 					CO.waitforload();
@@ -554,20 +527,18 @@ public class Keyword_ETHERNET extends Driver {
 					Result.takescreenshot("");
 
 					CO.Text_Select("button", "Add Item");
-					
-					
+
 				}
 				if (!(getdata("Layer2_Ethernet_Node_Charges").equals(""))) {
 
-					String Addon =getdata("Layer2_Ethernet_Node_Charges");
-					CO.Text_Select("a","Layer2 Ethernet NodeCharges");
+					String Addon = getdata("Layer2_Ethernet_Node_Charges");
+					CO.Text_Select("a", "Layer2 Ethernet NodeCharges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
-							
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -578,23 +549,18 @@ public class Keyword_ETHERNET extends Driver {
 
 			}
 
-			
-			
-
 			// Node 2 Customize
 			if (!(getdata("Layer2_Ethernet_Node_Features").equals(""))
 					|| !(getdata("Layer2_Ethernet_Node_Charges").equals(""))) {
-				
 
 				Browser.WebTable.click("Line_Items", 6, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("Layer2_Ethernet_Node_Features").equals(""))) {
 
-					String Addon =getdata("LLNodeFeatures");
+					String Addon = getdata("LLNodeFeatures");
 					CO.Radio_Select1(Addon);
 					CO.scroll("Ecofig_Add", "WebButton");
 					CO.waitforload();
@@ -609,20 +575,18 @@ public class Keyword_ETHERNET extends Driver {
 					Result.takescreenshot("");
 
 					CO.Text_Select("button", "Add Item");
-					
-					
+
 				}
 				if (!(getdata("Layer2_Ethernet_Node_Charges").equals(""))) {
 
-					String Addon =getdata("Layer2_Ethernet_Node_Charges");
-					CO.Text_Select("a","Layer2 Ethernet NodeCharges");
+					String Addon = getdata("Layer2_Ethernet_Node_Charges");
+					CO.Text_Select("a", "Layer2 Ethernet NodeCharges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
-							
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -632,51 +596,45 @@ public class Keyword_ETHERNET extends Driver {
 				CO.waitforload();
 
 			}
-			//Virtual Connection
+			// Virtual Connection
 			if (!!(getdata("Layer2_Ethernet_Virtual_Connection").equals(""))
 					|| !(getdata("Layer2_Ethernet_Charges_Conn").equals(""))
 					|| !(getdata("Layer2_Ethernet_Charges").equals(""))) {
-				
 
-				Browser.WebTable.click("Line_Items",7, Col_S);
+				Browser.WebTable.click("Line_Items", 7, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
-
 
 				if (!(getdata("Layer2_Ethernet_Virtual_Connection").equals(""))) {
-					
 
-					String Addon =getdata("Layer2_Ethernet_Virtual_Connection");
-					CO.Text_Select("a","Layer2 Ethernet Virtual Connection");
+					String Addon = getdata("Layer2_Ethernet_Virtual_Connection");
+					CO.Text_Select("a", "Layer2 Ethernet Virtual Connection");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
 				if (!(getdata("Layer2_Ethernet_Charges_Conn").equals(""))) {
 
-					String Addon =getdata("Layer2_Ethernet_Charges_Conn");
-					CO.Text_Select("a","Layer2 Ethernet Charges");
+					String Addon = getdata("Layer2_Ethernet_Charges_Conn");
+					CO.Text_Select("a", "Layer2 Ethernet Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("Layer2_Ethernet_SLA").equals(""))) {
 
-					String Addon =getdata("Layer2_Ethernet_SLA");
-					CO.Text_Select("a","Layer2 Ethernet SLA");
+					String Addon = getdata("Layer2_Ethernet_SLA");
+					CO.Text_Select("a", "Layer2 Ethernet SLA");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -686,7 +644,6 @@ public class Keyword_ETHERNET extends Driver {
 				CO.waitforload();
 
 			}
-			
 
 			CO.Text_Select("a", "Appointments");
 			CO.waitforload();
@@ -714,7 +671,6 @@ public class Keyword_ETHERNET extends Driver {
 			}
 
 			CO.waitforload();
-			
 
 			Result.takescreenshot(" Order Submited");
 
@@ -725,7 +681,6 @@ public class Keyword_ETHERNET extends Driver {
 
 			Result.takescreenshot("Order Submission is Successful");
 			Test_OutPut += KC.OrderSubmission().split("@@")[1];
-		
 
 		} catch (Exception e) {
 			Continue.set(false);
@@ -740,7 +695,6 @@ public class Keyword_ETHERNET extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	
 	public String Childone_ContactCreation() {
 		String Test_OutPut = "", Status = "";
 		String Last_Name = null;
@@ -1336,7 +1290,7 @@ public class Keyword_ETHERNET extends Driver {
 			}
 			CO.waitforload();
 			Browser.WebButton.waittillvisible("LI_New");
-			
+
 			CO.ToWait();
 			if (Continue.get()) {
 				Status = "PASS";

@@ -43,6 +43,13 @@ public class Keyword_OSM extends Driver {
 			Browser.WebLink.click("OSM_Submit");
 
 			CO.ToWait();
+			if (Browser.WebButton.exist("OSM_Query")) {
+				Continue.set(true);
+				// Browser.WebButton.click("OSM_Query");
+			} else {
+				Test_OutPut += "Login page not loaded properly" + ",";
+				Continue.set(false);
+			}
 
 			if (Continue.get()) {
 				Test_OutPut += "Successfully Login with : " + getdata("OSM_Login_User") + ",";
@@ -78,7 +85,8 @@ public class Keyword_OSM extends Driver {
 		String LData;
 		try {
 			String Sales_Od = SalesOrder_No.get();
-			// Sales_Od = "1-12399393964";
+			// Sales_Od = "1-12426667804";
+			CO.waitforload();
 			if (Browser.WebButton.exist("OSM_Query")) {
 				Browser.WebButton.click("OSM_Query");
 
@@ -100,16 +108,26 @@ public class Keyword_OSM extends Driver {
 			CO.waitforload();
 			Col = CO.Actual_OSM_tabval("OSM_QueryRes", "State");
 			Col_S = CO.Actual_OSM_tabval("OSM_QueryRes", "Order ID");
+			int Col_T = CO.Actual_OSM_tabval("OSM_QueryRes", "Task");
 
 			CO.waitforload();
 			Row_Count = Browser.WebTable.getRowCount("OSM_QueryRes");
-
-			LData = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col);
-			if (LData.equalsIgnoreCase("Received")) {
-				Order_No = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col_S);
+			if (Row_Count >= 2) {
+				LData = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col);
+				String Task = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col_T);
+				if (LData.equalsIgnoreCase("Received")) {
+					Order_No = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col_S);
+				} else if (Task.equalsIgnoreCase("InitiateWFMManualEntryTask")) {
+					Order_No = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col_S);
+					// Continue.set(false);
+				} else {
+					Order_No = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col_S);
+					Test_OutPut += "Order Task : " + Task + ",";
+					Continue.set(false);
+				}
 			} else {
-				Order_No = Browser.WebTable.getCellData("OSM_QueryRes", 2, Col_S);
-				// Continue.set(false);
+				Test_OutPut += "Order not received to OSM" + ",";
+				Continue.set(false);
 			}
 
 			if (Continue.get()) {
@@ -175,11 +193,6 @@ public class Keyword_OSM extends Driver {
 					Browser.WebButton.click("OSM_Update");
 					Result.fUpdateLog("Updating the Order " + Order_No);
 					Result.takescreenshot("Updating the Order " + Order_No);
-					CO.waitforload();
-
-					CO.waitforload();
-					CO.waitforload();
-
 					CO.waitmoreforload();
 
 					Browser.WebButton.click("OSM_Query");
@@ -198,7 +211,6 @@ public class Keyword_OSM extends Driver {
 					// CO.waitmoreforload();
 					int ColOD1 = CO.Actual_OSM_tabval("OSM_QueryRes", "Order ID");
 					String New_ODID = Browser.WebTable.getCellData("OSM_QueryRes", 3, ColOD1);
-					CO.waitmoreforload();
 					Col = CO.Actual_OSM_tabval("OSM_QueryRes", "Order State");
 					int ColOD = CO.Actual_OSM_tabval("OSM_QueryRes", "Order ID");
 					Row_Count = Browser.WebTable.getRowCount("OSM_QueryRes");
@@ -235,7 +247,7 @@ public class Keyword_OSM extends Driver {
 					}
 					if (Continue.get()) {
 						Row_Count = Browser.WebTable.getRowCount("OSM_QueryRes");
-						for (int i = 2; i <= Row_Count; i++) {
+						for (int i = 2; i < Row_Count; i++) {
 							String ODid = Browser.WebTable.getCellData("OSM_QueryRes", i, ColOD);
 
 							if (ODid.equals(Order_No)) {
@@ -250,19 +262,21 @@ public class Keyword_OSM extends Driver {
 								// Browser.WebButton.click("OSM_Search");
 								CO.waitmoreforload();
 								cDriver.get()
-										.findElement(
-												By.xpath("//form[@name=\"orderEditorMenu\"]//span[text()='Update']"))
+										.findElement(By.xpath("//form[@name='orderEditorMenu']//span[text()='Update']"))
 										.click();
 								// Browser.WebButton.click("OSM_Update");
 
 								CO.waitforload();
-								// Browser.WebButton.click("OSM_Query");
+
+								Browser.WebButton.click("OSM_Query");
+								CO.waitforload();
 								if (Browser.WebLink.exist("OSM_EditQuery")) {
 									Browser.WebLink.click("OSM_EditQuery");
 
 								}
 								CO.scroll("OSM_OrderNo_entry", "WebEdit");
 								CO.waitforload();
+								Browser.WebEdit.Set("OSM_OrderNo_entry", Sales_Od);
 								Browser.WebButton.click("OSM_Query_search");
 								CO.waitmoreforload();
 
@@ -280,7 +294,7 @@ public class Keyword_OSM extends Driver {
 										Result.takescreenshot("OSM Order_No Status updation has failed   ");
 										break;
 									}
-									Browser.WebButton.click("OSM_Refresh");
+									Browser.WebButton.click("OSM_Refresh1");
 									Wait = Wait + 5;
 									CO.waitmoreforload();
 
@@ -298,6 +312,8 @@ public class Keyword_OSM extends Driver {
 			CO.waitforload();
 			CO.waitforload();
 			Browser.WebButton.click("OSM_Logout");
+			cDriver.get().close();
+			cDriver.get().quit();
 			CO.ToWait();
 
 			if (Continue.get()) {

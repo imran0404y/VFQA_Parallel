@@ -25,7 +25,7 @@ public class Keyword_SIPT extends Driver {
 
 			int Row_Val = 3, Col_V, Col_S;
 			String GetData, COSP_Plan, ReservationToken, Qty, To, MSISDN, Default_Plan_Tab, Default_Addon, // ,Reserve
-					From, PData = "Pilot Number", CCODE = "974",DID="";
+					From, PData = "Pilot Number", CCODE = "974", DID = "";
 			GetData = "Corporate SIP Trunk Bundle";
 			CO.waitforload();
 
@@ -58,8 +58,6 @@ public class Keyword_SIPT extends Driver {
 			int Row_Count = Browser.WebTable.getRowCount("Line_Items");
 
 			Col_S = CO.Select_Cell("Line_Items", "Service Id");
-		
-			
 
 			for (int i = 2; i <= Row_Count; i++) {
 				String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
@@ -95,7 +93,7 @@ public class Keyword_SIPT extends Driver {
 			} else {
 				ReservationToken = pulldata("ReservationToken_Pilot");
 			}
-			
+
 			if (!(getdata("DID").equals(""))) {
 				DID = getdata("ReservationToken_DID");
 			} else {
@@ -108,8 +106,6 @@ public class Keyword_SIPT extends Driver {
 				MSISDN = pulldata("MSISDN");
 			}
 			MSISDN = MSISDN.replace("974", "");
-			
-			
 
 			if (!(getdata("Default_Plan_Tab").equals(""))) {
 				Default_Plan_Tab = getdata("Default_Plan_Tab");
@@ -139,11 +135,10 @@ public class Keyword_SIPT extends Driver {
 			Result.takescreenshot(COSP_Plan + "is selected from COSP Plans");
 			CO.waitforload();
 			CO.ToWait();
-			
-			if(!ReservationToken.equals(""))
-			{
+
+			if (!ReservationToken.equals("")) {
 				CO.Link_Select("Number Range Products");
-				
+
 				Browser.WebButton.click("SIPT_Piolt");
 				Browser.WebEdit.waittillvisible("NumberReservationToken");
 				Browser.WebEdit.Set("NumberReservationToken", ReservationToken);
@@ -168,9 +163,9 @@ public class Keyword_SIPT extends Driver {
 				}
 				Browser.WebTable.click("Line_Items", Row_Val, Col_V);
 				CO.Text_Select("span", "Customize");
-				
+
 			}
-			CO.NumberRangeProducts("DID Number Range", Qty, From, To,DID);
+			CO.NumberRangeProducts("DID Number Range", Qty, From, To, DID);
 			CO.waitforload();
 			CO.Text_Select("button", "Verify");
 			CO.isAlertExist();
@@ -244,7 +239,7 @@ public class Keyword_SIPT extends Driver {
 					Browser.WebTable.SetData("Line_Items", Row_Val, Col_S, "Service_Id", CCODE + MSISDN);
 
 					// To Provide Pilot Number
-					
+
 					for (int i = 2; i <= Row_Count; i++) {
 						String LData = Browser.WebTable.getCellData("Line_Items", i, Col);
 						if (PData.equals(LData)) {
@@ -323,6 +318,7 @@ public class Keyword_SIPT extends Driver {
 		Result.fUpdateLog("------SIPT Plan Selection Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: View_Selection
 	 * Use 					: To view a spectific Radio Button or check box

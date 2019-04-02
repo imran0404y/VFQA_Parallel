@@ -1,5 +1,6 @@
 package Libraries;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -21,14 +22,12 @@ public class Browser extends Driver {
 	public static class WebEdit {
 		public static void SetE(String objname, String objvalue) throws Exception {
 			String objtype = "WebEdit";
-			Common.ConditionalWait(objname,"WebEdit");
+			Common.ConditionalWait(objname, "WebEdit");
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clearTD(objprop);
 			Thread.sleep(200);
 			Method.setETD(objprop, objvalue);
-			
-			
-			
+
 			if (Continue.get() == false) {
 				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - to set Value: " + objvalue);
 				throw new Exception();
@@ -39,7 +38,7 @@ public class Browser extends Driver {
 
 		public static void Set(String objname, String objvalue) throws Exception {
 			String objtype = "WebEdit";
-			Common.ConditionalWait(objname,"WebEdit");
+			Common.ConditionalWait(objname, "WebEdit");
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clearTD(objprop);
 			Thread.sleep(200);
@@ -54,14 +53,14 @@ public class Browser extends Driver {
 
 		public static String gettext(String objname) throws Exception {
 			String objtype = "WebEdit";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			return Method.getval(objprop);
 		}
 
 		public static void click(String objname) throws Exception {
 			String objtype = "WebEdit";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clearTD(objprop);
 			if (Continue.get() == false) {
@@ -74,7 +73,7 @@ public class Browser extends Driver {
 
 		public static void clear(String objname) throws Exception {
 			String objtype = "WebEdit";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clearTD(objprop);
 			if (Continue.get() == false) {
@@ -86,7 +85,7 @@ public class Browser extends Driver {
 		}
 
 		public static void Doubleclick(String objname) throws Exception {
-			Common.ConditionalWait(objname,"WebEdit");
+			Common.ConditionalWait(objname, "WebEdit");
 			String[] objprop = Utlities.FindObject(objname, "WebEdit");
 			String Xpath = objprop[0];
 			org.openqa.selenium.WebElement element = cDriver.get().findElement(By.xpath(Xpath));
@@ -147,12 +146,11 @@ public class Browser extends Driver {
 	public static class WebButton {
 		public static void click(String objname) throws Exception {
 			String objtype = "WebButton";
-			Common.ConditionalWait(objname,objtype);
-		
-			String[] objprop = Utlities.FindObject(objname, objtype);			
+			Common.ConditionalWait(objname, objtype);
+
+			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
-			
-			
+
 			if (Continue.get() == false) {
 				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " to click");
 				throw new Exception();
@@ -196,7 +194,7 @@ public class Browser extends Driver {
 	public static class WebLink {
 		public static void click(String objname) throws Exception {
 			String objtype = "WebLink";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
@@ -208,7 +206,7 @@ public class Browser extends Driver {
 		}
 
 		public static void clickL(String objname, int R) throws Exception {
-			Common.ConditionalWait(objname,"WebLink");
+			Common.ConditionalWait(objname, "WebLink");
 			String[] objprop = Utlities.FindObject(objname, "WebLink");
 			String cellXpath = objprop[0] + "//div[" + R + "]//div[1]/a";
 			cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -255,7 +253,7 @@ public class Browser extends Driver {
 	public static class ListBox {
 		public static void setdropvalue(String objname, String objvalue) throws Exception {
 			String objtype = "ListBox";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.setdropvalue(objprop, objvalue);
 			if (Continue.get() == false) {
@@ -269,7 +267,7 @@ public class Browser extends Driver {
 
 		public static void select(String objname, String objvalue) throws Exception {
 			String objtype = "ListBox";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Thread.sleep(100);
 			Method.clearTD(objprop);
@@ -285,7 +283,7 @@ public class Browser extends Driver {
 
 		public static void click(String objname) throws Exception {
 			String objtype = "ListBox";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
@@ -298,7 +296,7 @@ public class Browser extends Driver {
 
 		public static void clear(String objname) throws Exception {
 			String objtype = "ListBox";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clearTD(objprop);
 			if (Continue.get() == false) {
@@ -338,6 +336,52 @@ public class Browser extends Driver {
 				Result.fUpdateLog(Batchs.get() + " :: Action at Obj: " + objname + " - is Visible");
 			}
 		}
+
+		/*---------------------------------------------------------------------------------------------------------
+		 * Class Name			: ListBox 
+		 * Use 					: To get all values from the list box    
+		 * Designed By			: Sisir
+		 * Last Modified Date 	: 07-Mar-2019
+		--------------------------------------------------------------------------------------------------------*/
+		// sisira
+		public static ArrayList<String> listAllItems(String objname) throws Exception {
+			String objtype = "ListBox";
+			Common.ConditionalWait(objname, objtype);
+			String[] objprop = Utlities.FindObject(objname, objtype);
+			Thread.sleep(100);
+
+			if (Continue.get() == false) {
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname);
+				throw new Exception();
+			} else {
+				Result.fUpdateLog(Batchs.get() + " :: Action select on Obj: " + objname);
+			}
+			return Method.allItems(objprop);
+		}
+
+		/*---------------------------------------------------------------------------------------------------------
+						 * Class Name			: ListBox
+						 * Use 					:   To Put data on the select with out clearing the data
+						 * Designed By			: Sisir
+						 * Last Modified Date 	: 07-Mar-2019
+						--------------------------------------------------------------------------------------------------------*/
+
+		public static void listselect(String objname, String objvalue) throws Exception {
+			String objtype = "ListBox";
+			Common.ConditionalWait(objname, objtype);
+			String[] objprop = Utlities.FindObject(objname, objtype);
+			Thread.sleep(100);
+			// Method.clearTD(objprop);
+			Thread.sleep(100);
+			Method.selectTD(objprop, objvalue);
+			if (Continue.get() == false) {
+				Result.fUpdateLog(Batchs.get() + " :: Failed at Obj: " + objname + " - to select Value: " + objvalue);
+				throw new Exception();
+			} else {
+				Result.fUpdateLog(Batchs.get() + " :: Action select on Obj: " + objname + " - Value: " + objvalue);
+			}
+		}
+
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
@@ -350,7 +394,7 @@ public class Browser extends Driver {
 	public static class WebElement {
 		public static void click(String objname) throws Exception {
 			String objtype = "WebElement";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
@@ -387,7 +431,7 @@ public class Browser extends Driver {
 
 		public static void select(String objname, String objvalue) throws Exception {
 			String objtype = "WebElement";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.selectTD(objprop, objvalue);
 			if (Continue.get() == false) {
@@ -409,7 +453,7 @@ public class Browser extends Driver {
 	public static class WebRadioButton {
 		public static void click(String objname) throws Exception {
 			String objtype = "RadioButton";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
@@ -437,7 +481,7 @@ public class Browser extends Driver {
 	public static class WebCheckBox {
 		public static void click(String objname) throws Exception {
 			String objtype = "CheckBox";
-			Common.ConditionalWait(objname,objtype);
+			Common.ConditionalWait(objname, objtype);
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.clickTD(objprop);
 			if (Continue.get() == false) {
@@ -494,7 +538,7 @@ public class Browser extends Driver {
 		--------------------------------------------------------------------------------------------------------*/
 		public static int getRowCount(String objname) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr";
 				List<org.openqa.selenium.WebElement> rows = cDriver.get().findElements(By.xpath(cellXpath));
@@ -507,7 +551,7 @@ public class Browser extends Driver {
 			}
 
 		}
-		
+
 		public static int getRowCount1(String objname) throws Exception {
 			try {
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
@@ -544,7 +588,7 @@ public class Browser extends Driver {
 		--------------------------------------------------------------------------------------------------------*/
 		public static String getCellData(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]" + "//td[" + columnnum + "]";
@@ -561,7 +605,7 @@ public class Browser extends Driver {
 
 		public static String getCellData_title(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]" + "//td[" + columnnum + "]";
@@ -577,7 +621,7 @@ public class Browser extends Driver {
 
 		public static String CellData(String objname, int rownum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String celldata = "";
 				int a = Browser.WebTable.getColCount(objname);
@@ -598,7 +642,7 @@ public class Browser extends Driver {
 
 		public static boolean DataSearch(String objname, String Data) throws Exception {
 			boolean status = true;
-			Common.ConditionalWait(objname,"WebTable");
+			Common.ConditionalWait(objname, "WebTable");
 			String[] objprop = Utlities.FindObject(objname, "WebTable");
 			String cellXpath = objprop[0] + "/tr/td";
 			System.out.println(cellXpath);
@@ -625,7 +669,7 @@ public class Browser extends Driver {
 		public static void CommentE(String objname, int rownum, int columnnum, String obj, String Val)
 				throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -661,7 +705,7 @@ public class Browser extends Driver {
 		--------------------------------------------------------------------------------------------------------*/
 		public static void click(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]/td[" + columnnum + "]";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -671,9 +715,10 @@ public class Browser extends Driver {
 				throw new Exception();
 			}
 		}
+
 		public static void click_che(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]/td[" + columnnum + "]/span/input";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -686,7 +731,7 @@ public class Browser extends Driver {
 
 		public static void clickA(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]//a";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -705,7 +750,7 @@ public class Browser extends Driver {
 		--------------------------------------------------------------------------------------------------------*/
 		public static void clickL(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + (columnnum + 1) + "]";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -726,7 +771,7 @@ public class Browser extends Driver {
 		--------------------------------------------------------------------------------------------------------*/
 		public static int getColCount(String objname) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[1]//td";
 				List<org.openqa.selenium.WebElement> cols = cDriver.get().findElements(By.xpath(cellXpath));
@@ -738,9 +783,10 @@ public class Browser extends Driver {
 				throw new Exception();
 			}
 		}
+
 		public static int getColCount1(String objname) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[1]//th";
 				List<org.openqa.selenium.WebElement> cols = cDriver.get().findElements(By.xpath(cellXpath));
@@ -761,7 +807,7 @@ public class Browser extends Driver {
 		--------------------------------------------------------------------------------------------------------*/
 		public static String getColumnname(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//th[" + columnnum + "]";
 				String celldata = cDriver.get().findElement(By.xpath(cellXpath)).getText();
@@ -786,7 +832,7 @@ public class Browser extends Driver {
 		}
 
 		public static void SetTableData(String objname) throws Exception {
-			Common.ConditionalWait(objname,"WebTable");
+			Common.ConditionalWait(objname, "WebTable");
 			String objtype = "WebTable";
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			Method.waittillobjvisible(objprop);
@@ -795,7 +841,7 @@ public class Browser extends Driver {
 
 		public static void clickT(String objname) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				cDriver.get().findElement(By.xpath(objprop[0])).click();
 				// cDriver.get().findElement(By.xpath(objprop[0])).click();
@@ -815,7 +861,7 @@ public class Browser extends Driver {
 		public static void SetDataE(String objname, int rownum, int columnnum, String obj, String Val)
 				throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -851,7 +897,7 @@ public class Browser extends Driver {
 		--------------------------------------------------------------------------------------------------------*/
 		public static void SetData(String objname, int rownum, int columnnum, String obj, String Val) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -890,7 +936,7 @@ public class Browser extends Driver {
 		--------------------------------------------------------------------------------------------------------*/
 		public static void Check(String objname, int rownum, int columnnum, String val) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -907,7 +953,7 @@ public class Browser extends Driver {
 
 		public static void Link(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpath = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]/a";
 				cDriver.get().findElement(By.xpath(cellXpath)).click();
@@ -922,7 +968,7 @@ public class Browser extends Driver {
 
 		public static void Expand(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpathX = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]";
 				cDriver.get().findElement(By.xpath(cellXpathX)).click();
@@ -938,7 +984,7 @@ public class Browser extends Driver {
 
 		public static void Popup(String objname, int rownum, int columnnum) throws Exception {
 			try {
-				Common.ConditionalWait(objname,"WebTable");
+				Common.ConditionalWait(objname, "WebTable");
 				String[] objprop = Utlities.FindObject(objname, "WebTable");
 				String cellXpathX = objprop[0] + "//tr[" + rownum + "]//td[" + columnnum + "]";
 				cDriver.get().findElement(By.xpath(cellXpathX)).click();
@@ -1034,7 +1080,7 @@ public class Browser extends Driver {
 	--------------------------------------------------------------------------------------------------------*/
 	public static class WebList {
 		public static void clickTab(String objname, String objvalue) throws Exception {
-			Common.ConditionalWait(objname,"WebList");
+			Common.ConditionalWait(objname, "WebList");
 			String objtype = "WebList";
 			String[] objprop = Utlities.FindObject(objname, objtype);
 			String cellXpath = objprop[0] + "//ul[1]//li";
@@ -1064,7 +1110,5 @@ public class Browser extends Driver {
 		((JavascriptExecutor) cDriver.get()).executeScript("return document.readyState");
 		return true;
 	}
-
-	
 
 }

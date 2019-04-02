@@ -304,7 +304,7 @@ public class Keyword_CRM extends Driver {
 
 				int Col = CO.Select_Cell("Contact", "Last_Name");
 				Browser.WebTable.clickA("Contact", 2, Col);
-				//CO.waitforload();
+				// CO.waitforload();
 				// Handles Alerts
 				if (CO.isAlertExist())
 					CO.waitforload();
@@ -617,6 +617,7 @@ public class Keyword_CRM extends Driver {
 						Common.ConditionalWait1(cellXpath, "Billing Profile");
 						WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 						((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+						CO.waitforload();
 						cDriver.get().findElement(By.xpath(cellXpath)).click();
 						CO.waitforload();
 					}
@@ -651,12 +652,13 @@ public class Keyword_CRM extends Driver {
 					do {
 						CO.TabNavigator("Profiles");
 						// Browser.WebButton.click("Profile_Tab");
-						// CO.waitforload();
+						CO.waitforload();
 						if (Browser.WebLink.exist("SRP_SubTab")) {
 							String cellXpath = "//li[@aria-controls='s_vctrl_div_tabView_noop']//a[.='Billing Profile']";
 							Common.ConditionalWait1(cellXpath, "Billing Profile");
 							WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 							((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+							CO.waitforload();
 							cDriver.get().findElement(By.xpath(cellXpath)).click();
 							// CO.waitforload();
 						}
@@ -4462,7 +4464,8 @@ public class Keyword_CRM extends Driver {
 	public String Disconnection() {
 
 		String Test_OutPut = "", Status = "";
-		String MSISDN, Order_no, Order_Reason, GetData;
+		String MSISDN, Order_no, Order_Reason, Comments, GetData;
+		boolean Flag = false;
 		int Col, Col_P;
 		Result.fUpdateLog("------Disconnect Event Details------");
 		try {
@@ -4477,97 +4480,128 @@ public class Keyword_CRM extends Driver {
 			} else {
 				Order_Reason = pulldata("Order_Reason");
 			}
+
+			if (!(getdata("Comments").equals(""))) {
+				Comments = getdata("Comments");
+			} else {
+				Comments = pulldata("Comments");
+			}
+
 			if (!(getdata("GetData").equals(""))) {
 				GetData = getdata("GetData");
 			} else {
 				GetData = pulldata("GetData");
 			}
-			if (CO.Assert_Search(MSISDN, "Active")) {
+			// Suspended
+			if (CO.AssertSearch(MSISDN, "Active")) {
 				// CO.waitforload();
 				int Col_S, Row_Count;
-
 				String LData;
-				Col = CO.Actual_Cell("Installed_Assert", "Product");
-				Col_S = CO.Actual_Cell("Installed_Assert", "Service ID");
-
+				Browser.WebEdit.waittillvisible("Primary_MSISDN1");
 				Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
-				for (int i = 2; i <= Row_Count; i++) {
-					LData = Browser.WebTable.getCellData("Installed_Assert", i, Col);
-					if (LData.equalsIgnoreCase(GetData)) {
-						if ((i % 2) == 0) {
-							Browser.WebTable.click("Installed_Assert", (i + 1), Col_S);
-							// CO.waitforload();
-							break;
-						} else {
-							Browser.WebTable.click("Installed_Assert", (i - 1), Col_S);
-							// CO.waitforload();
-							break;
-						}
-					}
-
-				}
-				do {
-					Browser.WebButton.click("VFQ_Disconnect");
-					String x = Browser.WebEdit.gettext("Due_Date");
-					if (!x.contains("/")) {
-						Browser.WebButton.click("Date_Cancel");
-						Browser.WebButton.click("VFQ_Disconnect");
-					}
-					// CO.waitforload();
-				} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
-
-				if (Browser.WebEdit.gettext("Due_Date").equals(""))
-					Continue.set(false);
-				CO.scroll("Date_Continue", "WebButton");
-				Browser.WebButton.click("Date_Continue");
-				Common.ConditionalWait("Line_Items", "WebTable");
-				int Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
-				// CO.waitmoreforload();
-				Result.takescreenshot("Disconnect Order : ");
-				// CO.InstalledAssertChange("Disconnect");
-				// CO.waitforload();
-
-				CO.Webtable_Value("Order Reason", Order_Reason);
-
-				Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
-				Col = CO.Select_Cell("Line_Items", "Product");
-				Col_P = CO.Actual_Cell("Line_Items", "Action");
-				Row_Count1 = Browser.WebTable.getRowCount("Line_Items");
-				for (int i = 2; i <= Row_Count1; i++) {
-					LData = Browser.WebTable.getCellData("Line_Items", i, Col);
-					String Action = Browser.WebTable.getCellData("Line_Items", i, Col_P);
-
-					if (Action.equalsIgnoreCase("Delete")) {
-						Result.fUpdateLog("Action Update   " + LData + ":" + Action);
+				String Primary_MSISDN = Browser.WebEdit.gettext("Primary_MSISDN1");
+				if (Row_Count > 3) {
+					if (Primary_MSISDN.equalsIgnoreCase(MSISDN)) {
+						Test_OutPut += "Primary_MSISDN cannot be disconnect : " + Primary_MSISDN + ",";
 					} else {
-						Result.fUpdateLog(LData + ":" + Action);
+						CO.InstalledAssertChange("New Query                   [Alt+Q]", "Installed_Assert_Menu");
+						CO.waitforload();
+						Col = CO.Select_Cell("Installed_Assert", "Service ID");
+						Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
+						Browser.WebButton.click("InstalledAssert_Go");
+						Result.takescreenshot("");
+						Flag = true;
+					}
+				} else {
+					Flag = true;
+				}
+
+				if (Flag) {
+					Col = CO.Actual_Cell("Installed_Assert", "Product");
+					Col_S = CO.Actual_Cell("Installed_Assert", "Service ID");
+					Row_Count = Browser.WebTable.getRowCount("Installed_Assert");
+					for (int i = 2; i <= Row_Count; i++) {
+						LData = Browser.WebTable.getCellData("Installed_Assert", i, Col);
+						if (LData.equalsIgnoreCase(GetData)) {
+							if ((i % 2) == 0) {
+								Browser.WebTable.click("Installed_Assert", (i + 1), Col_S);
+								// CO.waitforload();
+								break;
+							} else {
+								Browser.WebTable.click("Installed_Assert", (i - 1), Col_S);
+								// CO.waitforload();
+								break;
+							}
+						}
+
+					}
+					do {
+						Browser.WebButton.click("VFQ_Disconnect");
+						String x = Browser.WebEdit.gettext("Due_Date");
+						if (!x.contains("/")) {
+							Browser.WebButton.click("Date_Cancel");
+							Browser.WebButton.click("VFQ_Disconnect");
+						}
+						// CO.waitforload();
+					} while (!Browser.WebButton.waitTillEnabled("Date_Continue"));
+
+					if (Browser.WebEdit.gettext("Due_Date").equals(""))
 						Continue.set(false);
+					CO.scroll("Date_Continue", "WebButton");
+					Browser.WebButton.click("Date_Continue");
+					// CO.waitmoreforload();
+					Result.takescreenshot("Disconnect Order : ");
+					// CO.InstalledAssertChange("Disconnect");
+					// CO.waitforload();
+					CO.Webtable_Value("Order Reason", Order_Reason);
+					CO.waitforload();
+					Browser.WebEdit.Set("Comments", Comments);
+					Row_Count = Browser.WebTable.getRowCount("Line_Items");
+					Col = CO.Select_Cell("Line_Items", "Product");
+					Col_P = CO.Actual_Cell("Line_Items", "Action");
+					Row_Count = Browser.WebTable.getRowCount("Line_Items");
+					for (int i = 2; i <= Row_Count; i++) {
+						LData = Browser.WebTable.getCellData("Line_Items", i, Col);
+						String Action = Browser.WebTable.getCellData("Line_Items", i, Col_P);
+
+						if (Action.equalsIgnoreCase("Delete")) {
+							Result.fUpdateLog("Action Update   " + LData + ":" + Action);
+						} else {
+							Result.fUpdateLog(LData + ":" + Action);
+							Continue.set(false);
+						}
+
 					}
 
+					Order_no = CO.Order_ID();
+					Utlities.StoreValue("Order_no", Order_no);
+					Test_OutPut += "Order_no : " + Order_no + ",";
+
+					Test_OutPut += OrderSubmission().split("@@")[1];
+
+					// CO.waitforload();
+
+					// CO.AssertSearch(MSISDN, "Inactive");
+					// CO.waitforload();
+					Result.takescreenshot("");
+					CO.ToWait();
 				}
-				Test_OutPut += OrderSubmission().split("@@")[1];
-				Order_no = CO.Order_ID();
-				Utlities.StoreValue("Order_no", Order_no);
-				Test_OutPut += "Order_no : " + Order_no + ",";
-
-				// CO.waitforload();
-
-				CO.AssertSearch(MSISDN, "Inactive");
-				// CO.waitforload();
-				Result.takescreenshot("");
-				CO.ToWait();
 			} else {
 				Test_OutPut += "Assert not found";
 			}
+
 			if (Continue.get()) {
 				Status = "PASS";
 			} else {
+				// Siebel_Logout();
 				Status = "FAIL";
 			}
+
 		} catch (Exception e) {
 			Continue.set(false);
 			Status = "FAIL";
 			Test_OutPut += "Exception occurred" + ",";
+
 			Result.takescreenshot("Exception occurred");
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
@@ -4918,6 +4952,7 @@ public class Keyword_CRM extends Driver {
 							Common.ConditionalWait1(cellXpath, "Billing Profile");
 							WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 							((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+							CO.waitforload();
 							cDriver.get().findElement(By.xpath(cellXpath)).click();
 							// CO.waitforload();
 						}
@@ -5195,6 +5230,7 @@ public class Keyword_CRM extends Driver {
 						Common.ConditionalWait1(cellXpath, "Billing Profile");
 						WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 						((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+						CO.waitforload();
 						cDriver.get().findElement(By.xpath(cellXpath)).click();
 						// CO.waitforload();
 					}
@@ -5233,6 +5269,7 @@ public class Keyword_CRM extends Driver {
 							Common.ConditionalWait1(cellXpath, "Billing Profile");
 							WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 							((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+							CO.waitforload();
 							cDriver.get().findElement(By.xpath(cellXpath)).click();
 							// CO.waitforload();
 						}
@@ -5383,7 +5420,7 @@ public class Keyword_CRM extends Driver {
 				Resume_Date = getdata("ResumeDate");
 			}
 			if (CO.Assert_Search(MSISDN, "Active")) {
-				//CO.Moi_Validation();
+				// CO.Moi_Validation();
 				// CO.waitforload();
 				CO.Text_Select("a", GetData);
 				// CO.waitforload();
@@ -5399,8 +5436,7 @@ public class Keyword_CRM extends Driver {
 					Result.fUpdateLog(Col_P + "," + Col_SID);
 					Result.fUpdateLog(Browser.WebTable.getCellData("Acc_Installed_Assert", 3, Col_P));
 					for (int i = 2; i <= Inst_RowCount; i++) {
-						if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P)
-								.equalsIgnoreCase(GetData)) {
+						if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P).equalsIgnoreCase(GetData)) {
 							Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
 							break;
 						}
@@ -5529,8 +5565,7 @@ public class Keyword_CRM extends Driver {
 					int Col_P = CO.Select_Cell("Acc_Installed_Assert", "Product");
 					int Col_SR = CO.Actual_Cell("Acc_Installed_Assert", "Status");
 					for (int i = 2; i <= Inst_RowCount; i++) {
-						if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P)
-								.equalsIgnoreCase(GetData)) {
+						if (Browser.WebTable.getCellData("Acc_Installed_Assert", i, Col_P).equalsIgnoreCase(GetData)) {
 							Browser.WebTable.click("Acc_Installed_Assert", i, Col_SR);
 							break;
 						}
@@ -5740,6 +5775,7 @@ public class Keyword_CRM extends Driver {
 					Common.ConditionalWait1(cellXpath, "Billing Profile");
 					WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 					((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+					CO.waitforload();
 					cDriver.get().findElement(By.xpath(cellXpath)).click();
 					CO.waitforload();
 				}
@@ -6047,6 +6083,7 @@ public class Keyword_CRM extends Driver {
 					Common.ConditionalWait1(cellXpath, "Billing Profile");
 					WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 					((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+					CO.waitforload();
 					cDriver.get().findElement(By.xpath(cellXpath)).click();
 					CO.waitforload();
 				}
@@ -6357,6 +6394,7 @@ public class Keyword_CRM extends Driver {
 					Common.ConditionalWait1(cellXpath, "Billing Profile");
 					WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 					((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+					CO.waitforload();
 					cDriver.get().findElement(By.xpath(cellXpath)).click();
 					CO.waitforload();
 				}

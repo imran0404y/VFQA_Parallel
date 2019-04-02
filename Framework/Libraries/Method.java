@@ -1,5 +1,7 @@
 package Libraries;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -8,6 +10,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.w3c.dom.Document;
 //import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -454,21 +457,21 @@ public class Method extends Driver {
 				Error = e;
 				Continue.set(true);
 			}
-			
-					
+
 		}
-		
+
 		if (i == identify.length) {
-			
-			if(Error.toString().contains("is not clickable at point"))
-			{
+
+			if (Error.toString().contains("is not clickable at point")) {
 				clickTD1(identify[0]);
-			}else {
+			} else {
 				Continue.set(false);
-			Result.fUpdateLog("Object does't Exists to click");
-			Error.printStackTrace();}
+				Result.fUpdateLog("Object does't Exists to click");
+				Error.printStackTrace();
+			}
 		}
 	}
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: clickTD
 	 * Arguments			: identifier
@@ -477,40 +480,40 @@ public class Method extends Driver {
 	 * Last Modified Date 	: 25-Apr-2016
 	--------------------------------------------------------------------------------------------------------*/
 	public static void clickTD1(String identify) {
-		int count=0;
+		int count = 0;
 		Exception Error = null;
-		do{
+		do {
 			try {
 				if (Continue.get() == true) {
 					if (identify != "") {
 						Thread.sleep(1000);
-							Scroll(cDriver.get().findElement(By.xpath(identify)));
-							cDriver.get().findElement(By.xpath(identify)).click();
-							break;
-						} else {
-							throw new Exception(Error);
-						}
-					
+						Scroll(cDriver.get().findElement(By.xpath(identify)));
+						cDriver.get().findElement(By.xpath(identify)).click();
+						break;
+					} else {
+						throw new Exception(Error);
 					}
-				
+
+				}
+
 			} catch (Exception e) {
 				Error = e;
 				Continue.set(true);
 			}
-			
-		if(!Error.toString().contains("is not clickable at point"))
-		{
-			count=17;
-		}else if(count==15) {
-			Continue.set(false);
-			Result.fUpdateLog("Object does't Exists to click");
-			Error.printStackTrace();
-		}
-		System.out.println(count);
-		
-		count++;
-		}while(count<16);
+
+			if (!Error.toString().contains("is not clickable at point")) {
+				count = 17;
+			} else if (count == 15) {
+				Continue.set(false);
+				Result.fUpdateLog("Object does't Exists to click");
+				Error.printStackTrace();
+			}
+			System.out.println(count);
+
+			count++;
+		} while (count < 16);
 	}
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: clearTD
 	 * Arguments			: identifier
@@ -881,5 +884,111 @@ public class Method extends Driver {
 		jse.executeScript("arguments[0].scrollIntoView();", element);
 		cDriver.get().manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: allItems
+	 * Arguments			: identifier and value
+	 * Use 					: reads All Items in list box
+	 * Designed By			: Sisira
+	 * Last Modified Date 	: 07-Mar-2019
+	--------------------------------------------------------------------------------------------------------*/
+	public static ArrayList<String> allItems(String[] identify) {
+		ArrayList<String> values = new ArrayList<String>();
+		int i = 0;
+		Exception Error = null;
+		for (i = 0; i < identify.length;) {
+			try {
+				if (Continue.get() == true) {
+					switch (i) {
+					case 0:
+						if (identify[0] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[0])));
+							// TxtVal =
+							// cDriver.get().findElement(By.xpath(identify[0])).getAttribute("value");
+							WebElement selectElement = cDriver.get().findElement(By.xpath(identify[0]));
+							Select select = new Select(selectElement);
+							List<WebElement> allOptions = select.getOptions();
+							for (int j = 0; j < allOptions.size(); j++) {
+								values.add(allOptions.get(j).getText());
+							}
+
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					case 1:
+						if (identify[1] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[1])));
+							// TxtVal =
+							// cDriver.get().findElement(By.name(identify[1])).getAttribute("value");
+							WebElement selectElement = cDriver.get().findElement(By.xpath(identify[1]));
+							Select select = new Select(selectElement);
+							List<WebElement> allOptions = select.getOptions();
+							for (int j = 0; j < allOptions.size(); j++) {
+								values.add(allOptions.get(j).getText());
+							}
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					case 2:
+						if (identify[2] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[2])));
+							// TxtVal = cDriver.get().findElement(By.id(identify[2])).getAttribute("value");
+							WebElement selectElement = cDriver.get().findElement(By.xpath(identify[2]));
+							Select select = new Select(selectElement);
+							List<WebElement> allOptions = select.getOptions();
+							for (int j = 0; j < allOptions.size(); j++) {
+								values.add(allOptions.get(j).getText());
+							}
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					case 3:
+						if (identify[3] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[3])));
+							WebElement selectElement = cDriver.get().findElement(By.xpath(identify[3]));
+							Select select = new Select(selectElement);
+							List<WebElement> allOptions = select.getOptions();
+							for (int j = 0; j < allOptions.size(); j++) {
+								values.add(allOptions.get(j).getText());
+							}
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					case 4:
+						if (identify[4] != "") {
+							Scroll(cDriver.get().findElement(By.xpath(identify[4])));
+							WebElement selectElement = cDriver.get().findElement(By.xpath(identify[4]));
+							Select select = new Select(selectElement);
+							List<WebElement> allOptions = select.getOptions();
+							for (int j = 0; j < allOptions.size(); j++) {
+								values.add(allOptions.get(j).getText());
+							}
+							break;
+						} else {
+							throw new Exception(Error);
+						}
+					}
+				}
+				break;
+			} catch (Exception e) {
+				i++;
+				Error = e;
+				Continue.set(true);
+			}
+		}
+		if (i == identify.length) {
+			Continue.set(false);
+			Result.fUpdateLog("Object does't Exists to get val");
+			Error.printStackTrace();
+			return null;
+		} else {
+			// return TxtVal;
+			return values;
+		}
 	}
 }

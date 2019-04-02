@@ -54,47 +54,39 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>3.14.0</version>
+			<version>3.141.59</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.appium/java-client -->
 		<dependency>
 			<groupId>io.appium</groupId>
 			<artifactId>java-client</artifactId>
-			<version>6.1.0</version>
+			<version>7.0.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
-			<version>0.1.54</version>
+			<version>0.1.55</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.carbonfive.com.oracle/ojdbc8 -->
+		<!-- https://mvnrepository.com/artifact/OJDBC/ojdbc -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${.basedir}/SeleniumJars/ojdbc8.jar</systemPath> <!-- must match file name -->
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.carbonfive.com.oracle/ojdbc8 -->
-		<dependency>
-			<groupId>com.pcloudy</groupId>
-			<artifactId>pcloudy</artifactId>
-			<version>11.0</version>
-			<scope>system</scope>
-			<systemPath>${.basedir}/SeleniumJars/pCloudy-java-connector-11.0.5.jar</systemPath> <!-- must match file name -->
+			<systemPath>${.basedir}/SeleniumJars/ojdbc8.jar</systemPath>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.7</version>
+			<version>3.8.1</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15on</artifactId>
-			<version>1.60</version>
+			<version>1.61</version>
 		</dependency>
 	</dependencies>
 </project>

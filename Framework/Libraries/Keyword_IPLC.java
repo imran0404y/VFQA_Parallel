@@ -13,7 +13,7 @@ public class Keyword_IPLC extends Driver {
 	Keyword_CRM KC = new Keyword_CRM();
 
 	public String IPLC() {
-	String Test_OutPut = "", Status = "";
+		String Test_OutPut = "", Status = "";
 		String Network = null;
 		String VPN_Connection1 = null;
 		String VPN_Connection2 = null;
@@ -22,13 +22,12 @@ public class Keyword_IPLC extends Driver {
 		Result.fUpdateLog("------KEYMORD  IPLC ------");
 		try {
 
-		
 			Network = pulldata("Network");
 			VPN_Connection1 = pulldata("VPN Connection 1");
 			VPN_Connection2 = pulldata("VPN Connection 2");
 			VPN_Node_1 = pulldata("VPN Node 1");
 			VPN_Node_2 = pulldata("VPN Node2");
-	
+
 			KC.Entp_AccountCreation();
 			KC.Entp_ContactCreation();
 
@@ -58,24 +57,23 @@ public class Keyword_IPLC extends Driver {
 			CO.waitforload();
 
 			// Account Hierarchy
-				
+
 			CO.TabNavigator("Account Hierarchy");
 			Result.takescreenshot("Childone");
 			Browser.WebButton.click("Account_Org_Search");
 			CO.waitforload();
 			int ColAc = CO.Actual_tab_Cell_th("Account_Org_Hierarchy", "Account");
-			Browser.WebTable.SetDataE("Account_Org", 2,ColAc , "Name", ChildAccount1);
-		//	Browser.WebButton.click("Account_Org_Go");
+			Browser.WebTable.SetDataE("Account_Org", 2, ColAc, "Name", ChildAccount1);
+			// Browser.WebButton.click("Account_Org_Go");
 			ColAc = CO.Actual_tab_Cell_th("Account_Org_Hierarchy", "Class");
-			Browser.WebTable.SetDataE("Account_Org", 2,ColAc , "Account_Type_Code", "Service");
-			Browser.WebTable.click("Account_Org", 2,ColAc+1);
+			Browser.WebTable.SetDataE("Account_Org", 2, ColAc, "Account_Type_Code", "Service");
+			Browser.WebTable.click("Account_Org", 2, ColAc + 1);
 
-			
-			//Result.takescreenshot("");
+			// Result.takescreenshot("");
 			String ParentAccount = Acc_Number.get();
 			CO.Account_Search(ParentAccount);
 			CO.waitforload();
-			//Result.takescreenshot("");
+			// Result.takescreenshot("");
 			// Sub Account
 
 			CO.TabNavigator("Sub-Accounts");
@@ -105,11 +103,11 @@ public class Keyword_IPLC extends Driver {
 			Result.takescreenshot("Childtwo");
 			Browser.WebButton.click("Account_Org_Search");
 			ColAc = CO.Actual_tab_Cell_th("Account_Org_Hierarchy", "Account");
-			Browser.WebTable.SetData("Account_Org", 2,ColAc , "Name", ChildAccount2);
-		//	Browser.WebButton.click("Account_Org_Go");
+			Browser.WebTable.SetData("Account_Org", 2, ColAc, "Name", ChildAccount2);
+			// Browser.WebButton.click("Account_Org_Go");
 			ColAc = CO.Actual_tab_Cell_th("Account_Org_Hierarchy", "Class");
-			Browser.WebTable.SetData("Account_Org", 2,ColAc , "Account_Type_Code", "Service");
-			Browser.WebTable.click("Account_Org", 2,ColAc+1);
+			Browser.WebTable.SetData("Account_Org", 2, ColAc, "Account_Type_Code", "Service");
+			Browser.WebTable.click("Account_Org", 2, ColAc + 1);
 
 			Result.takescreenshot("");
 			CO.waitforload();
@@ -197,8 +195,6 @@ public class Keyword_IPLC extends Driver {
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Node_2);
 
-			
-			
 			CO.waitforload();
 			CO.Text_Select("a", "Network Line Detail");
 			CO.waitforload();
@@ -211,8 +207,6 @@ public class Keyword_IPLC extends Driver {
 			Browser.WebTable.click("Line_Items", 5, Col_S);
 			Result.takescreenshot("");
 			// Node service account
-
-
 
 			CO.waitforload();
 			Browser.WebLink.click("Node_Service_Acc");
@@ -317,17 +311,14 @@ public class Keyword_IPLC extends Driver {
 			Browser.WebButton.click("Popup_OK");
 			CO.waitforload();
 			Result.takescreenshot("");
-			
+
 			// Connection1 Customize
-	
+
 			// node 1
 			Col_S = CO.Select_Cell("Line_Items", "Net Price");
-			
-			if (!(getdata("IPLCCharges").equals(""))
-					|| !(getdata("IPLCFeatures").equals(""))
-					|| !(getdata("IPLCSLA").equals(""))
-					||!(getdata("IPLCServices").equals(""))) {
-				
+
+			if (!(getdata("IPLCCharges").equals("")) || !(getdata("IPLCFeatures").equals(""))
+					|| !(getdata("IPLCSLA").equals("")) || !(getdata("IPLCServices").equals(""))) {
 
 				Browser.WebTable.click("Line_Items", 3, Col_S);
 				CO.waitforload();
@@ -335,49 +326,45 @@ public class Keyword_IPLC extends Driver {
 				CO.waitforload();
 				if (!(getdata("IPLCFeatures").equals(""))) {
 
-					String Addon =getdata("IPLCFeatures");
-					CO.Text_Select("a","IPLC Features");
+					String Addon = getdata("IPLCFeatures");
+					CO.Text_Select("a", "IPLC Features");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 
 				if (!(getdata("IPLCCharges").equals(""))) {
-					
 
-					String Addon =getdata("IPLCCharges");
-					CO.Text_Select("a","IPLC Charges");
+					String Addon = getdata("IPLCCharges");
+					CO.Text_Select("a", "IPLC Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
-			
+
 				if (!(getdata("IPLCSLA").equals(""))) {
 
-					String Addon =getdata("IPLCSLA");
-					CO.Text_Select("a","IPLC SLA");
+					String Addon = getdata("IPLCSLA");
+					CO.Text_Select("a", "IPLC SLA");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
 				if (!(getdata("IPLCServices").equals(""))) {
 
-					String Addon =getdata("IPLCServices");
-					CO.Text_Select("a","IPLC Services");
+					String Addon = getdata("IPLCServices");
+					CO.Text_Select("a", "IPLC Services");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
-				
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -387,15 +374,10 @@ public class Keyword_IPLC extends Driver {
 				CO.waitforload();
 
 			}
-		// Connection2 Customize
-			
-		
+			// Connection2 Customize
 
-			if (!(getdata("IPLCCharges").equals(""))
-					|| !(getdata("IPLCFeatures").equals(""))
-					|| !(getdata("IPLCSLA").equals(""))
-					|| !(getdata("IPLCServices").equals(""))) {
-				
+			if (!(getdata("IPLCCharges").equals("")) || !(getdata("IPLCFeatures").equals(""))
+					|| !(getdata("IPLCSLA").equals("")) || !(getdata("IPLCServices").equals(""))) {
 
 				Browser.WebTable.click("Line_Items", 4, Col_S);
 				CO.waitforload();
@@ -403,48 +385,45 @@ public class Keyword_IPLC extends Driver {
 				CO.waitforload();
 				if (!(getdata("IPLCFeatures").equals(""))) {
 
-					String Addon =getdata("IPLCFeatures");
-					CO.Text_Select("a","IPLC Features");
+					String Addon = getdata("IPLCFeatures");
+					CO.Text_Select("a", "IPLC Features");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 
 				if (!(getdata("IPLCCharges").equals(""))) {
-					
 
-					String Addon =getdata("IPLCCharges");
-					CO.Text_Select("a","IPLC Charges");
+					String Addon = getdata("IPLCCharges");
+					CO.Text_Select("a", "IPLC Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
-			
+
 				if (!(getdata("IPLCSLA").equals(""))) {
 
-					String Addon =getdata("IPLCSLA");
-					CO.Text_Select("a","IPLC SLA");
+					String Addon = getdata("IPLCSLA");
+					CO.Text_Select("a", "IPLC SLA");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
 				if (!(getdata("IPLCServices").equals(""))) {
 
-					String Addon =getdata("IPLCServices");
-					CO.Text_Select("a","IPLC Services");
+					String Addon = getdata("IPLCServices");
+					CO.Text_Select("a", "IPLC Services");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -455,23 +434,18 @@ public class Keyword_IPLC extends Driver {
 
 			}
 
-
-			
 			// Node 1 Customize
 
-			if (!(getdata("IPLCNodeFeatures").equals(""))
-					|| !(getdata("IPLCNodeCharge").equals(""))) {
-				
+			if (!(getdata("IPLCNodeFeatures").equals("")) || !(getdata("IPLCNodeCharge").equals(""))) {
 
 				Browser.WebTable.click("Line_Items", 5, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("IPLCNodeFeatures").equals(""))) {
 
-					String Addon =getdata("IPLCNodeFeatures");
+					String Addon = getdata("IPLCNodeFeatures");
 					CO.Radio_Select1(Addon);
 					CO.scroll("Ecofig_Add", "WebButton");
 					CO.waitforload();
@@ -486,20 +460,18 @@ public class Keyword_IPLC extends Driver {
 					Result.takescreenshot("");
 
 					CO.Text_Select("button", "Add Item");
-					
-					
+
 				}
 				if (!(getdata("IPLCNodeCharge").equals(""))) {
 
-					String Addon =getdata("IPLCNodeCharge");
-					CO.Text_Select("a","IPLC Node Charges");
+					String Addon = getdata("IPLCNodeCharge");
+					CO.Text_Select("a", "IPLC Node Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
-							
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -510,23 +482,17 @@ public class Keyword_IPLC extends Driver {
 
 			}
 
-			
-		// Node 2 Customize
-			if (!(getdata("IPLCNodeFeatures").equals(""))
-					|| !(getdata("IPLCNodeCharge").equals(""))) {
-				
-
+			// Node 2 Customize
+			if (!(getdata("IPLCNodeFeatures").equals("")) || !(getdata("IPLCNodeCharge").equals(""))) {
 
 				Browser.WebTable.click("Line_Items", 6, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
-				
 
 				if (!(getdata("IPLCNodeFeatures").equals(""))) {
 
-					String Addon =getdata("IPLCNodeFeatures");
+					String Addon = getdata("IPLCNodeFeatures");
 					CO.Radio_Select1(Addon);
 					CO.scroll("Ecofig_Add", "WebButton");
 					CO.waitforload();
@@ -541,21 +507,18 @@ public class Keyword_IPLC extends Driver {
 					Result.takescreenshot("");
 
 					CO.Text_Select("button", "Add Item");
-					
-					
+
 				}
 				if (!(getdata("IPLCNodeCharge").equals(""))) {
 
-					String Addon =getdata("IPLCNodeCharge");
-					CO.Text_Select("a","IPLC Node Charges");
+					String Addon = getdata("IPLCNodeCharge");
+					CO.Text_Select("a", "IPLC Node Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
-					
-								
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -565,7 +528,7 @@ public class Keyword_IPLC extends Driver {
 				CO.waitforload();
 
 			}
-			
+
 			CO.Text_Select("a", "Appointments");
 			CO.waitforload();
 			CO.scroll("Validate", "WebButton");
@@ -574,7 +537,6 @@ public class Keyword_IPLC extends Driver {
 			Browser.WebEdit.Set("Enterprise_credit_limit", "1000");
 			Result.takescreenshot("");
 			CO.waitforload();
-
 
 			Test_OutPut += KC.OrderSubmission().split("@@")[1];
 

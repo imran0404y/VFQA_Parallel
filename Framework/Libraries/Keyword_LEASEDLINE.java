@@ -13,7 +13,7 @@ public class Keyword_LEASEDLINE extends Driver {
 	Keyword_CRM KC = new Keyword_CRM();
 
 	public String LEASEDLINE() {
-	String Test_OutPut = "", Status = "";
+		String Test_OutPut = "", Status = "";
 		String Network = null;
 		String VPN_Access1 = null;
 		String VPN_Access2 = null;
@@ -22,13 +22,12 @@ public class Keyword_LEASEDLINE extends Driver {
 		Result.fUpdateLog("------KEYMORD  MPLS ------");
 		try {
 
-		
 			Network = pulldata("Network");
 			VPN_Access1 = pulldata("VPN Access 1");
 			VPN_Access2 = pulldata("VPN Access 2");
 			VPN_Node_1 = pulldata("VPN Node 1");
 			VPN_Node_2 = pulldata("VPN Node2");
-	
+
 			KC.Entp_AccountCreation();
 			KC.Entp_ContactCreation();
 
@@ -58,23 +57,22 @@ public class Keyword_LEASEDLINE extends Driver {
 			CO.waitforload();
 
 			// Account Hierarchy
-				
+
 			CO.TabNavigator("Account Hierarchy");
 			Result.takescreenshot("Childone");
 			Browser.WebButton.click("Account_Org_Search");
 			int ColAc = CO.Actual_tab_Cell_th("Account_Org_Hierarchy", "Account");
-			Browser.WebTable.SetDataE("Account_Org", 2,ColAc , "Name", ChildAccount1);
-		//	Browser.WebButton.click("Account_Org_Go");
+			Browser.WebTable.SetDataE("Account_Org", 2, ColAc, "Name", ChildAccount1);
+			// Browser.WebButton.click("Account_Org_Go");
 			ColAc = CO.Actual_tab_Cell_th("Account_Org_Hierarchy", "Class");
-			Browser.WebTable.SetDataE("Account_Org", 2,ColAc , "Account_Type_Code", "Service");
-			Browser.WebTable.click("Account_Org", 2,ColAc+1);
+			Browser.WebTable.SetDataE("Account_Org", 2, ColAc, "Account_Type_Code", "Service");
+			Browser.WebTable.click("Account_Org", 2, ColAc + 1);
 
-			
-			//Result.takescreenshot("");
+			// Result.takescreenshot("");
 			String ParentAccount = Acc_Number.get();
 			CO.Account_Search(ParentAccount);
 			CO.waitforload();
-			//Result.takescreenshot("");
+			// Result.takescreenshot("");
 			// Sub Account
 
 			CO.TabNavigator("Sub-Accounts");
@@ -104,11 +102,11 @@ public class Keyword_LEASEDLINE extends Driver {
 			Result.takescreenshot("Childtwo");
 			Browser.WebButton.click("Account_Org_Search");
 			ColAc = CO.Actual_tab_Cell_th("Account_Org_Hierarchy", "Account");
-			Browser.WebTable.SetData("Account_Org", 2,ColAc , "Name", ChildAccount2);
-		//	Browser.WebButton.click("Account_Org_Go");
+			Browser.WebTable.SetData("Account_Org", 2, ColAc, "Name", ChildAccount2);
+			// Browser.WebButton.click("Account_Org_Go");
 			ColAc = CO.Actual_tab_Cell_th("Account_Org_Hierarchy", "Class");
-			Browser.WebTable.SetData("Account_Org", 2,ColAc , "Account_Type_Code", "Service");
-			Browser.WebTable.click("Account_Org", 2,ColAc+1);
+			Browser.WebTable.SetData("Account_Org", 2, ColAc, "Account_Type_Code", "Service");
+			Browser.WebTable.click("Account_Org", 2, ColAc + 1);
 
 			Result.takescreenshot("");
 			CO.waitforload();
@@ -196,8 +194,6 @@ public class Keyword_LEASEDLINE extends Driver {
 			CO.scroll("LI_New", "WebButton");
 			Result.takescreenshot(" Plan Selection " + VPN_Node_2);
 
-			
-			
 			CO.waitforload();
 			CO.Text_Select("a", "Network Line Detail");
 			CO.waitforload();
@@ -210,8 +206,6 @@ public class Keyword_LEASEDLINE extends Driver {
 			Browser.WebTable.click("Line_Items", 5, Col_S);
 			Result.takescreenshot("");
 			// Node service account
-
-
 
 			CO.waitforload();
 			Browser.WebLink.click("Node_Service_Acc");
@@ -316,56 +310,48 @@ public class Keyword_LEASEDLINE extends Driver {
 			Browser.WebButton.click("Popup_OK");
 			CO.waitforload();
 			Result.takescreenshot("");
-			
+
 			// Access1 Customize
-	
-		
+
 			Col_S = CO.Select_Cell("Line_Items", "Net Price");
-			
-			if (!(getdata("LLCharges").equals(""))
-					|| !(getdata("LLFeatures").equals(""))
+
+			if (!(getdata("LLCharges").equals("")) || !(getdata("LLFeatures").equals(""))
 					|| !(getdata("LLSLA").equals(""))) {
-				
 
 				Browser.WebTable.click("Line_Items", 3, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("LLCharges").equals(""))) {
-					
 
-					String Addon =getdata("LLCharges");
-				//	CO.Text_Select("a","LL Charges");
+					String Addon = getdata("LLCharges");
+					// CO.Text_Select("a","LL Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
 				if (!(getdata("LLFeatures").equals(""))) {
 
-					String Addon =getdata("LLFeatures");
-					CO.Text_Select("a","LL Features");
+					String Addon = getdata("LLFeatures");
+					CO.Text_Select("a", "LL Features");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("LLSLA").equals(""))) {
 
-					String Addon =getdata("LLSLA");
-					CO.Text_Select("a","LL SLA");
+					String Addon = getdata("LLSLA");
+					CO.Text_Select("a", "LL SLA");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
-				
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -375,52 +361,45 @@ public class Keyword_LEASEDLINE extends Driver {
 				CO.waitforload();
 
 			}
-		// Access1 Customize
-			
-			if (!!(getdata("LLCharges").equals(""))
-					|| !(getdata("LLFeatures").equals(""))
+			// Access1 Customize
+
+			if (!!(getdata("LLCharges").equals("")) || !(getdata("LLFeatures").equals(""))
 					|| !(getdata("LLSLA").equals(""))) {
-				
 
 				Browser.WebTable.click("Line_Items", 4, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
-
 
 				if (!(getdata("LLCharges").equals(""))) {
-					
 
-					String Addon =getdata("LLCharges");
-					CO.Text_Select("a","LL Charges");
+					String Addon = getdata("LLCharges");
+					CO.Text_Select("a", "LL Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
 				if (!(getdata("LLFeatures").equals(""))) {
 
-					String Addon =getdata("LLFeatures");
-					CO.Text_Select("a","LL Features");
+					String Addon = getdata("LLFeatures");
+					CO.Text_Select("a", "LL Features");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("LLSLA").equals(""))) {
 
-					String Addon =getdata("LLSLA");
-					CO.Text_Select("a","LL SLA");
+					String Addon = getdata("LLSLA");
+					CO.Text_Select("a", "LL SLA");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -431,23 +410,18 @@ public class Keyword_LEASEDLINE extends Driver {
 
 			}
 
-
-			
 			// Node 1 Customize
 
-			if (!(getdata("LLNodeFeatures").equals(""))
-					|| !(getdata("LL_Charge").equals(""))) {
-				
+			if (!(getdata("LLNodeFeatures").equals("")) || !(getdata("LL_Charge").equals(""))) {
 
 				Browser.WebTable.click("Line_Items", 5, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("LLNodeFeatures").equals(""))) {
 
-					String Addon =getdata("LLNodeFeatures");
+					String Addon = getdata("LLNodeFeatures");
 					CO.Radio_Select1(Addon);
 					CO.scroll("Ecofig_Add", "WebButton");
 					CO.waitforload();
@@ -462,20 +436,18 @@ public class Keyword_LEASEDLINE extends Driver {
 					Result.takescreenshot("");
 
 					CO.Text_Select("button", "Add Item");
-					
-					
+
 				}
 				if (!(getdata("LL_Charge").equals(""))) {
 
-					String Addon =getdata("LL_Charge");
-					CO.Text_Select("a","LL Charge");
+					String Addon = getdata("LL_Charge");
+					CO.Text_Select("a", "LL Charge");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
-							
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -486,23 +458,17 @@ public class Keyword_LEASEDLINE extends Driver {
 
 			}
 
-			
-		// Node 2 Customize
-			if (!(getdata("LLNodeFeatures").equals(""))
-					|| !(getdata("LL_Charge").equals(""))) {
-				
-
+			// Node 2 Customize
+			if (!(getdata("LLNodeFeatures").equals("")) || !(getdata("LL_Charge").equals(""))) {
 
 				Browser.WebTable.click("Line_Items", 6, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
-				
 
 				if (!(getdata("LLNodeFeatures").equals(""))) {
 
-					String Addon =getdata("LLNodeFeatures");
+					String Addon = getdata("LLNodeFeatures");
 					CO.Radio_Select1(Addon);
 					CO.scroll("Ecofig_Add", "WebButton");
 					CO.waitforload();
@@ -517,22 +483,18 @@ public class Keyword_LEASEDLINE extends Driver {
 					Result.takescreenshot("");
 
 					CO.Text_Select("button", "Add Item");
-					
-					
+
 				}
 				if (!(getdata("LL_Charge").equals(""))) {
 
-					String Addon =getdata("LL_Charge");
-					CO.Text_Select("a","LL Charge");
+					String Addon = getdata("LL_Charge");
+					CO.Text_Select("a", "LL Charge");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
-					
-				
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -542,7 +504,7 @@ public class Keyword_LEASEDLINE extends Driver {
 				CO.waitforload();
 
 			}
-			
+
 			CO.Text_Select("a", "Appointments");
 			CO.waitforload();
 			CO.scroll("Validate", "WebButton");
@@ -555,8 +517,7 @@ public class Keyword_LEASEDLINE extends Driver {
 			String Order_no = CO.Order_ID();
 			Utlities.StoreValue("Order_no", Order_no);
 			Test_OutPut += "Order_no : " + Order_no + ",";
-			
-			
+
 			Test_OutPut += KC.OrderSubmission().split("@@")[1];
 
 		} catch (Exception e) {

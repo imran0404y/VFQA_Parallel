@@ -21,6 +21,7 @@ public class KeyWord {
 	Keyword_PJM KJ = new Keyword_PJM();
 	Keyword_MPLS MP = new Keyword_MPLS();
 	Keyword_IPTV IPTV = new Keyword_IPTV();
+	Keyword_DAM kDam = new Keyword_DAM();
 	Dialers KDialers = new Dialers();
 	SetCapabilities KSetCapabilities = new SetCapabilities();
 	MobileRTBCheck KRTB = new MobileRTBCheck();
@@ -455,7 +456,7 @@ public class KeyWord {
 	public String OSM_Pearl_data() {
 		return KO.OSM_Pearl_data();
 	}
-	
+
 	public String RePush_SOM() {
 		return KO.RePush_SOM();
 	}
@@ -463,9 +464,11 @@ public class KeyWord {
 	public String RePush_COM() {
 		return KO.RePush_COM();
 	}
+
 	public String RePush_TOM() {
 		return KO.RePush_TOM();
 	}
+
 	public String OSM_Logout() {
 		return KO.OSM_Logout();
 	}
@@ -685,6 +688,7 @@ public class KeyWord {
 	public String MenuVerify() {
 		return MCare.MenuVerify();
 	}
+
 	public String OTP_MCareLogin() {
 		return MCare.OTP_MCareLogin();
 	}
@@ -702,13 +706,75 @@ public class KeyWord {
 	public String PlanSelection_IPTV() {
 		return IPTV.PlanSelection_IPTV();
 	}
-	
+
 	public String PlanSelection_NewFL() {
 		return IPTV.PlanSelection_NewFL();
 	}
-	
+
 	public String IPTV_Disconnection() {
 		return IPTV.IPTV_Disconnection();
 	}
 	// ---------------------IPTV Keywords Ends------------------------//
+
+	// --------------DAM keywords Starts-------------------//
+	public String Dam_Login() {
+		return kDam.Dam_Login();
+	}
+
+	public String Dam_Adduser() {
+		return kDam.Dam_Adduser();
+	}
+
+	public String Dam_editUser() {
+		return kDam.Dam_editUser();
+	}
+
+	public String Dam_deleteUser() {
+		return kDam.Dam_deleteUser();
+	}
+
+	public String Dam_AppSearch() {
+		return kDam.Dam_AppSearch();
+	}
+
+	public String Dam_AppAddUser() {
+		return kDam.Dam_AppAddUser();
+	}
+
+	public String Dam_Appedituser() {
+		return kDam.Dam_Appedituser();
+	}
+
+	public String Dam_deleteApp() {
+		return kDam.Dam_deleteApp();
+	}
+
+	public String Dam_Logout() {
+		return kDam.Dam_Logout();
+	}
+
+	public String Dam_Search() {
+		return kDam.Dam_Search();
+	}
+
+	public String Portal_AddUser() {
+		return kDam.Portal_AddUser();
+	}
+
+	public String PortalUsers_Search() {
+		return kDam.PortalUsers_Search();
+	}
+
+	public String Portal_EditUser() {
+		return kDam.Portal_EditUser();
+	}
+
+	public String Portal_DeleteUser() {
+		return kDam.Portal_DeleteUser();
+	}
+
+	public String PortalUsers_SearchRecordCheck() {
+		return kDam.PortalUsers_SearchRecordCheck();
+	}
+	// --------------DAM keywords End-------------------//
 }

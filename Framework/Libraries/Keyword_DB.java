@@ -150,7 +150,8 @@ public class Keyword_DB extends Driver {
 		Result.fUpdateLog("------AccPoID_BillPoID Event Details - Completed------");
 		return Test_OutPut;
 	}
-	public String AccPoID_BillPoID(String AccountNo,String BillingProf) {
+
+	public String AccPoID_BillPoID(String AccountNo, String BillingProf) {
 		Continue.set(true);
 		String Test_OutPut = "";
 		if (Continue.get()) {
@@ -165,7 +166,8 @@ public class Keyword_DB extends Driver {
 			try {
 				Statement statement = con.get().createStatement();
 				String queryString = "Select a.poid_id0 ,b.poid_id0 from pin.account_t a,pin.billinfo_t b where a.account_no IN ('"
-						+ AccountNo + "') and b.bill_info_id IN ('" + BillingProf + "')and b.account_obj_id0=a.poid_id0 AND NOT b.PAYINFO_OBJ_TYPE LIKE '%prepaid%'";
+						+ AccountNo + "') and b.bill_info_id IN ('" + BillingProf
+						+ "')and b.account_obj_id0=a.poid_id0 AND NOT b.PAYINFO_OBJ_TYPE LIKE '%prepaid%'";
 				Result.fUpdateLog(queryString);
 				ResultSet rs = statement.executeQuery(queryString);
 				while (rs.next()) {
@@ -189,6 +191,7 @@ public class Keyword_DB extends Driver {
 		Result.fUpdateLog("------AccPoID_BillPoID Event Details - Completed------");
 		return Test_OutPut;
 	}
+
 	public String BillPoID(String AccountNo) {
 		Continue.set(true);
 		String Test_OutPut = "";
@@ -205,7 +208,7 @@ public class Keyword_DB extends Driver {
 				int i = 0;
 				while (rs.next()) {
 					Test_OutPut += "0 PIN_FLD_RESULTS     ARRAY [" + i + "]\r\n"
-							+ "1    PIN_FLD_POID        POID [0] 0.0.0.1 /bill " +  rs.getString(1) + "\r\n";
+							+ "1    PIN_FLD_POID        POID [0] 0.0.0.1 /bill " + rs.getString(1) + "\r\n";
 					i++;
 				}
 			} catch (Exception e) {
@@ -223,7 +226,7 @@ public class Keyword_DB extends Driver {
 		return Test_OutPut;
 
 	}
-	
+
 	public ArrayList<String> ACCPoID(String AccountNo) {
 		Continue.set(true);
 		ArrayList<String> arr = new ArrayList<String>();
@@ -231,8 +234,8 @@ public class Keyword_DB extends Driver {
 			Result.fUpdateLog("------ACCPoID Event Details------");
 			try {
 				Statement statement = con.get().createStatement();
-				String queryString = "Select a.poid_id0 from pin.account_t a where a.account_no IN ('"
-						+ AccountNo + "')";
+				String queryString = "Select a.poid_id0 from pin.account_t a where a.account_no IN ('" + AccountNo
+						+ "')";
 				Result.fUpdateLog(queryString);
 				ResultSet rs = statement.executeQuery(queryString);
 				while (rs.next()) {

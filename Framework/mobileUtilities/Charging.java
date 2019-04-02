@@ -72,7 +72,7 @@ public class Charging {
 		String Test_OutPut = "", Status = "", Bucket, UserBucket;
 		UserBucket = utils.fetchData("BucketID");
 		try {
-			if (!(UserBucket==null)){
+			if (!(UserBucket == null)) {
 				Result.fUpdateLog(UserBucket + " Bucket is given by user hence will verify consumtion of this bucket.");
 				Test_OutPut += UserBucket + " Bucket is given by user hence will verify consumtion of this bucket.";
 				pre = utils.balance(UserBucket, "pre");
@@ -85,16 +85,17 @@ public class Charging {
 				Result.fUpdateLog(actual + " is the actual charging happened.");
 				Test_OutPut += actual + " is the actual charging happened.\n";
 				try {
-				charging = utils.getCharging(UserBucket, "LocalCall");
-				Result.fUpdateLog(charging + " is the charging expected.");
-				Test_OutPut += charging + " is the charging expected.\n";
-				if (actual == charging) {
-					Status = "PASS";
-					System.out.println("Pass");
-				} else {
-					Status = "FAIL";
-					System.out.println("Fail");
-				}}catch(Exception e){
+					charging = utils.getCharging(UserBucket, "LocalCall");
+					Result.fUpdateLog(charging + " is the charging expected.");
+					Test_OutPut += charging + " is the charging expected.\n";
+					if (actual == charging) {
+						Status = "PASS";
+						System.out.println("Pass");
+					} else {
+						Status = "FAIL";
+						System.out.println("Fail");
+					}
+				} catch (Exception e) {
 					System.out.println("User Bucket not found in RTB");
 				}
 			} else {
@@ -189,7 +190,7 @@ public class Charging {
 		return Status + "@@" + Test_OutPut + "<br/>";
 
 	}
-	
+
 	public String InternationalSMSCharging() {
 		double pre, post, charging, actual;
 		String Test_OutPut = "", Status = "", Bucket, UserBucket, Country;

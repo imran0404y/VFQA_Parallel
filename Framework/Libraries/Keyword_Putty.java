@@ -175,6 +175,7 @@ public class Keyword_Putty extends Driver {
 		Result.fUpdateLog("------Bill Generation Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+
 	public String BillGeneration_BillingProfile() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------Bill Generation Event Details------");
@@ -189,8 +190,8 @@ public class Keyword_Putty extends Driver {
 			} else if (!(getdata("MultipleAccountNo").equals(""))) {
 				str_Content = getdata("MultipleAccountNo").replace(",", "','");
 			}
-			
-			Contant = KD.AccPoID_BillPoID(str_Content,getdata("BillingProf"));
+
+			Contant = KD.AccPoID_BillPoID(str_Content, getdata("BillingProf"));
 			if (Continue.get()) {
 				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
 				Result.fUpdateLog("Reading the initial File Content: " + str_File + " : " + str_FileContent);
@@ -266,6 +267,7 @@ public class Keyword_Putty extends Driver {
 		Result.fUpdateLog("------Bill Generation Event Details - Completed------");
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
+
 	public String Invoicegeneration() {
 		String Test_OutPut = "", Status = "";
 		Result.fUpdateLog("------Invoice generation Event Details------");
@@ -313,8 +315,8 @@ public class Keyword_Putty extends Driver {
 				commands2.add("apps");
 				commands2.add("cd pin_inv");
 				commands2.add("pin_inv_accts -verbose -detail -file f1");
-				commands2.add("pin_inv_accts -verbose -summary -file f1");
-				commands2.add("pin_inv_export -detail f1 –v");
+				// commands2.add("pin_inv_accts -verbose -summary -file f1");
+				commands2.add("pin_inv_export -detail f1 -verbose");
 				commands2.add("cd invoice_dir");
 				commands2.add(d);
 				String str_FileContent2 = Executecmd(nsession.get(), commands2, "");
@@ -334,7 +336,7 @@ public class Keyword_Putty extends Driver {
 						System.out.println(str);
 						if (str.contains(AccPoID.get(c)) & str.contains(x)) {
 							String str_FileContent3 = xa[a].substring(41, xa[a].length() - 1);
-							Xml += " " + str_FileContent3;
+							Xml += " " + str_FileContent3.trim();
 						}
 					}
 				}
@@ -501,10 +503,10 @@ public class Keyword_Putty extends Driver {
 		Result.fUpdateLog("------Trial Bill Run Event Details------");
 		String AccountNo = "", Match = "", Bill_Profile, NoOfMonths, Bill_Lang;// str_Content = "";
 		try {
-			//String str_Directory = pulldata("str_Directory");
-			//String str_File = pulldata("str_File");
+			// String str_Directory = pulldata("str_Directory");
+			// String str_File = pulldata("str_File");
 			String str_FileContent = "";
-			
+
 			if (!(getdata("AccountNo").equals(""))) {
 				AccountNo = getdata("AccountNo");
 			} else {
@@ -529,27 +531,31 @@ public class Keyword_Putty extends Driver {
 			// Account_No
 			// Contant = KD.AccPoID_BillPoID(str_Content);
 			if (Continue.get()) {
-				
-				ProcessBuilder pb2=new ProcessBuilder("/brmapp/opt/portal/7.5.0/sys/test/BillRun_Automation_bu.sh");
+
+				ProcessBuilder pb2 = new ProcessBuilder("/brmapp/opt/portal/7.5.0/sys/test/BillRun_Automation_bu.sh");
 				Process script_exec = pb2.start();
 				OutputStream in = script_exec.getOutputStream();
 				in.write("N".getBytes());
-				 in.write(AccountNo.getBytes());
-				 in.write(Bill_Profile.getBytes());
-				 in.write(Bill_Lang.getBytes());
-				 in.write(NoOfMonths.getBytes());
-				 in.write("Y".getBytes());
-				 in.flush();
-				 in.close();
-				/*str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
-				Result.fUpdateLog("Reading the initial File Content: " + str_File + " : " + str_FileContent);
-
-				str_FileContent = WriteFileToLinux(nsession.get(), Contant, str_Directory, str_File);
-				Result.fUpdateLog("Writing into the file: " + str_File + " : " + str_FileContent);
-
-				str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
-				Result.fUpdateLog("Reading the File Content after update: " + str_File + " : " + str_FileContent);
-				Test_OutPut += str_FileContent + ",";*/
+				in.write(AccountNo.getBytes());
+				in.write(Bill_Profile.getBytes());
+				in.write(Bill_Lang.getBytes());
+				in.write(NoOfMonths.getBytes());
+				in.write("Y".getBytes());
+				in.flush();
+				in.close();
+				/*
+				 * str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				 * Result.fUpdateLog("Reading the initial File Content: " + str_File + " : " +
+				 * str_FileContent);
+				 * 
+				 * str_FileContent = WriteFileToLinux(nsession.get(), Contant, str_Directory,
+				 * str_File); Result.fUpdateLog("Writing into the file: " + str_File + " : " +
+				 * str_FileContent);
+				 * 
+				 * str_FileContent = ReadFileFromLinux(nsession.get(), str_Directory, str_File);
+				 * Result.fUpdateLog("Reading the File Content after update: " + str_File +
+				 * " : " + str_FileContent); Test_OutPut += str_FileContent + ",";
+				 */
 
 				List<String> commands = new ArrayList<String>();
 				commands.add("test");
@@ -563,7 +569,7 @@ public class Keyword_Putty extends Driver {
 				commands.add("apps");
 				commands.add("cd vfq_exp_XML/vfq_exp_XML-TRIALBILL/invoice_archive");
 				commands.add("apps");
-				
+
 				Date today9 = new Date();
 				String y = today9.toString();
 				y = y.substring(4, 10).replace("01", " 1").replace("02", " 2").replace("03", " 3").replace("04", " 4")

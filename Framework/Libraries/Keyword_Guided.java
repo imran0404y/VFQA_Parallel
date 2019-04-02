@@ -333,25 +333,22 @@ public class Keyword_Guided extends Driver
 			Test_OutPut += "MSISDN : " + Number + ",";
 			Utlities.StoreValue("MSISDN", Number);
 			// String Number = Driver.msisdn_exe.get(), Temp;
-			int Len = Number.length(), Col_Count = Browser.WebTable.getColCount("Unreserverd"), Col_Res = 0,Col_Cat=0, Row = 2;
-			int j=0;
-			
+			int Len = Number.length(), Col_Count = Browser.WebTable.getColCount("Unreserverd"), Col_Res = 0,
+					Col_Cat = 0, Row = 2;
+			int j = 0;
+
 			String Reserve = Number.substring(3, Len);
 			for (int i = 2; i < Col_Count; i++) {
 				Temp = CO.Col_Data(i);
-				if (Temp.toLowerCase().trim().equals("service type"))
-				{
+				if (Temp.toLowerCase().trim().equals("service type")) {
 					Col_Res = i;
-					j=j+1;
-					
+					j = j + 1;
+
+				} else if (Temp.toLowerCase().trim().equals("category")) {
+					Col_Cat = i;
+					j = j + 1;
 				}
-				else if(Temp.toLowerCase().trim().equals("category"))
-				{
-					Col_Cat= i;
-					j=j+1;
-				}
-				if(j==2)
-				{
+				if (j == 2) {
 					break;
 				}
 			}
@@ -389,7 +386,7 @@ public class Keyword_Guided extends Driver
 			CO.scroll("Reserved", "WebTable");
 			Browser.WebTable.SetDataE("Reserved", Row, Col_Res, "Service_Type", "Mobile");
 			Browser.WebTable.SetData("Reserved", Row, Col_Res + 1, "Category", "");
-			String Category =Browser.WebTable.getCellData("Reserved", Row, Col_Cat);
+			String Category = Browser.WebTable.getCellData("Reserved", Row, Col_Cat);
 			// To check whether the Number has been Reserved
 			// CO.waitforload();
 			CO.waitforobj("SP_Resrv_Continue", "WebButton");
@@ -462,8 +459,9 @@ public class Keyword_Guided extends Driver
 			CO.waitforload();
 			CO.waitmoreforload();
 			CO.waitforload();
-			if(Category.equalsIgnoreCase("start")) {
-				String Val=Utlities.cDriver.get().findElement(By.xpath("//span[@id='List_Price_Label']/../..//input")).getAttribute("value");
+			if (Category.equalsIgnoreCase("start")) {
+				String Val = Utlities.cDriver.get().findElement(By.xpath("//span[@id='List_Price_Label']/../..//input"))
+						.getAttribute("value");
 				Browser.WebEdit.Set("Star_Number_val", Val);
 
 			}
@@ -826,7 +824,7 @@ public class Keyword_Guided extends Driver
 				Browser.WebLink.click("Acc_Portal");
 			}
 			CO.waitforload();
-			CO.InstalledAssertChange("New Query                   [Alt+Q]","Installed_Assert_Menu");
+			CO.InstalledAssertChange("New Query                   [Alt+Q]", "Installed_Assert_Menu");
 			Col = CO.Select_Cell("Installed_Assert", "Service ID");
 			Browser.WebTable.SetDataE("Installed_Assert", 2, Col, "Serial_Number", MSISDN);
 			Browser.WebButton.click("InstalledAssert_Go");

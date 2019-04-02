@@ -178,6 +178,25 @@ public class Common extends Driver {
 	}
 
 	/*---------------------------------------------------------------------------------------------------------
+	 * Method Name			: waitSeconds
+	 * Use 					: It waits for the obj to be loaded
+	 * Arguments			: Object for which script waits
+	 * Designed By			: sisir
+	 * Last Modified Date 	: 07-Mar-2019
+	--------------------------------------------------------------------------------------------------------*/
+
+	public void waitSeconds(int secondsval) {
+		try {
+			int i = secondsval;
+			cDriver.get().manage().timeouts().implicitlyWait(240, TimeUnit.SECONDS);
+			i = i * 1000;
+			Thread.sleep(i);
+		} catch (Exception e) {
+			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
+		}
+	}
+
+	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: waitforobj
 	 * Use 					: It waits for the obj to be loaded
 	 * Arguments			: Object for which script waits
@@ -1029,7 +1048,7 @@ public class Common extends Driver {
 			} else {
 				GetData = pulldata("GetData");
 			}
-			
+
 			waitforload();
 			int Row = 2, Col, flag = 1, Count = 1;
 			String Pay_Type = null;
@@ -1066,6 +1085,7 @@ public class Common extends Driver {
 				Browser.WebLink.click("Acc_Portal");
 				// waitforload();
 			}
+			waitforload();
 			ConditionalWait("Inst_Assert_ShowMore", "WebLink");
 			// Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
 			InstalledAssertChange("New Query                   [Alt+Q]", "Installed_Assert_Menu");
@@ -1115,6 +1135,7 @@ public class Common extends Driver {
 					Common.ConditionalWait1(cellXpath, "Billing Profile");
 					WebElement scr1 = cDriver.get().findElement(By.xpath(cellXpath));
 					((RemoteWebDriver) cDriver.get()).executeScript("arguments[0].scrollIntoView(true)", scr1);
+					waitforload();
 					cDriver.get().findElement(By.xpath(cellXpath)).click();
 					// Text_Select("a", "Billing Profile");
 					// waitforload();
@@ -1257,27 +1278,25 @@ public class Common extends Driver {
 			Col = Select_Cell("Assert", "Product");
 			// Browser.WebButton.waitTillEnabled("Assert_Go");
 			Browser.WebButton.click("Assert_Go");
-			// waitforload();
+			waitforload();
 			Result.takescreenshot("Account Status : " + Status);
-			Col = Select_Cell("Assert", "Account");
 			int Assert_Row_Count = Browser.WebTable.getRowCount("Assert");
-			if (Assert_Row_Count > 1)
+			if (Assert_Row_Count > 1) {
+				Col = Select_Cell("Assert", "Account");
 				Browser.WebTable.clickL("Assert", Row, Col);
-			else {
+				/*
+				 * if (Browser.WebLink.exist("Acc_Portal")) { waitforload();
+				 * Browser.WebLink.click("Acc_Portal"); waitforload(); }
+				 */
+				ConditionalWait("Inst_Assert_ShowMore", "WebLink");
+				// Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
+				Result.fUpdateLog("Installed Assert");
+				Result.takescreenshot("");
+			} else {
 				Continue.set(false);
 				Result.fUpdateLog("Asset record is not available");
 				MSG = false;
 			}
-			// to be commented for QA6
-
-			/*
-			 * if (Browser.WebLink.exist("Acc_Portal")) { waitforload();
-			 * Browser.WebLink.click("Acc_Portal"); waitforload(); }
-			 */
-			ConditionalWait("Inst_Assert_ShowMore", "WebLink");
-			// Browser.WebLink.waittillvisible("Inst_Assert_ShowMore");
-			Result.fUpdateLog("Installed Assert");
-
 		} catch (Exception e) {
 			Result.fUpdateLog("Exception occurred *** " + ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
@@ -3049,7 +3068,7 @@ public class Common extends Driver {
 		}
 		return Col;
 	}
-	
+
 	/*---------------------------------------------------------------------------------------------------------
 	 * Method Name			: LineItemsSelect
 	 * Arguments			: MSISDN,SData

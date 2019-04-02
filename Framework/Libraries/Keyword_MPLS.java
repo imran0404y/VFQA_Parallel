@@ -22,13 +22,12 @@ public class Keyword_MPLS extends Driver {
 		Result.fUpdateLog("------KEYMORD  MPLS ------");
 		try {
 
-		
 			Network = pulldata("Network");
 			VPN_Access1 = pulldata("VPN Access 1");
 			VPN_Access2 = pulldata("VPN Access 2");
 			VPN_Node_1 = pulldata("VPN Node 1");
 			VPN_Node_2 = pulldata("VPN Node2");
-	
+
 			KC.Entp_AccountCreation();
 			KC.Entp_ContactCreation();
 
@@ -59,11 +58,10 @@ public class Keyword_MPLS extends Driver {
 
 			// Account Hierarchy
 
-			//CO.TabNavigator("Account Hierarchy");
+			// CO.TabNavigator("Account Hierarchy");
 			Result.takescreenshot("");
 			String ParentAccount = Acc_Number.get();
 			CO.Account_Search(ParentAccount);
-			
 
 			CO.waitforload();
 			Result.takescreenshot("");
@@ -207,8 +205,6 @@ public class Keyword_MPLS extends Driver {
 			Result.takescreenshot("");
 			// Node service account
 
-
-
 			CO.waitforload();
 			Browser.WebLink.click("Node_Service_Acc");
 			// CO.waitforload();
@@ -312,76 +308,70 @@ public class Keyword_MPLS extends Driver {
 			Browser.WebButton.click("Popup_OK");
 			CO.waitforload();
 			Result.takescreenshot("");
-			
+
 			// Access1 Customize
-	
+
 			// node 1
 			Col_S = CO.Select_Cell("Line_Items", "Net Price");
-			
+
 			if (!(getdata("MPLS VPN Access Features_child1").equals(""))
 					|| !(getdata("MPLS VPN Access Service_child1").equals(""))
 					|| !(getdata("MPLS VPN Access Charges_child1").equals(""))
-					||!(getdata("MPLS SLA_child1").equals(""))
+					|| !(getdata("MPLS SLA_child1").equals(""))
 					|| !(getdata("Performance reporting for IP VPN_child1").equals(""))) {
-				
 
 				Browser.WebTable.click("Line_Items", 3, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("MPLS VPN Access Features_child1").equals(""))) {
-					
 
-					String Addon =getdata("MPLS VPN Access Features_child1");
-					CO.Text_Select("a","MPLS VPN Access Features");
+					String Addon = getdata("MPLS VPN Access Features_child1");
+					CO.Text_Select("a", "MPLS VPN Access Features");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
 				if (!(getdata("MPLS VPN Access Service_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Access Service_child1");
-					CO.Text_Select("a","MPLS VPN Access Service");
+					String Addon = getdata("MPLS VPN Access Service_child1");
+					CO.Text_Select("a", "MPLS VPN Access Service");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("MPLS VPN Access Charges_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Access Charges_child1");
-					CO.Text_Select("a","MPLS VPN Access Charges");
+					String Addon = getdata("MPLS VPN Access Charges_child1");
+					CO.Text_Select("a", "MPLS VPN Access Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
 				if (!(getdata("MPLS SLA_child1").equals(""))) {
 
-					String Addon =getdata("MPLS SLA_child1");
-					CO.Text_Select("a","MPLS SLA");
+					String Addon = getdata("MPLS SLA_child1");
+					CO.Text_Select("a", "MPLS SLA");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-					
+
 				}
 				if (!(getdata("Performance reporting for IP VPN_child1").equals(""))) {
 
-					String Addon =getdata("Performance reporting for IP VPN_child1");
-					CO.Text_Select("a","Performance reporting for IP VPN");
+					String Addon = getdata("Performance reporting for IP VPN_child1");
+					CO.Text_Select("a", "Performance reporting for IP VPN");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-					
+
 				}
-				
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -391,72 +381,66 @@ public class Keyword_MPLS extends Driver {
 				CO.waitforload();
 
 			}
-		// Access1 Customize
-			
+			// Access1 Customize
+
 			if (!(getdata("MPLS VPN Access Features_child1").equals(""))
 					|| !(getdata("MPLS VPN Access Service_child1").equals(""))
 					|| !(getdata("MPLS VPN Access Charges_child1").equals(""))
-					||!(getdata("MPLS SLA_child1").equals(""))
+					|| !(getdata("MPLS SLA_child1").equals(""))
 					|| !(getdata("Performance reporting for IP VPN_child1").equals(""))) {
-				
 
 				Browser.WebTable.click("Line_Items", 4, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("MPLS VPN Access Features_child1").equals(""))) {
-					
 
-					String Addon =getdata("MPLS VPN Access Features_child1");
-					CO.Text_Select("a","MPLS VPN Access Features");
+					String Addon = getdata("MPLS VPN Access Features_child1");
+					CO.Text_Select("a", "MPLS VPN Access Features");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-									
-					
+
 				}
 				if (!(getdata("MPLS VPN Access Service_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Access Service_child1");
-					CO.Text_Select("a","MPLS VPN Access Service");
+					String Addon = getdata("MPLS VPN Access Service_child1");
+					CO.Text_Select("a", "MPLS VPN Access Service");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("MPLS VPN Access Charges_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Access Charges_child1");
-					CO.Text_Select("a","MPLS VPN Access Charges");
+					String Addon = getdata("MPLS VPN Access Charges_child1");
+					CO.Text_Select("a", "MPLS VPN Access Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
 					CO.waitforload();
-					
+
 				}
 				if (!(getdata("MPLS SLA_child1").equals(""))) {
 
-					String Addon =getdata("MPLS SLA_child1");
-					CO.Text_Select("a","MPLS SLA");
+					String Addon = getdata("MPLS SLA_child1");
+					CO.Text_Select("a", "MPLS SLA");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-					
+
 				}
 				if (!(getdata("Performance reporting for IP VPN_child1").equals(""))) {
 
-					String Addon =getdata("Performance reporting for IP VPN_child1");
-					CO.Text_Select("a","Performance reporting for IP VPN");
+					String Addon = getdata("Performance reporting for IP VPN_child1");
+					CO.Text_Select("a", "Performance reporting for IP VPN");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-					
+
 				}
-				
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -467,23 +451,20 @@ public class Keyword_MPLS extends Driver {
 
 			}
 
-			
 			// Node 1 Customize
 
 			if (!(getdata("MPLS VPN Node Features_child1").equals(""))
 					|| !(getdata("MPLS VPN Node Service_child1").equals(""))
 					|| !(getdata("MPLS VPN Node Charges_child1").equals(""))) {
-				
 
 				Browser.WebTable.click("Line_Items", 5, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("MPLS VPN Node Features_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Node Features_child1");
+					String Addon = getdata("MPLS VPN Node Features_child1");
 					CO.Radio_Select1(Addon);
 					CO.scroll("Ecofig_Add", "WebButton");
 					CO.waitforload();
@@ -498,30 +479,27 @@ public class Keyword_MPLS extends Driver {
 					Result.takescreenshot("");
 
 					CO.Text_Select("button", "Add Item");
-					
-					
+
 				}
 				if (!(getdata("MPLS VPN Node Service_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Node Service_child1");
-					CO.Text_Select("a","MPLS VPN Node Service");
+					String Addon = getdata("MPLS VPN Node Service_child1");
+					CO.Text_Select("a", "MPLS VPN Node Service");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("MPLS VPN Node Charges_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Node Charges_child1");
+					String Addon = getdata("MPLS VPN Node Charges_child1");
 					CO.Text_Select("a", "MPLS VPN Node Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-					
+
 				}
-				
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();
@@ -532,22 +510,19 @@ public class Keyword_MPLS extends Driver {
 
 			}
 
-			
-		// Node 2 Customize
+			// Node 2 Customize
 			if (!(getdata("MPLS VPN Node Features_child1").equals(""))
 					|| !(getdata("MPLS VPN Node Service_child1").equals(""))
 					|| !(getdata("MPLS VPN Node Charges_child1").equals(""))) {
-				
 
 				Browser.WebTable.click("Line_Items", 6, Col_S);
 				CO.waitforload();
 				CO.Text_Select("span", "Customize");
 				CO.waitforload();
-				
 
 				if (!(getdata("MPLS VPN Node Features_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Node Features_child1");
+					String Addon = getdata("MPLS VPN Node Features_child1");
 					CO.Radio_Select1(Addon);
 					CO.scroll("Ecofig_Add", "WebButton");
 					CO.waitforload();
@@ -562,30 +537,27 @@ public class Keyword_MPLS extends Driver {
 					Result.takescreenshot("");
 
 					CO.Text_Select("button", "Add Item");
-					
-					
+
 				}
 				if (!(getdata("MPLS VPN Node Service_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Node Service_child1");
-					CO.Text_Select("a","MPLS VPN Node Service");
+					String Addon = getdata("MPLS VPN Node Service_child1");
+					CO.Text_Select("a", "MPLS VPN Node Service");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-				
-					
+
 				}
 				if (!(getdata("MPLS VPN Node Charges_child1").equals(""))) {
 
-					String Addon =getdata("MPLS VPN Node Charges_child1");
+					String Addon = getdata("MPLS VPN Node Charges_child1");
 					CO.Text_Select("a", "MPLS VPN Node Charges");
 					CO.waitforload();
 					CO.Radio_Select1(Addon);
 					CO.waitforload();
-					
+
 				}
-				
-				
+
 				CO.waitforload();
 				CO.Text_Select("button", "Verify");
 				CO.isAlertExist();

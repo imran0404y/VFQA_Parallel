@@ -673,7 +673,7 @@ public class Keyword_DAM extends Driver {
 		Result.fUpdateLog("-----PortalUsers_Search Search Event Details------");
 		try {
 
-			if (TestCaseN.get().equals("portal_DeleteUser")) {
+			if (TestCaseN.get().equals("Portal_DeleteUser")) {
 				if (!(getdata("Search_data").equals(""))) {
 					Search_data = getdata("Search_data");
 				} else {

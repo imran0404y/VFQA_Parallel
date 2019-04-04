@@ -1408,6 +1408,12 @@ public class Keyword_CRM extends Driver {
 				// Browser.WebEdit.Set("Ent_CreditLimit", "100");
 			}
 
+			if (!(getdata("Opportunity_ID").equals(""))) {
+				CO.scroll("Opportunity_ID", "WebEdit");
+				Browser.WebEdit.click("Opportunity_ID");
+				Browser.WebEdit.Set("Opportunity_ID", getdata("Opportunity_ID"));
+			}
+			
 			// To get fulfillment status coloumn
 			CO.scroll("Ful_Status", "WebButton");
 			Col = CO.Select_Cell("Line_Items", "Fulfillment Status");

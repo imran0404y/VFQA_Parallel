@@ -21,9 +21,11 @@ public class Dialers extends Driver {
 			SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).click();
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).sendKeys(MobileNumber);
 			Result.fUpdateLog("Dialing on Mobile Number: " + MobileNumber);
 			Test_OutPut += "Dailed Number is: " + MobileNumber;
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/dialpad_floating_action_button")).click();
 			utils.takeScreenShot();
 			try {
@@ -33,6 +35,7 @@ public class Dialers extends Driver {
 				Thread.sleep(2000);
 				SetCapabilities.dr.findElement(By.id("com.android.incallui:id/floating_end_call_action_button"))
 						.click();
+				utils.takeScreenShot();
 				SetCapabilities.dr.quit();
 				Status = "PASS";
 			} catch (Exception e) {
@@ -58,19 +61,24 @@ public class Dialers extends Driver {
 			SetCapabilities.dr.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 			SetCapabilities.dr.findElement(By.id("com.google.android.apps.messaging:id/start_new_conversation_button"))
 					.click();
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.google.android.apps.messaging:id/recipient_text_view"))
 					.sendKeys(MobileNumber);
 			// SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.TextView'
 			// and @text='FREQUENTS']")).click();
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.google.android.apps.messaging:id/contact_picker_create_group"))
 					.click();
 			SetCapabilities.dr.findElement(By.id("com.google.android.apps.messaging:id/compose_message_text"))
 					.sendKeys("This is a test message send by automation script.");
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.google.android.apps.messaging:id/send_message_button_icon"))
 					.click();
+			utils.takeScreenShot();
 			Thread.sleep(10000);
 			try {
 				SetCapabilities.dr.findElement(By.xpath("//*[@class='android.widget.TextView' and @text='Now ? SMS']"));
+				utils.takeScreenShot();
 				Result.fUpdateLog("*** Message Successfully Sent ***");
 				Status = "PASS";
 			} catch (Exception e) {
@@ -91,6 +99,7 @@ public class Dialers extends Driver {
 			SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).click();
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).sendKeys(MobileNumber);
 			Result.fUpdateLog("Dialing on Mobile Number: " + MobileNumber);
 			Test_OutPut += "Balance Check Code is: " + MobileNumber;
@@ -101,6 +110,7 @@ public class Dialers extends Driver {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("android:id/button1")));
 				utils.takeScreenShot();
 				SetCapabilities.dr.findElement(By.id("android:id/button1")).click();
+				utils.takeScreenShot();
 				SetCapabilities.dr.quit();
 				Status = "PASS";
 			} catch (Exception e) {
@@ -126,6 +136,7 @@ public class Dialers extends Driver {
 			SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).click();
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).sendKeys("*127*" + RechargePIN + "#");
 			Result.fUpdateLog("Recharge PIN used is: " + RechargePIN);
 			Test_OutPut += "Recharge PIN used is: " + RechargePIN + "</br>";
@@ -134,7 +145,9 @@ public class Dialers extends Driver {
 			try {
 				WebDriverWait wait = new WebDriverWait(SetCapabilities.dr, 30);
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("android:id/button1")));
+				utils.takeScreenShot();
 				SetCapabilities.dr.findElement(By.id("android:id/button1")).click();
+				utils.takeScreenShot();
 				SetCapabilities.dr.quit();
 				Status = "PASS";
 			} catch (Exception e) {
@@ -166,9 +179,11 @@ public class Dialers extends Driver {
 				SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
 				SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).click();
+				utils.takeScreenShot();
 				SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).sendKeys(MobileNumber);
 				Result.fUpdateLog("Dialing on Mobile Number: " + MobileNumber);
 				Test_OutPut += "Dailed Number is: " + MobileNumber;
+				utils.takeScreenShot();
 				SetCapabilities.dr.findElement(By.id("com.android.dialer:id/dialpad_floating_action_button")).click();
 				utils.takeScreenShot();
 				try {
@@ -176,9 +191,11 @@ public class Dialers extends Driver {
 					wait.until(ExpectedConditions
 							.visibilityOfElementLocated(By.id("com.android.incallui:id/elapsedTime")));
 					Result.fUpdateLog("** Call Was Successful **");
+					utils.takeScreenShot();
 					Thread.sleep(2000);
 					SetCapabilities.dr.findElement(By.id("com.android.incallui:id/floating_end_call_action_button"))
 							.click();
+					utils.takeScreenShot();
 					SetCapabilities.dr.quit();
 					Test_OutPut += "Call was successful";
 					Result.fUpdateLog("Call was successful");
@@ -209,9 +226,11 @@ public class Dialers extends Driver {
 				SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
 				SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).click();
+				utils.takeScreenShot();
 				SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).sendKeys(MobileNumber);
 				Result.fUpdateLog("Dialing on Mobile Number: " + MobileNumber);
 				Test_OutPut += "Dailed Number is: " + MobileNumber;
+				utils.takeScreenShot();
 				SetCapabilities.dr.findElement(By.id("com.android.dialer:id/dialpad_floating_action_button")).click();
 				utils.takeScreenShot();
 				try {
@@ -219,6 +238,7 @@ public class Dialers extends Driver {
 					wait.until(ExpectedConditions
 							.visibilityOfElementLocated(By.id("com.android.incallui:id/elapsedTime")));
 					Result.fUpdateLog("** Call Was Successful **");
+					utils.takeScreenShot();
 					Thread.sleep(2000);
 					SetCapabilities.dr.findElement(By.id("com.android.incallui:id/floating_end_call_action_button"))
 							.click();
@@ -248,8 +268,10 @@ public class Dialers extends Driver {
 			SetCapabilities.dr.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/floating_action_button")).click();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).click();
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/digits")).sendKeys(MobileNumber);
 			Result.fUpdateLog("Dialing on Mobile Number: " + MobileNumber);
+			utils.takeScreenShot();
 			SetCapabilities.dr.findElement(By.id("com.android.dialer:id/dialpad_floating_action_button")).click();
 			// Thread.sleep(5000);
 			try {
@@ -259,6 +281,7 @@ public class Dialers extends Driver {
 				Text = SetCapabilities.dr.findElement(By.id("android:id/message")).getText();
 				Result.fUpdateLog(Text);
 				SetCapabilities.dr.findElement(By.id("android:id/button1")).click();
+				utils.takeScreenShot();
 				double DueNow = utils.getDueNowUSSDBillEnquiry(Text);
 				double Unbilled = utils.getUnbilledUSSDBillEnquiry(Text);
 				Test_OutPut += "Previous Month Outstanding Bill for MSISDN " + utils.fetchData("MSISDN") + " is QAR "
